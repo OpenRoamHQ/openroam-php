@@ -1,0 +1,9 @@
+{
+  "name": "openroam/sdk",
+  "description": "Placeholder for the official OpenRoam Partner API SDK for PHP. The real SDK will be released under this name.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://openroam.com",
+  "authors": [{ "name": "OpenRoam", "email": "support@openroam.com" }],
+  "require": { "php": ">=8.1" }
+}
