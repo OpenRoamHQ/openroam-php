@@ -1,4 +1,6 @@
 {
+  "name": "openroam/sdk",
+  "type": "library",
   "description": "Official OpenRoam Partner API client: eSIMs, airtime, utility payments, gift cards, hotels and flights.",
   "keywords": [
     "openapitools",
