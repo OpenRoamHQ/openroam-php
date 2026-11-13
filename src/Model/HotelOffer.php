@@ -333,7 +333,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name `\"{rooms}, {board}, {terms}\"`, for example `Deluxe King, Breakfast, Free cancellation`. The terms are             `Free cancellation` when `details.terms.cancellation.type` is `fullyRefundable` and             `Non-refundable` when it is `nonRefundable`; a partially refundable rate has none.
+     * @param string|null $name `\"{rooms}, {board}, {terms}\"`, for example `Deluxe King, Breakfast, Free cancellation`. The terms are `Free cancellation` when `details.terms.cancellation.type` is `fullyRefundable` and `Non-refundable` when it is `nonRefundable`; a partially refundable rate has none.
      *
      * @return $this
      */

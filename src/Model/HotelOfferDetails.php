@@ -72,7 +72,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => 'string[]',
         'with_transfers' => 'bool',
         'rate_rules' => 'string[]',
-        'amendability_status' => 'string'
+        'amendability_status' => 'string',
+        'guest_name_rules' => '\OpenRoam\Model\HotelGuestNameRules',
+        'minimum_selling_price' => '\OpenRoam\Model\MoneyAmount',
+        'allows_special_requests' => 'bool',
+        'special_request_options' => '\OpenRoam\Model\HotelSpecialRequestOption[]'
     ];
 
     /**
@@ -93,7 +97,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => null,
         'with_transfers' => null,
         'rate_rules' => null,
-        'amendability_status' => null
+        'amendability_status' => null,
+        'guest_name_rules' => null,
+        'minimum_selling_price' => null,
+        'allows_special_requests' => null,
+        'special_request_options' => null
     ];
 
     /**
@@ -114,7 +122,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => false,
         'with_transfers' => false,
         'rate_rules' => false,
-        'amendability_status' => false
+        'amendability_status' => false,
+        'guest_name_rules' => false,
+        'minimum_selling_price' => true,
+        'allows_special_requests' => true,
+        'special_request_options' => true
     ];
 
     /**
@@ -205,7 +217,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => 'remarks',
         'with_transfers' => 'withTransfers',
         'rate_rules' => 'rateRules',
-        'amendability_status' => 'amendabilityStatus'
+        'amendability_status' => 'amendabilityStatus',
+        'guest_name_rules' => 'guestNameRules',
+        'minimum_selling_price' => 'minimumSellingPrice',
+        'allows_special_requests' => 'allowsSpecialRequests',
+        'special_request_options' => 'specialRequestOptions'
     ];
 
     /**
@@ -226,7 +242,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => 'setRemarks',
         'with_transfers' => 'setWithTransfers',
         'rate_rules' => 'setRateRules',
-        'amendability_status' => 'setAmendabilityStatus'
+        'amendability_status' => 'setAmendabilityStatus',
+        'guest_name_rules' => 'setGuestNameRules',
+        'minimum_selling_price' => 'setMinimumSellingPrice',
+        'allows_special_requests' => 'setAllowsSpecialRequests',
+        'special_request_options' => 'setSpecialRequestOptions'
     ];
 
     /**
@@ -247,7 +267,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'remarks' => 'getRemarks',
         'with_transfers' => 'getWithTransfers',
         'rate_rules' => 'getRateRules',
-        'amendability_status' => 'getAmendabilityStatus'
+        'amendability_status' => 'getAmendabilityStatus',
+        'guest_name_rules' => 'getGuestNameRules',
+        'minimum_selling_price' => 'getMinimumSellingPrice',
+        'allows_special_requests' => 'getAllowsSpecialRequests',
+        'special_request_options' => 'getSpecialRequestOptions'
     ];
 
     /**
@@ -344,6 +368,10 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('with_transfers', $data ?? [], null);
         $this->setIfExists('rate_rules', $data ?? [], null);
         $this->setIfExists('amendability_status', $data ?? [], null);
+        $this->setIfExists('guest_name_rules', $data ?? [], null);
+        $this->setIfExists('minimum_selling_price', $data ?? [], null);
+        $this->setIfExists('allows_special_requests', $data ?? [], null);
+        $this->setIfExists('special_request_options', $data ?? [], null);
     }
 
     /**
@@ -772,6 +800,135 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
         $this->container['amendability_status'] = $amendability_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets guest_name_rules
+     *
+     * @return \OpenRoam\Model\HotelGuestNameRules|null
+     */
+    public function getGuestNameRules(): ?\OpenRoam\Model\HotelGuestNameRules
+    {
+        return $this->container['guest_name_rules'];
+    }
+
+    /**
+     * Sets guest_name_rules
+     *
+     * @param \OpenRoam\Model\HotelGuestNameRules|null $guest_name_rules What the booking accepts as a holder's or guest's first and last name, so a form can check the names before the order is sent.
+     *
+     * @return $this
+     */
+    public function setGuestNameRules(?\OpenRoam\Model\HotelGuestNameRules $guest_name_rules): static
+    {
+        if (is_null($guest_name_rules)) {
+            throw new InvalidArgumentException('non-nullable guest_name_rules cannot be null');
+        }
+        $this->container['guest_name_rules'] = $guest_name_rules;
+
+        return $this;
+    }
+
+    /**
+     * Gets minimum_selling_price
+     *
+     * @return \OpenRoam\Model\MoneyAmount|null
+     */
+    public function getMinimumSellingPrice(): ?\OpenRoam\Model\MoneyAmount
+    {
+        return $this->container['minimum_selling_price'];
+    }
+
+    /**
+     * Sets minimum_selling_price
+     *
+     * @param \OpenRoam\Model\MoneyAmount|null $minimum_selling_price Minimum resale price for the whole stay; use its stated currency. Null when unavailable.
+     *
+     * @return $this
+     */
+    public function setMinimumSellingPrice(?\OpenRoam\Model\MoneyAmount $minimum_selling_price): static
+    {
+        if (is_null($minimum_selling_price)) {
+            array_push($this->openAPINullablesSetToNull, 'minimum_selling_price');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('minimum_selling_price', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['minimum_selling_price'] = $minimum_selling_price;
+
+        return $this;
+    }
+
+    /**
+     * Gets allows_special_requests
+     *
+     * @return bool|null
+     */
+    public function getAllowsSpecialRequests(): ?bool
+    {
+        return $this->container['allows_special_requests'];
+    }
+
+    /**
+     * Sets allows_special_requests
+     *
+     * @param bool|null $allows_special_requests Whether every room accepts requests; omitted when unstated.
+     *
+     * @return $this
+     */
+    public function setAllowsSpecialRequests(?bool $allows_special_requests): static
+    {
+        if (is_null($allows_special_requests)) {
+            array_push($this->openAPINullablesSetToNull, 'allows_special_requests');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allows_special_requests', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['allows_special_requests'] = $allows_special_requests;
+
+        return $this;
+    }
+
+    /**
+     * Gets special_request_options
+     *
+     * @return \OpenRoam\Model\HotelSpecialRequestOption[]|null
+     */
+    public function getSpecialRequestOptions(): ?array
+    {
+        return $this->container['special_request_options'];
+    }
+
+    /**
+     * Sets special_request_options
+     *
+     * @param \OpenRoam\Model\HotelSpecialRequestOption[]|null $special_request_options Available requests, subject to availability at check-in; null for free-text requests.
+     *
+     * @return $this
+     */
+    public function setSpecialRequestOptions(?array $special_request_options): static
+    {
+        if (is_null($special_request_options)) {
+            array_push($this->openAPINullablesSetToNull, 'special_request_options');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('special_request_options', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['special_request_options'] = $special_request_options;
 
         return $this;
     }

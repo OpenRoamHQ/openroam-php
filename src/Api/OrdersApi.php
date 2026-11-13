@@ -2733,7 +2733,7 @@ class OrdersApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/orders/{orderId}/fulfillments/retry';
+        $resourcePath = '/api/v1/b2b/orders/{orderId}/fulfillment/retry';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';

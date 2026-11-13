@@ -63,6 +63,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => '\OpenRoam\Model\HotelHolderInput',
         'room_guests' => '\OpenRoam\Model\HotelRoomGuestsInput[]',
         'special_requests' => 'string',
+        'special_request_codes' => 'string[]',
         'max_price' => '\OpenRoam\Model\MoneyAmountInput'
     ];
 
@@ -75,6 +76,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => null,
         'room_guests' => null,
         'special_requests' => null,
+        'special_request_codes' => null,
         'max_price' => null
     ];
 
@@ -87,6 +89,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => false,
         'room_guests' => false,
         'special_requests' => true,
+        'special_request_codes' => true,
         'max_price' => true
     ];
 
@@ -169,6 +172,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => 'holder',
         'room_guests' => 'roomGuests',
         'special_requests' => 'specialRequests',
+        'special_request_codes' => 'specialRequestCodes',
         'max_price' => 'maxPrice'
     ];
 
@@ -181,6 +185,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => 'setHolder',
         'room_guests' => 'setRoomGuests',
         'special_requests' => 'setSpecialRequests',
+        'special_request_codes' => 'setSpecialRequestCodes',
         'max_price' => 'setMaxPrice'
     ];
 
@@ -193,6 +198,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'holder' => 'getHolder',
         'room_guests' => 'getRoomGuests',
         'special_requests' => 'getSpecialRequests',
+        'special_request_codes' => 'getSpecialRequestCodes',
         'max_price' => 'getMaxPrice'
     ];
 
@@ -246,6 +252,7 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('holder', $data ?? [], null);
         $this->setIfExists('room_guests', $data ?? [], null);
         $this->setIfExists('special_requests', $data ?? [], null);
+        $this->setIfExists('special_request_codes', $data ?? [], null);
         $this->setIfExists('max_price', $data ?? [], null);
     }
 
@@ -376,6 +383,40 @@ class HotelCartInputs implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['special_requests'] = $special_requests;
+
+        return $this;
+    }
+
+    /**
+     * Gets special_request_codes
+     *
+     * @return string[]|null
+     */
+    public function getSpecialRequestCodes(): ?array
+    {
+        return $this->container['special_request_codes'];
+    }
+
+    /**
+     * Sets special_request_codes
+     *
+     * @param string[]|null $special_request_codes Opaque codes from the rate's specialRequestOptions, applied to every room. Up to 32 distinct codes.
+     *
+     * @return $this
+     */
+    public function setSpecialRequestCodes(?array $special_request_codes): static
+    {
+        if (is_null($special_request_codes)) {
+            array_push($this->openAPINullablesSetToNull, 'special_request_codes');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('special_request_codes', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['special_request_codes'] = $special_request_codes;
 
         return $this;
     }

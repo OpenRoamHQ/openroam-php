@@ -1,6 +1,6 @@
 <?php
 /**
- * CommitB2BAmendmentResponse
+ * HotelCatalogReplacementFile
  *
  * PHP version 8.1
  *
@@ -35,15 +35,15 @@ use ReturnTypeWillChange;
 use OpenRoam\ObjectSerializer;
 
 /**
- * CommitB2BAmendmentResponse Class Doc Comment
+ * HotelCatalogReplacementFile Class Doc Comment
  *
- * @description The committed amendment.
+ * @description The complete map of confirmed replacements for this catalog build.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSerializable
+class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -52,7 +52,7 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'CommitB2BAmendmentResponse';
+    protected static string $openAPIModelName = 'HotelCatalogReplacementFile';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -60,11 +60,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'amendment_request_id' => 'string',
-        'amendment_id' => 'string',
-        'status' => 'string',
-        'payment' => '\OpenRoam\Model\B2BAmendmentPayment',
-        'refund' => '\OpenRoam\Model\B2BAmendmentRefund'
+        'url' => 'string',
+        'size_bytes' => 'int',
+        'count' => 'int'
     ];
 
     /**
@@ -73,11 +71,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'amendment_request_id' => 'uuid',
-        'amendment_id' => 'uuid',
-        'status' => null,
-        'payment' => null,
-        'refund' => null
+        'url' => null,
+        'size_bytes' => 'int64',
+        'count' => 'int32'
     ];
 
     /**
@@ -86,11 +82,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'amendment_request_id' => false,
-        'amendment_id' => false,
-        'status' => false,
-        'payment' => true,
-        'refund' => true
+        'url' => false,
+        'size_bytes' => false,
+        'count' => false
     ];
 
     /**
@@ -169,11 +163,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'amendment_request_id' => 'amendmentRequestId',
-        'amendment_id' => 'amendmentId',
-        'status' => 'status',
-        'payment' => 'payment',
-        'refund' => 'refund'
+        'url' => 'url',
+        'size_bytes' => 'sizeBytes',
+        'count' => 'count'
     ];
 
     /**
@@ -182,11 +174,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string>
      */
     protected static array $setters = [
-        'amendment_request_id' => 'setAmendmentRequestId',
-        'amendment_id' => 'setAmendmentId',
-        'status' => 'setStatus',
-        'payment' => 'setPayment',
-        'refund' => 'setRefund'
+        'url' => 'setUrl',
+        'size_bytes' => 'setSizeBytes',
+        'count' => 'setCount'
     ];
 
     /**
@@ -195,11 +185,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string>
      */
     protected static array $getters = [
-        'amendment_request_id' => 'getAmendmentRequestId',
-        'amendment_id' => 'getAmendmentId',
-        'status' => 'getStatus',
-        'payment' => 'getPayment',
-        'refund' => 'getRefund'
+        'url' => 'getUrl',
+        'size_bytes' => 'getSizeBytes',
+        'count' => 'getCount'
     ];
 
     /**
@@ -234,33 +222,6 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
         return self::$openAPIModelName;
     }
 
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_COMPLETED = 'completed';
-    public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_FAILED = 'failed';
-    public const STATUS_IN_PROGRESS = 'inProgress';
-    public const STATUS_QUOTED = 'quoted';
-    public const STATUS_PARTNER_APPROVED = 'partnerApproved';
-    public const STATUS_APPROVAL_IN_PROGRESS = 'approvalInProgress';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public static function getStatusAllowableValues()
-    {
-        return [
-            self::STATUS_PENDING,
-            self::STATUS_COMPLETED,
-            self::STATUS_CANCELLED,
-            self::STATUS_FAILED,
-            self::STATUS_IN_PROGRESS,
-            self::STATUS_QUOTED,
-            self::STATUS_PARTNER_APPROVED,
-            self::STATUS_APPROVAL_IN_PROGRESS,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -276,11 +237,9 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('amendment_request_id', $data ?? [], null);
-        $this->setIfExists('amendment_id', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('payment', $data ?? [], null);
-        $this->setIfExists('refund', $data ?? [], null);
+        $this->setIfExists('url', $data ?? [], null);
+        $this->setIfExists('size_bytes', $data ?? [], null);
+        $this->setIfExists('count', $data ?? [], null);
     }
 
     /**
@@ -308,15 +267,6 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
     {
         $invalidProperties = [];
 
-        $allowedValues = self::getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -330,160 +280,82 @@ class CommitB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSer
 
 
     /**
-     * Gets amendment_request_id
+     * Gets url
      *
      * @return string|null
      */
-    public function getAmendmentRequestId(): ?string
+    public function getUrl(): ?string
     {
-        return $this->container['amendment_request_id'];
+        return $this->container['url'];
     }
 
     /**
-     * Sets amendment_request_id
+     * Sets url
      *
-     * @param string|null $amendment_request_id The committed quote.
+     * @param string|null $url url
      *
      * @return $this
      */
-    public function setAmendmentRequestId(?string $amendment_request_id): static
+    public function setUrl(?string $url): static
     {
-        if (is_null($amendment_request_id)) {
-            throw new InvalidArgumentException('non-nullable amendment_request_id cannot be null');
+        if (is_null($url)) {
+            throw new InvalidArgumentException('non-nullable url cannot be null');
         }
-        $this->container['amendment_request_id'] = $amendment_request_id;
+        $this->container['url'] = $url;
 
         return $this;
     }
 
     /**
-     * Gets amendment_id
+     * Gets size_bytes
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getAmendmentId(): ?string
+    public function getSizeBytes(): ?int
     {
-        return $this->container['amendment_id'];
+        return $this->container['size_bytes'];
     }
 
     /**
-     * Sets amendment_id
+     * Sets size_bytes
      *
-     * @param string|null $amendment_id The new amendment's id.
+     * @param int|null $size_bytes size_bytes
      *
      * @return $this
      */
-    public function setAmendmentId(?string $amendment_id): static
+    public function setSizeBytes(?int $size_bytes): static
     {
-        if (is_null($amendment_id)) {
-            throw new InvalidArgumentException('non-nullable amendment_id cannot be null');
+        if (is_null($size_bytes)) {
+            throw new InvalidArgumentException('non-nullable size_bytes cannot be null');
         }
-        $this->container['amendment_id'] = $amendment_id;
+        $this->container['size_bytes'] = $size_bytes;
 
         return $this;
     }
 
     /**
-     * Gets status
+     * Gets count
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getStatus(): ?string
+    public function getCount(): ?int
     {
-        return $this->container['status'];
+        return $this->container['count'];
     }
 
     /**
-     * Sets status
+     * Sets count
      *
-     * @param string|null $status Amendment status.
+     * @param int|null $count count
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setCount(?int $count): static
     {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($count)) {
+            throw new InvalidArgumentException('non-nullable count cannot be null');
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['status'] = $status;
-
-        return $this;
-    }
-
-    /**
-     * Gets payment
-     *
-     * @return \OpenRoam\Model\B2BAmendmentPayment|null
-     */
-    public function getPayment(): ?\OpenRoam\Model\B2BAmendmentPayment
-    {
-        return $this->container['payment'];
-    }
-
-    /**
-     * Sets payment
-     *
-     * @param \OpenRoam\Model\B2BAmendmentPayment|null $payment The surcharge payment; `null` when nothing was charged.
-     *
-     * @return $this
-     */
-    public function setPayment(?\OpenRoam\Model\B2BAmendmentPayment $payment): static
-    {
-        if (is_null($payment)) {
-            array_push($this->openAPINullablesSetToNull, 'payment');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('payment', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['payment'] = $payment;
-
-        return $this;
-    }
-
-    /**
-     * Gets refund
-     *
-     * @return \OpenRoam\Model\B2BAmendmentRefund|null
-     */
-    public function getRefund(): ?\OpenRoam\Model\B2BAmendmentRefund
-    {
-        return $this->container['refund'];
-    }
-
-    /**
-     * Sets refund
-     *
-     * @param \OpenRoam\Model\B2BAmendmentRefund|null $refund The credit returned; `null` when nothing was refunded.
-     *
-     * @return $this
-     */
-    public function setRefund(?\OpenRoam\Model\B2BAmendmentRefund $refund): static
-    {
-        if (is_null($refund)) {
-            array_push($this->openAPINullablesSetToNull, 'refund');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('refund', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['refund'] = $refund;
+        $this->container['count'] = $count;
 
         return $this;
     }

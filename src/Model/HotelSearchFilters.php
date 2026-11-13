@@ -65,6 +65,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => 'float',
         'max_price' => 'float',
         'board_types' => 'string[]',
+        'cancellation_types' => 'string[]',
         'amenity_codes' => 'string[]'
     ];
 
@@ -79,6 +80,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => 'decimal',
         'max_price' => 'decimal',
         'board_types' => null,
+        'cancellation_types' => null,
         'amenity_codes' => null
     ];
 
@@ -93,6 +95,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => true,
         'max_price' => true,
         'board_types' => true,
+        'cancellation_types' => true,
         'amenity_codes' => true
     ];
 
@@ -177,6 +180,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => 'minPrice',
         'max_price' => 'maxPrice',
         'board_types' => 'boardTypes',
+        'cancellation_types' => 'cancellationTypes',
         'amenity_codes' => 'amenityCodes'
     ];
 
@@ -191,6 +195,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => 'setMinPrice',
         'max_price' => 'setMaxPrice',
         'board_types' => 'setBoardTypes',
+        'cancellation_types' => 'setCancellationTypes',
         'amenity_codes' => 'setAmenityCodes'
     ];
 
@@ -205,6 +210,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         'min_price' => 'getMinPrice',
         'max_price' => 'getMaxPrice',
         'board_types' => 'getBoardTypes',
+        'cancellation_types' => 'getCancellationTypes',
         'amenity_codes' => 'getAmenityCodes'
     ];
 
@@ -246,6 +252,9 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
     public const BOARD_TYPES_HALF_BOARD = 'halfBoard';
     public const BOARD_TYPES_FULL_BOARD = 'fullBoard';
     public const BOARD_TYPES_ALL_INCLUSIVE = 'allInclusive';
+    public const CANCELLATION_TYPES_FULLY_REFUNDABLE = 'fullyRefundable';
+    public const CANCELLATION_TYPES_PARTIALLY_REFUNDABLE = 'partiallyRefundable';
+    public const CANCELLATION_TYPES_NON_REFUNDABLE = 'nonRefundable';
     public const AMENITY_CODES_WIFI = 'wifi';
     public const AMENITY_CODES_FREE_WIFI = 'freeWifi';
     public const AMENITY_CODES_PARKING = 'parking';
@@ -296,6 +305,20 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
             self::BOARD_TYPES_HALF_BOARD,
             self::BOARD_TYPES_FULL_BOARD,
             self::BOARD_TYPES_ALL_INCLUSIVE,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getCancellationTypesAllowableValues()
+    {
+        return [
+            self::CANCELLATION_TYPES_FULLY_REFUNDABLE,
+            self::CANCELLATION_TYPES_PARTIALLY_REFUNDABLE,
+            self::CANCELLATION_TYPES_NON_REFUNDABLE,
         ];
     }
 
@@ -364,6 +387,7 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
         $this->setIfExists('min_price', $data ?? [], null);
         $this->setIfExists('max_price', $data ?? [], null);
         $this->setIfExists('board_types', $data ?? [], null);
+        $this->setIfExists('cancellation_types', $data ?? [], null);
         $this->setIfExists('amenity_codes', $data ?? [], null);
     }
 
@@ -579,6 +603,49 @@ class HotelSearchFilters implements ModelInterface, ArrayAccess, JsonSerializabl
             );
         }
         $this->container['board_types'] = $board_types;
+
+        return $this;
+    }
+
+    /**
+     * Gets cancellation_types
+     *
+     * @return string[]|null
+     */
+    public function getCancellationTypes(): ?array
+    {
+        return $this->container['cancellation_types'];
+    }
+
+    /**
+     * Sets cancellation_types
+     *
+     * @param string[]|null $cancellation_types Cancellation types to keep, by the offer's `details.terms.cancellation.type`: `fullyRefundable`, `partiallyRefundable` or `nonRefundable`. Not empty when sent; omit it to keep every type.
+     *
+     * @return $this
+     */
+    public function setCancellationTypes(?array $cancellation_types): static
+    {
+        if (is_null($cancellation_types)) {
+            array_push($this->openAPINullablesSetToNull, 'cancellation_types');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('cancellation_types', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $allowedValues = self::getCancellationTypesAllowableValues();
+        if (!is_null($cancellation_types) && array_diff($cancellation_types, $allowedValues)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'cancellation_types', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['cancellation_types'] = $cancellation_types;
 
         return $this;
     }

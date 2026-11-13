@@ -1,6 +1,6 @@
 <?php
 /**
- * CommitB2BAmendmentRequest
+ * QuoteB2BAmendmentQuery
  *
  * PHP version 8.1
  *
@@ -35,15 +35,15 @@ use ReturnTypeWillChange;
 use OpenRoam\ObjectSerializer;
 
 /**
- * CommitB2BAmendmentRequest Class Doc Comment
+ * QuoteB2BAmendmentQuery Class Doc Comment
  *
- * @description The quote and option to commit.
+ * @description The change requested for a delivered order item.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSerializable
+class QuoteB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -52,7 +52,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'CommitB2BAmendmentRequest';
+    protected static string $openAPIModelName = 'QuoteB2BAmendmentQuery';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -60,9 +60,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'amendment_request_id' => 'string',
-        'payment_method' => 'string',
-        'selected_option_id' => 'string'
+        'attributes' => 'mixed'
     ];
 
     /**
@@ -71,9 +69,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'amendment_request_id' => 'uuid',
-        'payment_method' => null,
-        'selected_option_id' => null
+        'attributes' => null
     ];
 
     /**
@@ -82,9 +78,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'amendment_request_id' => false,
-        'payment_method' => false,
-        'selected_option_id' => true
+        'attributes' => true
     ];
 
     /**
@@ -163,9 +157,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'amendment_request_id' => 'amendmentRequestId',
-        'payment_method' => 'paymentMethod',
-        'selected_option_id' => 'selectedOptionId'
+        'attributes' => 'attributes'
     ];
 
     /**
@@ -174,9 +166,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string>
      */
     protected static array $setters = [
-        'amendment_request_id' => 'setAmendmentRequestId',
-        'payment_method' => 'setPaymentMethod',
-        'selected_option_id' => 'setSelectedOptionId'
+        'attributes' => 'setAttributes'
     ];
 
     /**
@@ -185,9 +175,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string>
      */
     protected static array $getters = [
-        'amendment_request_id' => 'getAmendmentRequestId',
-        'payment_method' => 'getPaymentMethod',
-        'selected_option_id' => 'getSelectedOptionId'
+        'attributes' => 'getAttributes'
     ];
 
     /**
@@ -222,21 +210,6 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
         return self::$openAPIModelName;
     }
 
-    public const PAYMENT_METHOD_BALANCE = 'balance';
-    public const PAYMENT_METHOD_CARD = 'card';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public static function getPaymentMethodAllowableValues()
-    {
-        return [
-            self::PAYMENT_METHOD_BALANCE,
-            self::PAYMENT_METHOD_CARD,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -252,9 +225,7 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('amendment_request_id', $data ?? [], null);
-        $this->setIfExists('payment_method', $data ?? [], null);
-        $this->setIfExists('selected_option_id', $data ?? [], null);
+        $this->setIfExists('attributes', $data ?? [], null);
     }
 
     /**
@@ -282,21 +253,6 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
     {
         $invalidProperties = [];
 
-        if ($this->container['amendment_request_id'] === null) {
-            $invalidProperties[] = "'amendment_request_id' can't be null";
-        }
-        if ($this->container['payment_method'] === null) {
-            $invalidProperties[] = "'payment_method' can't be null";
-        }
-        $allowedValues = self::getPaymentMethodAllowableValues();
-        if (!is_null($this->container['payment_method']) && !in_array($this->container['payment_method'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'payment_method', must be one of '%s'",
-                $this->container['payment_method'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -310,99 +266,35 @@ class CommitB2BAmendmentRequest implements ModelInterface, ArrayAccess, JsonSeri
 
 
     /**
-     * Gets amendment_request_id
+     * Gets attributes
      *
-     * @return string
+     * @return mixed|null
      */
-    public function getAmendmentRequestId(): string
+    public function getAttributes(): mixed
     {
-        return $this->container['amendment_request_id'];
+        return $this->container['attributes'];
     }
 
     /**
-     * Sets amendment_request_id
+     * Sets attributes
      *
-     * @param string $amendment_request_id Required. The `amendmentRequestId` returned by the amendment quote.
+     * @param mixed|null $attributes Required. A JSON object describing the change, in the shape the item's product defines for amendments.
      *
      * @return $this
      */
-    public function setAmendmentRequestId(string $amendment_request_id): static
+    public function setAttributes(mixed $attributes): static
     {
-        if (is_null($amendment_request_id)) {
-            throw new InvalidArgumentException('non-nullable amendment_request_id cannot be null');
-        }
-        $this->container['amendment_request_id'] = $amendment_request_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets payment_method
-     *
-     * @return string
-     */
-    public function getPaymentMethod(): string
-    {
-        return $this->container['payment_method'];
-    }
-
-    /**
-     * Sets payment_method
-     *
-     * @param string $payment_method How a surcharge is paid: `balance` charges the wallet.
-     *
-     * @return $this
-     */
-    public function setPaymentMethod(string $payment_method): static
-    {
-        if (is_null($payment_method)) {
-            throw new InvalidArgumentException('non-nullable payment_method cannot be null');
-        }
-        $allowedValues = self::getPaymentMethodAllowableValues();
-        if (!in_array($payment_method, $allowedValues, true)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'payment_method', must be one of '%s'",
-                    $payment_method,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['payment_method'] = $payment_method;
-
-        return $this;
-    }
-
-    /**
-     * Gets selected_option_id
-     *
-     * @return string|null
-     */
-    public function getSelectedOptionId(): ?string
-    {
-        return $this->container['selected_option_id'];
-    }
-
-    /**
-     * Sets selected_option_id
-     *
-     * @param string|null $selected_option_id The `id` of the quote option to commit. When omitted, the first option is used.
-     *
-     * @return $this
-     */
-    public function setSelectedOptionId(?string $selected_option_id): static
-    {
-        if (is_null($selected_option_id)) {
-            array_push($this->openAPINullablesSetToNull, 'selected_option_id');
+        if (is_null($attributes)) {
+            array_push($this->openAPINullablesSetToNull, 'attributes');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('selected_option_id', $nullablesSetToNull);
+            $index = array_search('attributes', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['selected_option_id'] = $selected_option_id;
+        $this->container['attributes'] = $attributes;
 
         return $this;
     }

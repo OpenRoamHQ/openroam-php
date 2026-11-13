@@ -272,6 +272,9 @@ class RefundOrderItemRequest implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['reason'] === null) {
+            $invalidProperties[] = "'reason' can't be null";
+        }
         $allowedValues = self::getReasonAllowableValues();
         if (!is_null($this->container['reason']) && !in_array($this->container['reason'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -296,9 +299,9 @@ class RefundOrderItemRequest implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets reason
      *
-     * @return string|null
+     * @return string
      */
-    public function getReason(): ?string
+    public function getReason(): string
     {
         return $this->container['reason'];
     }
@@ -306,11 +309,11 @@ class RefundOrderItemRequest implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets reason
      *
-     * @param string|null $reason Required. Why the item is refunded: `requestedByCustomer`, `duplicate`, `fraudulent`, or `fulfillmentFailed`, which is accepted only for an item whose fulfillment was rejected.
+     * @param string $reason Required. Why the item is refunded: `requestedByCustomer`, `duplicate`, `fraudulent`, or `fulfillmentFailed`, which is accepted only for an item whose fulfillment was rejected.
      *
      * @return $this
      */
-    public function setReason(?string $reason): static
+    public function setReason(string $reason): static
     {
         if (is_null($reason)) {
             throw new InvalidArgumentException('non-nullable reason cannot be null');

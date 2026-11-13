@@ -64,7 +64,7 @@ class PartnerOrderItemCancellationPreview implements ModelInterface, ArrayAccess
         'product_type' => 'string',
         'status' => 'string',
         'reason' => 'string',
-        'preview' => '\OpenRoam\Model\B2BCancellationPenaltyResponse'
+        'preview' => '\OpenRoam\Model\B2BCancellationPreviewResponse'
     ];
 
     /**
@@ -557,9 +557,9 @@ class PartnerOrderItemCancellationPreview implements ModelInterface, ArrayAccess
     /**
      * Gets preview
      *
-     * @return \OpenRoam\Model\B2BCancellationPenaltyResponse|null
+     * @return \OpenRoam\Model\B2BCancellationPreviewResponse|null
      */
-    public function getPreview(): ?\OpenRoam\Model\B2BCancellationPenaltyResponse
+    public function getPreview(): ?\OpenRoam\Model\B2BCancellationPreviewResponse
     {
         return $this->container['preview'];
     }
@@ -567,11 +567,11 @@ class PartnerOrderItemCancellationPreview implements ModelInterface, ArrayAccess
     /**
      * Sets preview
      *
-     * @param \OpenRoam\Model\B2BCancellationPenaltyResponse|null $preview The item's cancellation-penalty preview; `null` when `notCancellable`.
+     * @param \OpenRoam\Model\B2BCancellationPreviewResponse|null $preview The item's cancellation preview; `null` when `notCancellable`.
      *
      * @return $this
      */
-    public function setPreview(?\OpenRoam\Model\B2BCancellationPenaltyResponse $preview): static
+    public function setPreview(?\OpenRoam\Model\B2BCancellationPreviewResponse $preview): static
     {
         if (is_null($preview)) {
             array_push($this->openAPINullablesSetToNull, 'preview');

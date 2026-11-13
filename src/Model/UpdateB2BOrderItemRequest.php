@@ -1,6 +1,6 @@
 <?php
 /**
- * RequestB2BAmendmentResponse
+ * UpdateB2BOrderItemRequest
  *
  * PHP version 8.1
  *
@@ -35,15 +35,15 @@ use ReturnTypeWillChange;
 use OpenRoam\ObjectSerializer;
 
 /**
- * RequestB2BAmendmentResponse Class Doc Comment
+ * UpdateB2BOrderItemRequest Class Doc Comment
  *
- * @description A priced amendment quote. Commit it within 24 hours.
+ * @description The change to make to a purchased item. An update never charges or refunds anything.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSerializable
+class UpdateB2BOrderItemRequest implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -52,7 +52,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'RequestB2BAmendmentResponse';
+    protected static string $openAPIModelName = 'UpdateB2BOrderItemRequest';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -60,9 +60,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'amendment_request_id' => 'string',
-        'processed_at' => '\DateTime',
-        'options' => '\OpenRoam\Model\B2BAmendmentQuoteOption[]'
+        'inputs' => '\OpenRoam\Model\GiftCardUpdateInputs'
     ];
 
     /**
@@ -71,9 +69,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'amendment_request_id' => 'uuid',
-        'processed_at' => 'date-time',
-        'options' => null
+        'inputs' => null
     ];
 
     /**
@@ -82,9 +78,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'amendment_request_id' => false,
-        'processed_at' => false,
-        'options' => false
+        'inputs' => false
     ];
 
     /**
@@ -163,9 +157,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'amendment_request_id' => 'amendmentRequestId',
-        'processed_at' => 'processedAt',
-        'options' => 'options'
+        'inputs' => 'inputs'
     ];
 
     /**
@@ -174,9 +166,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, string>
      */
     protected static array $setters = [
-        'amendment_request_id' => 'setAmendmentRequestId',
-        'processed_at' => 'setProcessedAt',
-        'options' => 'setOptions'
+        'inputs' => 'setInputs'
     ];
 
     /**
@@ -185,9 +175,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      * @var array<string, string>
      */
     protected static array $getters = [
-        'amendment_request_id' => 'getAmendmentRequestId',
-        'processed_at' => 'getProcessedAt',
-        'options' => 'getOptions'
+        'inputs' => 'getInputs'
     ];
 
     /**
@@ -237,9 +225,7 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('amendment_request_id', $data ?? [], null);
-        $this->setIfExists('processed_at', $data ?? [], null);
-        $this->setIfExists('options', $data ?? [], null);
+        $this->setIfExists('inputs', $data ?? [], null);
     }
 
     /**
@@ -267,6 +253,9 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
     {
         $invalidProperties = [];
 
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -280,82 +269,28 @@ class RequestB2BAmendmentResponse implements ModelInterface, ArrayAccess, JsonSe
 
 
     /**
-     * Gets amendment_request_id
+     * Gets inputs
      *
-     * @return string|null
+     * @return \OpenRoam\Model\GiftCardUpdateInputs
      */
-    public function getAmendmentRequestId(): ?string
+    public function getInputs(): \OpenRoam\Model\GiftCardUpdateInputs
     {
-        return $this->container['amendment_request_id'];
+        return $this->container['inputs'];
     }
 
     /**
-     * Sets amendment_request_id
+     * Sets inputs
      *
-     * @param string|null $amendment_request_id The quote id to send when committing.
+     * @param \OpenRoam\Model\GiftCardUpdateInputs $inputs Required. A JSON object with the members to change; the item's kind defines them. At launch only a             gift card can be updated, with `recipientEmail` and `giftMessage`. A member left out or sent as             `null` keeps its current value, and at least one member must be present. A member that the item's kind does not             define is `400 / 10001` with `UNSUPPORTED_FIELD` at `inputs.<member>`.
      *
      * @return $this
      */
-    public function setAmendmentRequestId(?string $amendment_request_id): static
+    public function setInputs(\OpenRoam\Model\GiftCardUpdateInputs $inputs): static
     {
-        if (is_null($amendment_request_id)) {
-            throw new InvalidArgumentException('non-nullable amendment_request_id cannot be null');
+        if (is_null($inputs)) {
+            throw new InvalidArgumentException('non-nullable inputs cannot be null');
         }
-        $this->container['amendment_request_id'] = $amendment_request_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets processed_at
-     *
-     * @return \DateTime|null
-     */
-    public function getProcessedAt(): ?\DateTime
-    {
-        return $this->container['processed_at'];
-    }
-
-    /**
-     * Sets processed_at
-     *
-     * @param \DateTime|null $processed_at When the quote was made (UTC).
-     *
-     * @return $this
-     */
-    public function setProcessedAt(?\DateTime $processed_at): static
-    {
-        if (is_null($processed_at)) {
-            throw new InvalidArgumentException('non-nullable processed_at cannot be null');
-        }
-        $this->container['processed_at'] = $processed_at;
-
-        return $this;
-    }
-
-    /**
-     * Gets options
-     *
-     * @return \OpenRoam\Model\B2BAmendmentQuoteOption[]|null
-     */
-    public function getOptions(): ?array
-    {
-        return $this->container['options'];
-    }
-
-    /**
-     * Sets options
-     *
-     * @param \OpenRoam\Model\B2BAmendmentQuoteOption[]|null $options The priced options; commit one by its `id`.
-     *
-     * @return $this
-     */
-    public function setOptions(?array $options): static
-    {
-        if (is_null($options)) {
-            throw new InvalidArgumentException('non-nullable options cannot be null');
-        }
-        $this->container['options'] = $options;
+        $this->container['inputs'] = $inputs;
 
         return $this;
     }

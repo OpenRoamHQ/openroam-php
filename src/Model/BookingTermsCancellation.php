@@ -324,7 +324,7 @@ class BookingTermsCancellation implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets type
      *
-     * @param string|null $type `fullyRefundable` (a full refund until FreeUntil), `partiallyRefundable` or             `nonRefundable` (nothing comes back).
+     * @param string|null $type `fullyRefundable` (a full refund until FreeUntil), `partiallyRefundable` or `nonRefundable` (nothing comes back).
      *
      * @return $this
      */

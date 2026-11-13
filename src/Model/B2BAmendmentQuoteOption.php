@@ -299,7 +299,7 @@ class B2BAmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets id
      *
-     * @param string|null $id Option id, sent as `selectedOptionId` when committing.
+     * @param string|null $id Option id, sent as `selectedOptionId` when confirming.
      *
      * @return $this
      */
@@ -326,7 +326,7 @@ class B2BAmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets amount_to_pay
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_pay The surcharge charged on commit, including any amendment fee.
+     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_pay The surcharge charged on confirm, including any amendment fee.
      *
      * @return $this
      */
@@ -353,7 +353,7 @@ class B2BAmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets amount_to_refund
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_refund The credit returned on commit, after any amendment fee.
+     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_refund The credit returned on confirm, after any amendment fee.
      *
      * @return $this
      */

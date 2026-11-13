@@ -1,6 +1,6 @@
 <?php
 /**
- * B2BCancellationPenaltyResponse
+ * B2BCancellationPreviewResponse
  *
  * PHP version 8.1
  *
@@ -35,7 +35,7 @@ use ReturnTypeWillChange;
 use OpenRoam\ObjectSerializer;
 
 /**
- * B2BCancellationPenaltyResponse Class Doc Comment
+ * B2BCancellationPreviewResponse Class Doc Comment
  *
  * @description A preview of cancelling an order item now. It changes nothing and does not lock the amounts.
  * @package  OpenRoam
@@ -43,7 +43,7 @@ use OpenRoam\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class B2BCancellationPenaltyResponse implements ModelInterface, ArrayAccess, JsonSerializable
+class B2BCancellationPreviewResponse implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -52,7 +52,7 @@ class B2BCancellationPenaltyResponse implements ModelInterface, ArrayAccess, Jso
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'B2BCancellationPenaltyResponse';
+    protected static string $openAPIModelName = 'B2BCancellationPreviewResponse';
 
     /**
      * Array of property to type mappings. Used for (de)serialization

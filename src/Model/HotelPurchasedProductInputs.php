@@ -62,7 +62,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $openAPITypes = [
         'holder' => '\OpenRoam\Model\HotelPurchasedProductHolder',
         'room_guests' => '\OpenRoam\Model\HotelPurchasedProductRoomGuests[]',
-        'special_requests' => 'string'
+        'special_requests' => 'string',
+        'special_request_codes' => 'string[]'
     ];
 
     /**
@@ -73,7 +74,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $openAPIFormats = [
         'holder' => null,
         'room_guests' => null,
-        'special_requests' => null
+        'special_requests' => null,
+        'special_request_codes' => null
     ];
 
     /**
@@ -84,7 +86,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $openAPINullables = [
         'holder' => false,
         'room_guests' => false,
-        'special_requests' => true
+        'special_requests' => true,
+        'special_request_codes' => true
     ];
 
     /**
@@ -165,7 +168,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $attributeMap = [
         'holder' => 'holder',
         'room_guests' => 'roomGuests',
-        'special_requests' => 'specialRequests'
+        'special_requests' => 'specialRequests',
+        'special_request_codes' => 'specialRequestCodes'
     ];
 
     /**
@@ -176,7 +180,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $setters = [
         'holder' => 'setHolder',
         'room_guests' => 'setRoomGuests',
-        'special_requests' => 'setSpecialRequests'
+        'special_requests' => 'setSpecialRequests',
+        'special_request_codes' => 'setSpecialRequestCodes'
     ];
 
     /**
@@ -187,7 +192,8 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
     protected static array $getters = [
         'holder' => 'getHolder',
         'room_guests' => 'getRoomGuests',
-        'special_requests' => 'getSpecialRequests'
+        'special_requests' => 'getSpecialRequests',
+        'special_request_codes' => 'getSpecialRequestCodes'
     ];
 
     /**
@@ -240,6 +246,7 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
         $this->setIfExists('holder', $data ?? [], null);
         $this->setIfExists('room_guests', $data ?? [], null);
         $this->setIfExists('special_requests', $data ?? [], null);
+        $this->setIfExists('special_request_codes', $data ?? [], null);
     }
 
     /**
@@ -363,6 +370,40 @@ class HotelPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonSe
             }
         }
         $this->container['special_requests'] = $special_requests;
+
+        return $this;
+    }
+
+    /**
+     * Gets special_request_codes
+     *
+     * @return string[]|null
+     */
+    public function getSpecialRequestCodes(): ?array
+    {
+        return $this->container['special_request_codes'];
+    }
+
+    /**
+     * Sets special_request_codes
+     *
+     * @param string[]|null $special_request_codes Selected opaque request codes applied to every room, when supplied.
+     *
+     * @return $this
+     */
+    public function setSpecialRequestCodes(?array $special_request_codes): static
+    {
+        if (is_null($special_request_codes)) {
+            array_push($this->openAPINullablesSetToNull, 'special_request_codes');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('special_request_codes', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['special_request_codes'] = $special_request_codes;
 
         return $this;
     }

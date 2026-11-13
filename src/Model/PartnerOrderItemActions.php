@@ -61,7 +61,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $openAPITypes = [
         'amendment' => '\OpenRoam\Model\PartnerAction',
-        'refund' => '\OpenRoam\Model\PartnerAction'
+        'cancellation' => '\OpenRoam\Model\PartnerAction',
+        'update' => '\OpenRoam\Model\PartnerAction'
     ];
 
     /**
@@ -71,7 +72,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $openAPIFormats = [
         'amendment' => null,
-        'refund' => null
+        'cancellation' => null,
+        'update' => null
     ];
 
     /**
@@ -81,7 +83,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $openAPINullables = [
         'amendment' => false,
-        'refund' => false
+        'cancellation' => false,
+        'update' => false
     ];
 
     /**
@@ -161,7 +164,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $attributeMap = [
         'amendment' => 'amendment',
-        'refund' => 'refund'
+        'cancellation' => 'cancellation',
+        'update' => 'update'
     ];
 
     /**
@@ -171,7 +175,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $setters = [
         'amendment' => 'setAmendment',
-        'refund' => 'setRefund'
+        'cancellation' => 'setCancellation',
+        'update' => 'setUpdate'
     ];
 
     /**
@@ -181,7 +186,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
      */
     protected static array $getters = [
         'amendment' => 'getAmendment',
-        'refund' => 'getRefund'
+        'cancellation' => 'getCancellation',
+        'update' => 'getUpdate'
     ];
 
     /**
@@ -232,7 +238,8 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
     public function __construct(?array $data = null)
     {
         $this->setIfExists('amendment', $data ?? [], null);
-        $this->setIfExists('refund', $data ?? [], null);
+        $this->setIfExists('cancellation', $data ?? [], null);
+        $this->setIfExists('update', $data ?? [], null);
     }
 
     /**
@@ -285,7 +292,7 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets amendment
      *
-     * @param \OpenRoam\Model\PartnerAction|null $amendment Whether the item can be changed.
+     * @param \OpenRoam\Model\PartnerAction|null $amendment Whether the item can be changed through a priced amendment (hotels and flights).
      *
      * @return $this
      */
@@ -300,28 +307,55 @@ class PartnerOrderItemActions implements ModelInterface, ArrayAccess, JsonSerial
     }
 
     /**
-     * Gets refund
+     * Gets cancellation
      *
      * @return \OpenRoam\Model\PartnerAction|null
      */
-    public function getRefund(): ?\OpenRoam\Model\PartnerAction
+    public function getCancellation(): ?\OpenRoam\Model\PartnerAction
     {
-        return $this->container['refund'];
+        return $this->container['cancellation'];
     }
 
     /**
-     * Sets refund
+     * Sets cancellation
      *
-     * @param \OpenRoam\Model\PartnerAction|null $refund Whether the item can be refunded.
+     * @param \OpenRoam\Model\PartnerAction|null $cancellation Whether the item can be cancelled now.
      *
      * @return $this
      */
-    public function setRefund(?\OpenRoam\Model\PartnerAction $refund): static
+    public function setCancellation(?\OpenRoam\Model\PartnerAction $cancellation): static
     {
-        if (is_null($refund)) {
-            throw new InvalidArgumentException('non-nullable refund cannot be null');
+        if (is_null($cancellation)) {
+            throw new InvalidArgumentException('non-nullable cancellation cannot be null');
         }
-        $this->container['refund'] = $refund;
+        $this->container['cancellation'] = $cancellation;
+
+        return $this;
+    }
+
+    /**
+     * Gets update
+     *
+     * @return \OpenRoam\Model\PartnerAction|null
+     */
+    public function getUpdate(): ?\OpenRoam\Model\PartnerAction
+    {
+        return $this->container['update'];
+    }
+
+    /**
+     * Sets update
+     *
+     * @param \OpenRoam\Model\PartnerAction|null $update Whether the item can be updated now with `POST /order-items/{id}/update`, a change that             never charges. `notAvailable` for every product that cannot be updated.
+     *
+     * @return $this
+     */
+    public function setUpdate(?\OpenRoam\Model\PartnerAction $update): static
+    {
+        if (is_null($update)) {
+            throw new InvalidArgumentException('non-nullable update cannot be null');
+        }
+        $this->container['update'] = $update;
 
         return $this;
     }

@@ -60,6 +60,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $openAPITypes = [
         'id' => 'string',
+        'order_id' => 'string',
         'product_type' => 'string',
         'price' => '\OpenRoam\Model\MoneyAmount',
         'purchased_product' => '\OpenRoam\Model\EsimPurchasedProduct',
@@ -77,6 +78,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $openAPIFormats = [
         'id' => 'uuid',
+        'order_id' => 'uuid',
         'product_type' => null,
         'price' => null,
         'purchased_product' => null,
@@ -94,6 +96,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $openAPINullables = [
         'id' => false,
+        'order_id' => false,
         'product_type' => false,
         'price' => false,
         'purchased_product' => false,
@@ -181,6 +184,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $attributeMap = [
         'id' => 'id',
+        'order_id' => 'orderId',
         'product_type' => 'productType',
         'price' => 'price',
         'purchased_product' => 'purchasedProduct',
@@ -198,6 +202,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $setters = [
         'id' => 'setId',
+        'order_id' => 'setOrderId',
         'product_type' => 'setProductType',
         'price' => 'setPrice',
         'purchased_product' => 'setPurchasedProduct',
@@ -215,6 +220,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $getters = [
         'id' => 'getId',
+        'order_id' => 'getOrderId',
         'product_type' => 'getProductType',
         'price' => 'getPrice',
         'purchased_product' => 'getPurchasedProduct',
@@ -286,6 +292,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
     public function __construct(?array $data = null)
     {
         $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('order_id', $data ?? [], null);
         $this->setIfExists('product_type', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
         $this->setIfExists('purchased_product', $data ?? [], null);
@@ -368,6 +375,33 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
             throw new InvalidArgumentException('non-nullable id cannot be null');
         }
         $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets order_id
+     *
+     * @return string|null
+     */
+    public function getOrderId(): ?string
+    {
+        return $this->container['order_id'];
+    }
+
+    /**
+     * Sets order_id
+     *
+     * @param string|null $order_id The order the item belongs to.
+     *
+     * @return $this
+     */
+    public function setOrderId(?string $order_id): static
+    {
+        if (is_null($order_id)) {
+            throw new InvalidArgumentException('non-nullable order_id cannot be null');
+        }
+        $this->container['order_id'] = $order_id;
 
         return $this;
     }
@@ -503,7 +537,7 @@ class PartnerOrderItemEsim implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets actions
      *
-     * @param \OpenRoam\Model\PartnerOrderItemActions|null $actions Whether the item can be amended or refunded now.
+     * @param \OpenRoam\Model\PartnerOrderItemActions|null $actions Whether the item can be amended or cancelled now.
      *
      * @return $this
      */

@@ -313,7 +313,7 @@ class FlightPartnerTicketDocument implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets type
      *
-     * @param string|null $type `electronicTicket`, `electronicMiscellaneousDocumentAssociated`,             `electronicMiscellaneousDocumentStandalone` or `other`.
+     * @param string|null $type `electronicTicket`, `electronicMiscellaneousDocumentAssociated`, `electronicMiscellaneousDocumentStandalone` or `other`.
      *
      * @return $this
      */

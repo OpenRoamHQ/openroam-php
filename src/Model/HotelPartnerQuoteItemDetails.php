@@ -371,7 +371,7 @@ class HotelPartnerQuoteItemDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets availability
      *
-     * @param string|null $availability `confirmed` when the rate is confirmed; `onRequest` when it is held only on request, which             an order refuses with 409 / 11003.
+     * @param string|null $availability `confirmed` when the rate is confirmed; `onRequest` when it is held only on request, which an order refuses with 409 / 11003.
      *
      * @return $this
      */

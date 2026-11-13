@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * AirtimeFulfillmentRedemption Class Doc Comment
  *
- * @description &#x60;type&#x60; is &#x60;directTopUp&#x60; (automatic recharge) or &#x60;pin&#x60; (customer activation). A PIN top-up             carries the issued &#x60;pin&#x60; as a string and the customer &#x60;instructions&#x60;; either is null when             it was not received, and both are null for a direct top-up.
+ * @description &#x60;type&#x60; is &#x60;directTopUp&#x60; (automatic recharge) or &#x60;pin&#x60; (customer activation). A PIN top-up carries the issued &#x60;pin&#x60; as a string and the customer &#x60;instructions&#x60;; either is null when it was not received, and both are null for a direct top-up.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

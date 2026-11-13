@@ -61,7 +61,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $openAPITypes = [
         'generated_at' => '\DateTime',
         'hotel_count' => 'int',
-        'files' => '\OpenRoam\Model\HotelCatalogFile[]'
+        'files' => '\OpenRoam\Model\HotelCatalogFile[]',
+        'replacements' => '\OpenRoam\Model\HotelCatalogReplacementFile'
     ];
 
     /**
@@ -72,7 +73,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $openAPIFormats = [
         'generated_at' => 'date-time',
         'hotel_count' => 'int32',
-        'files' => null
+        'files' => null,
+        'replacements' => null
     ];
 
     /**
@@ -83,7 +85,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $openAPINullables = [
         'generated_at' => true,
         'hotel_count' => false,
-        'files' => false
+        'files' => false,
+        'replacements' => true
     ];
 
     /**
@@ -164,7 +167,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $attributeMap = [
         'generated_at' => 'generatedAt',
         'hotel_count' => 'hotelCount',
-        'files' => 'files'
+        'files' => 'files',
+        'replacements' => 'replacements'
     ];
 
     /**
@@ -175,7 +179,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $setters = [
         'generated_at' => 'setGeneratedAt',
         'hotel_count' => 'setHotelCount',
-        'files' => 'setFiles'
+        'files' => 'setFiles',
+        'replacements' => 'setReplacements'
     ];
 
     /**
@@ -186,7 +191,8 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
     protected static array $getters = [
         'generated_at' => 'getGeneratedAt',
         'hotel_count' => 'getHotelCount',
-        'files' => 'getFiles'
+        'files' => 'getFiles',
+        'replacements' => 'getReplacements'
     ];
 
     /**
@@ -239,6 +245,7 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
         $this->setIfExists('generated_at', $data ?? [], null);
         $this->setIfExists('hotel_count', $data ?? [], null);
         $this->setIfExists('files', $data ?? [], null);
+        $this->setIfExists('replacements', $data ?? [], null);
     }
 
     /**
@@ -362,6 +369,40 @@ class GetHotelCatalogFilesQueryResponse implements ModelInterface, ArrayAccess, 
             throw new InvalidArgumentException('non-nullable files cannot be null');
         }
         $this->container['files'] = $files;
+
+        return $this;
+    }
+
+    /**
+     * Gets replacements
+     *
+     * @return \OpenRoam\Model\HotelCatalogReplacementFile|null
+     */
+    public function getReplacements(): ?\OpenRoam\Model\HotelCatalogReplacementFile
+    {
+        return $this->container['replacements'];
+    }
+
+    /**
+     * Sets replacements
+     *
+     * @param \OpenRoam\Model\HotelCatalogReplacementFile|null $replacements The complete confirmed ID replacement map for this build; null before its first build.
+     *
+     * @return $this
+     */
+    public function setReplacements(?\OpenRoam\Model\HotelCatalogReplacementFile $replacements): static
+    {
+        if (is_null($replacements)) {
+            array_push($this->openAPINullablesSetToNull, 'replacements');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('replacements', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['replacements'] = $replacements;
 
         return $this;
     }

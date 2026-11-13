@@ -363,7 +363,7 @@ class HotelPartnerQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets name
      *
-     * @param string|null $name `\"{hotel} · {offer}\"`, the hotel's name and the offer's name, for example             `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
+     * @param string|null $name `\"{hotel} · {offer}\"`, the hotel's name and the offer's name, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
      *
      * @return $this
      */

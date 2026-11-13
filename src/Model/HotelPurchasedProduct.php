@@ -306,7 +306,7 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets name
      *
-     * @param string|null $name `\"{hotel} · {offer}\"`, named as the quote names it, for example             `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
+     * @param string|null $name `\"{hotel} · {offer}\"`, named as the quote names it, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
      *
      * @return $this
      */

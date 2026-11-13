@@ -2164,7 +2164,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}';
+        $resourcePath = '/api/v1/b2b/esims/{iccid}/profile';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';

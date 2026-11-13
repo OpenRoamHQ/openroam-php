@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimFulfillmentResultDetails Class Doc Comment
  *
- * @description The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with &#x60;mode&#x60;&#x60;topUp&#x60;.
+ * @description The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with &#x60;mode&#x60; &#x60;topUp&#x60;.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

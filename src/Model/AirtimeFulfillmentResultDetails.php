@@ -278,7 +278,7 @@ class AirtimeFulfillmentResultDetails implements ModelInterface, ArrayAccess, Js
     /**
      * Sets redemption
      *
-     * @param \OpenRoam\Model\AirtimeFulfillmentRedemption|null $redemption `type` is `directTopUp` (automatic recharge) or `pin` (customer activation). A PIN top-up             carries the issued `pin` as a string and the customer `instructions`; either is null when             it was not received, and both are null for a direct top-up.
+     * @param \OpenRoam\Model\AirtimeFulfillmentRedemption|null $redemption `type` is `directTopUp` (automatic recharge) or `pin` (customer activation). A PIN top-up carries the issued `pin` as a string and the customer `instructions`; either is null when it was not received, and both are null for a direct top-up.
      *
      * @return $this
      */

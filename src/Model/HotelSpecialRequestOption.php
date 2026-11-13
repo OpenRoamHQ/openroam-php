@@ -1,6 +1,6 @@
 <?php
 /**
- * RequestB2BAmendmentQuery
+ * HotelSpecialRequestOption
  *
  * PHP version 8.1
  *
@@ -35,15 +35,15 @@ use ReturnTypeWillChange;
 use OpenRoam\ObjectSerializer;
 
 /**
- * RequestB2BAmendmentQuery Class Doc Comment
+ * HotelSpecialRequestOption Class Doc Comment
  *
- * @description The change requested for a delivered order item.
+ * @description An optional request, subject to availability at check-in.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements ArrayAccess<string, mixed>
  */
-class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSerializable
+class HotelSpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -52,7 +52,7 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      *
      * @var string
      */
-    protected static string $openAPIModelName = 'RequestB2BAmendmentQuery';
+    protected static string $openAPIModelName = 'HotelSpecialRequestOption';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -60,7 +60,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'attributes' => 'mixed'
+        'code' => 'string',
+        'name' => 'string'
     ];
 
     /**
@@ -69,7 +70,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'attributes' => null
+        'code' => null,
+        'name' => null
     ];
 
     /**
@@ -78,7 +80,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'attributes' => true
+        'code' => false,
+        'name' => false
     ];
 
     /**
@@ -157,7 +160,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'attributes' => 'attributes'
+        'code' => 'code',
+        'name' => 'name'
     ];
 
     /**
@@ -166,7 +170,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $setters = [
-        'attributes' => 'setAttributes'
+        'code' => 'setCode',
+        'name' => 'setName'
     ];
 
     /**
@@ -175,7 +180,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $getters = [
-        'attributes' => 'getAttributes'
+        'code' => 'getCode',
+        'name' => 'getName'
     ];
 
     /**
@@ -225,7 +231,8 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('attributes', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
     }
 
     /**
@@ -266,35 +273,55 @@ class RequestB2BAmendmentQuery implements ModelInterface, ArrayAccess, JsonSeria
 
 
     /**
-     * Gets attributes
+     * Gets code
      *
-     * @return mixed|null
+     * @return string|null
      */
-    public function getAttributes(): mixed
+    public function getCode(): ?string
     {
-        return $this->container['attributes'];
+        return $this->container['code'];
     }
 
     /**
-     * Sets attributes
+     * Sets code
      *
-     * @param mixed|null $attributes Required. A JSON object describing the change, in the shape the item's product defines for amendments.
+     * @param string|null $code Opaque option code; pass back unchanged in inputs.specialRequestCodes.
      *
      * @return $this
      */
-    public function setAttributes(mixed $attributes): static
+    public function setCode(?string $code): static
     {
-        if (is_null($attributes)) {
-            array_push($this->openAPINullablesSetToNull, 'attributes');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('attributes', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($code)) {
+            throw new InvalidArgumentException('non-nullable code cannot be null');
         }
-        $this->container['attributes'] = $attributes;
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /**
+     * Gets name
+     *
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->container['name'];
+    }
+
+    /**
+     * Sets name
+     *
+     * @param string|null $name The request's display name.
+     *
+     * @return $this
+     */
+    public function setName(?string $name): static
+    {
+        if (is_null($name)) {
+            throw new InvalidArgumentException('non-nullable name cannot be null');
+        }
+        $this->container['name'] = $name;
 
         return $this;
     }

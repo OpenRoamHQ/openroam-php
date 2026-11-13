@@ -278,7 +278,7 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\EsimFulfillmentResultDetails|null $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode``topUp`.
+     * @param \OpenRoam\Model\EsimFulfillmentResultDetails|null $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode` `topUp`.
      *
      * @return $this
      */
