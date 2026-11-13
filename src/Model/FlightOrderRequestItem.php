@@ -62,7 +62,7 @@ class FlightOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeriali
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\FlightCartInputs'
+        'inputs' => '\OpenRoam\Model\FlightInputs'
     ];
 
     /**
@@ -339,9 +339,9 @@ class FlightOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\FlightCartInputs|null
+     * @return \OpenRoam\Model\FlightInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\FlightCartInputs
+    public function getInputs(): ?\OpenRoam\Model\FlightInputs
     {
         return $this->container['inputs'];
     }
@@ -349,11 +349,11 @@ class FlightOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\FlightCartInputs|null $inputs The passengers, paid extras and optional price guard of the fare. Optional on quote, which then prices the fare alone; required on order.
+     * @param \OpenRoam\Model\FlightInputs|null $inputs The passengers, paid extras and optional price guard of the fare. Optional on quote, which then prices the fare alone; required on order.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\FlightCartInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\FlightInputs $inputs): static
     {
         if (is_null($inputs)) {
             array_push($this->openAPINullablesSetToNull, 'inputs');

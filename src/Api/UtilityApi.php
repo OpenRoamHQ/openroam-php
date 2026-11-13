@@ -151,13 +151,13 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
      */
     public function utilityCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\UtilityOrderRequest $utility_order_request = null,
         string $contentType = self::contentTypes['utilityCreateOrder'][0]
-    ): \OpenRoam\Model\UtilityCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityCreateOrderWithHttpInfo($idempotency_key, $utility_order_request, $contentType);
         return $response;
@@ -174,7 +174,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -210,37 +210,37 @@ class UtilityApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\UtilityCreateOrder200Response',
+                        '\OpenRoam\Model\UtilityOrder',
                         $request,
                         $response,
                     );
                 case 202:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -260,7 +260,7 @@ class UtilityApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\UtilityCreateOrder200Response',
+                '\OpenRoam\Model\UtilityOrder',
                 $request,
                 $response,
             );
@@ -269,7 +269,7 @@ class UtilityApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\UtilityCreateOrder200Response',
+                        '\OpenRoam\Model\UtilityOrder',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -277,7 +277,7 @@ class UtilityApi
                 case 202:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -285,7 +285,7 @@ class UtilityApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -293,7 +293,7 @@ class UtilityApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -301,7 +301,7 @@ class UtilityApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -309,7 +309,7 @@ class UtilityApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -364,7 +364,7 @@ class UtilityApi
         string $contentType = self::contentTypes['utilityCreateOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\UtilityCreateOrder200Response';
+        $returnType = '\OpenRoam\Model\UtilityOrder';
         $request = $this->utilityCreateOrderRequest($idempotency_key, $utility_order_request, $contentType);
 
         return $this->client
@@ -533,13 +533,13 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse
      */
     public function utilityGetBiller(
         string $id,
         ?string $currency = null,
         string $contentType = self::contentTypes['utilityGetBiller'][0]
-    ): \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityGetBillerWithHttpInfo($id, $currency, $contentType);
         return $response;
@@ -556,7 +556,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityGetBillerWithHttpInfo(
         string $id,
@@ -598,13 +598,13 @@ class UtilityApi
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -641,7 +641,7 @@ class UtilityApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -649,7 +649,7 @@ class UtilityApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -851,7 +851,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\UtilityCatalogPage|\OpenRoam\Model\ErrorResponse
      */
     public function utilityGetCatalog(
         ?string $country_code = null,
@@ -861,7 +861,7 @@ class UtilityApi
         ?string $cursor = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['utilityGetCatalog'][0]
-    ): \OpenRoam\Model\UtilityCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\UtilityCatalogPage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityGetCatalogWithHttpInfo($country_code, $category, $service_type, $currency, $cursor, $limit, $contentType);
         return $response;
@@ -882,7 +882,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityCatalogResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilityCatalogPage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityGetCatalogWithHttpInfo(
         ?string $country_code = null,
@@ -922,19 +922,19 @@ class UtilityApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\UtilityCatalogResponse',
+                        '\OpenRoam\Model\UtilityCatalogPage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -954,7 +954,7 @@ class UtilityApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\UtilityCatalogResponse',
+                '\OpenRoam\Model\UtilityCatalogPage',
                 $request,
                 $response,
             );
@@ -963,7 +963,7 @@ class UtilityApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\UtilityCatalogResponse',
+                        '\OpenRoam\Model\UtilityCatalogPage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -971,7 +971,7 @@ class UtilityApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -979,7 +979,7 @@ class UtilityApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1050,7 +1050,7 @@ class UtilityApi
         string $contentType = self::contentTypes['utilityGetCatalog'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\UtilityCatalogResponse';
+        $returnType = '\OpenRoam\Model\UtilityCatalogPage';
         $request = $this->utilityGetCatalogRequest($country_code, $category, $service_type, $currency, $cursor, $limit, $contentType);
 
         return $this->client
@@ -1236,12 +1236,12 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\UtilityQuote|\OpenRoam\Model\ErrorResponse
      */
     public function utilityQuote(
         ?\OpenRoam\Model\UtilityOrderRequest $utility_order_request = null,
         string $contentType = self::contentTypes['utilityQuote'][0]
-    ): \OpenRoam\Model\UtilityQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\UtilityQuote|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityQuoteWithHttpInfo($utility_order_request, $contentType);
         return $response;
@@ -1257,7 +1257,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityQuoteResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilityQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityQuoteWithHttpInfo(
         ?\OpenRoam\Model\UtilityOrderRequest $utility_order_request = null,
@@ -1292,25 +1292,25 @@ class UtilityApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\UtilityQuoteResponse',
+                        '\OpenRoam\Model\UtilityQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1330,7 +1330,7 @@ class UtilityApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\UtilityQuoteResponse',
+                '\OpenRoam\Model\UtilityQuote',
                 $request,
                 $response,
             );
@@ -1339,7 +1339,7 @@ class UtilityApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\UtilityQuoteResponse',
+                        '\OpenRoam\Model\UtilityQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1347,7 +1347,7 @@ class UtilityApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1355,7 +1355,7 @@ class UtilityApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1363,7 +1363,7 @@ class UtilityApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1414,7 +1414,7 @@ class UtilityApi
         string $contentType = self::contentTypes['utilityQuote'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\UtilityQuoteResponse';
+        $returnType = '\OpenRoam\Model\UtilityQuote';
         $request = $this->utilityQuoteRequest($utility_order_request, $contentType);
 
         return $this->client
@@ -1576,7 +1576,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilitySearchResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\UtilitySearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function utilitySearch(
         string $country_code,
@@ -1587,7 +1587,7 @@ class UtilityApi
         ?int $page = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['utilitySearch'][0]
-    ): \OpenRoam\Model\UtilitySearchResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\UtilitySearchResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilitySearchWithHttpInfo($country_code, $category, $service_type, $q, $currency, $page, $limit, $contentType);
         return $response;
@@ -1609,7 +1609,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilitySearchResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilitySearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilitySearchWithHttpInfo(
         string $country_code,
@@ -1650,19 +1650,19 @@ class UtilityApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\UtilitySearchResponse',
+                        '\OpenRoam\Model\UtilitySearchResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1682,7 +1682,7 @@ class UtilityApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\UtilitySearchResponse',
+                '\OpenRoam\Model\UtilitySearchResult',
                 $request,
                 $response,
             );
@@ -1691,7 +1691,7 @@ class UtilityApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\UtilitySearchResponse',
+                        '\OpenRoam\Model\UtilitySearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1699,7 +1699,7 @@ class UtilityApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1707,7 +1707,7 @@ class UtilityApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1782,7 +1782,7 @@ class UtilityApi
         string $contentType = self::contentTypes['utilitySearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\UtilitySearchResponse';
+        $returnType = '\OpenRoam\Model\UtilitySearchResult';
         $request = $this->utilitySearchRequest($country_code, $category, $service_type, $q, $currency, $page, $limit, $contentType);
 
         return $this->client

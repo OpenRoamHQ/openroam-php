@@ -60,12 +60,12 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'slices' => '\OpenRoam\Model\FlightPartnerSlice[]',
+        'slices' => '\OpenRoam\Model\FlightBookedSlice[]',
         'cabin_class' => 'string',
-        'passengers' => '\OpenRoam\Model\FlightPartnerPassenger[]',
+        'passengers' => '\OpenRoam\Model\FlightPassenger[]',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'included_baggage' => '\OpenRoam\Model\FlightPartnerBaggage[]',
-        'selected_services' => '\OpenRoam\Model\FlightPartnerSelectedService[]',
+        'included_baggage' => '\OpenRoam\Model\FlightBookedBaggage[]',
+        'selected_services' => '\OpenRoam\Model\FlightSelectedService[]',
         'total_duration_minutes' => 'int',
         'total_stops' => 'int'
     ];
@@ -345,7 +345,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets slices
      *
-     * @return \OpenRoam\Model\FlightPartnerSlice[]|null
+     * @return \OpenRoam\Model\FlightBookedSlice[]|null
      */
     public function getSlices(): ?array
     {
@@ -355,7 +355,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets slices
      *
-     * @param \OpenRoam\Model\FlightPartnerSlice[]|null $slices The flights booked now, in the shape of `purchasedProduct.details.slices`.
+     * @param \OpenRoam\Model\FlightBookedSlice[]|null $slices The flights booked now, in the shape of `purchasedProduct.details.slices`.
      *
      * @return $this
      */
@@ -409,7 +409,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets passengers
      *
-     * @return \OpenRoam\Model\FlightPartnerPassenger[]|null
+     * @return \OpenRoam\Model\FlightPassenger[]|null
      */
     public function getPassengers(): ?array
     {
@@ -419,7 +419,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets passengers
      *
-     * @param \OpenRoam\Model\FlightPartnerPassenger[]|null $passengers The passengers booked now, in `passengerIndex` order, contacts masked.
+     * @param \OpenRoam\Model\FlightPassenger[]|null $passengers The passengers booked now, in `passengerIndex` order, contacts masked.
      *
      * @return $this
      */
@@ -463,7 +463,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\FlightPartnerBaggage[]|null
+     * @return \OpenRoam\Model\FlightBookedBaggage[]|null
      */
     public function getIncludedBaggage(): ?array
     {
@@ -473,7 +473,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\FlightPartnerBaggage[]|null $included_baggage Baggage included for every passenger now.
+     * @param \OpenRoam\Model\FlightBookedBaggage[]|null $included_baggage Baggage included for every passenger now.
      *
      * @return $this
      */
@@ -490,7 +490,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\FlightPartnerSelectedService[]|null
+     * @return \OpenRoam\Model\FlightSelectedService[]|null
      */
     public function getSelectedServices(): ?array
     {
@@ -500,7 +500,7 @@ class FlightFulfillmentBooking implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\FlightPartnerSelectedService[]|null $selected_services The paid extras booked now; positions refer to `slices`.
+     * @param \OpenRoam\Model\FlightSelectedService[]|null $selected_services The paid extras booked now; positions refer to `slices`.
      *
      * @return $this
      */

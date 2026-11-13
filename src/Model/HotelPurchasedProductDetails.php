@@ -62,10 +62,10 @@ class HotelPurchasedProductDetails implements ModelInterface, ArrayAccess, JsonS
     protected static array $openAPITypes = [
         'check_in_date' => '\DateTime',
         'check_out_date' => '\DateTime',
-        'requested_rooms' => '\OpenRoam\Model\HotelRoomOccupancySimple[]',
+        'requested_rooms' => '\OpenRoam\Model\HotelRoomOccupancy[]',
         'hotel' => '\OpenRoam\Model\HotelPurchasedProductHotel',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'rate' => '\OpenRoam\Model\HotelPartnerQuotedRate'
+        'rate' => '\OpenRoam\Model\HotelQuotedRate'
     ];
 
     /**
@@ -357,7 +357,7 @@ class HotelPurchasedProductDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets requested_rooms
      *
-     * @return \OpenRoam\Model\HotelRoomOccupancySimple[]|null
+     * @return \OpenRoam\Model\HotelRoomOccupancy[]|null
      */
     public function getRequestedRooms(): ?array
     {
@@ -367,7 +367,7 @@ class HotelPurchasedProductDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets requested_rooms
      *
-     * @param \OpenRoam\Model\HotelRoomOccupancySimple[]|null $requested_rooms The rooms bought, in room order: adults, children and child ages, in the quote's `requestedRooms` shape.
+     * @param \OpenRoam\Model\HotelRoomOccupancy[]|null $requested_rooms The rooms bought, in room order: adults, children and child ages, in the quote's `requestedRooms` shape.
      *
      * @return $this
      */
@@ -438,9 +438,9 @@ class HotelPurchasedProductDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets rate
      *
-     * @return \OpenRoam\Model\HotelPartnerQuotedRate|null
+     * @return \OpenRoam\Model\HotelQuotedRate|null
      */
-    public function getRate(): ?\OpenRoam\Model\HotelPartnerQuotedRate
+    public function getRate(): ?\OpenRoam\Model\HotelQuotedRate
     {
         return $this->container['rate'];
     }
@@ -448,11 +448,11 @@ class HotelPurchasedProductDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets rate
      *
-     * @param \OpenRoam\Model\HotelPartnerQuotedRate|null $rate The rate bought: rooms, board, taxes, nightly prices and surcharges, as on the quote.
+     * @param \OpenRoam\Model\HotelQuotedRate|null $rate The rate bought: rooms, board, taxes, nightly prices and surcharges, as on the quote.
      *
      * @return $this
      */
-    public function setRate(?\OpenRoam\Model\HotelPartnerQuotedRate $rate): static
+    public function setRate(?\OpenRoam\Model\HotelQuotedRate $rate): static
     {
         if (is_null($rate)) {
             throw new InvalidArgumentException('non-nullable rate cannot be null');

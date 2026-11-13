@@ -153,19 +153,19 @@ class WalletsApi
      *
      * Create a wallet
      *
-     * @param  \OpenRoam\Model\CreateB2BWalletCommand|null $create_b2_b_wallet_command The wallet to create. (optional)
+     * @param  \OpenRoam\Model\WalletCreateRequest|null $wallet_create_request The wallet to create. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsCreate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\PartnerErrorResponse|null
+     * @return \OpenRoam\Model\ErrorResponse|null
      */
     public function walletsCreate(
-        ?\OpenRoam\Model\CreateB2BWalletCommand $create_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletCreateRequest $wallet_create_request = null,
         string $contentType = self::contentTypes['walletsCreate'][0]
-    ): ?\OpenRoam\Model\PartnerErrorResponse
+    ): ?\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->walletsCreateWithHttpInfo($create_b2_b_wallet_command, $contentType);
+        list($response) = $this->walletsCreateWithHttpInfo($wallet_create_request, $contentType);
         return $response;
     }
 
@@ -174,7 +174,7 @@ class WalletsApi
      *
      * Create a wallet
      *
-     * @param  \OpenRoam\Model\CreateB2BWalletCommand|null $create_b2_b_wallet_command The wallet to create. (optional)
+     * @param  \OpenRoam\Model\WalletCreateRequest|null $wallet_create_request The wallet to create. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsCreate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -182,11 +182,11 @@ class WalletsApi
      * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function walletsCreateWithHttpInfo(
-        ?\OpenRoam\Model\CreateB2BWalletCommand $create_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletCreateRequest $wallet_create_request = null,
         string $contentType = self::contentTypes['walletsCreate'][0]
     ): array
     {
-        $request = $this->walletsCreateRequest($create_b2_b_wallet_command, $contentType);
+        $request = $this->walletsCreateRequest($wallet_create_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -218,7 +218,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -226,7 +226,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -234,7 +234,7 @@ class WalletsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -242,7 +242,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -258,18 +258,18 @@ class WalletsApi
      *
      * Create a wallet
      *
-     * @param  \OpenRoam\Model\CreateB2BWalletCommand|null $create_b2_b_wallet_command The wallet to create. (optional)
+     * @param  \OpenRoam\Model\WalletCreateRequest|null $wallet_create_request The wallet to create. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsCreate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function walletsCreateAsync(
-        ?\OpenRoam\Model\CreateB2BWalletCommand $create_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletCreateRequest $wallet_create_request = null,
         string $contentType = self::contentTypes['walletsCreate'][0]
     ): PromiseInterface
     {
-        return $this->walletsCreateAsyncWithHttpInfo($create_b2_b_wallet_command, $contentType)
+        return $this->walletsCreateAsyncWithHttpInfo($wallet_create_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -282,19 +282,19 @@ class WalletsApi
      *
      * Create a wallet
      *
-     * @param  \OpenRoam\Model\CreateB2BWalletCommand|null $create_b2_b_wallet_command The wallet to create. (optional)
+     * @param  \OpenRoam\Model\WalletCreateRequest|null $wallet_create_request The wallet to create. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsCreate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function walletsCreateAsyncWithHttpInfo(
-        ?\OpenRoam\Model\CreateB2BWalletCommand $create_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletCreateRequest $wallet_create_request = null,
         string $contentType = self::contentTypes['walletsCreate'][0]
     ): PromiseInterface
     {
         $returnType = '';
-        $request = $this->walletsCreateRequest($create_b2_b_wallet_command, $contentType);
+        $request = $this->walletsCreateRequest($wallet_create_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -330,14 +330,14 @@ class WalletsApi
     /**
      * Create request for operation 'walletsCreate'
      *
-     * @param  \OpenRoam\Model\CreateB2BWalletCommand|null $create_b2_b_wallet_command The wallet to create. (optional)
+     * @param  \OpenRoam\Model\WalletCreateRequest|null $wallet_create_request The wallet to create. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsCreate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function walletsCreateRequest(
-        ?\OpenRoam\Model\CreateB2BWalletCommand $create_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletCreateRequest $wallet_create_request = null,
         string $contentType = self::contentTypes['walletsCreate'][0]
     ): Request
     {
@@ -360,16 +360,16 @@ class WalletsApi
         );
 
         // for model (json/xml)
-        if (isset($create_b2_b_wallet_command)) {
+        if (isset($wallet_create_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($create_b2_b_wallet_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($wallet_create_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $create_b2_b_wallet_command;
+                $httpBody = $wallet_create_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -435,11 +435,11 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GetWalletItem[]|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\WalletSummary[]|\OpenRoam\Model\ErrorResponse
      */
     public function walletsGetAll(
         string $contentType = self::contentTypes['walletsGetAll'][0]
-    ): array|\OpenRoam\Model\PartnerErrorResponse
+    ): array|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->walletsGetAllWithHttpInfo($contentType);
         return $response;
@@ -454,7 +454,7 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GetWalletItem[]|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\WalletSummary[]|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function walletsGetAllWithHttpInfo(
         string $contentType = self::contentTypes['walletsGetAll'][0]
@@ -488,25 +488,25 @@ class WalletsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GetWalletItem[]',
+                        '\OpenRoam\Model\WalletSummary[]',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -526,7 +526,7 @@ class WalletsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GetWalletItem[]',
+                '\OpenRoam\Model\WalletSummary[]',
                 $request,
                 $response,
             );
@@ -535,7 +535,7 @@ class WalletsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GetWalletItem[]',
+                        '\OpenRoam\Model\WalletSummary[]',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -543,7 +543,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -551,7 +551,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -559,7 +559,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -606,7 +606,7 @@ class WalletsApi
         string $contentType = self::contentTypes['walletsGetAll'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GetWalletItem[]';
+        $returnType = '\OpenRoam\Model\WalletSummary[]';
         $request = $this->walletsGetAllRequest($contentType);
 
         return $this->client
@@ -720,12 +720,12 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GetWalletWithStatistics|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\Wallet|\OpenRoam\Model\ErrorResponse
      */
     public function walletsGetById(
         string $id,
         string $contentType = self::contentTypes['walletsGetById'][0]
-    ): \OpenRoam\Model\GetWalletWithStatistics|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\Wallet|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->walletsGetByIdWithHttpInfo($id, $contentType);
         return $response;
@@ -741,7 +741,7 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GetWalletWithStatistics|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\Wallet|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function walletsGetByIdWithHttpInfo(
         string $id,
@@ -776,31 +776,31 @@ class WalletsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GetWalletWithStatistics',
+                        '\OpenRoam\Model\Wallet',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -820,7 +820,7 @@ class WalletsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GetWalletWithStatistics',
+                '\OpenRoam\Model\Wallet',
                 $request,
                 $response,
             );
@@ -829,7 +829,7 @@ class WalletsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GetWalletWithStatistics',
+                        '\OpenRoam\Model\Wallet',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -837,7 +837,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -845,7 +845,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -853,7 +853,7 @@ class WalletsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -861,7 +861,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -912,7 +912,7 @@ class WalletsApi
         string $contentType = self::contentTypes['walletsGetById'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GetWalletWithStatistics';
+        $returnType = '\OpenRoam\Model\Wallet';
         $request = $this->walletsGetByIdRequest($id, $contentType);
 
         return $this->client
@@ -1048,7 +1048,7 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\WalletTransactionsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\WalletTransactionList|\OpenRoam\Model\ErrorResponse
      */
     public function walletsGetTransactions(
         string $wallet_id,
@@ -1059,7 +1059,7 @@ class WalletsApi
         ?string $type = null,
         ?string $source = null,
         string $contentType = self::contentTypes['walletsGetTransactions'][0]
-    ): \OpenRoam\Model\WalletTransactionsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\WalletTransactionList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->walletsGetTransactionsWithHttpInfo($wallet_id, $page, $limit, $start_date, $end_date, $type, $source, $contentType);
         return $response;
@@ -1081,7 +1081,7 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\WalletTransactionsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\WalletTransactionList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function walletsGetTransactionsWithHttpInfo(
         string $wallet_id,
@@ -1122,31 +1122,31 @@ class WalletsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\WalletTransactionsResponse',
+                        '\OpenRoam\Model\WalletTransactionList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1166,7 +1166,7 @@ class WalletsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\WalletTransactionsResponse',
+                '\OpenRoam\Model\WalletTransactionList',
                 $request,
                 $response,
             );
@@ -1175,7 +1175,7 @@ class WalletsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\WalletTransactionsResponse',
+                        '\OpenRoam\Model\WalletTransactionList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1183,7 +1183,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1191,7 +1191,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1199,7 +1199,7 @@ class WalletsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1207,7 +1207,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1282,7 +1282,7 @@ class WalletsApi
         string $contentType = self::contentTypes['walletsGetTransactions'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\WalletTransactionsResponse';
+        $returnType = '\OpenRoam\Model\WalletTransactionList';
         $request = $this->walletsGetTransactionsRequest($wallet_id, $page, $limit, $start_date, $end_date, $type, $source, $contentType);
 
         return $this->client
@@ -1484,12 +1484,12 @@ class WalletsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\PartnerErrorResponse|null
+     * @return \OpenRoam\Model\ErrorResponse|null
      */
     public function walletsSelect(
         string $id,
         string $contentType = self::contentTypes['walletsSelect'][0]
-    ): ?\OpenRoam\Model\PartnerErrorResponse
+    ): ?\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->walletsSelectWithHttpInfo($id, $contentType);
         return $response;
@@ -1544,7 +1544,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1552,7 +1552,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1560,7 +1560,7 @@ class WalletsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1568,7 +1568,7 @@ class WalletsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1576,7 +1576,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1740,20 +1740,20 @@ class WalletsApi
      * Transfer between wallets
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\TransferB2BWalletsCommand|null $transfer_b2_b_wallets_command The source wallet, destination wallet and amount. (optional)
+     * @param  \OpenRoam\Model\WalletTransferRequest|null $wallet_transfer_request The source wallet, destination wallet and amount. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsTransfer'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\WalletTransferResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\WalletTransfer|\OpenRoam\Model\ErrorResponse
      */
     public function walletsTransfer(
         string $idempotency_key,
-        ?\OpenRoam\Model\TransferB2BWalletsCommand $transfer_b2_b_wallets_command = null,
+        ?\OpenRoam\Model\WalletTransferRequest $wallet_transfer_request = null,
         string $contentType = self::contentTypes['walletsTransfer'][0]
-    ): \OpenRoam\Model\WalletTransferResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\WalletTransfer|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->walletsTransferWithHttpInfo($idempotency_key, $transfer_b2_b_wallets_command, $contentType);
+        list($response) = $this->walletsTransferWithHttpInfo($idempotency_key, $wallet_transfer_request, $contentType);
         return $response;
     }
 
@@ -1763,20 +1763,20 @@ class WalletsApi
      * Transfer between wallets
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\TransferB2BWalletsCommand|null $transfer_b2_b_wallets_command The source wallet, destination wallet and amount. (optional)
+     * @param  \OpenRoam\Model\WalletTransferRequest|null $wallet_transfer_request The source wallet, destination wallet and amount. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsTransfer'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\WalletTransferResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\WalletTransfer|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function walletsTransferWithHttpInfo(
         string $idempotency_key,
-        ?\OpenRoam\Model\TransferB2BWalletsCommand $transfer_b2_b_wallets_command = null,
+        ?\OpenRoam\Model\WalletTransferRequest $wallet_transfer_request = null,
         string $contentType = self::contentTypes['walletsTransfer'][0]
     ): array
     {
-        $request = $this->walletsTransferRequest($idempotency_key, $transfer_b2_b_wallets_command, $contentType);
+        $request = $this->walletsTransferRequest($idempotency_key, $wallet_transfer_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1804,49 +1804,49 @@ class WalletsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\WalletTransferResponse',
+                        '\OpenRoam\Model\WalletTransfer',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1866,7 +1866,7 @@ class WalletsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\WalletTransferResponse',
+                '\OpenRoam\Model\WalletTransfer',
                 $request,
                 $response,
             );
@@ -1875,7 +1875,7 @@ class WalletsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\WalletTransferResponse',
+                        '\OpenRoam\Model\WalletTransfer',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1883,7 +1883,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1891,7 +1891,7 @@ class WalletsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1899,7 +1899,7 @@ class WalletsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1907,7 +1907,7 @@ class WalletsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1915,7 +1915,7 @@ class WalletsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1923,7 +1923,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1931,7 +1931,7 @@ class WalletsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1948,7 +1948,7 @@ class WalletsApi
      * Transfer between wallets
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\TransferB2BWalletsCommand|null $transfer_b2_b_wallets_command The source wallet, destination wallet and amount. (optional)
+     * @param  \OpenRoam\Model\WalletTransferRequest|null $wallet_transfer_request The source wallet, destination wallet and amount. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsTransfer'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1956,11 +1956,11 @@ class WalletsApi
      */
     public function walletsTransferAsync(
         string $idempotency_key,
-        ?\OpenRoam\Model\TransferB2BWalletsCommand $transfer_b2_b_wallets_command = null,
+        ?\OpenRoam\Model\WalletTransferRequest $wallet_transfer_request = null,
         string $contentType = self::contentTypes['walletsTransfer'][0]
     ): PromiseInterface
     {
-        return $this->walletsTransferAsyncWithHttpInfo($idempotency_key, $transfer_b2_b_wallets_command, $contentType)
+        return $this->walletsTransferAsyncWithHttpInfo($idempotency_key, $wallet_transfer_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1974,7 +1974,7 @@ class WalletsApi
      * Transfer between wallets
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\TransferB2BWalletsCommand|null $transfer_b2_b_wallets_command The source wallet, destination wallet and amount. (optional)
+     * @param  \OpenRoam\Model\WalletTransferRequest|null $wallet_transfer_request The source wallet, destination wallet and amount. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsTransfer'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1982,12 +1982,12 @@ class WalletsApi
      */
     public function walletsTransferAsyncWithHttpInfo(
         string $idempotency_key,
-        ?\OpenRoam\Model\TransferB2BWalletsCommand $transfer_b2_b_wallets_command = null,
+        ?\OpenRoam\Model\WalletTransferRequest $wallet_transfer_request = null,
         string $contentType = self::contentTypes['walletsTransfer'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\WalletTransferResponse';
-        $request = $this->walletsTransferRequest($idempotency_key, $transfer_b2_b_wallets_command, $contentType);
+        $returnType = '\OpenRoam\Model\WalletTransfer';
+        $request = $this->walletsTransferRequest($idempotency_key, $wallet_transfer_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2037,7 +2037,7 @@ class WalletsApi
      * Create request for operation 'walletsTransfer'
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\TransferB2BWalletsCommand|null $transfer_b2_b_wallets_command The source wallet, destination wallet and amount. (optional)
+     * @param  \OpenRoam\Model\WalletTransferRequest|null $wallet_transfer_request The source wallet, destination wallet and amount. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsTransfer'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2045,7 +2045,7 @@ class WalletsApi
      */
     public function walletsTransferRequest(
         string $idempotency_key,
-        ?\OpenRoam\Model\TransferB2BWalletsCommand $transfer_b2_b_wallets_command = null,
+        ?\OpenRoam\Model\WalletTransferRequest $wallet_transfer_request = null,
         string $contentType = self::contentTypes['walletsTransfer'][0]
     ): Request
     {
@@ -2078,16 +2078,16 @@ class WalletsApi
         );
 
         // for model (json/xml)
-        if (isset($transfer_b2_b_wallets_command)) {
+        if (isset($wallet_transfer_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($transfer_b2_b_wallets_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($wallet_transfer_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $transfer_b2_b_wallets_command;
+                $httpBody = $wallet_transfer_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -2150,20 +2150,20 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\UpdateB2BWalletCommand|null $update_b2_b_wallet_command The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\PartnerErrorResponse|null
+     * @return \OpenRoam\Model\ErrorResponse|null
      */
     public function walletsUpdate(
         string $id,
-        ?\OpenRoam\Model\UpdateB2BWalletCommand $update_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletUpdateRequest $wallet_update_request = null,
         string $contentType = self::contentTypes['walletsUpdate'][0]
-    ): ?\OpenRoam\Model\PartnerErrorResponse
+    ): ?\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->walletsUpdateWithHttpInfo($id, $update_b2_b_wallet_command, $contentType);
+        list($response) = $this->walletsUpdateWithHttpInfo($id, $wallet_update_request, $contentType);
         return $response;
     }
 
@@ -2173,7 +2173,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\UpdateB2BWalletCommand|null $update_b2_b_wallet_command The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2182,11 +2182,11 @@ class WalletsApi
      */
     public function walletsUpdateWithHttpInfo(
         string $id,
-        ?\OpenRoam\Model\UpdateB2BWalletCommand $update_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletUpdateRequest $wallet_update_request = null,
         string $contentType = self::contentTypes['walletsUpdate'][0]
     ): array
     {
-        $request = $this->walletsUpdateRequest($id, $update_b2_b_wallet_command, $contentType);
+        $request = $this->walletsUpdateRequest($id, $wallet_update_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2218,7 +2218,7 @@ class WalletsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2226,7 +2226,7 @@ class WalletsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2234,7 +2234,7 @@ class WalletsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2251,7 +2251,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\UpdateB2BWalletCommand|null $update_b2_b_wallet_command The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2259,11 +2259,11 @@ class WalletsApi
      */
     public function walletsUpdateAsync(
         string $id,
-        ?\OpenRoam\Model\UpdateB2BWalletCommand $update_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletUpdateRequest $wallet_update_request = null,
         string $contentType = self::contentTypes['walletsUpdate'][0]
     ): PromiseInterface
     {
-        return $this->walletsUpdateAsyncWithHttpInfo($id, $update_b2_b_wallet_command, $contentType)
+        return $this->walletsUpdateAsyncWithHttpInfo($id, $wallet_update_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2277,7 +2277,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\UpdateB2BWalletCommand|null $update_b2_b_wallet_command The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2285,12 +2285,12 @@ class WalletsApi
      */
     public function walletsUpdateAsyncWithHttpInfo(
         string $id,
-        ?\OpenRoam\Model\UpdateB2BWalletCommand $update_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletUpdateRequest $wallet_update_request = null,
         string $contentType = self::contentTypes['walletsUpdate'][0]
     ): PromiseInterface
     {
         $returnType = '';
-        $request = $this->walletsUpdateRequest($id, $update_b2_b_wallet_command, $contentType);
+        $request = $this->walletsUpdateRequest($id, $wallet_update_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2327,7 +2327,7 @@ class WalletsApi
      * Create request for operation 'walletsUpdate'
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\UpdateB2BWalletCommand|null $update_b2_b_wallet_command The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2335,7 +2335,7 @@ class WalletsApi
      */
     public function walletsUpdateRequest(
         string $id,
-        ?\OpenRoam\Model\UpdateB2BWalletCommand $update_b2_b_wallet_command = null,
+        ?\OpenRoam\Model\WalletUpdateRequest $wallet_update_request = null,
         string $contentType = self::contentTypes['walletsUpdate'][0]
     ): Request
     {
@@ -2372,16 +2372,16 @@ class WalletsApi
         );
 
         // for model (json/xml)
-        if (isset($update_b2_b_wallet_command)) {
+        if (isset($wallet_update_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($update_b2_b_wallet_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($wallet_update_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $update_b2_b_wallet_command;
+                $httpBody = $wallet_update_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

@@ -17,7 +17,7 @@ class WalletsResource
      * List wallets. GET /api/v1/b2b/wallets
      *
      * @param array{timeout?: float|int} $options
-     * @return \OpenRoam\Model\GetWalletItem[]
+     * @return \OpenRoam\Model\WalletSummary[]
      * @throws \OpenRoam\OpenRoamException
      */
     public function list(array $options = []): array
@@ -25,24 +25,24 @@ class WalletsResource
         return $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsGetAll',
-            'returns' => '\OpenRoam\Model\GetWalletItem[]',
+            'returns' => '\OpenRoam\Model\WalletSummary[]',
         ], options: $options);
     }
 
     /**
      * Create a wallet. POST /api/v1/b2b/wallets
      *
-     * @param \OpenRoam\Model\CreateB2BWalletCommand|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\WalletCreateRequest|array|null $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function create(\OpenRoam\Model\CreateB2BWalletCommand|array|null $body = null, array $options = []): void
+    public function create(\OpenRoam\Model\WalletCreateRequest|array|null $body = null, array $options = []): void
     {
         $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsCreate',
-            'body' => 'create_b2_b_wallet_command',
-            'bodyType' => '\OpenRoam\Model\CreateB2BWalletCommand',
+            'body' => 'wallet_create_request',
+            'bodyType' => '\OpenRoam\Model\WalletCreateRequest',
         ], options: $options, body: $body);
     }
 
@@ -53,13 +53,13 @@ class WalletsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function get(string $id, array $options = []): \OpenRoam\Model\GetWalletWithStatistics
+    public function get(string $id, array $options = []): \OpenRoam\Model\Wallet
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsGetById',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\GetWalletWithStatistics',
+            'returns' => '\OpenRoam\Model\Wallet',
         ], options: $options);
     }
 
@@ -67,18 +67,18 @@ class WalletsResource
      * Update a wallet. PATCH /api/v1/b2b/wallets/{id}
      *
      * @param string $id
-     * @param \OpenRoam\Model\UpdateB2BWalletCommand|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\WalletUpdateRequest|array|null $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function update(string $id, \OpenRoam\Model\UpdateB2BWalletCommand|array|null $body = null, array $options = []): void
+    public function update(string $id, \OpenRoam\Model\WalletUpdateRequest|array|null $body = null, array $options = []): void
     {
         $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsUpdate',
             'path' => ['id' => $id],
-            'body' => 'update_b2_b_wallet_command',
-            'bodyType' => '\OpenRoam\Model\UpdateB2BWalletCommand',
+            'body' => 'wallet_update_request',
+            'bodyType' => '\OpenRoam\Model\WalletUpdateRequest',
         ], options: $options, body: $body);
     }
 
@@ -101,19 +101,19 @@ class WalletsResource
     /**
      * Transfer between wallets. POST /api/v1/b2b/wallets/transfer
      *
-     * @param \OpenRoam\Model\TransferB2BWalletsCommand|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\WalletTransferRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function transfer(\OpenRoam\Model\TransferB2BWalletsCommand|array $body, array $options = []): \OpenRoam\Model\WalletTransferResponse
+    public function transfer(\OpenRoam\Model\WalletTransferRequest|array $body, array $options = []): \OpenRoam\Model\WalletTransfer
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsTransfer',
-            'body' => 'transfer_b2_b_wallets_command',
-            'bodyType' => '\OpenRoam\Model\TransferB2BWalletsCommand',
+            'body' => 'wallet_transfer_request',
+            'bodyType' => '\OpenRoam\Model\WalletTransferRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\WalletTransferResponse',
+            'returns' => '\OpenRoam\Model\WalletTransfer',
         ], options: $options, body: $body);
     }
 
@@ -125,14 +125,14 @@ class WalletsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listTransactions(string $walletId, array $query = [], array $options = []): \OpenRoam\Model\WalletTransactionsResponse
+    public function listTransactions(string $walletId, array $query = [], array $options = []): \OpenRoam\Model\WalletTransactionList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\WalletsApi::class,
             'operation' => 'walletsGetTransactions',
             'path' => ['wallet_id' => $walletId],
             'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'startDate' => ['start_date', '\DateTime'], 'endDate' => ['end_date', '\DateTime'], 'type' => ['type', 'string'], 'source' => ['source', 'string']],
-            'returns' => '\OpenRoam\Model\WalletTransactionsResponse',
+            'returns' => '\OpenRoam\Model\WalletTransactionList',
         ], options: $options, query: $query);
     }
 }

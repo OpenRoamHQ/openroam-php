@@ -6,8 +6,8 @@ use OpenRoam\Model\OfferFixedPrice;
 use OpenRoam\Model\OfferFixedValue;
 use OpenRoam\Model\OfferRangePrice;
 use OpenRoam\Model\OfferRangeValue;
-use OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemEsim;
-use OpenRoam\Model\PartnerOrderItemEsim;
+use OpenRoam\Model\EsimOrderFulfillmentUpdatedWebhookItem;
+use OpenRoam\Model\EsimOrderItem;
 use OpenRoam\ObjectSerializer;
 use PHPUnit\Framework\TestCase;
 
@@ -37,20 +37,20 @@ class UnionsTest extends TestCase
 
     public function testAFlightFareOfferPriceIsReadToo(): void
     {
-        $offer = $this->read('{"publicId":"flight_abc","name":"Economy","price":{"amount":120.5,"currency":"USD"}}', '\OpenRoam\Model\FlightFareOfferApi');
+        $offer = $this->read('{"publicId":"flight_abc","name":"Economy","price":{"amount":120.5,"currency":"USD"}}', '\OpenRoam\Model\FlightOffer');
         $this->assertInstanceOf(OfferFixedPrice::class, $offer->getPrice());
     }
 
     public function testAnOrderItemIsReadAsItsProductVariant(): void
     {
-        $item = $this->read('{"id":"11111111-1111-1111-1111-111111111111","productType":"esim"}', '\OpenRoam\Model\PartnerOrderItem');
-        $this->assertInstanceOf(PartnerOrderItemEsim::class, $item);
+        $item = $this->read('{"id":"11111111-1111-1111-1111-111111111111","productType":"esim"}', '\OpenRoam\Model\OrderItem');
+        $this->assertInstanceOf(EsimOrderItem::class, $item);
     }
 
     public function testAnEsimWebhookItemKeepsItsDeliveryDetails(): void
     {
         $item = $this->read('{"id":"11111111-1111-1111-1111-111111111111","productType":"esim","fulfillment":{"status":"fulfilled","result":{"details":{"iccid":"8900000000000000001","mode":"instant"}}}}', '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItem');
-        $this->assertInstanceOf(OrderFulfillmentUpdatedWebhookItemEsim::class, $item);
+        $this->assertInstanceOf(EsimOrderFulfillmentUpdatedWebhookItem::class, $item);
         $this->assertSame('8900000000000000001', $item->getFulfillment()->getResult()->getDetails()->getIccid());
     }
 }

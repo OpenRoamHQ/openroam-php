@@ -20,13 +20,13 @@ class MobileNetworksResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function list(array $query = [], array $options = []): \OpenRoam\Model\MobileNetworkListResponse
+    public function list(array $query = [], array $options = []): \OpenRoam\Model\MobileNetworkList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\CommonApi::class,
             'operation' => 'commonGetMobileNetworks',
             'query' => ['countryCode' => ['country_code', 'string'], 'mcc' => ['mcc', 'string']],
-            'returns' => '\OpenRoam\Model\MobileNetworkListResponse',
+            'returns' => '\OpenRoam\Model\MobileNetworkList',
         ], options: $options, query: $query);
     }
 }

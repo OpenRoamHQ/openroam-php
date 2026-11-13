@@ -19,12 +19,12 @@ class GiftCardsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listCategories(array $options = []): \OpenRoam\Model\GiftCardCategoryListResponse
+    public function listCategories(array $options = []): \OpenRoam\Model\GiftCardCategoryList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
             'operation' => 'giftCardsGetCategories',
-            'returns' => '\OpenRoam\Model\GiftCardCategoryListResponse',
+            'returns' => '\OpenRoam\Model\GiftCardCategoryList',
         ], options: $options);
     }
 
@@ -35,13 +35,13 @@ class GiftCardsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(array $query = [], array $options = []): \OpenRoam\Model\GiftCardSearchResponse
+    public function search(array $query = [], array $options = []): \OpenRoam\Model\GiftCardSearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
             'operation' => 'giftCardsSearch',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'valueType' => ['value_type', 'string'], 'q' => ['q', 'string'], 'isRedeemableGlobally' => ['is_redeemable_globally', 'bool'], 'currency' => ['currency', 'string'], 'page' => ['page', 'int'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\GiftCardSearchResponse',
+            'returns' => '\OpenRoam\Model\GiftCardSearchResult',
         ], options: $options, query: $query);
     }
 
@@ -52,13 +52,13 @@ class GiftCardsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\GiftCardCatalogResponse
+    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\GiftCardCatalogPage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
             'operation' => 'giftCardsGetCatalog',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'valueType' => ['value_type', 'string'], 'isRedeemableGlobally' => ['is_redeemable_globally', 'bool'], 'currency' => ['currency', 'string'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\GiftCardCatalogResponse',
+            'returns' => '\OpenRoam\Model\GiftCardCatalogPage',
         ], options: $options, query: $query);
     }
 
@@ -70,14 +70,14 @@ class GiftCardsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getGiftCard(string $id, array $query = [], array $options = []): \OpenRoam\Model\GiftCardItem
+    public function getGiftCard(string $id, array $query = [], array $options = []): \OpenRoam\Model\GiftCard
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
             'operation' => 'giftCardsGetCard',
             'path' => ['id' => $id],
             'query' => ['currency' => ['currency', 'string']],
-            'returns' => '\OpenRoam\Model\GiftCardItem',
+            'returns' => '\OpenRoam\Model\GiftCard',
         ], options: $options, query: $query);
     }
 
@@ -88,7 +88,7 @@ class GiftCardsResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\GiftCardOrderRequest|array $body, array $options = []): \OpenRoam\Model\GiftCardsCreateOrder200Response
+    public function order(\OpenRoam\Model\GiftCardOrderRequest|array $body, array $options = []): \OpenRoam\Model\GiftCardOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
@@ -96,7 +96,7 @@ class GiftCardsResource
             'body' => 'gift_card_order_request',
             'bodyType' => '\OpenRoam\Model\GiftCardOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\GiftCardsCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\GiftCardOrder',
         ], options: $options, body: $body);
     }
 
@@ -107,14 +107,14 @@ class GiftCardsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\GiftCardOrderRequest|array $body, array $options = []): \OpenRoam\Model\GiftCardQuoteResponse
+    public function quote(\OpenRoam\Model\GiftCardOrderRequest|array $body, array $options = []): \OpenRoam\Model\GiftCardQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\GiftCardsApi::class,
             'operation' => 'giftCardsQuote',
             'body' => 'gift_card_order_request',
             'bodyType' => '\OpenRoam\Model\GiftCardOrderRequest',
-            'returns' => '\OpenRoam\Model\GiftCardQuoteResponse',
+            'returns' => '\OpenRoam\Model\GiftCardQuote',
         ], options: $options, body: $body);
     }
 }

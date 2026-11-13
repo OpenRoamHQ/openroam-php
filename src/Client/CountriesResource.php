@@ -19,12 +19,12 @@ class CountriesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function list(array $options = []): \OpenRoam\Model\CountryListResponse
+    public function list(array $options = []): \OpenRoam\Model\CountryList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\CommonApi::class,
             'operation' => 'commonGetCountries',
-            'returns' => '\OpenRoam\Model\CountryListResponse',
+            'returns' => '\OpenRoam\Model\CountryList',
         ], options: $options);
     }
 }

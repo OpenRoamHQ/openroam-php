@@ -74,7 +74,7 @@ class EsimFulfillmentResultDetails implements ModelInterface, ArrayAccess, JsonS
         'voice' => '\OpenRoam\Model\EsimProductOptionVoice',
         'sms' => '\OpenRoam\Model\EsimProductOptionSms',
         'apn' => '\OpenRoam\Model\EsimProductOptionApn',
-        'addons' => '\OpenRoam\Model\EsimPartnerAddonSummary[]',
+        'addons' => '\OpenRoam\Model\EsimAddon[]',
         'notes' => 'string[]',
         'fulfilled_at' => '\DateTime'
     ];
@@ -955,7 +955,7 @@ class EsimFulfillmentResultDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets addons
      *
-     * @return \OpenRoam\Model\EsimPartnerAddonSummary[]|null
+     * @return \OpenRoam\Model\EsimAddon[]|null
      */
     public function getAddons(): ?array
     {
@@ -965,7 +965,7 @@ class EsimFulfillmentResultDetails implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets addons
      *
-     * @param \OpenRoam\Model\EsimPartnerAddonSummary[]|null $addons The top-ups applied to the eSIM.
+     * @param \OpenRoam\Model\EsimAddon[]|null $addons The top-ups applied to the eSIM.
      *
      * @return $this
      */

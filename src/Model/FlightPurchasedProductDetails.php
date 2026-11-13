@@ -60,13 +60,13 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'owner' => '\OpenRoam\Model\FlightPartnerAirline',
-        'slices' => '\OpenRoam\Model\FlightPartnerSlice[]',
+        'owner' => '\OpenRoam\Model\FlightBookedAirline',
+        'slices' => '\OpenRoam\Model\FlightBookedSlice[]',
         'cabin_class' => 'string',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'included_baggage' => '\OpenRoam\Model\FlightPartnerBaggage[]',
-        'selected_services' => '\OpenRoam\Model\FlightPartnerSelectedService[]',
-        'price_lines' => '\OpenRoam\Model\FlightPartnerPriceLine[]',
+        'included_baggage' => '\OpenRoam\Model\FlightBookedBaggage[]',
+        'selected_services' => '\OpenRoam\Model\FlightSelectedService[]',
+        'price_lines' => '\OpenRoam\Model\FlightPriceLine[]',
         'total_duration_minutes' => 'int',
         'total_stops' => 'int'
     ];
@@ -352,9 +352,9 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets owner
      *
-     * @return \OpenRoam\Model\FlightPartnerAirline|null
+     * @return \OpenRoam\Model\FlightBookedAirline|null
      */
-    public function getOwner(): ?\OpenRoam\Model\FlightPartnerAirline
+    public function getOwner(): ?\OpenRoam\Model\FlightBookedAirline
     {
         return $this->container['owner'];
     }
@@ -362,11 +362,11 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets owner
      *
-     * @param \OpenRoam\Model\FlightPartnerAirline|null $owner The airline that sold the fare.
+     * @param \OpenRoam\Model\FlightBookedAirline|null $owner The airline that sold the fare.
      *
      * @return $this
      */
-    public function setOwner(?\OpenRoam\Model\FlightPartnerAirline $owner): static
+    public function setOwner(?\OpenRoam\Model\FlightBookedAirline $owner): static
     {
         if (is_null($owner)) {
             throw new InvalidArgumentException('non-nullable owner cannot be null');
@@ -379,7 +379,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets slices
      *
-     * @return \OpenRoam\Model\FlightPartnerSlice[]|null
+     * @return \OpenRoam\Model\FlightBookedSlice[]|null
      */
     public function getSlices(): ?array
     {
@@ -389,7 +389,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets slices
      *
-     * @param \OpenRoam\Model\FlightPartnerSlice[]|null $slices The flights bought, in order. They stay as bought; the result's `booking` has the flights booked now.
+     * @param \OpenRoam\Model\FlightBookedSlice[]|null $slices The flights bought, in order. They stay as bought; the result's `booking` has the flights booked now.
      *
      * @return $this
      */
@@ -470,7 +470,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\FlightPartnerBaggage[]|null
+     * @return \OpenRoam\Model\FlightBookedBaggage[]|null
      */
     public function getIncludedBaggage(): ?array
     {
@@ -480,7 +480,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\FlightPartnerBaggage[]|null $included_baggage Baggage included for every passenger.
+     * @param \OpenRoam\Model\FlightBookedBaggage[]|null $included_baggage Baggage included for every passenger.
      *
      * @return $this
      */
@@ -497,7 +497,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\FlightPartnerSelectedService[]|null
+     * @return \OpenRoam\Model\FlightSelectedService[]|null
      */
     public function getSelectedServices(): ?array
     {
@@ -507,7 +507,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\FlightPartnerSelectedService[]|null $selected_services The paid extras bought, in the order of `inputs.selectedServices`, each with a label such as `1 × 23 kg`.
+     * @param \OpenRoam\Model\FlightSelectedService[]|null $selected_services The paid extras bought, in the order of `inputs.selectedServices`, each with a label such as `1 × 23 kg`.
      *
      * @return $this
      */
@@ -524,7 +524,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets price_lines
      *
-     * @return \OpenRoam\Model\FlightPartnerPriceLine[]|null
+     * @return \OpenRoam\Model\FlightPriceLine[]|null
      */
     public function getPriceLines(): ?array
     {
@@ -534,7 +534,7 @@ class FlightPurchasedProductDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets price_lines
      *
-     * @param \OpenRoam\Model\FlightPartnerPriceLine[]|null $price_lines What the item cost, line by line, in the order currency; the amounts add up to its price.
+     * @param \OpenRoam\Model\FlightPriceLine[]|null $price_lines What the item cost, line by line, in the order currency; the amounts add up to its price.
      *
      * @return $this
      */

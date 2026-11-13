@@ -60,8 +60,8 @@ class FlightPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonS
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'passengers' => '\OpenRoam\Model\FlightPartnerPassenger[]',
-        'selected_services' => '\OpenRoam\Model\FlightPartnerSelectedServiceInput[]'
+        'passengers' => '\OpenRoam\Model\FlightPassenger[]',
+        'selected_services' => '\OpenRoam\Model\FlightSelectedServiceInput[]'
     ];
 
     /**
@@ -275,7 +275,7 @@ class FlightPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets passengers
      *
-     * @return \OpenRoam\Model\FlightPartnerPassenger[]|null
+     * @return \OpenRoam\Model\FlightPassenger[]|null
      */
     public function getPassengers(): ?array
     {
@@ -285,7 +285,7 @@ class FlightPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets passengers
      *
-     * @param \OpenRoam\Model\FlightPartnerPassenger[]|null $passengers Every passenger of the fare, in `passengerIndex` order.
+     * @param \OpenRoam\Model\FlightPassenger[]|null $passengers Every passenger of the fare, in `passengerIndex` order.
      *
      * @return $this
      */
@@ -302,7 +302,7 @@ class FlightPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\FlightPartnerSelectedServiceInput[]|null
+     * @return \OpenRoam\Model\FlightSelectedServiceInput[]|null
      */
     public function getSelectedServices(): ?array
     {
@@ -312,7 +312,7 @@ class FlightPurchasedProductInputs implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\FlightPartnerSelectedServiceInput[]|null $selected_services The paid extras chosen in `selectedServices`; seats are on the passengers.
+     * @param \OpenRoam\Model\FlightSelectedServiceInput[]|null $selected_services The paid extras chosen in `selectedServices`; seats are on the passengers.
      *
      * @return $this
      */

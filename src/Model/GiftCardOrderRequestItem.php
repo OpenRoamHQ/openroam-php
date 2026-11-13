@@ -62,7 +62,7 @@ class GiftCardOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeria
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\GiftCardCartInputs'
+        'inputs' => '\OpenRoam\Model\GiftCardInputs'
     ];
 
     /**
@@ -339,9 +339,9 @@ class GiftCardOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\GiftCardCartInputs|null
+     * @return \OpenRoam\Model\GiftCardInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\GiftCardCartInputs
+    public function getInputs(): ?\OpenRoam\Model\GiftCardInputs
     {
         return $this->container['inputs'];
     }
@@ -349,11 +349,11 @@ class GiftCardOrderRequestItem implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\GiftCardCartInputs|null $inputs The inputs the offer's `requiredInputs` list, plus `value` and `maxPrice`. May be omitted for a fixed offer that does not list `recipientIdentifier`; a range offer needs at least `value`.
+     * @param \OpenRoam\Model\GiftCardInputs|null $inputs The inputs the offer's `requiredInputs` list, plus `value` and `maxPrice`. May be omitted for a fixed offer that does not list `recipientIdentifier`; a range offer needs at least `value`.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\GiftCardCartInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\GiftCardInputs $inputs): static
     {
         if (is_null($inputs)) {
             array_push($this->openAPINullablesSetToNull, 'inputs');

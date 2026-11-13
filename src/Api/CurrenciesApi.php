@@ -133,11 +133,11 @@ class CurrenciesApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GetB2BAllCurrenciesCommandResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\CurrencyList|\OpenRoam\Model\ErrorResponse
      */
     public function currenciesGetAll(
         string $contentType = self::contentTypes['currenciesGetAll'][0]
-    ): \OpenRoam\Model\GetB2BAllCurrenciesCommandResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\CurrencyList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->currenciesGetAllWithHttpInfo($contentType);
         return $response;
@@ -152,7 +152,7 @@ class CurrenciesApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GetB2BAllCurrenciesCommandResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\CurrencyList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function currenciesGetAllWithHttpInfo(
         string $contentType = self::contentTypes['currenciesGetAll'][0]
@@ -186,19 +186,19 @@ class CurrenciesApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GetB2BAllCurrenciesCommandResponse',
+                        '\OpenRoam\Model\CurrencyList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -218,7 +218,7 @@ class CurrenciesApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GetB2BAllCurrenciesCommandResponse',
+                '\OpenRoam\Model\CurrencyList',
                 $request,
                 $response,
             );
@@ -227,7 +227,7 @@ class CurrenciesApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GetB2BAllCurrenciesCommandResponse',
+                        '\OpenRoam\Model\CurrencyList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -235,7 +235,7 @@ class CurrenciesApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -243,7 +243,7 @@ class CurrenciesApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -290,7 +290,7 @@ class CurrenciesApi
         string $contentType = self::contentTypes['currenciesGetAll'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GetB2BAllCurrenciesCommandResponse';
+        $returnType = '\OpenRoam\Model\CurrencyList';
         $request = $this->currenciesGetAllRequest($contentType);
 
         return $this->client

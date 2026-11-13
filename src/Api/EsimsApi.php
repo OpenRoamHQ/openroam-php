@@ -185,13 +185,13 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
      */
     public function esimsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\EsimOrderRequest $esim_order_request = null,
         string $contentType = self::contentTypes['esimsCreateOrder'][0]
-    ): \OpenRoam\Model\EsimsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsCreateOrderWithHttpInfo($idempotency_key, $esim_order_request, $contentType);
         return $response;
@@ -208,7 +208,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -244,37 +244,37 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimsCreateOrder200Response',
+                        '\OpenRoam\Model\EsimOrder',
                         $request,
                         $response,
                     );
                 case 202:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -294,7 +294,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimsCreateOrder200Response',
+                '\OpenRoam\Model\EsimOrder',
                 $request,
                 $response,
             );
@@ -303,7 +303,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimsCreateOrder200Response',
+                        '\OpenRoam\Model\EsimOrder',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -311,7 +311,7 @@ class EsimsApi
                 case 202:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -319,7 +319,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -327,7 +327,7 @@ class EsimsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -335,7 +335,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -343,7 +343,7 @@ class EsimsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -398,7 +398,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsCreateOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimsCreateOrder200Response';
+        $returnType = '\OpenRoam\Model\EsimOrder';
         $request = $this->esimsCreateOrderRequest($idempotency_key, $esim_order_request, $contentType);
 
         return $this->client
@@ -573,7 +573,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimCatalogPage|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetCatalog(
         ?string $country_code = null,
@@ -585,7 +585,7 @@ class EsimsApi
         ?string $cursor = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['esimsGetCatalog'][0]
-    ): \OpenRoam\Model\EsimCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimCatalogPage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetCatalogWithHttpInfo($country_code, $category, $region, $validity_days, $is_unlimited, $currency, $cursor, $limit, $contentType);
         return $response;
@@ -608,7 +608,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimCatalogResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimCatalogPage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetCatalogWithHttpInfo(
         ?string $country_code = null,
@@ -650,19 +650,19 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimCatalogResponse',
+                        '\OpenRoam\Model\EsimCatalogPage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -682,7 +682,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimCatalogResponse',
+                '\OpenRoam\Model\EsimCatalogPage',
                 $request,
                 $response,
             );
@@ -691,7 +691,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimCatalogResponse',
+                        '\OpenRoam\Model\EsimCatalogPage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -699,7 +699,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -707,7 +707,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -786,7 +786,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetCatalog'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimCatalogResponse';
+        $returnType = '\OpenRoam\Model\EsimCatalogPage';
         $request = $this->esimsGetCatalogRequest($country_code, $category, $region, $validity_days, $is_unlimited, $currency, $cursor, $limit, $contentType);
 
         return $this->client
@@ -995,11 +995,11 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetCompatibleDevices(
         string $contentType = self::contentTypes['esimsGetCompatibleDevices'][0]
-    ): array|\OpenRoam\Model\PartnerErrorResponse
+    ): array|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetCompatibleDevicesWithHttpInfo($contentType);
         return $response;
@@ -1014,7 +1014,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetCompatibleDevicesWithHttpInfo(
         string $contentType = self::contentTypes['esimsGetCompatibleDevices'][0]
@@ -1054,13 +1054,13 @@ class EsimsApi
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1097,7 +1097,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1105,7 +1105,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1267,13 +1267,13 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimDestination|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimDestination|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetDestination(
         string $id,
         ?string $currency = null,
         string $contentType = self::contentTypes['esimsGetDestination'][0]
-    ): \OpenRoam\Model\EsimDestination|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimDestination|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetDestinationWithHttpInfo($id, $currency, $contentType);
         return $response;
@@ -1290,7 +1290,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimDestination|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimDestination|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetDestinationWithHttpInfo(
         string $id,
@@ -1332,13 +1332,13 @@ class EsimsApi
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1375,7 +1375,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1383,7 +1383,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1581,13 +1581,13 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimDestinationListResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimDestinationList|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetDestinations(
         ?string $category = null,
         ?string $region = null,
         string $contentType = self::contentTypes['esimsGetDestinations'][0]
-    ): \OpenRoam\Model\EsimDestinationListResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimDestinationList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetDestinationsWithHttpInfo($category, $region, $contentType);
         return $response;
@@ -1604,7 +1604,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimDestinationListResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimDestinationList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetDestinationsWithHttpInfo(
         ?string $category = null,
@@ -1640,19 +1640,19 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimDestinationListResponse',
+                        '\OpenRoam\Model\EsimDestinationList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1672,7 +1672,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimDestinationListResponse',
+                '\OpenRoam\Model\EsimDestinationList',
                 $request,
                 $response,
             );
@@ -1681,7 +1681,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimDestinationListResponse',
+                        '\OpenRoam\Model\EsimDestinationList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1689,7 +1689,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1697,7 +1697,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1752,7 +1752,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetDestinations'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimDestinationListResponse';
+        $returnType = '\OpenRoam\Model\EsimDestinationList';
         $request = $this->esimsGetDestinationsRequest($category, $region, $contentType);
 
         return $this->client
@@ -1890,12 +1890,12 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetEsim(
         string $iccid,
         string $contentType = self::contentTypes['esimsGetEsim'][0]
-    ): \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetEsimWithHttpInfo($iccid, $contentType);
         return $response;
@@ -1911,7 +1911,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetEsimWithHttpInfo(
         string $iccid,
@@ -1946,37 +1946,37 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimProfile',
+                        '\OpenRoam\Model\EsimProfile',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 500:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1996,7 +1996,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimProfile',
+                '\OpenRoam\Model\EsimProfile',
                 $request,
                 $response,
             );
@@ -2005,7 +2005,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimProfile',
+                        '\OpenRoam\Model\EsimProfile',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2013,7 +2013,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2021,7 +2021,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2029,7 +2029,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2037,7 +2037,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2045,7 +2045,7 @@ class EsimsApi
                 case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2096,7 +2096,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetEsim'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimProfile';
+        $returnType = '\OpenRoam\Model\EsimProfile';
         $request = $this->esimsGetEsimRequest($iccid, $contentType);
 
         return $this->client
@@ -2230,7 +2230,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimLocationEventsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimLocationEventList|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetLocationEvents(
         string $iccid,
@@ -2239,7 +2239,7 @@ class EsimsApi
         ?\DateTime $from = null,
         ?\DateTime $to = null,
         string $contentType = self::contentTypes['esimsGetLocationEvents'][0]
-    ): \OpenRoam\Model\B2BEsimLocationEventsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimLocationEventList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetLocationEventsWithHttpInfo($iccid, $page, $limit, $from, $to, $contentType);
         return $response;
@@ -2259,7 +2259,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimLocationEventsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimLocationEventList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetLocationEventsWithHttpInfo(
         string $iccid,
@@ -2298,31 +2298,31 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimLocationEventsResponse',
+                        '\OpenRoam\Model\EsimLocationEventList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2342,7 +2342,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimLocationEventsResponse',
+                '\OpenRoam\Model\EsimLocationEventList',
                 $request,
                 $response,
             );
@@ -2351,7 +2351,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimLocationEventsResponse',
+                        '\OpenRoam\Model\EsimLocationEventList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2359,7 +2359,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2367,7 +2367,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2375,7 +2375,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2383,7 +2383,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2450,7 +2450,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetLocationEvents'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimLocationEventsResponse';
+        $returnType = '\OpenRoam\Model\EsimLocationEventList';
         $request = $this->esimsGetLocationEventsRequest($iccid, $page, $limit, $from, $to, $contentType);
 
         return $this->client
@@ -2632,7 +2632,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimStatusEventsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimStatusEventList|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetStatusEvents(
         string $iccid,
@@ -2641,7 +2641,7 @@ class EsimsApi
         ?\DateTime $from = null,
         ?\DateTime $to = null,
         string $contentType = self::contentTypes['esimsGetStatusEvents'][0]
-    ): \OpenRoam\Model\B2BEsimStatusEventsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimStatusEventList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetStatusEventsWithHttpInfo($iccid, $page, $limit, $from, $to, $contentType);
         return $response;
@@ -2661,7 +2661,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimStatusEventsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimStatusEventList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetStatusEventsWithHttpInfo(
         string $iccid,
@@ -2700,31 +2700,31 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimStatusEventsResponse',
+                        '\OpenRoam\Model\EsimStatusEventList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2744,7 +2744,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimStatusEventsResponse',
+                '\OpenRoam\Model\EsimStatusEventList',
                 $request,
                 $response,
             );
@@ -2753,7 +2753,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimStatusEventsResponse',
+                        '\OpenRoam\Model\EsimStatusEventList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2761,7 +2761,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2769,7 +2769,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2777,7 +2777,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2785,7 +2785,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2852,7 +2852,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetStatusEvents'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimStatusEventsResponse';
+        $returnType = '\OpenRoam\Model\EsimStatusEventList';
         $request = $this->esimsGetStatusEventsRequest($iccid, $page, $limit, $from, $to, $contentType);
 
         return $this->client
@@ -3030,12 +3030,12 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimUsageResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimCurrentUsage|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetUsage(
         string $iccid,
         string $contentType = self::contentTypes['esimsGetUsage'][0]
-    ): \OpenRoam\Model\B2BEsimUsageResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimCurrentUsage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetUsageWithHttpInfo($iccid, $contentType);
         return $response;
@@ -3051,7 +3051,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimUsageResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimCurrentUsage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetUsageWithHttpInfo(
         string $iccid,
@@ -3086,37 +3086,37 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimUsageResponse',
+                        '\OpenRoam\Model\EsimCurrentUsage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 500:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -3136,7 +3136,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimUsageResponse',
+                '\OpenRoam\Model\EsimCurrentUsage',
                 $request,
                 $response,
             );
@@ -3145,7 +3145,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimUsageResponse',
+                        '\OpenRoam\Model\EsimCurrentUsage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3153,7 +3153,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3161,7 +3161,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3169,7 +3169,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3177,7 +3177,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3185,7 +3185,7 @@ class EsimsApi
                 case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3236,7 +3236,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetUsage'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimUsageResponse';
+        $returnType = '\OpenRoam\Model\EsimCurrentUsage';
         $request = $this->esimsGetUsageRequest($iccid, $contentType);
 
         return $this->client
@@ -3366,12 +3366,12 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimUsageDetailsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimDailyUsage|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetUsageDetails(
         string $iccid,
         string $contentType = self::contentTypes['esimsGetUsageDetails'][0]
-    ): \OpenRoam\Model\B2BEsimUsageDetailsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimDailyUsage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetUsageDetailsWithHttpInfo($iccid, $contentType);
         return $response;
@@ -3387,7 +3387,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimUsageDetailsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimDailyUsage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetUsageDetailsWithHttpInfo(
         string $iccid,
@@ -3422,37 +3422,37 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimUsageDetailsResponse',
+                        '\OpenRoam\Model\EsimDailyUsage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 500:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -3472,7 +3472,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimUsageDetailsResponse',
+                '\OpenRoam\Model\EsimDailyUsage',
                 $request,
                 $response,
             );
@@ -3481,7 +3481,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimUsageDetailsResponse',
+                        '\OpenRoam\Model\EsimDailyUsage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3489,7 +3489,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3497,7 +3497,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3505,7 +3505,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3513,7 +3513,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3521,7 +3521,7 @@ class EsimsApi
                 case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3572,7 +3572,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetUsageDetails'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimUsageDetailsResponse';
+        $returnType = '\OpenRoam\Model\EsimDailyUsage';
         $request = $this->esimsGetUsageDetailsRequest($iccid, $contentType);
 
         return $this->client
@@ -3706,7 +3706,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimUsageHistoryResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimUsageReadingList|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetUsageHistory(
         string $iccid,
@@ -3715,7 +3715,7 @@ class EsimsApi
         ?\DateTime $from = null,
         ?\DateTime $to = null,
         string $contentType = self::contentTypes['esimsGetUsageHistory'][0]
-    ): \OpenRoam\Model\B2BEsimUsageHistoryResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimUsageReadingList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsGetUsageHistoryWithHttpInfo($iccid, $page, $limit, $from, $to, $contentType);
         return $response;
@@ -3735,7 +3735,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimUsageHistoryResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimUsageReadingList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetUsageHistoryWithHttpInfo(
         string $iccid,
@@ -3774,31 +3774,31 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimUsageHistoryResponse',
+                        '\OpenRoam\Model\EsimUsageReadingList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -3818,7 +3818,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimUsageHistoryResponse',
+                '\OpenRoam\Model\EsimUsageReadingList',
                 $request,
                 $response,
             );
@@ -3827,7 +3827,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimUsageHistoryResponse',
+                        '\OpenRoam\Model\EsimUsageReadingList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3835,7 +3835,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3843,7 +3843,7 @@ class EsimsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3851,7 +3851,7 @@ class EsimsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3859,7 +3859,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3926,7 +3926,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetUsageHistory'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimUsageHistoryResponse';
+        $returnType = '\OpenRoam\Model\EsimUsageReadingList';
         $request = $this->esimsGetUsageHistoryRequest($iccid, $page, $limit, $from, $to, $contentType);
 
         return $this->client
@@ -4101,21 +4101,21 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ProvisionB2BEsimRequest|null $provision_b2_b_esim_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse
      */
     public function esimsProvision(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ProvisionB2BEsimRequest $provision_b2_b_esim_request = null,
+        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
-    ): \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->esimsProvisionWithHttpInfo($id, $idempotency_key, $provision_b2_b_esim_request, $contentType);
+        list($response) = $this->esimsProvisionWithHttpInfo($id, $idempotency_key, $esim_provision_request, $contentType);
         return $response;
     }
 
@@ -4126,21 +4126,21 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ProvisionB2BEsimRequest|null $provision_b2_b_esim_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BEsimProfile|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsProvisionWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ProvisionB2BEsimRequest $provision_b2_b_esim_request = null,
+        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): array
     {
-        $request = $this->esimsProvisionRequest($id, $idempotency_key, $provision_b2_b_esim_request, $contentType);
+        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provision_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4168,37 +4168,37 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BEsimProfile',
+                        '\OpenRoam\Model\EsimProfile',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -4218,7 +4218,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BEsimProfile',
+                '\OpenRoam\Model\EsimProfile',
                 $request,
                 $response,
             );
@@ -4227,7 +4227,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BEsimProfile',
+                        '\OpenRoam\Model\EsimProfile',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4235,7 +4235,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4243,7 +4243,7 @@ class EsimsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4251,7 +4251,7 @@ class EsimsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4259,7 +4259,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4267,7 +4267,7 @@ class EsimsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4285,7 +4285,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ProvisionB2BEsimRequest|null $provision_b2_b_esim_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4294,11 +4294,11 @@ class EsimsApi
     public function esimsProvisionAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ProvisionB2BEsimRequest $provision_b2_b_esim_request = null,
+        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): PromiseInterface
     {
-        return $this->esimsProvisionAsyncWithHttpInfo($id, $idempotency_key, $provision_b2_b_esim_request, $contentType)
+        return $this->esimsProvisionAsyncWithHttpInfo($id, $idempotency_key, $esim_provision_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4313,7 +4313,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ProvisionB2BEsimRequest|null $provision_b2_b_esim_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4322,12 +4322,12 @@ class EsimsApi
     public function esimsProvisionAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ProvisionB2BEsimRequest $provision_b2_b_esim_request = null,
+        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BEsimProfile';
-        $request = $this->esimsProvisionRequest($id, $idempotency_key, $provision_b2_b_esim_request, $contentType);
+        $returnType = '\OpenRoam\Model\EsimProfile';
+        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provision_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4378,7 +4378,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ProvisionB2BEsimRequest|null $provision_b2_b_esim_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4387,7 +4387,7 @@ class EsimsApi
     public function esimsProvisionRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ProvisionB2BEsimRequest $provision_b2_b_esim_request = null,
+        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): Request
     {
@@ -4434,16 +4434,16 @@ class EsimsApi
         );
 
         // for model (json/xml)
-        if (isset($provision_b2_b_esim_request)) {
+        if (isset($esim_provision_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($provision_b2_b_esim_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_provision_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $provision_b2_b_esim_request;
+                $httpBody = $esim_provision_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -4510,12 +4510,12 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimQuote|\OpenRoam\Model\ErrorResponse
      */
     public function esimsQuote(
         ?\OpenRoam\Model\EsimOrderRequest $esim_order_request = null,
         string $contentType = self::contentTypes['esimsQuote'][0]
-    ): \OpenRoam\Model\EsimQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimQuote|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsQuoteWithHttpInfo($esim_order_request, $contentType);
         return $response;
@@ -4531,7 +4531,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimQuoteResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsQuoteWithHttpInfo(
         ?\OpenRoam\Model\EsimOrderRequest $esim_order_request = null,
@@ -4566,25 +4566,25 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimQuoteResponse',
+                        '\OpenRoam\Model\EsimQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -4604,7 +4604,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimQuoteResponse',
+                '\OpenRoam\Model\EsimQuote',
                 $request,
                 $response,
             );
@@ -4613,7 +4613,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimQuoteResponse',
+                        '\OpenRoam\Model\EsimQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4621,7 +4621,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4629,7 +4629,7 @@ class EsimsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4637,7 +4637,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4688,7 +4688,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsQuote'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimQuoteResponse';
+        $returnType = '\OpenRoam\Model\EsimQuote';
         $request = $this->esimsQuoteRequest($esim_order_request, $contentType);
 
         return $this->client
@@ -4852,7 +4852,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimSearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function esimsSearch(
         ?string $country_code = null,
@@ -4865,7 +4865,7 @@ class EsimsApi
         ?int $page = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['esimsSearch'][0]
-    ): \OpenRoam\Model\EsimSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimSearchResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsSearchWithHttpInfo($country_code, $category, $region, $validity_days, $is_unlimited, $iccid, $currency, $page, $limit, $contentType);
         return $response;
@@ -4889,7 +4889,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimSearchResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimSearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsSearchWithHttpInfo(
         ?string $country_code = null,
@@ -4932,19 +4932,19 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimSearchResponse',
+                        '\OpenRoam\Model\EsimSearchResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -4964,7 +4964,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimSearchResponse',
+                '\OpenRoam\Model\EsimSearchResult',
                 $request,
                 $response,
             );
@@ -4973,7 +4973,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimSearchResponse',
+                        '\OpenRoam\Model\EsimSearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4981,7 +4981,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -4989,7 +4989,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5072,7 +5072,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsSearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimSearchResponse';
+        $returnType = '\OpenRoam\Model\EsimSearchResult';
         $request = $this->esimsSearchRequest($country_code, $category, $region, $validity_days, $is_unlimited, $iccid, $currency, $page, $limit, $contentType);
 
         return $this->client
@@ -5290,20 +5290,20 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\SendB2BEsimSmsCommand|null $send_b2_b_esim_sms_command The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimSendSmsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse
      */
     public function esimsSendSms(
         string $iccid,
-        ?\OpenRoam\Model\SendB2BEsimSmsCommand $send_b2_b_esim_sms_command = null,
+        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
-    ): \OpenRoam\Model\EsimSendSmsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->esimsSendSmsWithHttpInfo($iccid, $send_b2_b_esim_sms_command, $contentType);
+        list($response) = $this->esimsSendSmsWithHttpInfo($iccid, $esim_send_sms_request, $contentType);
         return $response;
     }
 
@@ -5313,20 +5313,20 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\SendB2BEsimSmsCommand|null $send_b2_b_esim_sms_command The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimSendSmsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsSendSmsWithHttpInfo(
         string $iccid,
-        ?\OpenRoam\Model\SendB2BEsimSmsCommand $send_b2_b_esim_sms_command = null,
+        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): array
     {
-        $request = $this->esimsSendSmsRequest($iccid, $send_b2_b_esim_sms_command, $contentType);
+        $request = $this->esimsSendSmsRequest($iccid, $esim_send_sms_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5354,25 +5354,25 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimSendSmsResponse',
+                        '\OpenRoam\Model\EsimSendSmsResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -5392,7 +5392,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimSendSmsResponse',
+                '\OpenRoam\Model\EsimSendSmsResult',
                 $request,
                 $response,
             );
@@ -5401,7 +5401,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimSendSmsResponse',
+                        '\OpenRoam\Model\EsimSendSmsResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5409,7 +5409,7 @@ class EsimsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5417,7 +5417,7 @@ class EsimsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5425,7 +5425,7 @@ class EsimsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5442,7 +5442,7 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\SendB2BEsimSmsCommand|null $send_b2_b_esim_sms_command The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5450,11 +5450,11 @@ class EsimsApi
      */
     public function esimsSendSmsAsync(
         string $iccid,
-        ?\OpenRoam\Model\SendB2BEsimSmsCommand $send_b2_b_esim_sms_command = null,
+        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): PromiseInterface
     {
-        return $this->esimsSendSmsAsyncWithHttpInfo($iccid, $send_b2_b_esim_sms_command, $contentType)
+        return $this->esimsSendSmsAsyncWithHttpInfo($iccid, $esim_send_sms_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5468,7 +5468,7 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\SendB2BEsimSmsCommand|null $send_b2_b_esim_sms_command The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5476,12 +5476,12 @@ class EsimsApi
      */
     public function esimsSendSmsAsyncWithHttpInfo(
         string $iccid,
-        ?\OpenRoam\Model\SendB2BEsimSmsCommand $send_b2_b_esim_sms_command = null,
+        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimSendSmsResponse';
-        $request = $this->esimsSendSmsRequest($iccid, $send_b2_b_esim_sms_command, $contentType);
+        $returnType = '\OpenRoam\Model\EsimSendSmsResult';
+        $request = $this->esimsSendSmsRequest($iccid, $esim_send_sms_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5531,7 +5531,7 @@ class EsimsApi
      * Create request for operation 'esimsSendSms'
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\SendB2BEsimSmsCommand|null $send_b2_b_esim_sms_command The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5539,7 +5539,7 @@ class EsimsApi
      */
     public function esimsSendSmsRequest(
         string $iccid,
-        ?\OpenRoam\Model\SendB2BEsimSmsCommand $send_b2_b_esim_sms_command = null,
+        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): Request
     {
@@ -5576,16 +5576,16 @@ class EsimsApi
         );
 
         // for model (json/xml)
-        if (isset($send_b2_b_esim_sms_command)) {
+        if (isset($esim_send_sms_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($send_b2_b_esim_sms_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_send_sms_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $send_b2_b_esim_sms_command;
+                $httpBody = $esim_send_sms_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

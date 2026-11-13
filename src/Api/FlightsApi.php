@@ -150,13 +150,13 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
      */
     public function flightsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\FlightOrderRequest $flight_order_request = null,
         string $contentType = self::contentTypes['flightsCreateOrder'][0]
-    ): \OpenRoam\Model\FlightsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->flightsCreateOrderWithHttpInfo($idempotency_key, $flight_order_request, $contentType);
         return $response;
@@ -173,7 +173,7 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -209,37 +209,37 @@ class FlightsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\FlightsCreateOrder200Response',
+                        '\OpenRoam\Model\FlightOrder',
                         $request,
                         $response,
                     );
                 case 202:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -259,7 +259,7 @@ class FlightsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\FlightsCreateOrder200Response',
+                '\OpenRoam\Model\FlightOrder',
                 $request,
                 $response,
             );
@@ -268,7 +268,7 @@ class FlightsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\FlightsCreateOrder200Response',
+                        '\OpenRoam\Model\FlightOrder',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -276,7 +276,7 @@ class FlightsApi
                 case 202:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -284,7 +284,7 @@ class FlightsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -292,7 +292,7 @@ class FlightsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -300,7 +300,7 @@ class FlightsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -308,7 +308,7 @@ class FlightsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -363,7 +363,7 @@ class FlightsApi
         string $contentType = self::contentTypes['flightsCreateOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\FlightsCreateOrder200Response';
+        $returnType = '\OpenRoam\Model\FlightOrder';
         $request = $this->flightsCreateOrderRequest($idempotency_key, $flight_order_request, $contentType);
 
         return $this->client
@@ -531,12 +531,12 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightSeatMapApiResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse
      */
     public function flightsGetSeatMap(
         string $public_id,
         string $contentType = self::contentTypes['flightsGetSeatMap'][0]
-    ): \OpenRoam\Model\FlightSeatMapApiResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->flightsGetSeatMapWithHttpInfo($public_id, $contentType);
         return $response;
@@ -552,7 +552,7 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightSeatMapApiResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsGetSeatMapWithHttpInfo(
         string $public_id,
@@ -587,19 +587,19 @@ class FlightsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\FlightSeatMapApiResponse',
+                        '\OpenRoam\Model\FlightSeatMap',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -619,7 +619,7 @@ class FlightsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\FlightSeatMapApiResponse',
+                '\OpenRoam\Model\FlightSeatMap',
                 $request,
                 $response,
             );
@@ -628,7 +628,7 @@ class FlightsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\FlightSeatMapApiResponse',
+                        '\OpenRoam\Model\FlightSeatMap',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -636,7 +636,7 @@ class FlightsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -644,7 +644,7 @@ class FlightsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -695,7 +695,7 @@ class FlightsApi
         string $contentType = self::contentTypes['flightsGetSeatMap'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\FlightSeatMapApiResponse';
+        $returnType = '\OpenRoam\Model\FlightSeatMap';
         $request = $this->flightsGetSeatMapRequest($public_id, $contentType);
 
         return $this->client
@@ -825,12 +825,12 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightQuoteApiResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\FlightQuote|\OpenRoam\Model\ErrorResponse
      */
     public function flightsQuote(
         ?\OpenRoam\Model\FlightOrderRequest $flight_order_request = null,
         string $contentType = self::contentTypes['flightsQuote'][0]
-    ): \OpenRoam\Model\FlightQuoteApiResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\FlightQuote|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->flightsQuoteWithHttpInfo($flight_order_request, $contentType);
         return $response;
@@ -846,7 +846,7 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightQuoteApiResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\FlightQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsQuoteWithHttpInfo(
         ?\OpenRoam\Model\FlightOrderRequest $flight_order_request = null,
@@ -881,25 +881,25 @@ class FlightsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\FlightQuoteApiResponse',
+                        '\OpenRoam\Model\FlightQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -919,7 +919,7 @@ class FlightsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\FlightQuoteApiResponse',
+                '\OpenRoam\Model\FlightQuote',
                 $request,
                 $response,
             );
@@ -928,7 +928,7 @@ class FlightsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\FlightQuoteApiResponse',
+                        '\OpenRoam\Model\FlightQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -936,7 +936,7 @@ class FlightsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -944,7 +944,7 @@ class FlightsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -952,7 +952,7 @@ class FlightsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1003,7 +1003,7 @@ class FlightsApi
         string $contentType = self::contentTypes['flightsQuote'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\FlightQuoteApiResponse';
+        $returnType = '\OpenRoam\Model\FlightQuote';
         $request = $this->flightsQuoteRequest($flight_order_request, $contentType);
 
         return $this->client
@@ -1154,19 +1154,19 @@ class FlightsApi
      *
      * Search flights
      *
-     * @param  \OpenRoam\Model\SearchB2BFlightsQuery|null $search_b2_b_flights_query search_b2_b_flights_query (optional)
+     * @param  \OpenRoam\Model\FlightSearchRequest|null $flight_search_request flight_search_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsSearch'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightSearchApiResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\FlightSearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function flightsSearch(
-        ?\OpenRoam\Model\SearchB2BFlightsQuery $search_b2_b_flights_query = null,
+        ?\OpenRoam\Model\FlightSearchRequest $flight_search_request = null,
         string $contentType = self::contentTypes['flightsSearch'][0]
-    ): \OpenRoam\Model\FlightSearchApiResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\FlightSearchResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->flightsSearchWithHttpInfo($search_b2_b_flights_query, $contentType);
+        list($response) = $this->flightsSearchWithHttpInfo($flight_search_request, $contentType);
         return $response;
     }
 
@@ -1175,19 +1175,19 @@ class FlightsApi
      *
      * Search flights
      *
-     * @param  \OpenRoam\Model\SearchB2BFlightsQuery|null $search_b2_b_flights_query (optional)
+     * @param  \OpenRoam\Model\FlightSearchRequest|null $flight_search_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsSearch'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightSearchApiResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\FlightSearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsSearchWithHttpInfo(
-        ?\OpenRoam\Model\SearchB2BFlightsQuery $search_b2_b_flights_query = null,
+        ?\OpenRoam\Model\FlightSearchRequest $flight_search_request = null,
         string $contentType = self::contentTypes['flightsSearch'][0]
     ): array
     {
-        $request = $this->flightsSearchRequest($search_b2_b_flights_query, $contentType);
+        $request = $this->flightsSearchRequest($flight_search_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1215,19 +1215,19 @@ class FlightsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\FlightSearchApiResponse',
+                        '\OpenRoam\Model\FlightSearchResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1247,7 +1247,7 @@ class FlightsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\FlightSearchApiResponse',
+                '\OpenRoam\Model\FlightSearchResult',
                 $request,
                 $response,
             );
@@ -1256,7 +1256,7 @@ class FlightsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\FlightSearchApiResponse',
+                        '\OpenRoam\Model\FlightSearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1264,7 +1264,7 @@ class FlightsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1272,7 +1272,7 @@ class FlightsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1288,18 +1288,18 @@ class FlightsApi
      *
      * Search flights
      *
-     * @param  \OpenRoam\Model\SearchB2BFlightsQuery|null $search_b2_b_flights_query (optional)
+     * @param  \OpenRoam\Model\FlightSearchRequest|null $flight_search_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsSearch'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function flightsSearchAsync(
-        ?\OpenRoam\Model\SearchB2BFlightsQuery $search_b2_b_flights_query = null,
+        ?\OpenRoam\Model\FlightSearchRequest $flight_search_request = null,
         string $contentType = self::contentTypes['flightsSearch'][0]
     ): PromiseInterface
     {
-        return $this->flightsSearchAsyncWithHttpInfo($search_b2_b_flights_query, $contentType)
+        return $this->flightsSearchAsyncWithHttpInfo($flight_search_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1312,19 +1312,19 @@ class FlightsApi
      *
      * Search flights
      *
-     * @param  \OpenRoam\Model\SearchB2BFlightsQuery|null $search_b2_b_flights_query (optional)
+     * @param  \OpenRoam\Model\FlightSearchRequest|null $flight_search_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsSearch'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function flightsSearchAsyncWithHttpInfo(
-        ?\OpenRoam\Model\SearchB2BFlightsQuery $search_b2_b_flights_query = null,
+        ?\OpenRoam\Model\FlightSearchRequest $flight_search_request = null,
         string $contentType = self::contentTypes['flightsSearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\FlightSearchApiResponse';
-        $request = $this->flightsSearchRequest($search_b2_b_flights_query, $contentType);
+        $returnType = '\OpenRoam\Model\FlightSearchResult';
+        $request = $this->flightsSearchRequest($flight_search_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1373,14 +1373,14 @@ class FlightsApi
     /**
      * Create request for operation 'flightsSearch'
      *
-     * @param  \OpenRoam\Model\SearchB2BFlightsQuery|null $search_b2_b_flights_query (optional)
+     * @param  \OpenRoam\Model\FlightSearchRequest|null $flight_search_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsSearch'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function flightsSearchRequest(
-        ?\OpenRoam\Model\SearchB2BFlightsQuery $search_b2_b_flights_query = null,
+        ?\OpenRoam\Model\FlightSearchRequest $flight_search_request = null,
         string $contentType = self::contentTypes['flightsSearch'][0]
     ): Request
     {
@@ -1403,16 +1403,16 @@ class FlightsApi
         );
 
         // for model (json/xml)
-        if (isset($search_b2_b_flights_query)) {
+        if (isset($flight_search_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($search_b2_b_flights_query), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($flight_search_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $search_b2_b_flights_query;
+                $httpBody = $flight_search_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

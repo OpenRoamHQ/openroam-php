@@ -16,18 +16,18 @@ class HotelsResource
     /**
      * Search hotels. POST /api/v1/b2b/hotels/search
      *
-     * @param \OpenRoam\Model\SearchHotelQuery|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\HotelSearchRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(\OpenRoam\Model\SearchHotelQuery|array $body, array $options = []): \OpenRoam\Model\HotelPropertySearchResponse
+    public function search(\OpenRoam\Model\HotelSearchRequest|array $body, array $options = []): \OpenRoam\Model\HotelPropertySearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsSearch',
-            'body' => 'search_hotel_query',
-            'bodyType' => '\OpenRoam\Model\SearchHotelQuery',
-            'returns' => '\OpenRoam\Model\HotelPropertySearchResponse',
+            'body' => 'hotel_search_request',
+            'bodyType' => '\OpenRoam\Model\HotelSearchRequest',
+            'returns' => '\OpenRoam\Model\HotelPropertySearchResult',
         ], options: $options, body: $body);
     }
 
@@ -55,13 +55,13 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listDestinations(array $query, array $options = []): \OpenRoam\Model\HotelDestinationListResponse
+    public function listDestinations(array $query, array $options = []): \OpenRoam\Model\HotelDestinationList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsGetDestinations',
             'query' => ['q' => ['q', 'string'], 'countryCode' => ['country_code', 'string'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\HotelDestinationListResponse',
+            'returns' => '\OpenRoam\Model\HotelDestinationList',
         ], options: $options, query: $query);
     }
 
@@ -71,12 +71,12 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listAmenities(array $options = []): \OpenRoam\Model\GetAmenityCatalogQueryResponse
+    public function listAmenities(array $options = []): \OpenRoam\Model\HotelAmenityCatalog
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsGetAmenityCatalog',
-            'returns' => '\OpenRoam\Model\GetAmenityCatalogQueryResponse',
+            'returns' => '\OpenRoam\Model\HotelAmenityCatalog',
         ], options: $options);
     }
 
@@ -86,12 +86,12 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function exportCatalog(array $options = []): \OpenRoam\Model\GetHotelCatalogFilesQueryResponse
+    public function exportCatalog(array $options = []): \OpenRoam\Model\HotelCatalogExport
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsGetCatalogFiles',
-            'returns' => '\OpenRoam\Model\GetHotelCatalogFilesQueryResponse',
+            'returns' => '\OpenRoam\Model\HotelCatalogExport',
         ], options: $options);
     }
 
@@ -102,14 +102,14 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\HotelOrderRequest|array $body, array $options = []): \OpenRoam\Model\HotelPartnerQuoteResponse
+    public function quote(\OpenRoam\Model\HotelOrderRequest|array $body, array $options = []): \OpenRoam\Model\HotelQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsQuote',
             'body' => 'hotel_order_request',
             'bodyType' => '\OpenRoam\Model\HotelOrderRequest',
-            'returns' => '\OpenRoam\Model\HotelPartnerQuoteResponse',
+            'returns' => '\OpenRoam\Model\HotelQuote',
         ], options: $options, body: $body);
     }
 
@@ -120,7 +120,7 @@ class HotelsResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\HotelOrderRequest|array $body, array $options = []): \OpenRoam\Model\HotelsCreateOrder200Response
+    public function order(\OpenRoam\Model\HotelOrderRequest|array $body, array $options = []): \OpenRoam\Model\HotelOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
@@ -128,7 +128,7 @@ class HotelsResource
             'body' => 'hotel_order_request',
             'bodyType' => '\OpenRoam\Model\HotelOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\HotelsCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\HotelOrder',
         ], options: $options, body: $body);
     }
 }

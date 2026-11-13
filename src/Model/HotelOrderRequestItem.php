@@ -62,7 +62,7 @@ class HotelOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializ
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\HotelCartInputs'
+        'inputs' => '\OpenRoam\Model\HotelInputs'
     ];
 
     /**
@@ -339,9 +339,9 @@ class HotelOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\HotelCartInputs|null
+     * @return \OpenRoam\Model\HotelInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\HotelCartInputs
+    public function getInputs(): ?\OpenRoam\Model\HotelInputs
     {
         return $this->container['inputs'];
     }
@@ -349,11 +349,11 @@ class HotelOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\HotelCartInputs|null $inputs The holder and one `roomGuests` entry per searched room, with the optional `specialRequests` and `maxPrice`. Required to order. A quote may leave them out; when sent, it checks them as the order does.
+     * @param \OpenRoam\Model\HotelInputs|null $inputs The holder and one `roomGuests` entry per searched room, with the optional `specialRequests` and `maxPrice`. Required to order. A quote may leave them out; when sent, it checks them as the order does.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\HotelCartInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\HotelInputs $inputs): static
     {
         if (is_null($inputs)) {
             array_push($this->openAPINullablesSetToNull, 'inputs');

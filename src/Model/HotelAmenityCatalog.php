@@ -37,7 +37,6 @@ use OpenRoam\ObjectSerializer;
 /**
  * HotelAmenityCatalog Class Doc Comment
  *
- * @description One amenity available in the static amenity catalog.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -60,8 +59,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'code' => 'string',
-        'label' => 'string'
+        'map_version' => 'int',
+        'groups' => '\OpenRoam\Model\HotelAmenityGroupFacet[]',
+        'amenities' => '\OpenRoam\Model\HotelAmenity[]',
+        'notes_label' => 'string'
     ];
 
     /**
@@ -70,8 +71,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'code' => null,
-        'label' => null
+        'map_version' => 'int32',
+        'groups' => null,
+        'amenities' => null,
+        'notes_label' => null
     ];
 
     /**
@@ -80,8 +83,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'code' => false,
-        'label' => false
+        'map_version' => false,
+        'groups' => false,
+        'amenities' => false,
+        'notes_label' => false
     ];
 
     /**
@@ -160,8 +165,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'code' => 'code',
-        'label' => 'label'
+        'map_version' => 'mapVersion',
+        'groups' => 'groups',
+        'amenities' => 'amenities',
+        'notes_label' => 'notesLabel'
     ];
 
     /**
@@ -170,8 +177,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $setters = [
-        'code' => 'setCode',
-        'label' => 'setLabel'
+        'map_version' => 'setMapVersion',
+        'groups' => 'setGroups',
+        'amenities' => 'setAmenities',
+        'notes_label' => 'setNotesLabel'
     ];
 
     /**
@@ -180,8 +189,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $getters = [
-        'code' => 'getCode',
-        'label' => 'getLabel'
+        'map_version' => 'getMapVersion',
+        'groups' => 'getGroups',
+        'amenities' => 'getAmenities',
+        'notes_label' => 'getNotesLabel'
     ];
 
     /**
@@ -231,8 +242,10 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('code', $data ?? [], null);
-        $this->setIfExists('label', $data ?? [], null);
+        $this->setIfExists('map_version', $data ?? [], null);
+        $this->setIfExists('groups', $data ?? [], null);
+        $this->setIfExists('amenities', $data ?? [], null);
+        $this->setIfExists('notes_label', $data ?? [], null);
     }
 
     /**
@@ -273,55 +286,109 @@ class HotelAmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializab
 
 
     /**
-     * Gets code
+     * Gets map_version
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getCode(): ?string
+    public function getMapVersion(): ?int
     {
-        return $this->container['code'];
+        return $this->container['map_version'];
     }
 
     /**
-     * Sets code
+     * Sets map_version
      *
-     * @param string|null $code code
+     * @param int|null $map_version Version of the amenity catalog the labels and codes come from.
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setMapVersion(?int $map_version): static
     {
-        if (is_null($code)) {
-            throw new InvalidArgumentException('non-nullable code cannot be null');
+        if (is_null($map_version)) {
+            throw new InvalidArgumentException('non-nullable map_version cannot be null');
         }
-        $this->container['code'] = $code;
+        $this->container['map_version'] = $map_version;
 
         return $this;
     }
 
     /**
-     * Gets label
+     * Gets groups
      *
-     * @return string|null
+     * @return \OpenRoam\Model\HotelAmenityGroupFacet[]|null
      */
-    public function getLabel(): ?string
+    public function getGroups(): ?array
     {
-        return $this->container['label'];
+        return $this->container['groups'];
     }
 
     /**
-     * Sets label
+     * Sets groups
      *
-     * @param string|null $label label
+     * @param \OpenRoam\Model\HotelAmenityGroupFacet[]|null $groups Every amenity group, labelled, with the codes it holds.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setGroups(?array $groups): static
     {
-        if (is_null($label)) {
-            throw new InvalidArgumentException('non-nullable label cannot be null');
+        if (is_null($groups)) {
+            throw new InvalidArgumentException('non-nullable groups cannot be null');
         }
-        $this->container['label'] = $label;
+        $this->container['groups'] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Gets amenities
+     *
+     * @return \OpenRoam\Model\HotelAmenity[]|null
+     */
+    public function getAmenities(): ?array
+    {
+        return $this->container['amenities'];
+    }
+
+    /**
+     * Sets amenities
+     *
+     * @param \OpenRoam\Model\HotelAmenity[]|null $amenities Every amenity code with its label, for rendering a card or a rail.
+     *
+     * @return $this
+     */
+    public function setAmenities(?array $amenities): static
+    {
+        if (is_null($amenities)) {
+            throw new InvalidArgumentException('non-nullable amenities cannot be null');
+        }
+        $this->container['amenities'] = $amenities;
+
+        return $this;
+    }
+
+    /**
+     * Gets notes_label
+     *
+     * @return string|null
+     */
+    public function getNotesLabel(): ?string
+    {
+        return $this->container['notes_label'];
+    }
+
+    /**
+     * Sets notes_label
+     *
+     * @param string|null $notes_label Heading for a card's `amenityNotes`. Those strings are free text with no code, so unlike every other label on a card this one cannot be looked up from Amenities.
+     *
+     * @return $this
+     */
+    public function setNotesLabel(?string $notes_label): static
+    {
+        if (is_null($notes_label)) {
+            throw new InvalidArgumentException('non-nullable notes_label cannot be null');
+        }
+        $this->container['notes_label'] = $notes_label;
 
         return $this;
     }

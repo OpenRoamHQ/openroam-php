@@ -158,14 +158,14 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeCatalogPage|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeCatalog(
         ?string $country_code = null,
         ?string $cursor = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['airtimeCatalog'][0]
-    ): \OpenRoam\Model\AirtimeCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeCatalogPage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeCatalogWithHttpInfo($country_code, $cursor, $limit, $contentType);
         return $response;
@@ -183,7 +183,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeCatalogResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeCatalogPage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeCatalogWithHttpInfo(
         ?string $country_code = null,
@@ -220,19 +220,19 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeCatalogResponse',
+                        '\OpenRoam\Model\AirtimeCatalogPage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -252,7 +252,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeCatalogResponse',
+                '\OpenRoam\Model\AirtimeCatalogPage',
                 $request,
                 $response,
             );
@@ -261,7 +261,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeCatalogResponse',
+                        '\OpenRoam\Model\AirtimeCatalogPage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -269,7 +269,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -277,7 +277,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -336,7 +336,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeCatalog'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeCatalogResponse';
+        $returnType = '\OpenRoam\Model\AirtimeCatalogPage';
         $request = $this->airtimeCatalogRequest($country_code, $cursor, $limit, $contentType);
 
         return $this->client
@@ -487,13 +487,13 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\AirtimeOrderRequest $airtime_order_request = null,
         string $contentType = self::contentTypes['airtimeCreateOrder'][0]
-    ): \OpenRoam\Model\AirtimeCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeCreateOrderWithHttpInfo($idempotency_key, $airtime_order_request, $contentType);
         return $response;
@@ -510,7 +510,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -546,37 +546,37 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeCreateOrder200Response',
+                        '\OpenRoam\Model\AirtimeOrder',
                         $request,
                         $response,
                     );
                 case 202:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -596,7 +596,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeCreateOrder200Response',
+                '\OpenRoam\Model\AirtimeOrder',
                 $request,
                 $response,
             );
@@ -605,7 +605,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeCreateOrder200Response',
+                        '\OpenRoam\Model\AirtimeOrder',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -613,7 +613,7 @@ class AirtimeApi
                 case 202:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -621,7 +621,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -629,7 +629,7 @@ class AirtimeApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -637,7 +637,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -645,7 +645,7 @@ class AirtimeApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -700,7 +700,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeCreateOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeCreateOrder200Response';
+        $returnType = '\OpenRoam\Model\AirtimeOrder';
         $request = $this->airtimeCreateOrderRequest($idempotency_key, $airtime_order_request, $contentType);
 
         return $this->client
@@ -876,7 +876,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeOperatorItem|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeOperator|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeGetOperator(
         string $id,
@@ -889,7 +889,7 @@ class AirtimeApi
         ?float $max_price = null,
         ?string $currency = null,
         string $contentType = self::contentTypes['airtimeGetOperator'][0]
-    ): \OpenRoam\Model\AirtimeOperatorItem|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeOperator|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeGetOperatorWithHttpInfo($id, $phone_number, $value_type, $value_currency, $min_value, $max_value, $min_price, $max_price, $currency, $contentType);
         return $response;
@@ -913,7 +913,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeOperatorItem|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeOperator|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeGetOperatorWithHttpInfo(
         string $id,
@@ -956,19 +956,19 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeOperatorItem',
+                        '\OpenRoam\Model\AirtimeOperator',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -988,7 +988,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeOperatorItem',
+                '\OpenRoam\Model\AirtimeOperator',
                 $request,
                 $response,
             );
@@ -997,7 +997,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeOperatorItem',
+                        '\OpenRoam\Model\AirtimeOperator',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1005,7 +1005,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1013,7 +1013,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1096,7 +1096,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeGetOperator'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeOperatorItem';
+        $returnType = '\OpenRoam\Model\AirtimeOperator';
         $request = $this->airtimeGetOperatorRequest($id, $phone_number, $value_type, $value_currency, $min_value, $max_value, $min_price, $max_price, $currency, $contentType);
 
         return $this->client
@@ -1328,12 +1328,12 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeOperatorsResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeOperatorList|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeGetOperators(
         string $country_code,
         string $contentType = self::contentTypes['airtimeGetOperators'][0]
-    ): \OpenRoam\Model\AirtimeOperatorsResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeOperatorList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeGetOperatorsWithHttpInfo($country_code, $contentType);
         return $response;
@@ -1349,7 +1349,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeOperatorsResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeOperatorList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeGetOperatorsWithHttpInfo(
         string $country_code,
@@ -1384,19 +1384,19 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeOperatorsResponse',
+                        '\OpenRoam\Model\AirtimeOperatorList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1416,7 +1416,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeOperatorsResponse',
+                '\OpenRoam\Model\AirtimeOperatorList',
                 $request,
                 $response,
             );
@@ -1425,7 +1425,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeOperatorsResponse',
+                        '\OpenRoam\Model\AirtimeOperatorList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1433,7 +1433,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1441,7 +1441,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1492,7 +1492,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeGetOperators'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeOperatorsResponse';
+        $returnType = '\OpenRoam\Model\AirtimeOperatorList';
         $request = $this->airtimeGetOperatorsRequest($country_code, $contentType);
 
         return $this->client
@@ -1624,12 +1624,12 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeNumberLookupResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeLookupNumber(
         string $phone_number,
         string $contentType = self::contentTypes['airtimeLookupNumber'][0]
-    ): \OpenRoam\Model\AirtimeNumberLookupResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeLookupNumberWithHttpInfo($phone_number, $contentType);
         return $response;
@@ -1645,7 +1645,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeNumberLookupResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeLookupNumberWithHttpInfo(
         string $phone_number,
@@ -1680,25 +1680,25 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeNumberLookupResponse',
+                        '\OpenRoam\Model\AirtimeNumberLookup',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1718,7 +1718,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeNumberLookupResponse',
+                '\OpenRoam\Model\AirtimeNumberLookup',
                 $request,
                 $response,
             );
@@ -1727,7 +1727,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeNumberLookupResponse',
+                        '\OpenRoam\Model\AirtimeNumberLookup',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1735,7 +1735,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1743,7 +1743,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1751,7 +1751,7 @@ class AirtimeApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1802,7 +1802,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeLookupNumber'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeNumberLookupResponse';
+        $returnType = '\OpenRoam\Model\AirtimeNumberLookup';
         $request = $this->airtimeLookupNumberRequest($phone_number, $contentType);
 
         return $this->client
@@ -1934,12 +1934,12 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeQuote|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeQuote(
         ?\OpenRoam\Model\AirtimeOrderRequest $airtime_order_request = null,
         string $contentType = self::contentTypes['airtimeQuote'][0]
-    ): \OpenRoam\Model\AirtimeQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeQuote|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeQuoteWithHttpInfo($airtime_order_request, $contentType);
         return $response;
@@ -1955,7 +1955,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeQuoteResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeQuoteWithHttpInfo(
         ?\OpenRoam\Model\AirtimeOrderRequest $airtime_order_request = null,
@@ -1990,25 +1990,25 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeQuoteResponse',
+                        '\OpenRoam\Model\AirtimeQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2028,7 +2028,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeQuoteResponse',
+                '\OpenRoam\Model\AirtimeQuote',
                 $request,
                 $response,
             );
@@ -2037,7 +2037,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeQuoteResponse',
+                        '\OpenRoam\Model\AirtimeQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2045,7 +2045,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2053,7 +2053,7 @@ class AirtimeApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2061,7 +2061,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2112,7 +2112,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeQuote'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeQuoteResponse';
+        $returnType = '\OpenRoam\Model\AirtimeQuote';
         $request = $this->airtimeQuoteRequest($airtime_order_request, $contentType);
 
         return $this->client
@@ -2277,7 +2277,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AirtimeSearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeSearch(
         string $phone_number,
@@ -2291,7 +2291,7 @@ class AirtimeApi
         ?int $page = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['airtimeSearch'][0]
-    ): \OpenRoam\Model\AirtimeSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AirtimeSearchResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeSearchWithHttpInfo($phone_number, $value_type, $value_currency, $min_value, $max_value, $min_price, $max_price, $currency, $page, $limit, $contentType);
         return $response;
@@ -2316,7 +2316,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeSearchResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeSearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeSearchWithHttpInfo(
         string $phone_number,
@@ -2360,19 +2360,19 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeSearchResponse',
+                        '\OpenRoam\Model\AirtimeSearchResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2392,7 +2392,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeSearchResponse',
+                '\OpenRoam\Model\AirtimeSearchResult',
                 $request,
                 $response,
             );
@@ -2401,7 +2401,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeSearchResponse',
+                        '\OpenRoam\Model\AirtimeSearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2409,7 +2409,7 @@ class AirtimeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2417,7 +2417,7 @@ class AirtimeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2504,7 +2504,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeSearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeSearchResponse';
+        $returnType = '\OpenRoam\Model\AirtimeSearchResult';
         $request = $this->airtimeSearchRequest($phone_number, $value_type, $value_currency, $min_value, $max_value, $min_price, $max_price, $currency, $page, $limit, $contentType);
 
         return $this->client

@@ -20,13 +20,13 @@ class UtilitiesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(array $query, array $options = []): \OpenRoam\Model\UtilitySearchResponse
+    public function search(array $query, array $options = []): \OpenRoam\Model\UtilitySearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\UtilityApi::class,
             'operation' => 'utilitySearch',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'serviceType' => ['service_type', 'string'], 'q' => ['q', 'string'], 'currency' => ['currency', 'string'], 'page' => ['page', 'int'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\UtilitySearchResponse',
+            'returns' => '\OpenRoam\Model\UtilitySearchResult',
         ], options: $options, query: $query);
     }
 
@@ -56,13 +56,13 @@ class UtilitiesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\UtilityCatalogResponse
+    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\UtilityCatalogPage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\UtilityApi::class,
             'operation' => 'utilityGetCatalog',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'serviceType' => ['service_type', 'string'], 'currency' => ['currency', 'string'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\UtilityCatalogResponse',
+            'returns' => '\OpenRoam\Model\UtilityCatalogPage',
         ], options: $options, query: $query);
     }
 
@@ -73,7 +73,7 @@ class UtilitiesResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\UtilityOrderRequest|array $body, array $options = []): \OpenRoam\Model\UtilityCreateOrder200Response
+    public function order(\OpenRoam\Model\UtilityOrderRequest|array $body, array $options = []): \OpenRoam\Model\UtilityOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\UtilityApi::class,
@@ -81,7 +81,7 @@ class UtilitiesResource
             'body' => 'utility_order_request',
             'bodyType' => '\OpenRoam\Model\UtilityOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\UtilityCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\UtilityOrder',
         ], options: $options, body: $body);
     }
 
@@ -92,14 +92,14 @@ class UtilitiesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\UtilityOrderRequest|array $body, array $options = []): \OpenRoam\Model\UtilityQuoteResponse
+    public function quote(\OpenRoam\Model\UtilityOrderRequest|array $body, array $options = []): \OpenRoam\Model\UtilityQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\UtilityApi::class,
             'operation' => 'utilityQuote',
             'body' => 'utility_order_request',
             'bodyType' => '\OpenRoam\Model\UtilityOrderRequest',
-            'returns' => '\OpenRoam\Model\UtilityQuoteResponse',
+            'returns' => '\OpenRoam\Model\UtilityQuote',
         ], options: $options, body: $body);
     }
 }

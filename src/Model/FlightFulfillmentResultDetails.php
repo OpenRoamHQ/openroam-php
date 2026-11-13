@@ -61,7 +61,7 @@ class FlightFulfillmentResultDetails implements ModelInterface, ArrayAccess, Jso
      */
     protected static array $openAPITypes = [
         'booking_status' => 'string',
-        'ticket_documents' => '\OpenRoam\Model\FlightPartnerTicketDocument[]',
+        'ticket_documents' => '\OpenRoam\Model\FlightTicketDocument[]',
         'booking' => '\OpenRoam\Model\FlightFulfillmentBooking'
     ];
 
@@ -347,7 +347,7 @@ class FlightFulfillmentResultDetails implements ModelInterface, ArrayAccess, Jso
     /**
      * Gets ticket_documents
      *
-     * @return \OpenRoam\Model\FlightPartnerTicketDocument[]|null
+     * @return \OpenRoam\Model\FlightTicketDocument[]|null
      */
     public function getTicketDocuments(): ?array
     {
@@ -357,7 +357,7 @@ class FlightFulfillmentResultDetails implements ModelInterface, ArrayAccess, Jso
     /**
      * Sets ticket_documents
      *
-     * @param \OpenRoam\Model\FlightPartnerTicketDocument[]|null $ticket_documents The documents the airline issued, such as e-tickets.
+     * @param \OpenRoam\Model\FlightTicketDocument[]|null $ticket_documents The documents the airline issued, such as e-tickets.
      *
      * @return $this
      */

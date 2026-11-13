@@ -154,13 +154,13 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\GiftCardOrderRequest $gift_card_order_request = null,
         string $contentType = self::contentTypes['giftCardsCreateOrder'][0]
-    ): \OpenRoam\Model\GiftCardsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsCreateOrderWithHttpInfo($idempotency_key, $gift_card_order_request, $contentType);
         return $response;
@@ -177,7 +177,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardsCreateOrder200Response|\OpenRoam\Model\IdempotencyPendingResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -213,37 +213,37 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardsCreateOrder200Response',
+                        '\OpenRoam\Model\GiftCardOrder',
                         $request,
                         $response,
                     );
                 case 202:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -263,7 +263,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardsCreateOrder200Response',
+                '\OpenRoam\Model\GiftCardOrder',
                 $request,
                 $response,
             );
@@ -272,7 +272,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardsCreateOrder200Response',
+                        '\OpenRoam\Model\GiftCardOrder',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -280,7 +280,7 @@ class GiftCardsApi
                 case 202:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingResponse',
+                        '\OpenRoam\Model\IdempotencyPendingError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -288,7 +288,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -296,7 +296,7 @@ class GiftCardsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -304,7 +304,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -312,7 +312,7 @@ class GiftCardsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -367,7 +367,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsCreateOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardsCreateOrder200Response';
+        $returnType = '\OpenRoam\Model\GiftCardOrder';
         $request = $this->giftCardsCreateOrderRequest($idempotency_key, $gift_card_order_request, $contentType);
 
         return $this->client
@@ -536,13 +536,13 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardItem|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCard|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsGetCard(
         string $id,
         ?string $currency = null,
         string $contentType = self::contentTypes['giftCardsGetCard'][0]
-    ): \OpenRoam\Model\GiftCardItem|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCard|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsGetCardWithHttpInfo($id, $currency, $contentType);
         return $response;
@@ -559,7 +559,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardItem|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCard|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsGetCardWithHttpInfo(
         string $id,
@@ -595,19 +595,19 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardItem',
+                        '\OpenRoam\Model\GiftCard',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -627,7 +627,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardItem',
+                '\OpenRoam\Model\GiftCard',
                 $request,
                 $response,
             );
@@ -636,7 +636,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardItem',
+                        '\OpenRoam\Model\GiftCard',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -644,7 +644,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -652,7 +652,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -707,7 +707,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsGetCard'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardItem';
+        $returnType = '\OpenRoam\Model\GiftCard';
         $request = $this->giftCardsGetCardRequest($id, $currency, $contentType);
 
         return $this->client
@@ -855,7 +855,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCardCatalogPage|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsGetCatalog(
         ?string $country_code = null,
@@ -866,7 +866,7 @@ class GiftCardsApi
         ?string $cursor = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['giftCardsGetCatalog'][0]
-    ): \OpenRoam\Model\GiftCardCatalogResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCardCatalogPage|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsGetCatalogWithHttpInfo($country_code, $category, $value_type, $is_redeemable_globally, $currency, $cursor, $limit, $contentType);
         return $response;
@@ -888,7 +888,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardCatalogResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardCatalogPage|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsGetCatalogWithHttpInfo(
         ?string $country_code = null,
@@ -929,19 +929,19 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardCatalogResponse',
+                        '\OpenRoam\Model\GiftCardCatalogPage',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -961,7 +961,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardCatalogResponse',
+                '\OpenRoam\Model\GiftCardCatalogPage',
                 $request,
                 $response,
             );
@@ -970,7 +970,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardCatalogResponse',
+                        '\OpenRoam\Model\GiftCardCatalogPage',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -978,7 +978,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -986,7 +986,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1061,7 +1061,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsGetCatalog'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardCatalogResponse';
+        $returnType = '\OpenRoam\Model\GiftCardCatalogPage';
         $request = $this->giftCardsGetCatalogRequest($country_code, $category, $value_type, $is_redeemable_globally, $currency, $cursor, $limit, $contentType);
 
         return $this->client
@@ -1258,11 +1258,11 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardCategoryListResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCardCategoryList|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsGetCategories(
         string $contentType = self::contentTypes['giftCardsGetCategories'][0]
-    ): \OpenRoam\Model\GiftCardCategoryListResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCardCategoryList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsGetCategoriesWithHttpInfo($contentType);
         return $response;
@@ -1277,7 +1277,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardCategoryListResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardCategoryList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsGetCategoriesWithHttpInfo(
         string $contentType = self::contentTypes['giftCardsGetCategories'][0]
@@ -1311,19 +1311,19 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardCategoryListResponse',
+                        '\OpenRoam\Model\GiftCardCategoryList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1343,7 +1343,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardCategoryListResponse',
+                '\OpenRoam\Model\GiftCardCategoryList',
                 $request,
                 $response,
             );
@@ -1352,7 +1352,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardCategoryListResponse',
+                        '\OpenRoam\Model\GiftCardCategoryList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1360,7 +1360,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1368,7 +1368,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1415,7 +1415,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsGetCategories'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardCategoryListResponse';
+        $returnType = '\OpenRoam\Model\GiftCardCategoryList';
         $request = $this->giftCardsGetCategoriesRequest($contentType);
 
         return $this->client
@@ -1529,12 +1529,12 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCardQuote|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsQuote(
         ?\OpenRoam\Model\GiftCardOrderRequest $gift_card_order_request = null,
         string $contentType = self::contentTypes['giftCardsQuote'][0]
-    ): \OpenRoam\Model\GiftCardQuoteResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCardQuote|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsQuoteWithHttpInfo($gift_card_order_request, $contentType);
         return $response;
@@ -1550,7 +1550,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardQuoteResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsQuoteWithHttpInfo(
         ?\OpenRoam\Model\GiftCardOrderRequest $gift_card_order_request = null,
@@ -1585,25 +1585,25 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardQuoteResponse',
+                        '\OpenRoam\Model\GiftCardQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1623,7 +1623,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardQuoteResponse',
+                '\OpenRoam\Model\GiftCardQuote',
                 $request,
                 $response,
             );
@@ -1632,7 +1632,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardQuoteResponse',
+                        '\OpenRoam\Model\GiftCardQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1640,7 +1640,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1648,7 +1648,7 @@ class GiftCardsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1656,7 +1656,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1707,7 +1707,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsQuote'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardQuoteResponse';
+        $returnType = '\OpenRoam\Model\GiftCardQuote';
         $request = $this->giftCardsQuoteRequest($gift_card_order_request, $contentType);
 
         return $this->client
@@ -1870,7 +1870,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\GiftCardSearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsSearch(
         ?string $country_code = null,
@@ -1882,7 +1882,7 @@ class GiftCardsApi
         ?int $page = null,
         ?int $limit = null,
         string $contentType = self::contentTypes['giftCardsSearch'][0]
-    ): \OpenRoam\Model\GiftCardSearchResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\GiftCardSearchResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsSearchWithHttpInfo($country_code, $category, $value_type, $q, $is_redeemable_globally, $currency, $page, $limit, $contentType);
         return $response;
@@ -1905,7 +1905,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardSearchResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardSearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsSearchWithHttpInfo(
         ?string $country_code = null,
@@ -1947,19 +1947,19 @@ class GiftCardsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\GiftCardSearchResponse',
+                        '\OpenRoam\Model\GiftCardSearchResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1979,7 +1979,7 @@ class GiftCardsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\GiftCardSearchResponse',
+                '\OpenRoam\Model\GiftCardSearchResult',
                 $request,
                 $response,
             );
@@ -1988,7 +1988,7 @@ class GiftCardsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\GiftCardSearchResponse',
+                        '\OpenRoam\Model\GiftCardSearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1996,7 +1996,7 @@ class GiftCardsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2004,7 +2004,7 @@ class GiftCardsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2083,7 +2083,7 @@ class GiftCardsApi
         string $contentType = self::contentTypes['giftCardsSearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\GiftCardSearchResponse';
+        $returnType = '\OpenRoam\Model\GiftCardSearchResult';
         $request = $this->giftCardsSearchRequest($country_code, $category, $value_type, $q, $is_redeemable_globally, $currency, $page, $limit, $contentType);
 
         return $this->client

@@ -20,13 +20,13 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\AirtimeCatalogResponse
+    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\AirtimeCatalogPage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeCatalog',
             'query' => ['countryCode' => ['country_code', 'string'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\AirtimeCatalogResponse',
+            'returns' => '\OpenRoam\Model\AirtimeCatalogPage',
         ], options: $options, query: $query);
     }
 
@@ -37,13 +37,13 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(array $query, array $options = []): \OpenRoam\Model\AirtimeSearchResponse
+    public function search(array $query, array $options = []): \OpenRoam\Model\AirtimeSearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeSearch',
             'query' => ['phoneNumber' => ['phone_number', 'string'], 'valueType' => ['value_type', 'string'], 'valueCurrency' => ['value_currency', 'string'], 'minValue' => ['min_value', 'float'], 'maxValue' => ['max_value', 'float'], 'minPrice' => ['min_price', 'float'], 'maxPrice' => ['max_price', 'float'], 'currency' => ['currency', 'string'], 'page' => ['page', 'int'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\AirtimeSearchResponse',
+            'returns' => '\OpenRoam\Model\AirtimeSearchResult',
         ], options: $options, query: $query);
     }
 
@@ -54,13 +54,13 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function lookupNumber(array $query, array $options = []): \OpenRoam\Model\AirtimeNumberLookupResponse
+    public function lookupNumber(array $query, array $options = []): \OpenRoam\Model\AirtimeNumberLookup
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeLookupNumber',
             'query' => ['phoneNumber' => ['phone_number', 'string']],
-            'returns' => '\OpenRoam\Model\AirtimeNumberLookupResponse',
+            'returns' => '\OpenRoam\Model\AirtimeNumberLookup',
         ], options: $options, query: $query);
     }
 
@@ -71,13 +71,13 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listOperators(array $query, array $options = []): \OpenRoam\Model\AirtimeOperatorsResponse
+    public function listOperators(array $query, array $options = []): \OpenRoam\Model\AirtimeOperatorList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeGetOperators',
             'query' => ['countryCode' => ['country_code', 'string']],
-            'returns' => '\OpenRoam\Model\AirtimeOperatorsResponse',
+            'returns' => '\OpenRoam\Model\AirtimeOperatorList',
         ], options: $options, query: $query);
     }
 
@@ -89,14 +89,14 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getOperator(string $id, array $query, array $options = []): \OpenRoam\Model\AirtimeOperatorItem
+    public function getOperator(string $id, array $query, array $options = []): \OpenRoam\Model\AirtimeOperator
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeGetOperator',
             'path' => ['id' => $id],
             'query' => ['phoneNumber' => ['phone_number', 'string'], 'valueType' => ['value_type', 'string'], 'valueCurrency' => ['value_currency', 'string'], 'minValue' => ['min_value', 'float'], 'maxValue' => ['max_value', 'float'], 'minPrice' => ['min_price', 'float'], 'maxPrice' => ['max_price', 'float'], 'currency' => ['currency', 'string']],
-            'returns' => '\OpenRoam\Model\AirtimeOperatorItem',
+            'returns' => '\OpenRoam\Model\AirtimeOperator',
         ], options: $options, query: $query);
     }
 
@@ -107,14 +107,14 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\AirtimeOrderRequest|array $body, array $options = []): \OpenRoam\Model\AirtimeQuoteResponse
+    public function quote(\OpenRoam\Model\AirtimeOrderRequest|array $body, array $options = []): \OpenRoam\Model\AirtimeQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeQuote',
             'body' => 'airtime_order_request',
             'bodyType' => '\OpenRoam\Model\AirtimeOrderRequest',
-            'returns' => '\OpenRoam\Model\AirtimeQuoteResponse',
+            'returns' => '\OpenRoam\Model\AirtimeQuote',
         ], options: $options, body: $body);
     }
 
@@ -125,7 +125,7 @@ class AirtimeResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\AirtimeOrderRequest|array $body, array $options = []): \OpenRoam\Model\AirtimeCreateOrder200Response
+    public function order(\OpenRoam\Model\AirtimeOrderRequest|array $body, array $options = []): \OpenRoam\Model\AirtimeOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
@@ -133,7 +133,7 @@ class AirtimeResource
             'body' => 'airtime_order_request',
             'bodyType' => '\OpenRoam\Model\AirtimeOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\AirtimeCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\AirtimeOrder',
         ], options: $options, body: $body);
     }
 }

@@ -62,7 +62,7 @@ class HotelFulfillmentResultDetails implements ModelInterface, ArrayAccess, Json
     protected static array $openAPITypes = [
         'booking_status' => 'string',
         'hotel_confirmation_number' => 'string',
-        'amendment_composition' => '\OpenRoam\Model\HotelAmendmentCompositionCapabilitiesModel',
+        'amendment_composition' => '\OpenRoam\Model\HotelAmendmentCapabilities',
         'booking' => '\OpenRoam\Model\HotelFulfillmentBooking'
     ];
 
@@ -390,9 +390,9 @@ class HotelFulfillmentResultDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Gets amendment_composition
      *
-     * @return \OpenRoam\Model\HotelAmendmentCompositionCapabilitiesModel|null
+     * @return \OpenRoam\Model\HotelAmendmentCapabilities|null
      */
-    public function getAmendmentComposition(): ?\OpenRoam\Model\HotelAmendmentCompositionCapabilitiesModel
+    public function getAmendmentComposition(): ?\OpenRoam\Model\HotelAmendmentCapabilities
     {
         return $this->container['amendment_composition'];
     }
@@ -400,11 +400,11 @@ class HotelFulfillmentResultDetails implements ModelInterface, ArrayAccess, Json
     /**
      * Sets amendment_composition
      *
-     * @param \OpenRoam\Model\HotelAmendmentCompositionCapabilitiesModel|null $amendment_composition What an amendment may change about the booked rooms and guests. Dates and the holder are always amendable.
+     * @param \OpenRoam\Model\HotelAmendmentCapabilities|null $amendment_composition What an amendment may change about the booked rooms and guests. Dates and the holder are always amendable.
      *
      * @return $this
      */
-    public function setAmendmentComposition(?\OpenRoam\Model\HotelAmendmentCompositionCapabilitiesModel $amendment_composition): static
+    public function setAmendmentComposition(?\OpenRoam\Model\HotelAmendmentCapabilities $amendment_composition): static
     {
         if (is_null($amendment_composition)) {
             throw new InvalidArgumentException('non-nullable amendment_composition cannot be null');

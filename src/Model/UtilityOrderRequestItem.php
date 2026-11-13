@@ -62,7 +62,7 @@ class UtilityOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\UtilityCartInputs'
+        'inputs' => '\OpenRoam\Model\UtilityInputs'
     ];
 
     /**
@@ -339,9 +339,9 @@ class UtilityOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\UtilityCartInputs|null
+     * @return \OpenRoam\Model\UtilityInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\UtilityCartInputs
+    public function getInputs(): ?\OpenRoam\Model\UtilityInputs
     {
         return $this->container['inputs'];
     }
@@ -349,11 +349,11 @@ class UtilityOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\UtilityCartInputs|null $inputs The inputs the offer's `requiredInputs` list, plus `value` and `maxPrice`. May be omitted only when the offer lists no inputs and is not a range.
+     * @param \OpenRoam\Model\UtilityInputs|null $inputs The inputs the offer's `requiredInputs` list, plus `value` and `maxPrice`. May be omitted only when the offer lists no inputs and is not a range.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\UtilityCartInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\UtilityInputs $inputs): static
     {
         if (is_null($inputs)) {
             array_push($this->openAPINullablesSetToNull, 'inputs');

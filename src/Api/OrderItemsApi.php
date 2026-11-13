@@ -163,21 +163,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\RefundOrderItemRequest|null $refund_order_item_request The cancellation reason. (optional)
+     * @param  \OpenRoam\Model\OrderItemCancelRequest|null $order_item_cancel_request The cancellation reason. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsCancel'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BOrderItemRefundResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\OrderItemCancelResult|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsCancel(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\RefundOrderItemRequest $refund_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemCancelRequest $order_item_cancel_request = null,
         string $contentType = self::contentTypes['orderItemsCancel'][0]
-    ): \OpenRoam\Model\B2BOrderItemRefundResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\OrderItemCancelResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->orderItemsCancelWithHttpInfo($id, $idempotency_key, $refund_order_item_request, $contentType);
+        list($response) = $this->orderItemsCancelWithHttpInfo($id, $idempotency_key, $order_item_cancel_request, $contentType);
         return $response;
     }
 
@@ -188,21 +188,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\RefundOrderItemRequest|null $refund_order_item_request The cancellation reason. (optional)
+     * @param  \OpenRoam\Model\OrderItemCancelRequest|null $order_item_cancel_request The cancellation reason. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsCancel'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BOrderItemRefundResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\OrderItemCancelResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsCancelWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\RefundOrderItemRequest $refund_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemCancelRequest $order_item_cancel_request = null,
         string $contentType = self::contentTypes['orderItemsCancel'][0]
     ): array
     {
-        $request = $this->orderItemsCancelRequest($id, $idempotency_key, $refund_order_item_request, $contentType);
+        $request = $this->orderItemsCancelRequest($id, $idempotency_key, $order_item_cancel_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -230,43 +230,43 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BOrderItemRefundResponse',
+                        '\OpenRoam\Model\OrderItemCancelResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 422:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -286,7 +286,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BOrderItemRefundResponse',
+                '\OpenRoam\Model\OrderItemCancelResult',
                 $request,
                 $response,
             );
@@ -295,7 +295,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BOrderItemRefundResponse',
+                        '\OpenRoam\Model\OrderItemCancelResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -303,7 +303,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -311,7 +311,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -319,7 +319,7 @@ class OrderItemsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -327,7 +327,7 @@ class OrderItemsApi
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -335,7 +335,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -343,7 +343,7 @@ class OrderItemsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -361,7 +361,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\RefundOrderItemRequest|null $refund_order_item_request The cancellation reason. (optional)
+     * @param  \OpenRoam\Model\OrderItemCancelRequest|null $order_item_cancel_request The cancellation reason. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsCancel'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -370,11 +370,11 @@ class OrderItemsApi
     public function orderItemsCancelAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\RefundOrderItemRequest $refund_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemCancelRequest $order_item_cancel_request = null,
         string $contentType = self::contentTypes['orderItemsCancel'][0]
     ): PromiseInterface
     {
-        return $this->orderItemsCancelAsyncWithHttpInfo($id, $idempotency_key, $refund_order_item_request, $contentType)
+        return $this->orderItemsCancelAsyncWithHttpInfo($id, $idempotency_key, $order_item_cancel_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -389,7 +389,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\RefundOrderItemRequest|null $refund_order_item_request The cancellation reason. (optional)
+     * @param  \OpenRoam\Model\OrderItemCancelRequest|null $order_item_cancel_request The cancellation reason. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsCancel'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -398,12 +398,12 @@ class OrderItemsApi
     public function orderItemsCancelAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\RefundOrderItemRequest $refund_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemCancelRequest $order_item_cancel_request = null,
         string $contentType = self::contentTypes['orderItemsCancel'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BOrderItemRefundResponse';
-        $request = $this->orderItemsCancelRequest($id, $idempotency_key, $refund_order_item_request, $contentType);
+        $returnType = '\OpenRoam\Model\OrderItemCancelResult';
+        $request = $this->orderItemsCancelRequest($id, $idempotency_key, $order_item_cancel_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -454,7 +454,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\RefundOrderItemRequest|null $refund_order_item_request The cancellation reason. (optional)
+     * @param  \OpenRoam\Model\OrderItemCancelRequest|null $order_item_cancel_request The cancellation reason. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsCancel'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -463,7 +463,7 @@ class OrderItemsApi
     public function orderItemsCancelRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\RefundOrderItemRequest $refund_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemCancelRequest $order_item_cancel_request = null,
         string $contentType = self::contentTypes['orderItemsCancel'][0]
     ): Request
     {
@@ -510,16 +510,16 @@ class OrderItemsApi
         );
 
         // for model (json/xml)
-        if (isset($refund_order_item_request)) {
+        if (isset($order_item_cancel_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($refund_order_item_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order_item_cancel_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $refund_order_item_request;
+                $httpBody = $order_item_cancel_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -583,21 +583,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ConfirmB2BAmendmentRequest|null $confirm_b2_b_amendment_request The quote and option to confirm, and an optional price limit. (optional)
+     * @param  \OpenRoam\Model\AmendmentConfirmRequest|null $amendment_confirm_request The quote and option to confirm, and an optional price limit. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsConfirmAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\ConfirmB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AmendmentConfirmResult|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsConfirmAmendment(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ConfirmB2BAmendmentRequest $confirm_b2_b_amendment_request = null,
+        ?\OpenRoam\Model\AmendmentConfirmRequest $amendment_confirm_request = null,
         string $contentType = self::contentTypes['orderItemsConfirmAmendment'][0]
-    ): \OpenRoam\Model\ConfirmB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AmendmentConfirmResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->orderItemsConfirmAmendmentWithHttpInfo($id, $idempotency_key, $confirm_b2_b_amendment_request, $contentType);
+        list($response) = $this->orderItemsConfirmAmendmentWithHttpInfo($id, $idempotency_key, $amendment_confirm_request, $contentType);
         return $response;
     }
 
@@ -608,21 +608,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ConfirmB2BAmendmentRequest|null $confirm_b2_b_amendment_request The quote and option to confirm, and an optional price limit. (optional)
+     * @param  \OpenRoam\Model\AmendmentConfirmRequest|null $amendment_confirm_request The quote and option to confirm, and an optional price limit. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsConfirmAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\ConfirmB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AmendmentConfirmResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsConfirmAmendmentWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ConfirmB2BAmendmentRequest $confirm_b2_b_amendment_request = null,
+        ?\OpenRoam\Model\AmendmentConfirmRequest $amendment_confirm_request = null,
         string $contentType = self::contentTypes['orderItemsConfirmAmendment'][0]
     ): array
     {
-        $request = $this->orderItemsConfirmAmendmentRequest($id, $idempotency_key, $confirm_b2_b_amendment_request, $contentType);
+        $request = $this->orderItemsConfirmAmendmentRequest($id, $idempotency_key, $amendment_confirm_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -650,43 +650,43 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ConfirmB2BAmendmentResponse',
+                        '\OpenRoam\Model\AmendmentConfirmResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 422:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -706,7 +706,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\ConfirmB2BAmendmentResponse',
+                '\OpenRoam\Model\AmendmentConfirmResult',
                 $request,
                 $response,
             );
@@ -715,7 +715,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\ConfirmB2BAmendmentResponse',
+                        '\OpenRoam\Model\AmendmentConfirmResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -723,7 +723,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -731,7 +731,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -739,7 +739,7 @@ class OrderItemsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -747,7 +747,7 @@ class OrderItemsApi
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -755,7 +755,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -763,7 +763,7 @@ class OrderItemsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -781,7 +781,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ConfirmB2BAmendmentRequest|null $confirm_b2_b_amendment_request The quote and option to confirm, and an optional price limit. (optional)
+     * @param  \OpenRoam\Model\AmendmentConfirmRequest|null $amendment_confirm_request The quote and option to confirm, and an optional price limit. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsConfirmAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -790,11 +790,11 @@ class OrderItemsApi
     public function orderItemsConfirmAmendmentAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ConfirmB2BAmendmentRequest $confirm_b2_b_amendment_request = null,
+        ?\OpenRoam\Model\AmendmentConfirmRequest $amendment_confirm_request = null,
         string $contentType = self::contentTypes['orderItemsConfirmAmendment'][0]
     ): PromiseInterface
     {
-        return $this->orderItemsConfirmAmendmentAsyncWithHttpInfo($id, $idempotency_key, $confirm_b2_b_amendment_request, $contentType)
+        return $this->orderItemsConfirmAmendmentAsyncWithHttpInfo($id, $idempotency_key, $amendment_confirm_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -809,7 +809,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ConfirmB2BAmendmentRequest|null $confirm_b2_b_amendment_request The quote and option to confirm, and an optional price limit. (optional)
+     * @param  \OpenRoam\Model\AmendmentConfirmRequest|null $amendment_confirm_request The quote and option to confirm, and an optional price limit. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsConfirmAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -818,12 +818,12 @@ class OrderItemsApi
     public function orderItemsConfirmAmendmentAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ConfirmB2BAmendmentRequest $confirm_b2_b_amendment_request = null,
+        ?\OpenRoam\Model\AmendmentConfirmRequest $amendment_confirm_request = null,
         string $contentType = self::contentTypes['orderItemsConfirmAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\ConfirmB2BAmendmentResponse';
-        $request = $this->orderItemsConfirmAmendmentRequest($id, $idempotency_key, $confirm_b2_b_amendment_request, $contentType);
+        $returnType = '\OpenRoam\Model\AmendmentConfirmResult';
+        $request = $this->orderItemsConfirmAmendmentRequest($id, $idempotency_key, $amendment_confirm_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -874,7 +874,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ConfirmB2BAmendmentRequest|null $confirm_b2_b_amendment_request The quote and option to confirm, and an optional price limit. (optional)
+     * @param  \OpenRoam\Model\AmendmentConfirmRequest|null $amendment_confirm_request The quote and option to confirm, and an optional price limit. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsConfirmAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -883,7 +883,7 @@ class OrderItemsApi
     public function orderItemsConfirmAmendmentRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ConfirmB2BAmendmentRequest $confirm_b2_b_amendment_request = null,
+        ?\OpenRoam\Model\AmendmentConfirmRequest $amendment_confirm_request = null,
         string $contentType = self::contentTypes['orderItemsConfirmAmendment'][0]
     ): Request
     {
@@ -930,16 +930,16 @@ class OrderItemsApi
         );
 
         // for model (json/xml)
-        if (isset($confirm_b2_b_amendment_request)) {
+        if (isset($amendment_confirm_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($confirm_b2_b_amendment_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($amendment_confirm_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $confirm_b2_b_amendment_request;
+                $httpBody = $amendment_confirm_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -1007,13 +1007,13 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BOrderItemAmendment|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\OrderItemAmendment|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsGetAmendmentById(
         string $id,
         string $amendment_id,
         string $contentType = self::contentTypes['orderItemsGetAmendmentById'][0]
-    ): \OpenRoam\Model\B2BOrderItemAmendment|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\OrderItemAmendment|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->orderItemsGetAmendmentByIdWithHttpInfo($id, $amendment_id, $contentType);
         return $response;
@@ -1030,7 +1030,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BOrderItemAmendment|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\OrderItemAmendment|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsGetAmendmentByIdWithHttpInfo(
         string $id,
@@ -1066,25 +1066,25 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BOrderItemAmendment',
+                        '\OpenRoam\Model\OrderItemAmendment',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1104,7 +1104,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BOrderItemAmendment',
+                '\OpenRoam\Model\OrderItemAmendment',
                 $request,
                 $response,
             );
@@ -1113,7 +1113,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BOrderItemAmendment',
+                        '\OpenRoam\Model\OrderItemAmendment',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1121,7 +1121,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1129,7 +1129,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1137,7 +1137,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1192,7 +1192,7 @@ class OrderItemsApi
         string $contentType = self::contentTypes['orderItemsGetAmendmentById'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BOrderItemAmendment';
+        $returnType = '\OpenRoam\Model\OrderItemAmendment';
         $request = $this->orderItemsGetAmendmentByIdRequest($id, $amendment_id, $contentType);
 
         return $this->client
@@ -1338,12 +1338,12 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BOrderItemAmendment[]|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\OrderItemAmendment[]|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsGetAmendments(
         string $id,
         string $contentType = self::contentTypes['orderItemsGetAmendments'][0]
-    ): array|\OpenRoam\Model\PartnerErrorResponse
+    ): array|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->orderItemsGetAmendmentsWithHttpInfo($id, $contentType);
         return $response;
@@ -1359,7 +1359,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BOrderItemAmendment[]|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\OrderItemAmendment[]|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsGetAmendmentsWithHttpInfo(
         string $id,
@@ -1394,25 +1394,25 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BOrderItemAmendment[]',
+                        '\OpenRoam\Model\OrderItemAmendment[]',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1432,7 +1432,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BOrderItemAmendment[]',
+                '\OpenRoam\Model\OrderItemAmendment[]',
                 $request,
                 $response,
             );
@@ -1441,7 +1441,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BOrderItemAmendment[]',
+                        '\OpenRoam\Model\OrderItemAmendment[]',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1449,7 +1449,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1457,7 +1457,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1465,7 +1465,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1516,7 +1516,7 @@ class OrderItemsApi
         string $contentType = self::contentTypes['orderItemsGetAmendments'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BOrderItemAmendment[]';
+        $returnType = '\OpenRoam\Model\OrderItemAmendment[]';
         $request = $this->orderItemsGetAmendmentsRequest($id, $contentType);
 
         return $this->client
@@ -1646,12 +1646,12 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsGetById(
         string $id,
         string $contentType = self::contentTypes['orderItemsGetById'][0]
-    ): \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->orderItemsGetByIdWithHttpInfo($id, $contentType);
         return $response;
@@ -1667,7 +1667,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsGetByIdWithHttpInfo(
         string $id,
@@ -1702,37 +1702,37 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerOrderItem',
+                        '\OpenRoam\Model\OrderItem',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1752,7 +1752,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\PartnerOrderItem',
+                '\OpenRoam\Model\OrderItem',
                 $request,
                 $response,
             );
@@ -1761,7 +1761,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerOrderItem',
+                        '\OpenRoam\Model\OrderItem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1769,7 +1769,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1777,7 +1777,7 @@ class OrderItemsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1785,7 +1785,7 @@ class OrderItemsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1793,7 +1793,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1801,7 +1801,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1852,7 +1852,7 @@ class OrderItemsApi
         string $contentType = self::contentTypes['orderItemsGetById'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\PartnerOrderItem';
+        $returnType = '\OpenRoam\Model\OrderItem';
         $request = $this->orderItemsGetByIdRequest($id, $contentType);
 
         return $this->client
@@ -1982,12 +1982,12 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BCancellationPreviewResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\OrderItemCancellationPreview|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsGetCancellationPreview(
         string $id,
         string $contentType = self::contentTypes['orderItemsGetCancellationPreview'][0]
-    ): \OpenRoam\Model\B2BCancellationPreviewResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\OrderItemCancellationPreview|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->orderItemsGetCancellationPreviewWithHttpInfo($id, $contentType);
         return $response;
@@ -2003,7 +2003,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BCancellationPreviewResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\OrderItemCancellationPreview|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsGetCancellationPreviewWithHttpInfo(
         string $id,
@@ -2038,43 +2038,43 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BCancellationPreviewResponse',
+                        '\OpenRoam\Model\OrderItemCancellationPreview',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 422:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2094,7 +2094,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BCancellationPreviewResponse',
+                '\OpenRoam\Model\OrderItemCancellationPreview',
                 $request,
                 $response,
             );
@@ -2103,7 +2103,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BCancellationPreviewResponse',
+                        '\OpenRoam\Model\OrderItemCancellationPreview',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2111,7 +2111,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2119,7 +2119,7 @@ class OrderItemsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2127,7 +2127,7 @@ class OrderItemsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2135,7 +2135,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2143,7 +2143,7 @@ class OrderItemsApi
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2151,7 +2151,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2202,7 +2202,7 @@ class OrderItemsApi
         string $contentType = self::contentTypes['orderItemsGetCancellationPreview'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BCancellationPreviewResponse';
+        $returnType = '\OpenRoam\Model\OrderItemCancellationPreview';
         $request = $this->orderItemsGetCancellationPreviewRequest($id, $contentType);
 
         return $this->client
@@ -2340,7 +2340,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\B2BPartnerAmendmentList|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AmendmentList|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsListPartnerAmendments(
         ?int $page = null,
@@ -2353,7 +2353,7 @@ class OrderItemsApi
         ?\DateTime $from = null,
         ?\DateTime $to = null,
         string $contentType = self::contentTypes['orderItemsListPartnerAmendments'][0]
-    ): \OpenRoam\Model\B2BPartnerAmendmentList|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AmendmentList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->orderItemsListPartnerAmendmentsWithHttpInfo($page, $limit, $statuses, $product_type, $amendment_mode, $order_id, $order_item_id, $from, $to, $contentType);
         return $response;
@@ -2377,7 +2377,7 @@ class OrderItemsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\B2BPartnerAmendmentList|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AmendmentList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsListPartnerAmendmentsWithHttpInfo(
         ?int $page = null,
@@ -2420,31 +2420,31 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\B2BPartnerAmendmentList',
+                        '\OpenRoam\Model\AmendmentList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 401:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 403:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2464,7 +2464,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\B2BPartnerAmendmentList',
+                '\OpenRoam\Model\AmendmentList',
                 $request,
                 $response,
             );
@@ -2473,7 +2473,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\B2BPartnerAmendmentList',
+                        '\OpenRoam\Model\AmendmentList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2481,7 +2481,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2489,7 +2489,7 @@ class OrderItemsApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2497,7 +2497,7 @@ class OrderItemsApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2505,7 +2505,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2588,7 +2588,7 @@ class OrderItemsApi
         string $contentType = self::contentTypes['orderItemsListPartnerAmendments'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\B2BPartnerAmendmentList';
+        $returnType = '\OpenRoam\Model\AmendmentList';
         $request = $this->orderItemsListPartnerAmendmentsRequest($page, $limit, $statuses, $product_type, $amendment_mode, $order_id, $order_item_id, $from, $to, $contentType);
 
         return $this->client
@@ -2807,21 +2807,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\QuoteB2BAmendmentQuery|null $quote_b2_b_amendment_query The requested change. (optional)
+     * @param  \OpenRoam\Model\AmendmentQuoteRequest|null $amendment_quote_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsQuoteAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\QuoteB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\AmendmentQuote|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsQuoteAmendment(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\QuoteB2BAmendmentQuery $quote_b2_b_amendment_query = null,
+        ?\OpenRoam\Model\AmendmentQuoteRequest $amendment_quote_request = null,
         string $contentType = self::contentTypes['orderItemsQuoteAmendment'][0]
-    ): \OpenRoam\Model\QuoteB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\AmendmentQuote|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->orderItemsQuoteAmendmentWithHttpInfo($id, $idempotency_key, $quote_b2_b_amendment_query, $contentType);
+        list($response) = $this->orderItemsQuoteAmendmentWithHttpInfo($id, $idempotency_key, $amendment_quote_request, $contentType);
         return $response;
     }
 
@@ -2832,21 +2832,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\QuoteB2BAmendmentQuery|null $quote_b2_b_amendment_query The requested change. (optional)
+     * @param  \OpenRoam\Model\AmendmentQuoteRequest|null $amendment_quote_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsQuoteAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\QuoteB2BAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AmendmentQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsQuoteAmendmentWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\QuoteB2BAmendmentQuery $quote_b2_b_amendment_query = null,
+        ?\OpenRoam\Model\AmendmentQuoteRequest $amendment_quote_request = null,
         string $contentType = self::contentTypes['orderItemsQuoteAmendment'][0]
     ): array
     {
-        $request = $this->orderItemsQuoteAmendmentRequest($id, $idempotency_key, $quote_b2_b_amendment_query, $contentType);
+        $request = $this->orderItemsQuoteAmendmentRequest($id, $idempotency_key, $amendment_quote_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2874,43 +2874,43 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\QuoteB2BAmendmentResponse',
+                        '\OpenRoam\Model\AmendmentQuote',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 422:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -2930,7 +2930,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\QuoteB2BAmendmentResponse',
+                '\OpenRoam\Model\AmendmentQuote',
                 $request,
                 $response,
             );
@@ -2939,7 +2939,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\QuoteB2BAmendmentResponse',
+                        '\OpenRoam\Model\AmendmentQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2947,7 +2947,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2955,7 +2955,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2963,7 +2963,7 @@ class OrderItemsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2971,7 +2971,7 @@ class OrderItemsApi
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2979,7 +2979,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2987,7 +2987,7 @@ class OrderItemsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3005,7 +3005,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\QuoteB2BAmendmentQuery|null $quote_b2_b_amendment_query The requested change. (optional)
+     * @param  \OpenRoam\Model\AmendmentQuoteRequest|null $amendment_quote_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsQuoteAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3014,11 +3014,11 @@ class OrderItemsApi
     public function orderItemsQuoteAmendmentAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\QuoteB2BAmendmentQuery $quote_b2_b_amendment_query = null,
+        ?\OpenRoam\Model\AmendmentQuoteRequest $amendment_quote_request = null,
         string $contentType = self::contentTypes['orderItemsQuoteAmendment'][0]
     ): PromiseInterface
     {
-        return $this->orderItemsQuoteAmendmentAsyncWithHttpInfo($id, $idempotency_key, $quote_b2_b_amendment_query, $contentType)
+        return $this->orderItemsQuoteAmendmentAsyncWithHttpInfo($id, $idempotency_key, $amendment_quote_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3033,7 +3033,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\QuoteB2BAmendmentQuery|null $quote_b2_b_amendment_query The requested change. (optional)
+     * @param  \OpenRoam\Model\AmendmentQuoteRequest|null $amendment_quote_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsQuoteAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3042,12 +3042,12 @@ class OrderItemsApi
     public function orderItemsQuoteAmendmentAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\QuoteB2BAmendmentQuery $quote_b2_b_amendment_query = null,
+        ?\OpenRoam\Model\AmendmentQuoteRequest $amendment_quote_request = null,
         string $contentType = self::contentTypes['orderItemsQuoteAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\QuoteB2BAmendmentResponse';
-        $request = $this->orderItemsQuoteAmendmentRequest($id, $idempotency_key, $quote_b2_b_amendment_query, $contentType);
+        $returnType = '\OpenRoam\Model\AmendmentQuote';
+        $request = $this->orderItemsQuoteAmendmentRequest($id, $idempotency_key, $amendment_quote_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3098,7 +3098,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\QuoteB2BAmendmentQuery|null $quote_b2_b_amendment_query The requested change. (optional)
+     * @param  \OpenRoam\Model\AmendmentQuoteRequest|null $amendment_quote_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsQuoteAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3107,7 +3107,7 @@ class OrderItemsApi
     public function orderItemsQuoteAmendmentRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\QuoteB2BAmendmentQuery $quote_b2_b_amendment_query = null,
+        ?\OpenRoam\Model\AmendmentQuoteRequest $amendment_quote_request = null,
         string $contentType = self::contentTypes['orderItemsQuoteAmendment'][0]
     ): Request
     {
@@ -3154,16 +3154,16 @@ class OrderItemsApi
         );
 
         // for model (json/xml)
-        if (isset($quote_b2_b_amendment_query)) {
+        if (isset($amendment_quote_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($quote_b2_b_amendment_query), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($amendment_quote_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $quote_b2_b_amendment_query;
+                $httpBody = $amendment_quote_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -3227,21 +3227,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\UpdateB2BOrderItemRequest|null $update_b2_b_order_item_request The members to change. (optional)
+     * @param  \OpenRoam\Model\OrderItemUpdateRequest|null $order_item_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse
      */
     public function orderItemsUpdate(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\UpdateB2BOrderItemRequest $update_b2_b_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemUpdateRequest $order_item_update_request = null,
         string $contentType = self::contentTypes['orderItemsUpdate'][0]
-    ): \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->orderItemsUpdateWithHttpInfo($id, $idempotency_key, $update_b2_b_order_item_request, $contentType);
+        list($response) = $this->orderItemsUpdateWithHttpInfo($id, $idempotency_key, $order_item_update_request, $contentType);
         return $response;
     }
 
@@ -3252,21 +3252,21 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\UpdateB2BOrderItemRequest|null $update_b2_b_order_item_request The members to change. (optional)
+     * @param  \OpenRoam\Model\OrderItemUpdateRequest|null $order_item_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\PartnerOrderItemEsim|\OpenRoam\Model\PartnerOrderItemHotel|\OpenRoam\Model\PartnerOrderItemFlight|\OpenRoam\Model\PartnerOrderItemGiftCard|\OpenRoam\Model\PartnerOrderItemAirtime|\OpenRoam\Model\PartnerOrderItemUtility|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function orderItemsUpdateWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\UpdateB2BOrderItemRequest $update_b2_b_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemUpdateRequest $order_item_update_request = null,
         string $contentType = self::contentTypes['orderItemsUpdate'][0]
     ): array
     {
-        $request = $this->orderItemsUpdateRequest($id, $idempotency_key, $update_b2_b_order_item_request, $contentType);
+        $request = $this->orderItemsUpdateRequest($id, $idempotency_key, $order_item_update_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3294,43 +3294,43 @@ class OrderItemsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerOrderItem',
+                        '\OpenRoam\Model\OrderItem',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 404:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 422:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -3350,7 +3350,7 @@ class OrderItemsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\PartnerOrderItem',
+                '\OpenRoam\Model\OrderItem',
                 $request,
                 $response,
             );
@@ -3359,7 +3359,7 @@ class OrderItemsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerOrderItem',
+                        '\OpenRoam\Model\OrderItem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3367,7 +3367,7 @@ class OrderItemsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3375,7 +3375,7 @@ class OrderItemsApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3383,7 +3383,7 @@ class OrderItemsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3391,7 +3391,7 @@ class OrderItemsApi
                 case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3399,7 +3399,7 @@ class OrderItemsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3407,7 +3407,7 @@ class OrderItemsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3425,7 +3425,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\UpdateB2BOrderItemRequest|null $update_b2_b_order_item_request The members to change. (optional)
+     * @param  \OpenRoam\Model\OrderItemUpdateRequest|null $order_item_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3434,11 +3434,11 @@ class OrderItemsApi
     public function orderItemsUpdateAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\UpdateB2BOrderItemRequest $update_b2_b_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemUpdateRequest $order_item_update_request = null,
         string $contentType = self::contentTypes['orderItemsUpdate'][0]
     ): PromiseInterface
     {
-        return $this->orderItemsUpdateAsyncWithHttpInfo($id, $idempotency_key, $update_b2_b_order_item_request, $contentType)
+        return $this->orderItemsUpdateAsyncWithHttpInfo($id, $idempotency_key, $order_item_update_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3453,7 +3453,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\UpdateB2BOrderItemRequest|null $update_b2_b_order_item_request The members to change. (optional)
+     * @param  \OpenRoam\Model\OrderItemUpdateRequest|null $order_item_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3462,12 +3462,12 @@ class OrderItemsApi
     public function orderItemsUpdateAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\UpdateB2BOrderItemRequest $update_b2_b_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemUpdateRequest $order_item_update_request = null,
         string $contentType = self::contentTypes['orderItemsUpdate'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\PartnerOrderItem';
-        $request = $this->orderItemsUpdateRequest($id, $idempotency_key, $update_b2_b_order_item_request, $contentType);
+        $returnType = '\OpenRoam\Model\OrderItem';
+        $request = $this->orderItemsUpdateRequest($id, $idempotency_key, $order_item_update_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3518,7 +3518,7 @@ class OrderItemsApi
      *
      * @param  string $id Order item id (&#x60;items[].id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\UpdateB2BOrderItemRequest|null $update_b2_b_order_item_request The members to change. (optional)
+     * @param  \OpenRoam\Model\OrderItemUpdateRequest|null $order_item_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['orderItemsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3527,7 +3527,7 @@ class OrderItemsApi
     public function orderItemsUpdateRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\UpdateB2BOrderItemRequest $update_b2_b_order_item_request = null,
+        ?\OpenRoam\Model\OrderItemUpdateRequest $order_item_update_request = null,
         string $contentType = self::contentTypes['orderItemsUpdate'][0]
     ): Request
     {
@@ -3574,16 +3574,16 @@ class OrderItemsApi
         );
 
         // for model (json/xml)
-        if (isset($update_b2_b_order_item_request)) {
+        if (isset($order_item_update_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($update_b2_b_order_item_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order_item_update_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $update_b2_b_order_item_request;
+                $httpBody = $order_item_update_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

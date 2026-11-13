@@ -62,7 +62,7 @@ class AirtimeOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\AirtimeCartInputs'
+        'inputs' => '\OpenRoam\Model\AirtimeInputs'
     ];
 
     /**
@@ -342,9 +342,9 @@ class AirtimeOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\AirtimeCartInputs
+     * @return \OpenRoam\Model\AirtimeInputs
      */
-    public function getInputs(): \OpenRoam\Model\AirtimeCartInputs
+    public function getInputs(): \OpenRoam\Model\AirtimeInputs
     {
         return $this->container['inputs'];
     }
@@ -352,11 +352,11 @@ class AirtimeOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\AirtimeCartInputs $inputs The recipient's number, any operator settings the offer lists, and the purchase fields.
+     * @param \OpenRoam\Model\AirtimeInputs $inputs The recipient's number, any operator settings the offer lists, and the purchase fields.
      *
      * @return $this
      */
-    public function setInputs(\OpenRoam\Model\AirtimeCartInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\AirtimeInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');

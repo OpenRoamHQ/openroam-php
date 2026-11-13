@@ -20,32 +20,32 @@ class OrdersResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function list(array $query = [], array $options = []): \OpenRoam\Model\B2BOrderListResponse
+    public function list(array $query = [], array $options = []): \OpenRoam\Model\OrderList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersGetAll',
             'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'startDate' => ['start_date', '\DateTime'], 'endDate' => ['end_date', '\DateTime'], 'minAmount' => ['min_amount', 'float'], 'maxAmount' => ['max_amount', 'float'], 'search' => ['search', 'string'], 'referenceId' => ['reference_id', 'string'], 'salesChannel' => ['sales_channel', 'string'], 'productTypes' => ['product_types', 'array'], 'orderStatuses' => ['order_statuses', 'array']],
-            'returns' => '\OpenRoam\Model\B2BOrderListResponse',
+            'returns' => '\OpenRoam\Model\OrderList',
         ], options: $options, query: $query);
     }
 
     /**
      * Create an order. POST /api/v1/b2b/orders
      *
-     * @param \OpenRoam\Model\CreateB2BOrderCommand|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\OrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\CreateB2BOrderCommand|array $body, array $options = []): \OpenRoam\Model\B2BOrderAcceptedResponse
+    public function order(\OpenRoam\Model\OrderRequest|array $body, array $options = []): \OpenRoam\Model\Order
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersCreateOrder',
-            'body' => 'create_b2_b_order_command',
-            'bodyType' => '\OpenRoam\Model\CreateB2BOrderCommand',
+            'body' => 'order_request',
+            'bodyType' => '\OpenRoam\Model\OrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\B2BOrderAcceptedResponse',
+            'returns' => '\OpenRoam\Model\Order',
         ], options: $options, body: $body);
     }
 
@@ -56,31 +56,31 @@ class OrdersResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function get(string $id, array $options = []): \OpenRoam\Model\B2BOrderResponse
+    public function get(string $id, array $options = []): \OpenRoam\Model\Order
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersGetById',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\B2BOrderResponse',
+            'returns' => '\OpenRoam\Model\Order',
         ], options: $options);
     }
 
     /**
      * Quote an order. POST /api/v1/b2b/orders/quote
      *
-     * @param \OpenRoam\Model\CreateB2BOrderCommand|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\OrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\CreateB2BOrderCommand|array $body, array $options = []): \OpenRoam\Model\B2BMixedQuoteResponse
+    public function quote(\OpenRoam\Model\OrderRequest|array $body, array $options = []): \OpenRoam\Model\OrderQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersQuoteOrder',
-            'body' => 'create_b2_b_order_command',
-            'bodyType' => '\OpenRoam\Model\CreateB2BOrderCommand',
-            'returns' => '\OpenRoam\Model\B2BMixedQuoteResponse',
+            'body' => 'order_request',
+            'bodyType' => '\OpenRoam\Model\OrderRequest',
+            'returns' => '\OpenRoam\Model\OrderQuote',
         ], options: $options, body: $body);
     }
 
@@ -91,14 +91,14 @@ class OrdersResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function retryPayment(string $orderId, array $options = []): \OpenRoam\Model\RetryB2BOrderPaymentResponse
+    public function retryPayment(string $orderId, array $options = []): \OpenRoam\Model\OrderPaymentRetryResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersRetryPayment',
             'path' => ['order_id' => $orderId],
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\RetryB2BOrderPaymentResponse',
+            'returns' => '\OpenRoam\Model\OrderPaymentRetryResult',
         ], options: $options);
     }
 
@@ -109,14 +109,14 @@ class OrdersResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function retryFulfillment(string $orderId, array $options = []): \OpenRoam\Model\RetryB2BOrderFulfillmentResponse
+    public function retryFulfillment(string $orderId, array $options = []): \OpenRoam\Model\OrderFulfillmentRetryResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersRetryFulfillment',
             'path' => ['order_id' => $orderId],
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\RetryB2BOrderFulfillmentResponse',
+            'returns' => '\OpenRoam\Model\OrderFulfillmentRetryResult',
         ], options: $options);
     }
 
@@ -127,13 +127,13 @@ class OrdersResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getFulfillmentStatus(string $orderId, array $options = []): \OpenRoam\Model\B2BOrderFulfillmentStatusResponse
+    public function getFulfillmentStatus(string $orderId, array $options = []): \OpenRoam\Model\OrderFulfillmentStatus
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersGetFulfillmentStatus',
             'path' => ['order_id' => $orderId],
-            'returns' => '\OpenRoam\Model\B2BOrderFulfillmentStatusResponse',
+            'returns' => '\OpenRoam\Model\OrderFulfillmentStatus',
         ], options: $options);
     }
 
@@ -144,13 +144,13 @@ class OrdersResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getCancellationPreview(string $id, array $options = []): \OpenRoam\Model\PartnerOrderCancellationPreview
+    public function getCancellationPreview(string $id, array $options = []): \OpenRoam\Model\OrderCancellationPreview
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersGetCancellationPreview',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\PartnerOrderCancellationPreview',
+            'returns' => '\OpenRoam\Model\OrderCancellationPreview',
         ], options: $options);
     }
 }

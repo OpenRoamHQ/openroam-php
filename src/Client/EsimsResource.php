@@ -20,13 +20,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(array $query = [], array $options = []): \OpenRoam\Model\EsimSearchResponse
+    public function search(array $query = [], array $options = []): \OpenRoam\Model\EsimSearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsSearch',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'region' => ['region', 'string'], 'validityDays' => ['validity_days', 'int'], 'isUnlimited' => ['is_unlimited', 'bool'], 'iccid' => ['iccid', 'string'], 'currency' => ['currency', 'string'], 'page' => ['page', 'int'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\EsimSearchResponse',
+            'returns' => '\OpenRoam\Model\EsimSearchResult',
         ], options: $options, query: $query);
     }
 
@@ -37,13 +37,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listDestinations(array $query = [], array $options = []): \OpenRoam\Model\EsimDestinationListResponse
+    public function listDestinations(array $query = [], array $options = []): \OpenRoam\Model\EsimDestinationList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetDestinations',
             'query' => ['category' => ['category', 'string'], 'region' => ['region', 'string']],
-            'returns' => '\OpenRoam\Model\EsimDestinationListResponse',
+            'returns' => '\OpenRoam\Model\EsimDestinationList',
         ], options: $options, query: $query);
     }
 
@@ -73,13 +73,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\EsimCatalogResponse
+    public function listCatalog(array $query = [], array $options = []): \OpenRoam\Model\EsimCatalogPage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetCatalog',
             'query' => ['countryCode' => ['country_code', 'string'], 'category' => ['category', 'string'], 'region' => ['region', 'string'], 'validityDays' => ['validity_days', 'int'], 'isUnlimited' => ['is_unlimited', 'bool'], 'currency' => ['currency', 'string'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
-            'returns' => '\OpenRoam\Model\EsimCatalogResponse',
+            'returns' => '\OpenRoam\Model\EsimCatalogPage',
         ], options: $options, query: $query);
     }
 
@@ -106,7 +106,7 @@ class EsimsResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\EsimOrderRequest|array $body, array $options = []): \OpenRoam\Model\EsimsCreateOrder200Response
+    public function order(\OpenRoam\Model\EsimOrderRequest|array $body, array $options = []): \OpenRoam\Model\EsimOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
@@ -114,7 +114,7 @@ class EsimsResource
             'body' => 'esim_order_request',
             'bodyType' => '\OpenRoam\Model\EsimOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\EsimsCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\EsimOrder',
         ], options: $options, body: $body);
     }
 
@@ -125,14 +125,14 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\EsimOrderRequest|array $body, array $options = []): \OpenRoam\Model\EsimQuoteResponse
+    public function quote(\OpenRoam\Model\EsimOrderRequest|array $body, array $options = []): \OpenRoam\Model\EsimQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsQuote',
             'body' => 'esim_order_request',
             'bodyType' => '\OpenRoam\Model\EsimOrderRequest',
-            'returns' => '\OpenRoam\Model\EsimQuoteResponse',
+            'returns' => '\OpenRoam\Model\EsimQuote',
         ], options: $options, body: $body);
     }
 
@@ -143,13 +143,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getProfile(string $iccid, array $options = []): \OpenRoam\Model\B2BEsimProfile
+    public function getProfile(string $iccid, array $options = []): \OpenRoam\Model\EsimProfile
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetEsim',
             'path' => ['iccid' => $iccid],
-            'returns' => '\OpenRoam\Model\B2BEsimProfile',
+            'returns' => '\OpenRoam\Model\EsimProfile',
         ], options: $options);
     }
 
@@ -160,13 +160,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getUsage(string $iccid, array $options = []): \OpenRoam\Model\B2BEsimUsageResponse
+    public function getUsage(string $iccid, array $options = []): \OpenRoam\Model\EsimCurrentUsage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetUsage',
             'path' => ['iccid' => $iccid],
-            'returns' => '\OpenRoam\Model\B2BEsimUsageResponse',
+            'returns' => '\OpenRoam\Model\EsimCurrentUsage',
         ], options: $options);
     }
 
@@ -177,13 +177,13 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listDailyUsage(string $iccid, array $options = []): \OpenRoam\Model\B2BEsimUsageDetailsResponse
+    public function listDailyUsage(string $iccid, array $options = []): \OpenRoam\Model\EsimDailyUsage
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetUsageDetails',
             'path' => ['iccid' => $iccid],
-            'returns' => '\OpenRoam\Model\B2BEsimUsageDetailsResponse',
+            'returns' => '\OpenRoam\Model\EsimDailyUsage',
         ], options: $options);
     }
 
@@ -195,14 +195,14 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listUsageHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\B2BEsimUsageHistoryResponse
+    public function listUsageHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\EsimUsageReadingList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetUsageHistory',
             'path' => ['iccid' => $iccid],
             'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'from' => ['from', '\DateTime'], 'to' => ['to', '\DateTime']],
-            'returns' => '\OpenRoam\Model\B2BEsimUsageHistoryResponse',
+            'returns' => '\OpenRoam\Model\EsimUsageReadingList',
         ], options: $options, query: $query);
     }
 
@@ -214,14 +214,14 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listStatusHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\B2BEsimStatusEventsResponse
+    public function listStatusHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\EsimStatusEventList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetStatusEvents',
             'path' => ['iccid' => $iccid],
             'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'from' => ['from', '\DateTime'], 'to' => ['to', '\DateTime']],
-            'returns' => '\OpenRoam\Model\B2BEsimStatusEventsResponse',
+            'returns' => '\OpenRoam\Model\EsimStatusEventList',
         ], options: $options, query: $query);
     }
 
@@ -233,14 +233,14 @@ class EsimsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listLocationHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\B2BEsimLocationEventsResponse
+    public function listLocationHistory(string $iccid, array $query = [], array $options = []): \OpenRoam\Model\EsimLocationEventList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetLocationEvents',
             'path' => ['iccid' => $iccid],
             'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'from' => ['from', '\DateTime'], 'to' => ['to', '\DateTime']],
-            'returns' => '\OpenRoam\Model\B2BEsimLocationEventsResponse',
+            'returns' => '\OpenRoam\Model\EsimLocationEventList',
         ], options: $options, query: $query);
     }
 
@@ -248,20 +248,20 @@ class EsimsResource
      * Provision a deferred eSIM. POST /api/v1/b2b/esims/{id}/provisioning
      *
      * @param string $id
-     * @param \OpenRoam\Model\ProvisionB2BEsimRequest|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\EsimProvisionRequest|array|null $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function provision(string $id, \OpenRoam\Model\ProvisionB2BEsimRequest|array|null $body = null, array $options = []): \OpenRoam\Model\B2BEsimProfile
+    public function provision(string $id, \OpenRoam\Model\EsimProvisionRequest|array|null $body = null, array $options = []): \OpenRoam\Model\EsimProfile
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsProvision',
             'path' => ['id' => $id],
-            'body' => 'provision_b2_b_esim_request',
-            'bodyType' => '\OpenRoam\Model\ProvisionB2BEsimRequest',
+            'body' => 'esim_provision_request',
+            'bodyType' => '\OpenRoam\Model\EsimProvisionRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\B2BEsimProfile',
+            'returns' => '\OpenRoam\Model\EsimProfile',
         ], options: $options, body: $body);
     }
 
@@ -269,19 +269,19 @@ class EsimsResource
      * Send an SMS to an eSIM. POST /api/v1/b2b/esims/{iccid}/sms
      *
      * @param string $iccid
-     * @param \OpenRoam\Model\SendB2BEsimSmsCommand|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\EsimSendSmsRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function sendSms(string $iccid, \OpenRoam\Model\SendB2BEsimSmsCommand|array $body, array $options = []): \OpenRoam\Model\EsimSendSmsResponse
+    public function sendSms(string $iccid, \OpenRoam\Model\EsimSendSmsRequest|array $body, array $options = []): \OpenRoam\Model\EsimSendSmsResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsSendSms',
             'path' => ['iccid' => $iccid],
-            'body' => 'send_b2_b_esim_sms_command',
-            'bodyType' => '\OpenRoam\Model\SendB2BEsimSmsCommand',
-            'returns' => '\OpenRoam\Model\EsimSendSmsResponse',
+            'body' => 'esim_send_sms_request',
+            'bodyType' => '\OpenRoam\Model\EsimSendSmsRequest',
+            'returns' => '\OpenRoam\Model\EsimSendSmsResult',
         ], options: $options, body: $body);
     }
 }

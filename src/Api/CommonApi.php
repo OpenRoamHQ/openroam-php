@@ -136,11 +136,11 @@ class CommonApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\CountryListResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\CountryList|\OpenRoam\Model\ErrorResponse
      */
     public function commonGetCountries(
         string $contentType = self::contentTypes['commonGetCountries'][0]
-    ): \OpenRoam\Model\CountryListResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\CountryList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->commonGetCountriesWithHttpInfo($contentType);
         return $response;
@@ -155,7 +155,7 @@ class CommonApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\CountryListResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\CountryList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function commonGetCountriesWithHttpInfo(
         string $contentType = self::contentTypes['commonGetCountries'][0]
@@ -189,19 +189,19 @@ class CommonApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\CountryListResponse',
+                        '\OpenRoam\Model\CountryList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -221,7 +221,7 @@ class CommonApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\CountryListResponse',
+                '\OpenRoam\Model\CountryList',
                 $request,
                 $response,
             );
@@ -230,7 +230,7 @@ class CommonApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\CountryListResponse',
+                        '\OpenRoam\Model\CountryList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -238,7 +238,7 @@ class CommonApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -246,7 +246,7 @@ class CommonApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -293,7 +293,7 @@ class CommonApi
         string $contentType = self::contentTypes['commonGetCountries'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\CountryListResponse';
+        $returnType = '\OpenRoam\Model\CountryList';
         $request = $this->commonGetCountriesRequest($contentType);
 
         return $this->client
@@ -408,13 +408,13 @@ class CommonApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\MobileNetworkListResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\MobileNetworkList|\OpenRoam\Model\ErrorResponse
      */
     public function commonGetMobileNetworks(
         ?string $country_code = null,
         ?string $mcc = null,
         string $contentType = self::contentTypes['commonGetMobileNetworks'][0]
-    ): \OpenRoam\Model\MobileNetworkListResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\MobileNetworkList|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->commonGetMobileNetworksWithHttpInfo($country_code, $mcc, $contentType);
         return $response;
@@ -431,7 +431,7 @@ class CommonApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\MobileNetworkListResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\MobileNetworkList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function commonGetMobileNetworksWithHttpInfo(
         ?string $country_code = null,
@@ -467,19 +467,19 @@ class CommonApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\MobileNetworkListResponse',
+                        '\OpenRoam\Model\MobileNetworkList',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -499,7 +499,7 @@ class CommonApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\MobileNetworkListResponse',
+                '\OpenRoam\Model\MobileNetworkList',
                 $request,
                 $response,
             );
@@ -508,7 +508,7 @@ class CommonApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\MobileNetworkListResponse',
+                        '\OpenRoam\Model\MobileNetworkList',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -516,7 +516,7 @@ class CommonApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -524,7 +524,7 @@ class CommonApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -579,7 +579,7 @@ class CommonApi
         string $contentType = self::contentTypes['commonGetMobileNetworks'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\MobileNetworkListResponse';
+        $returnType = '\OpenRoam\Model\MobileNetworkList';
         $request = $this->commonGetMobileNetworksRequest($country_code, $mcc, $contentType);
 
         return $this->client

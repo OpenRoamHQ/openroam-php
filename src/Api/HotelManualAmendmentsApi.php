@@ -145,22 +145,22 @@ class HotelManualAmendmentsApi
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $amendment_id The &#x60;amendmentId&#x60; returned when the request was created. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ApproveB2BManualAmendmentCommand|null $approve_b2_b_manual_amendment_command Optional settlement choice. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentApproveRequest|null $manual_amendment_approve_request Optional settlement choice. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsApproveManualAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\ApproveB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
      */
     public function hotelManualAmendmentsApproveManualAmendment(
         string $id,
         string $amendment_id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ApproveB2BManualAmendmentCommand $approve_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentApproveRequest $manual_amendment_approve_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsApproveManualAmendment'][0]
-    ): \OpenRoam\Model\ApproveB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->hotelManualAmendmentsApproveManualAmendmentWithHttpInfo($id, $amendment_id, $idempotency_key, $approve_b2_b_manual_amendment_command, $contentType);
+        list($response) = $this->hotelManualAmendmentsApproveManualAmendmentWithHttpInfo($id, $amendment_id, $idempotency_key, $manual_amendment_approve_request, $contentType);
         return $response;
     }
 
@@ -172,22 +172,22 @@ class HotelManualAmendmentsApi
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $amendment_id The &#x60;amendmentId&#x60; returned when the request was created. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ApproveB2BManualAmendmentCommand|null $approve_b2_b_manual_amendment_command Optional settlement choice. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentApproveRequest|null $manual_amendment_approve_request Optional settlement choice. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsApproveManualAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\ApproveB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelManualAmendmentsApproveManualAmendmentWithHttpInfo(
         string $id,
         string $amendment_id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ApproveB2BManualAmendmentCommand $approve_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentApproveRequest $manual_amendment_approve_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsApproveManualAmendment'][0]
     ): array
     {
-        $request = $this->hotelManualAmendmentsApproveManualAmendmentRequest($id, $amendment_id, $idempotency_key, $approve_b2_b_manual_amendment_command, $contentType);
+        $request = $this->hotelManualAmendmentsApproveManualAmendmentRequest($id, $amendment_id, $idempotency_key, $manual_amendment_approve_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -215,31 +215,31 @@ class HotelManualAmendmentsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ApproveB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -259,7 +259,7 @@ class HotelManualAmendmentsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\ApproveB2BManualAmendmentResponse',
+                '\OpenRoam\Model\ManualAmendmentResult',
                 $request,
                 $response,
             );
@@ -268,7 +268,7 @@ class HotelManualAmendmentsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\ApproveB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -276,7 +276,7 @@ class HotelManualAmendmentsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -284,7 +284,7 @@ class HotelManualAmendmentsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -292,7 +292,7 @@ class HotelManualAmendmentsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -300,7 +300,7 @@ class HotelManualAmendmentsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -319,7 +319,7 @@ class HotelManualAmendmentsApi
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $amendment_id The &#x60;amendmentId&#x60; returned when the request was created. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ApproveB2BManualAmendmentCommand|null $approve_b2_b_manual_amendment_command Optional settlement choice. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentApproveRequest|null $manual_amendment_approve_request Optional settlement choice. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsApproveManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -329,11 +329,11 @@ class HotelManualAmendmentsApi
         string $id,
         string $amendment_id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ApproveB2BManualAmendmentCommand $approve_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentApproveRequest $manual_amendment_approve_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsApproveManualAmendment'][0]
     ): PromiseInterface
     {
-        return $this->hotelManualAmendmentsApproveManualAmendmentAsyncWithHttpInfo($id, $amendment_id, $idempotency_key, $approve_b2_b_manual_amendment_command, $contentType)
+        return $this->hotelManualAmendmentsApproveManualAmendmentAsyncWithHttpInfo($id, $amendment_id, $idempotency_key, $manual_amendment_approve_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -349,7 +349,7 @@ class HotelManualAmendmentsApi
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $amendment_id The &#x60;amendmentId&#x60; returned when the request was created. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ApproveB2BManualAmendmentCommand|null $approve_b2_b_manual_amendment_command Optional settlement choice. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentApproveRequest|null $manual_amendment_approve_request Optional settlement choice. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsApproveManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -359,12 +359,12 @@ class HotelManualAmendmentsApi
         string $id,
         string $amendment_id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ApproveB2BManualAmendmentCommand $approve_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentApproveRequest $manual_amendment_approve_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsApproveManualAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\ApproveB2BManualAmendmentResponse';
-        $request = $this->hotelManualAmendmentsApproveManualAmendmentRequest($id, $amendment_id, $idempotency_key, $approve_b2_b_manual_amendment_command, $contentType);
+        $returnType = '\OpenRoam\Model\ManualAmendmentResult';
+        $request = $this->hotelManualAmendmentsApproveManualAmendmentRequest($id, $amendment_id, $idempotency_key, $manual_amendment_approve_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -416,7 +416,7 @@ class HotelManualAmendmentsApi
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $amendment_id The &#x60;amendmentId&#x60; returned when the request was created. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\ApproveB2BManualAmendmentCommand|null $approve_b2_b_manual_amendment_command Optional settlement choice. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentApproveRequest|null $manual_amendment_approve_request Optional settlement choice. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsApproveManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -426,7 +426,7 @@ class HotelManualAmendmentsApi
         string $id,
         string $amendment_id,
         string $idempotency_key,
-        ?\OpenRoam\Model\ApproveB2BManualAmendmentCommand $approve_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentApproveRequest $manual_amendment_approve_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsApproveManualAmendment'][0]
     ): Request
     {
@@ -487,16 +487,16 @@ class HotelManualAmendmentsApi
         );
 
         // for model (json/xml)
-        if (isset($approve_b2_b_manual_amendment_command)) {
+        if (isset($manual_amendment_approve_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($approve_b2_b_manual_amendment_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($manual_amendment_approve_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $approve_b2_b_manual_amendment_command;
+                $httpBody = $manual_amendment_approve_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -564,13 +564,13 @@ class HotelManualAmendmentsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\CancelB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
      */
     public function hotelManualAmendmentsCancelManualAmendment(
         string $id,
         string $amendment_id,
         string $contentType = self::contentTypes['hotelManualAmendmentsCancelManualAmendment'][0]
-    ): \OpenRoam\Model\CancelB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelManualAmendmentsCancelManualAmendmentWithHttpInfo($id, $amendment_id, $contentType);
         return $response;
@@ -587,7 +587,7 @@ class HotelManualAmendmentsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\CancelB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelManualAmendmentsCancelManualAmendmentWithHttpInfo(
         string $id,
@@ -623,19 +623,19 @@ class HotelManualAmendmentsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\CancelB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -655,7 +655,7 @@ class HotelManualAmendmentsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\CancelB2BManualAmendmentResponse',
+                '\OpenRoam\Model\ManualAmendmentResult',
                 $request,
                 $response,
             );
@@ -664,7 +664,7 @@ class HotelManualAmendmentsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\CancelB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -672,7 +672,7 @@ class HotelManualAmendmentsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -680,7 +680,7 @@ class HotelManualAmendmentsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -735,7 +735,7 @@ class HotelManualAmendmentsApi
         string $contentType = self::contentTypes['hotelManualAmendmentsCancelManualAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\CancelB2BManualAmendmentResponse';
+        $returnType = '\OpenRoam\Model\ManualAmendmentResult';
         $request = $this->hotelManualAmendmentsCancelManualAmendmentRequest($id, $amendment_id, $contentType);
 
         return $this->client
@@ -878,21 +878,21 @@ class HotelManualAmendmentsApi
      *
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\CreateB2BManualAmendmentCommand|null $create_b2_b_manual_amendment_command The requested change. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentCreateRequest|null $manual_amendment_create_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsCreateManualAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\CreateB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
      */
     public function hotelManualAmendmentsCreateManualAmendment(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\CreateB2BManualAmendmentCommand $create_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentCreateRequest $manual_amendment_create_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsCreateManualAmendment'][0]
-    ): \OpenRoam\Model\CreateB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->hotelManualAmendmentsCreateManualAmendmentWithHttpInfo($id, $idempotency_key, $create_b2_b_manual_amendment_command, $contentType);
+        list($response) = $this->hotelManualAmendmentsCreateManualAmendmentWithHttpInfo($id, $idempotency_key, $manual_amendment_create_request, $contentType);
         return $response;
     }
 
@@ -903,21 +903,21 @@ class HotelManualAmendmentsApi
      *
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\CreateB2BManualAmendmentCommand|null $create_b2_b_manual_amendment_command The requested change. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentCreateRequest|null $manual_amendment_create_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsCreateManualAmendment'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\CreateB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelManualAmendmentsCreateManualAmendmentWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\CreateB2BManualAmendmentCommand $create_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentCreateRequest $manual_amendment_create_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsCreateManualAmendment'][0]
     ): array
     {
-        $request = $this->hotelManualAmendmentsCreateManualAmendmentRequest($id, $idempotency_key, $create_b2_b_manual_amendment_command, $contentType);
+        $request = $this->hotelManualAmendmentsCreateManualAmendmentRequest($id, $idempotency_key, $manual_amendment_create_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -945,31 +945,31 @@ class HotelManualAmendmentsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\CreateB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 409:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 503:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -989,7 +989,7 @@ class HotelManualAmendmentsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\CreateB2BManualAmendmentResponse',
+                '\OpenRoam\Model\ManualAmendmentResult',
                 $request,
                 $response,
             );
@@ -998,7 +998,7 @@ class HotelManualAmendmentsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\CreateB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1006,7 +1006,7 @@ class HotelManualAmendmentsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1014,7 +1014,7 @@ class HotelManualAmendmentsApi
                 case 409:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1022,7 +1022,7 @@ class HotelManualAmendmentsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1030,7 +1030,7 @@ class HotelManualAmendmentsApi
                 case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1048,7 +1048,7 @@ class HotelManualAmendmentsApi
      *
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\CreateB2BManualAmendmentCommand|null $create_b2_b_manual_amendment_command The requested change. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentCreateRequest|null $manual_amendment_create_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsCreateManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1057,11 +1057,11 @@ class HotelManualAmendmentsApi
     public function hotelManualAmendmentsCreateManualAmendmentAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\CreateB2BManualAmendmentCommand $create_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentCreateRequest $manual_amendment_create_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsCreateManualAmendment'][0]
     ): PromiseInterface
     {
-        return $this->hotelManualAmendmentsCreateManualAmendmentAsyncWithHttpInfo($id, $idempotency_key, $create_b2_b_manual_amendment_command, $contentType)
+        return $this->hotelManualAmendmentsCreateManualAmendmentAsyncWithHttpInfo($id, $idempotency_key, $manual_amendment_create_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1076,7 +1076,7 @@ class HotelManualAmendmentsApi
      *
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\CreateB2BManualAmendmentCommand|null $create_b2_b_manual_amendment_command The requested change. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentCreateRequest|null $manual_amendment_create_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsCreateManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1085,12 +1085,12 @@ class HotelManualAmendmentsApi
     public function hotelManualAmendmentsCreateManualAmendmentAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\CreateB2BManualAmendmentCommand $create_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentCreateRequest $manual_amendment_create_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsCreateManualAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\CreateB2BManualAmendmentResponse';
-        $request = $this->hotelManualAmendmentsCreateManualAmendmentRequest($id, $idempotency_key, $create_b2_b_manual_amendment_command, $contentType);
+        $returnType = '\OpenRoam\Model\ManualAmendmentResult';
+        $request = $this->hotelManualAmendmentsCreateManualAmendmentRequest($id, $idempotency_key, $manual_amendment_create_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1141,7 +1141,7 @@ class HotelManualAmendmentsApi
      *
      * @param  string $id The hotel order item&#39;s &#x60;id&#x60;, from &#x60;items[].id&#x60; of the order. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\CreateB2BManualAmendmentCommand|null $create_b2_b_manual_amendment_command The requested change. (optional)
+     * @param  \OpenRoam\Model\ManualAmendmentCreateRequest|null $manual_amendment_create_request The requested change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['hotelManualAmendmentsCreateManualAmendment'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1150,7 +1150,7 @@ class HotelManualAmendmentsApi
     public function hotelManualAmendmentsCreateManualAmendmentRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\CreateB2BManualAmendmentCommand $create_b2_b_manual_amendment_command = null,
+        ?\OpenRoam\Model\ManualAmendmentCreateRequest $manual_amendment_create_request = null,
         string $contentType = self::contentTypes['hotelManualAmendmentsCreateManualAmendment'][0]
     ): Request
     {
@@ -1197,16 +1197,16 @@ class HotelManualAmendmentsApi
         );
 
         // for model (json/xml)
-        if (isset($create_b2_b_manual_amendment_command)) {
+        if (isset($manual_amendment_create_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($create_b2_b_manual_amendment_command), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($manual_amendment_create_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $create_b2_b_manual_amendment_command;
+                $httpBody = $manual_amendment_create_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -1274,13 +1274,13 @@ class HotelManualAmendmentsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\DeclineB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+     * @return \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
      */
     public function hotelManualAmendmentsDeclineManualAmendment(
         string $id,
         string $amendment_id,
         string $contentType = self::contentTypes['hotelManualAmendmentsDeclineManualAmendment'][0]
-    ): \OpenRoam\Model\DeclineB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse
+    ): \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelManualAmendmentsDeclineManualAmendmentWithHttpInfo($id, $amendment_id, $contentType);
         return $response;
@@ -1297,7 +1297,7 @@ class HotelManualAmendmentsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\DeclineB2BManualAmendmentResponse|\OpenRoam\Model\PartnerErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\ManualAmendmentResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelManualAmendmentsDeclineManualAmendmentWithHttpInfo(
         string $id,
@@ -1333,19 +1333,19 @@ class HotelManualAmendmentsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\DeclineB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
                 case 429:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
@@ -1365,7 +1365,7 @@ class HotelManualAmendmentsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\DeclineB2BManualAmendmentResponse',
+                '\OpenRoam\Model\ManualAmendmentResult',
                 $request,
                 $response,
             );
@@ -1374,7 +1374,7 @@ class HotelManualAmendmentsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\DeclineB2BManualAmendmentResponse',
+                        '\OpenRoam\Model\ManualAmendmentResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1382,7 +1382,7 @@ class HotelManualAmendmentsApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1390,7 +1390,7 @@ class HotelManualAmendmentsApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\PartnerErrorResponse',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1445,7 +1445,7 @@ class HotelManualAmendmentsApi
         string $contentType = self::contentTypes['hotelManualAmendmentsDeclineManualAmendment'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\DeclineB2BManualAmendmentResponse';
+        $returnType = '\OpenRoam\Model\ManualAmendmentResult';
         $request = $this->hotelManualAmendmentsDeclineManualAmendmentRequest($id, $amendment_id, $contentType);
 
         return $this->client

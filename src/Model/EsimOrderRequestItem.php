@@ -62,7 +62,7 @@ class EsimOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializa
     protected static array $openAPITypes = [
         'public_id' => 'string',
         'quantity' => 'int',
-        'inputs' => '\OpenRoam\Model\EsimCartInputs'
+        'inputs' => '\OpenRoam\Model\EsimInputs'
     ];
 
     /**
@@ -339,9 +339,9 @@ class EsimOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\EsimCartInputs|null
+     * @return \OpenRoam\Model\EsimInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\EsimCartInputs
+    public function getInputs(): ?\OpenRoam\Model\EsimInputs
     {
         return $this->container['inputs'];
     }
@@ -349,11 +349,11 @@ class EsimOrderRequestItem implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\EsimCartInputs|null $inputs The inputs the offer's `requiredInputs` list, plus the optional `maxPrice`. May be omitted for a new eSIM whose offer requires none; a top-up needs `iccid`.
+     * @param \OpenRoam\Model\EsimInputs|null $inputs The inputs the offer's `requiredInputs` list, plus the optional `maxPrice`. May be omitted for a new eSIM whose offer requires none; a top-up needs `iccid`.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\EsimCartInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\EsimInputs $inputs): static
     {
         if (is_null($inputs)) {
             array_push($this->openAPINullablesSetToNull, 'inputs');

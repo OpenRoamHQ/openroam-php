@@ -6,7 +6,7 @@ PHP 8.1+.
 ## Install
 
 ```bash
-composer require openroam/sdk:0.1.0-rc.4
+composer require openroam/sdk:0.1.0-rc.5
 ```
 
 > This is a **release candidate**: install it by its exact version, as above; a plain install does not pick it up. Before 1.0 the API can change between minor versions; every change is listed in the [changelog](https://openroamhq.github.io/openroam-sdks/changelog/).

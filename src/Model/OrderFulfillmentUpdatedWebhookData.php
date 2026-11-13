@@ -60,7 +60,7 @@ class OrderFulfillmentUpdatedWebhookData implements ModelInterface, ArrayAccess,
      */
     protected static array $openAPITypes = [
         'order_id' => 'string',
-        'origin' => '\OpenRoam\Model\PartnerOrderOrigin',
+        'origin' => '\OpenRoam\Model\OrderOrigin',
         'status' => 'string',
         'fulfillment_version' => 'int',
         'items' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItem[]'
@@ -356,9 +356,9 @@ class OrderFulfillmentUpdatedWebhookData implements ModelInterface, ArrayAccess,
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\PartnerOrderOrigin|null
+     * @return \OpenRoam\Model\OrderOrigin|null
      */
-    public function getOrigin(): ?\OpenRoam\Model\PartnerOrderOrigin
+    public function getOrigin(): ?\OpenRoam\Model\OrderOrigin
     {
         return $this->container['origin'];
     }
@@ -366,11 +366,11 @@ class OrderFulfillmentUpdatedWebhookData implements ModelInterface, ArrayAccess,
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\PartnerOrderOrigin|null $origin Where an order was created.
+     * @param \OpenRoam\Model\OrderOrigin|null $origin Where an order was created.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\PartnerOrderOrigin $origin): static
+    public function setOrigin(?\OpenRoam\Model\OrderOrigin $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -447,7 +447,7 @@ class OrderFulfillmentUpdatedWebhookData implements ModelInterface, ArrayAccess,
     /**
      * Gets items
      *
-     * @return (\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemEsim|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemHotel|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemFlight|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemGiftCard|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemAirtime|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemUtility)[]|null
+     * @return (\OpenRoam\Model\EsimOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\HotelOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\FlightOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\GiftCardOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\AirtimeOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\UtilityOrderFulfillmentUpdatedWebhookItem)[]|null
      */
     public function getItems(): ?array
     {
@@ -457,7 +457,7 @@ class OrderFulfillmentUpdatedWebhookData implements ModelInterface, ArrayAccess,
     /**
      * Sets items
      *
-     * @param (\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemEsim|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemHotel|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemFlight|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemGiftCard|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemAirtime|\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemUtility)[]|null $items items
+     * @param (\OpenRoam\Model\EsimOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\HotelOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\FlightOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\GiftCardOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\AirtimeOrderFulfillmentUpdatedWebhookItem|\OpenRoam\Model\UtilityOrderFulfillmentUpdatedWebhookItem)[]|null $items items
      *
      * @return $this
      */

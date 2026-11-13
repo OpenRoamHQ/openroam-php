@@ -16,18 +16,18 @@ class FlightsResource
     /**
      * Search flights. POST /api/v1/b2b/flights/search
      *
-     * @param \OpenRoam\Model\SearchB2BFlightsQuery|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\FlightSearchRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(\OpenRoam\Model\SearchB2BFlightsQuery|array $body, array $options = []): \OpenRoam\Model\FlightSearchApiResponse
+    public function search(\OpenRoam\Model\FlightSearchRequest|array $body, array $options = []): \OpenRoam\Model\FlightSearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\FlightsApi::class,
             'operation' => 'flightsSearch',
-            'body' => 'search_b2_b_flights_query',
-            'bodyType' => '\OpenRoam\Model\SearchB2BFlightsQuery',
-            'returns' => '\OpenRoam\Model\FlightSearchApiResponse',
+            'body' => 'flight_search_request',
+            'bodyType' => '\OpenRoam\Model\FlightSearchRequest',
+            'returns' => '\OpenRoam\Model\FlightSearchResult',
         ], options: $options, body: $body);
     }
 
@@ -38,14 +38,14 @@ class FlightsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\FlightOrderRequest|array $body, array $options = []): \OpenRoam\Model\FlightQuoteApiResponse
+    public function quote(\OpenRoam\Model\FlightOrderRequest|array $body, array $options = []): \OpenRoam\Model\FlightQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\FlightsApi::class,
             'operation' => 'flightsQuote',
             'body' => 'flight_order_request',
             'bodyType' => '\OpenRoam\Model\FlightOrderRequest',
-            'returns' => '\OpenRoam\Model\FlightQuoteApiResponse',
+            'returns' => '\OpenRoam\Model\FlightQuote',
         ], options: $options, body: $body);
     }
 
@@ -56,7 +56,7 @@ class FlightsResource
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\FlightOrderRequest|array $body, array $options = []): \OpenRoam\Model\FlightsCreateOrder200Response
+    public function order(\OpenRoam\Model\FlightOrderRequest|array $body, array $options = []): \OpenRoam\Model\FlightOrder
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\FlightsApi::class,
@@ -64,7 +64,7 @@ class FlightsResource
             'body' => 'flight_order_request',
             'bodyType' => '\OpenRoam\Model\FlightOrderRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\FlightsCreateOrder200Response',
+            'returns' => '\OpenRoam\Model\FlightOrder',
         ], options: $options, body: $body);
     }
 
@@ -75,13 +75,13 @@ class FlightsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getSeatMap(string $publicId, array $options = []): \OpenRoam\Model\FlightSeatMapApiResponse
+    public function getSeatMap(string $publicId, array $options = []): \OpenRoam\Model\FlightSeatMap
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\FlightsApi::class,
             'operation' => 'flightsGetSeatMap',
             'path' => ['public_id' => $publicId],
-            'returns' => '\OpenRoam\Model\FlightSeatMapApiResponse',
+            'returns' => '\OpenRoam\Model\FlightSeatMap',
         ], options: $options);
     }
 }

@@ -17,20 +17,20 @@ class OrderItemsManualAmendmentsResource
      * Request a manual amendment. POST /api/v1/b2b/order-items/{id}/manual-amendments
      *
      * @param string $id
-     * @param \OpenRoam\Model\CreateB2BManualAmendmentCommand|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\ManualAmendmentCreateRequest|array|null $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function create(string $id, \OpenRoam\Model\CreateB2BManualAmendmentCommand|array|null $body = null, array $options = []): \OpenRoam\Model\CreateB2BManualAmendmentResponse
+    public function create(string $id, \OpenRoam\Model\ManualAmendmentCreateRequest|array|null $body = null, array $options = []): \OpenRoam\Model\ManualAmendmentResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelManualAmendmentsApi::class,
             'operation' => 'hotelManualAmendmentsCreateManualAmendment',
             'path' => ['id' => $id],
-            'body' => 'create_b2_b_manual_amendment_command',
-            'bodyType' => '\OpenRoam\Model\CreateB2BManualAmendmentCommand',
+            'body' => 'manual_amendment_create_request',
+            'bodyType' => '\OpenRoam\Model\ManualAmendmentCreateRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\CreateB2BManualAmendmentResponse',
+            'returns' => '\OpenRoam\Model\ManualAmendmentResult',
         ], options: $options, body: $body);
     }
 
@@ -42,13 +42,13 @@ class OrderItemsManualAmendmentsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function cancel(string $id, string $amendmentId, array $options = []): \OpenRoam\Model\CancelB2BManualAmendmentResponse
+    public function cancel(string $id, string $amendmentId, array $options = []): \OpenRoam\Model\ManualAmendmentResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelManualAmendmentsApi::class,
             'operation' => 'hotelManualAmendmentsCancelManualAmendment',
             'path' => ['id' => $id, 'amendment_id' => $amendmentId],
-            'returns' => '\OpenRoam\Model\CancelB2BManualAmendmentResponse',
+            'returns' => '\OpenRoam\Model\ManualAmendmentResult',
         ], options: $options);
     }
 
@@ -57,20 +57,20 @@ class OrderItemsManualAmendmentsResource
      *
      * @param string $id
      * @param string $amendmentId
-     * @param \OpenRoam\Model\ApproveB2BManualAmendmentCommand|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\ManualAmendmentApproveRequest|array|null $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function approve(string $id, string $amendmentId, \OpenRoam\Model\ApproveB2BManualAmendmentCommand|array|null $body = null, array $options = []): \OpenRoam\Model\ApproveB2BManualAmendmentResponse
+    public function approve(string $id, string $amendmentId, \OpenRoam\Model\ManualAmendmentApproveRequest|array|null $body = null, array $options = []): \OpenRoam\Model\ManualAmendmentResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelManualAmendmentsApi::class,
             'operation' => 'hotelManualAmendmentsApproveManualAmendment',
             'path' => ['id' => $id, 'amendment_id' => $amendmentId],
-            'body' => 'approve_b2_b_manual_amendment_command',
-            'bodyType' => '\OpenRoam\Model\ApproveB2BManualAmendmentCommand',
+            'body' => 'manual_amendment_approve_request',
+            'bodyType' => '\OpenRoam\Model\ManualAmendmentApproveRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\ApproveB2BManualAmendmentResponse',
+            'returns' => '\OpenRoam\Model\ManualAmendmentResult',
         ], options: $options, body: $body);
     }
 
@@ -82,13 +82,13 @@ class OrderItemsManualAmendmentsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function decline(string $id, string $amendmentId, array $options = []): \OpenRoam\Model\DeclineB2BManualAmendmentResponse
+    public function decline(string $id, string $amendmentId, array $options = []): \OpenRoam\Model\ManualAmendmentResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelManualAmendmentsApi::class,
             'operation' => 'hotelManualAmendmentsDeclineManualAmendment',
             'path' => ['id' => $id, 'amendment_id' => $amendmentId],
-            'returns' => '\OpenRoam\Model\DeclineB2BManualAmendmentResponse',
+            'returns' => '\OpenRoam\Model\ManualAmendmentResult',
         ], options: $options);
     }
 }

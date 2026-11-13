@@ -19,12 +19,12 @@ class CurrenciesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function list(array $options = []): \OpenRoam\Model\GetB2BAllCurrenciesCommandResponse
+    public function list(array $options = []): \OpenRoam\Model\CurrencyList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\CurrenciesApi::class,
             'operation' => 'currenciesGetAll',
-            'returns' => '\OpenRoam\Model\GetB2BAllCurrenciesCommandResponse',
+            'returns' => '\OpenRoam\Model\CurrencyList',
         ], options: $options);
     }
 }

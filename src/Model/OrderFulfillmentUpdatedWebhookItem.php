@@ -57,12 +57,12 @@ class OrderFulfillmentUpdatedWebhookItem implements OneOfInterface
     public static function getOneOfTypes(): array
     {
         return [
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemEsim',
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemHotel',
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemFlight',
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemGiftCard',
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemAirtime',
-            '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemUtility'
+            '\OpenRoam\Model\EsimOrderFulfillmentUpdatedWebhookItem',
+            '\OpenRoam\Model\HotelOrderFulfillmentUpdatedWebhookItem',
+            '\OpenRoam\Model\FlightOrderFulfillmentUpdatedWebhookItem',
+            '\OpenRoam\Model\GiftCardOrderFulfillmentUpdatedWebhookItem',
+            '\OpenRoam\Model\AirtimeOrderFulfillmentUpdatedWebhookItem',
+            '\OpenRoam\Model\UtilityOrderFulfillmentUpdatedWebhookItem'
         ];
     }
 
@@ -80,12 +80,12 @@ class OrderFulfillmentUpdatedWebhookItem implements OneOfInterface
     public static function getOneOfDiscriminatorMappings(): array
     {
         return [
-            'airtime' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemAirtime',
-            'esim' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemEsim',
-            'flight' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemFlight',
-            'giftCard' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemGiftCard',
-            'hotel' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemHotel',
-            'utility' => '\OpenRoam\Model\OrderFulfillmentUpdatedWebhookItemUtility'
+            'airtime' => '\OpenRoam\Model\AirtimeOrderFulfillmentUpdatedWebhookItem',
+            'esim' => '\OpenRoam\Model\EsimOrderFulfillmentUpdatedWebhookItem',
+            'flight' => '\OpenRoam\Model\FlightOrderFulfillmentUpdatedWebhookItem',
+            'giftCard' => '\OpenRoam\Model\GiftCardOrderFulfillmentUpdatedWebhookItem',
+            'hotel' => '\OpenRoam\Model\HotelOrderFulfillmentUpdatedWebhookItem',
+            'utility' => '\OpenRoam\Model\UtilityOrderFulfillmentUpdatedWebhookItem'
         ];
     }
 }

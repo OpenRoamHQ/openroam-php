@@ -67,7 +67,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'taxes' => '\OpenRoam\Model\HotelTaxBreakdown',
         'price_is_binding' => 'bool',
         'nightly_prices' => '\OpenRoam\Model\HotelNightlyPrice[]',
-        'surcharges' => '\OpenRoam\Model\HotelPartnerSurcharge[]',
+        'surcharges' => '\OpenRoam\Model\HotelSurcharge[]',
         'rate_tags' => 'string[]',
         'remarks' => 'string[]',
         'with_transfers' => 'bool',
@@ -626,7 +626,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets surcharges
      *
-     * @return \OpenRoam\Model\HotelPartnerSurcharge[]|null
+     * @return \OpenRoam\Model\HotelSurcharge[]|null
      */
     public function getSurcharges(): ?array
     {
@@ -636,7 +636,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets surcharges
      *
-     * @param \OpenRoam\Model\HotelPartnerSurcharge[]|null $surcharges Fees outside the room rate, such as a city tax or a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
+     * @param \OpenRoam\Model\HotelSurcharge[]|null $surcharges Fees outside the room rate, such as a city tax or a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
      *
      * @return $this
      */
