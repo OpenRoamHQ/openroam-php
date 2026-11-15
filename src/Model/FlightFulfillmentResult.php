@@ -60,7 +60,7 @@ class FlightFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerial
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'details' => '\OpenRoam\Model\FlightFulfillmentResultDetails'
+        'details' => '\OpenRoam\Model\FlightFulfillmentDetails'
     ];
 
     /**
@@ -268,9 +268,9 @@ class FlightFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\FlightFulfillmentResultDetails|null
+     * @return \OpenRoam\Model\FlightFulfillmentDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\FlightFulfillmentResultDetails
+    public function getDetails(): ?\OpenRoam\Model\FlightFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -278,11 +278,11 @@ class FlightFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\FlightFulfillmentResultDetails|null $details The booking as it stands now.
+     * @param \OpenRoam\Model\FlightFulfillmentDetails|null $details The booking as it stands now.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\FlightFulfillmentResultDetails $details): static
+    public function setDetails(?\OpenRoam\Model\FlightFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

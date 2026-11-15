@@ -61,22 +61,22 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'expires_at' => '\DateTime',
-        'rooms' => '\OpenRoam\Model\HotelRoom[]',
-        'board' => '\OpenRoam\Model\HotelBoardType',
+        'rooms' => '\OpenRoam\Model\Room[]',
+        'board' => '\OpenRoam\Model\MealPlan',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'taxes' => '\OpenRoam\Model\HotelTaxBreakdown',
+        'taxes' => '\OpenRoam\Model\TaxBreakdown',
         'price_is_binding' => 'bool',
-        'nightly_prices' => '\OpenRoam\Model\HotelNightlyPrice[]',
-        'surcharges' => '\OpenRoam\Model\HotelSurcharge[]',
+        'nightly_prices' => '\OpenRoam\Model\NightlyPrice[]',
+        'surcharges' => '\OpenRoam\Model\Surcharge[]',
         'rate_tags' => 'string[]',
         'remarks' => 'string[]',
         'with_transfers' => 'bool',
         'rate_rules' => 'string[]',
         'amendability_status' => 'string',
-        'guest_name_rules' => '\OpenRoam\Model\HotelGuestNameRules',
-        'minimum_selling_price' => '\OpenRoam\Model\MoneyAmount',
+        'guest_name_rules' => '\OpenRoam\Model\GuestNameRules',
+        'minimum_selling_price' => '\OpenRoam\Model\Money',
         'allows_special_requests' => 'bool',
-        'special_request_options' => '\OpenRoam\Model\HotelSpecialRequestOption[]'
+        'special_request_options' => '\OpenRoam\Model\SpecialRequestOption[]'
     ];
 
     /**
@@ -450,7 +450,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\HotelRoom[]|null
+     * @return \OpenRoam\Model\Room[]|null
      */
     public function getRooms(): ?array
     {
@@ -460,7 +460,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\HotelRoom[]|null $rooms The rooms of the rate, one per searched room, with that room's searched occupancy.
+     * @param \OpenRoam\Model\Room[]|null $rooms The rooms of the rate, one per searched room, with that room's searched occupancy.
      *
      * @return $this
      */
@@ -477,9 +477,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets board
      *
-     * @return \OpenRoam\Model\HotelBoardType|null
+     * @return \OpenRoam\Model\MealPlan|null
      */
-    public function getBoard(): ?\OpenRoam\Model\HotelBoardType
+    public function getBoard(): ?\OpenRoam\Model\MealPlan
     {
         return $this->container['board'];
     }
@@ -487,11 +487,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets board
      *
-     * @param \OpenRoam\Model\HotelBoardType|null $board The meal plan.
+     * @param \OpenRoam\Model\MealPlan|null $board The meal plan.
      *
      * @return $this
      */
-    public function setBoard(?\OpenRoam\Model\HotelBoardType $board): static
+    public function setBoard(?\OpenRoam\Model\MealPlan $board): static
     {
         if (is_null($board)) {
             throw new InvalidArgumentException('non-nullable board cannot be null');
@@ -531,9 +531,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets taxes
      *
-     * @return \OpenRoam\Model\HotelTaxBreakdown|null
+     * @return \OpenRoam\Model\TaxBreakdown|null
      */
-    public function getTaxes(): ?\OpenRoam\Model\HotelTaxBreakdown
+    public function getTaxes(): ?\OpenRoam\Model\TaxBreakdown
     {
         return $this->container['taxes'];
     }
@@ -541,11 +541,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets taxes
      *
-     * @param \OpenRoam\Model\HotelTaxBreakdown|null $taxes Taxes included in or added to the price, as far as they are stated; null when not stated.
+     * @param \OpenRoam\Model\TaxBreakdown|null $taxes Taxes included in or added to the price, as far as they are stated; null when not stated.
      *
      * @return $this
      */
-    public function setTaxes(?\OpenRoam\Model\HotelTaxBreakdown $taxes): static
+    public function setTaxes(?\OpenRoam\Model\TaxBreakdown $taxes): static
     {
         if (is_null($taxes)) {
             array_push($this->openAPINullablesSetToNull, 'taxes');
@@ -599,7 +599,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets nightly_prices
      *
-     * @return \OpenRoam\Model\HotelNightlyPrice[]|null
+     * @return \OpenRoam\Model\NightlyPrice[]|null
      */
     public function getNightlyPrices(): ?array
     {
@@ -609,7 +609,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets nightly_prices
      *
-     * @param \OpenRoam\Model\HotelNightlyPrice[]|null $nightly_prices The price split by night, every night in the price's currency; the nights add up to the price. Empty when the price is not split by night: on a B2B location search, when no nightly amounts are given, or when a night could not be converted to the search currency.
+     * @param \OpenRoam\Model\NightlyPrice[]|null $nightly_prices The price split by night, every night in the price's currency; the nights add up to the price. Empty when the price is not split by night: on a B2B location search, when no nightly amounts are given, or when a night could not be converted to the search currency.
      *
      * @return $this
      */
@@ -626,7 +626,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets surcharges
      *
-     * @return \OpenRoam\Model\HotelSurcharge[]|null
+     * @return \OpenRoam\Model\Surcharge[]|null
      */
     public function getSurcharges(): ?array
     {
@@ -636,7 +636,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets surcharges
      *
-     * @param \OpenRoam\Model\HotelSurcharge[]|null $surcharges Fees outside the room rate, such as a city tax or a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
+     * @param \OpenRoam\Model\Surcharge[]|null $surcharges Fees outside the room rate, such as a city tax or a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
      *
      * @return $this
      */
@@ -807,9 +807,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets guest_name_rules
      *
-     * @return \OpenRoam\Model\HotelGuestNameRules|null
+     * @return \OpenRoam\Model\GuestNameRules|null
      */
-    public function getGuestNameRules(): ?\OpenRoam\Model\HotelGuestNameRules
+    public function getGuestNameRules(): ?\OpenRoam\Model\GuestNameRules
     {
         return $this->container['guest_name_rules'];
     }
@@ -817,11 +817,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets guest_name_rules
      *
-     * @param \OpenRoam\Model\HotelGuestNameRules|null $guest_name_rules What the booking accepts as a holder's or guest's first and last name, so a form can check the names before the order is sent.
+     * @param \OpenRoam\Model\GuestNameRules|null $guest_name_rules What the booking accepts as a holder's or guest's first and last name, so a form can check the names before the order is sent.
      *
      * @return $this
      */
-    public function setGuestNameRules(?\OpenRoam\Model\HotelGuestNameRules $guest_name_rules): static
+    public function setGuestNameRules(?\OpenRoam\Model\GuestNameRules $guest_name_rules): static
     {
         if (is_null($guest_name_rules)) {
             throw new InvalidArgumentException('non-nullable guest_name_rules cannot be null');
@@ -834,9 +834,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets minimum_selling_price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getMinimumSellingPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getMinimumSellingPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['minimum_selling_price'];
     }
@@ -844,11 +844,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets minimum_selling_price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $minimum_selling_price Minimum resale price for the whole stay; use its stated currency. Null when unavailable.
+     * @param \OpenRoam\Model\Money|null $minimum_selling_price Minimum resale price for the whole stay; use its stated currency. Null when unavailable.
      *
      * @return $this
      */
-    public function setMinimumSellingPrice(?\OpenRoam\Model\MoneyAmount $minimum_selling_price): static
+    public function setMinimumSellingPrice(?\OpenRoam\Model\Money $minimum_selling_price): static
     {
         if (is_null($minimum_selling_price)) {
             array_push($this->openAPINullablesSetToNull, 'minimum_selling_price');
@@ -902,7 +902,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets special_request_options
      *
-     * @return \OpenRoam\Model\HotelSpecialRequestOption[]|null
+     * @return \OpenRoam\Model\SpecialRequestOption[]|null
      */
     public function getSpecialRequestOptions(): ?array
     {
@@ -912,7 +912,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets special_request_options
      *
-     * @param \OpenRoam\Model\HotelSpecialRequestOption[]|null $special_request_options Available requests, subject to availability at check-in; null for free-text requests.
+     * @param \OpenRoam\Model\SpecialRequestOption[]|null $special_request_options Available requests, subject to availability at check-in; null for free-text requests.
      *
      * @return $this
      */

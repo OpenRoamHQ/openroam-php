@@ -59,7 +59,7 @@ class AmendmentList implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'items' => '\OpenRoam\Model\AmendmentListItem[]',
+        'items' => '\OpenRoam\Model\Amendment[]',
         'pagination' => '\OpenRoam\Model\Pagination'
     ];
 
@@ -274,7 +274,7 @@ class AmendmentList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\AmendmentListItem[]|null
+     * @return \OpenRoam\Model\Amendment[]|null
      */
     public function getItems(): ?array
     {
@@ -284,7 +284,7 @@ class AmendmentList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\AmendmentListItem[]|null $items items
+     * @param \OpenRoam\Model\Amendment[]|null $items items
      *
      * @return $this
      */

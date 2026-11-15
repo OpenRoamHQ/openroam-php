@@ -61,7 +61,7 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $openAPITypes = [
         'label' => 'string',
-        'debited' => '\OpenRoam\Model\MoneyAmount'
+        'debited' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -302,9 +302,9 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets debited
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getDebited(): ?\OpenRoam\Model\MoneyAmount
+    public function getDebited(): ?\OpenRoam\Model\Money
     {
         return $this->container['debited'];
     }
@@ -312,11 +312,11 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets debited
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $debited The amount taken, in the wallet's currency.
+     * @param \OpenRoam\Model\Money|null $debited The amount taken, in the wallet's currency.
      *
      * @return $this
      */
-    public function setDebited(?\OpenRoam\Model\MoneyAmount $debited): static
+    public function setDebited(?\OpenRoam\Model\Money $debited): static
     {
         if (is_null($debited)) {
             throw new InvalidArgumentException('non-nullable debited cannot be null');

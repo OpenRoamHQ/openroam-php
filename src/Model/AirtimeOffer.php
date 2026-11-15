@@ -65,7 +65,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => 'string',
         'value' => '\OpenRoam\Model\OfferValue',
         'price' => '\OpenRoam\Model\OfferPrice',
-        'required_inputs' => '\OpenRoam\Model\RequiredInput[]',
+        'required_inputs' => '\OpenRoam\Model\InputField[]',
         'details' => '\OpenRoam\Model\AirtimeOfferDetails'
     ];
 
@@ -398,9 +398,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\OfferFixedValue|\OpenRoam\Model\OfferRangeValue|null
+     * @return \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null
      */
-    public function getValue(): \OpenRoam\Model\OfferFixedValue|\OpenRoam\Model\OfferRangeValue|null
+    public function getValue(): \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null
     {
         return $this->container['value'];
     }
@@ -408,11 +408,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\OfferFixedValue|\OpenRoam\Model\OfferRangeValue|null $value value
+     * @param \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null $value value
      *
      * @return $this
      */
-    public function setValue(\OpenRoam\Model\OfferFixedValue|\OpenRoam\Model\OfferRangeValue|null $value): static
+    public function setValue(\OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -425,9 +425,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
      */
-    public function getPrice(): \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
     {
         return $this->container['price'];
     }
@@ -435,11 +435,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price price
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price price
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -452,7 +452,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets required_inputs
      *
-     * @return \OpenRoam\Model\RequiredInput[]|null
+     * @return \OpenRoam\Model\InputField[]|null
      */
     public function getRequiredInputs(): ?array
     {
@@ -462,7 +462,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets required_inputs
      *
-     * @param \OpenRoam\Model\RequiredInput[]|null $required_inputs required_inputs
+     * @param \OpenRoam\Model\InputField[]|null $required_inputs required_inputs
      *
      * @return $this
      */

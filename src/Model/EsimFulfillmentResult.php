@@ -60,7 +60,7 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'details' => '\OpenRoam\Model\EsimFulfillmentResultDetails'
+        'details' => '\OpenRoam\Model\EsimFulfillmentDetails'
     ];
 
     /**
@@ -268,9 +268,9 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\EsimFulfillmentResultDetails|null
+     * @return \OpenRoam\Model\EsimFulfillmentDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\EsimFulfillmentResultDetails
+    public function getDetails(): ?\OpenRoam\Model\EsimFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -278,11 +278,11 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\EsimFulfillmentResultDetails|null $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode` `topUp`.
+     * @param \OpenRoam\Model\EsimFulfillmentDetails|null $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode` `topUp`.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\EsimFulfillmentResultDetails $details): static
+    public function setDetails(?\OpenRoam\Model\EsimFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

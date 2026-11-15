@@ -61,9 +61,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
      */
     protected static array $openAPITypes = [
         'id' => 'string',
-        'amount_to_pay' => '\OpenRoam\Model\MoneyAmount',
-        'amount_to_refund' => '\OpenRoam\Model\MoneyAmount',
-        'amendment_fee' => '\OpenRoam\Model\MoneyAmount'
+        'amount_to_pay' => '\OpenRoam\Model\Money',
+        'amount_to_refund' => '\OpenRoam\Model\Money',
+        'amendment_fee' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -316,9 +316,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets amount_to_pay
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmountToPay(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmountToPay(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount_to_pay'];
     }
@@ -326,11 +326,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets amount_to_pay
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_pay The surcharge charged on confirm, including any amendment fee.
+     * @param \OpenRoam\Model\Money|null $amount_to_pay The surcharge charged on confirm, including any amendment fee.
      *
      * @return $this
      */
-    public function setAmountToPay(?\OpenRoam\Model\MoneyAmount $amount_to_pay): static
+    public function setAmountToPay(?\OpenRoam\Model\Money $amount_to_pay): static
     {
         if (is_null($amount_to_pay)) {
             throw new InvalidArgumentException('non-nullable amount_to_pay cannot be null');
@@ -343,9 +343,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets amount_to_refund
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmountToRefund(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmountToRefund(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount_to_refund'];
     }
@@ -353,11 +353,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets amount_to_refund
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_refund The credit returned on confirm, after any amendment fee.
+     * @param \OpenRoam\Model\Money|null $amount_to_refund The credit returned on confirm, after any amendment fee.
      *
      * @return $this
      */
-    public function setAmountToRefund(?\OpenRoam\Model\MoneyAmount $amount_to_refund): static
+    public function setAmountToRefund(?\OpenRoam\Model\Money $amount_to_refund): static
     {
         if (is_null($amount_to_refund)) {
             throw new InvalidArgumentException('non-nullable amount_to_refund cannot be null');
@@ -370,9 +370,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets amendment_fee
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmendmentFee(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmendmentFee(): ?\OpenRoam\Model\Money
     {
         return $this->container['amendment_fee'];
     }
@@ -380,11 +380,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets amendment_fee
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amendment_fee A fee for the change, already included in amountToPay or amountToRefund; null when none             applies.
+     * @param \OpenRoam\Model\Money|null $amendment_fee A fee for the change, already included in amountToPay or amountToRefund; null when none             applies.
      *
      * @return $this
      */
-    public function setAmendmentFee(?\OpenRoam\Model\MoneyAmount $amendment_fee): static
+    public function setAmendmentFee(?\OpenRoam\Model\Money $amendment_fee): static
     {
         if (is_null($amendment_fee)) {
             array_push($this->openAPINullablesSetToNull, 'amendment_fee');

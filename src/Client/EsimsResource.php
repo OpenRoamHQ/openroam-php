@@ -87,7 +87,7 @@ class EsimsResource
      * List compatible devices. GET /api/v1/b2b/esims/compatible-devices
      *
      * @param array{timeout?: float|int} $options
-     * @return \OpenRoam\Model\CompatibleDevice[]
+     * @return \OpenRoam\Model\EsimCompatibleDevice[]
      * @throws \OpenRoam\OpenRoamException
      */
     public function listCompatibleDevices(array $options = []): array
@@ -95,7 +95,7 @@ class EsimsResource
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsGetCompatibleDevices',
-            'returns' => '\OpenRoam\Model\CompatibleDevice[]',
+            'returns' => '\OpenRoam\Model\EsimCompatibleDevice[]',
         ], options: $options);
     }
 
@@ -248,18 +248,18 @@ class EsimsResource
      * Provision a deferred eSIM. POST /api/v1/b2b/esims/{id}/provisioning
      *
      * @param string $id
-     * @param \OpenRoam\Model\EsimProvisionRequest|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\EsimProvisioningRequest|array|null $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function provision(string $id, \OpenRoam\Model\EsimProvisionRequest|array|null $body = null, array $options = []): \OpenRoam\Model\EsimProfile
+    public function provision(string $id, \OpenRoam\Model\EsimProvisioningRequest|array|null $body = null, array $options = []): \OpenRoam\Model\EsimProfile
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsProvision',
             'path' => ['id' => $id],
-            'body' => 'esim_provision_request',
-            'bodyType' => '\OpenRoam\Model\EsimProvisionRequest',
+            'body' => 'esim_provisioning_request',
+            'bodyType' => '\OpenRoam\Model\EsimProvisioningRequest',
             'idempotencyKey' => 'idempotency_key',
             'returns' => '\OpenRoam\Model\EsimProfile',
         ], options: $options, body: $body);
@@ -269,19 +269,19 @@ class EsimsResource
      * Send an SMS to an eSIM. POST /api/v1/b2b/esims/{iccid}/sms
      *
      * @param string $iccid
-     * @param \OpenRoam\Model\EsimSendSmsRequest|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\EsimSmsRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function sendSms(string $iccid, \OpenRoam\Model\EsimSendSmsRequest|array $body, array $options = []): \OpenRoam\Model\EsimSendSmsResult
+    public function sendSms(string $iccid, \OpenRoam\Model\EsimSmsRequest|array $body, array $options = []): \OpenRoam\Model\EsimSmsResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\EsimsApi::class,
             'operation' => 'esimsSendSms',
             'path' => ['iccid' => $iccid],
-            'body' => 'esim_send_sms_request',
-            'bodyType' => '\OpenRoam\Model\EsimSendSmsRequest',
-            'returns' => '\OpenRoam\Model\EsimSendSmsResult',
+            'body' => 'esim_sms_request',
+            'bodyType' => '\OpenRoam\Model\EsimSmsRequest',
+            'returns' => '\OpenRoam\Model\EsimSmsResult',
         ], options: $options, body: $body);
     }
 }

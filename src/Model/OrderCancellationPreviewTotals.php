@@ -60,9 +60,9 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'penalty_amount' => '\OpenRoam\Model\MoneyAmount',
-        'cancellation_fee' => '\OpenRoam\Model\MoneyAmount',
-        'refund_amount' => '\OpenRoam\Model\MoneyAmount',
+        'penalty_amount' => '\OpenRoam\Model\Money',
+        'cancellation_fee' => '\OpenRoam\Model\Money',
+        'refund_amount' => '\OpenRoam\Model\Money',
         'is_complete' => 'bool'
     ];
 
@@ -289,9 +289,9 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Gets penalty_amount
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPenaltyAmount(): ?\OpenRoam\Model\MoneyAmount
+    public function getPenaltyAmount(): ?\OpenRoam\Model\Money
     {
         return $this->container['penalty_amount'];
     }
@@ -299,11 +299,11 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Sets penalty_amount
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $penalty_amount The sum of the items' `penaltyAmount`.
+     * @param \OpenRoam\Model\Money|null $penalty_amount The sum of the items' `penaltyAmount`.
      *
      * @return $this
      */
-    public function setPenaltyAmount(?\OpenRoam\Model\MoneyAmount $penalty_amount): static
+    public function setPenaltyAmount(?\OpenRoam\Model\Money $penalty_amount): static
     {
         if (is_null($penalty_amount)) {
             throw new InvalidArgumentException('non-nullable penalty_amount cannot be null');
@@ -316,9 +316,9 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Gets cancellation_fee
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getCancellationFee(): ?\OpenRoam\Model\MoneyAmount
+    public function getCancellationFee(): ?\OpenRoam\Model\Money
     {
         return $this->container['cancellation_fee'];
     }
@@ -326,11 +326,11 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Sets cancellation_fee
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $cancellation_fee The sum of the items' `cancellationFee`; 0 when none applies.
+     * @param \OpenRoam\Model\Money|null $cancellation_fee The sum of the items' `cancellationFee`; 0 when none applies.
      *
      * @return $this
      */
-    public function setCancellationFee(?\OpenRoam\Model\MoneyAmount $cancellation_fee): static
+    public function setCancellationFee(?\OpenRoam\Model\Money $cancellation_fee): static
     {
         if (is_null($cancellation_fee)) {
             throw new InvalidArgumentException('non-nullable cancellation_fee cannot be null');
@@ -343,9 +343,9 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Gets refund_amount
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getRefundAmount(): ?\OpenRoam\Model\MoneyAmount
+    public function getRefundAmount(): ?\OpenRoam\Model\Money
     {
         return $this->container['refund_amount'];
     }
@@ -353,11 +353,11 @@ class OrderCancellationPreviewTotals implements ModelInterface, ArrayAccess, Jso
     /**
      * Sets refund_amount
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $refund_amount The sum of the items' `refundAmount`.
+     * @param \OpenRoam\Model\Money|null $refund_amount The sum of the items' `refundAmount`.
      *
      * @return $this
      */
-    public function setRefundAmount(?\OpenRoam\Model\MoneyAmount $refund_amount): static
+    public function setRefundAmount(?\OpenRoam\Model\Money $refund_amount): static
     {
         if (is_null($refund_amount)) {
             throw new InvalidArgumentException('non-nullable refund_amount cannot be null');

@@ -155,7 +155,7 @@ class OrdersApi
      * Create an order
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to place. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to place. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersCreateOrder'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -164,11 +164,11 @@ class OrdersApi
      */
     public function ordersCreateOrder(
         string $idempotency_key,
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
     ): \OpenRoam\Model\Order|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->ordersCreateOrderWithHttpInfo($idempotency_key, $order_request, $contentType);
+        list($response) = $this->ordersCreateOrderWithHttpInfo($idempotency_key, $mixed_order_request, $contentType);
         return $response;
     }
 
@@ -178,7 +178,7 @@ class OrdersApi
      * Create an order
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to place. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to place. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersCreateOrder'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -187,11 +187,11 @@ class OrdersApi
      */
     public function ordersCreateOrderWithHttpInfo(
         string $idempotency_key,
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
     ): array
     {
-        $request = $this->ordersCreateOrderRequest($idempotency_key, $order_request, $contentType);
+        $request = $this->ordersCreateOrderRequest($idempotency_key, $mixed_order_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -377,7 +377,7 @@ class OrdersApi
      * Create an order
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to place. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to place. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersCreateOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -385,11 +385,11 @@ class OrdersApi
      */
     public function ordersCreateOrderAsync(
         string $idempotency_key,
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
     ): PromiseInterface
     {
-        return $this->ordersCreateOrderAsyncWithHttpInfo($idempotency_key, $order_request, $contentType)
+        return $this->ordersCreateOrderAsyncWithHttpInfo($idempotency_key, $mixed_order_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -403,7 +403,7 @@ class OrdersApi
      * Create an order
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to place. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to place. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersCreateOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -411,12 +411,12 @@ class OrdersApi
      */
     public function ordersCreateOrderAsyncWithHttpInfo(
         string $idempotency_key,
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
     ): PromiseInterface
     {
         $returnType = '\OpenRoam\Model\Order';
-        $request = $this->ordersCreateOrderRequest($idempotency_key, $order_request, $contentType);
+        $request = $this->ordersCreateOrderRequest($idempotency_key, $mixed_order_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -466,7 +466,7 @@ class OrdersApi
      * Create request for operation 'ordersCreateOrder'
      *
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to place. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to place. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersCreateOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -474,7 +474,7 @@ class OrdersApi
      */
     public function ordersCreateOrderRequest(
         string $idempotency_key,
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
     ): Request
     {
@@ -507,16 +507,16 @@ class OrdersApi
         );
 
         // for model (json/xml)
-        if (isset($order_request)) {
+        if (isset($mixed_order_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($mixed_order_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $order_request;
+                $httpBody = $mixed_order_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -2076,19 +2076,19 @@ class OrdersApi
      *
      * Quote an order
      *
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to price. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to price. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersQuoteOrder'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\OrderQuote|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\MixedQuote|\OpenRoam\Model\ErrorResponse
      */
     public function ordersQuoteOrder(
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersQuoteOrder'][0]
-    ): \OpenRoam\Model\OrderQuote|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\MixedQuote|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->ordersQuoteOrderWithHttpInfo($order_request, $contentType);
+        list($response) = $this->ordersQuoteOrderWithHttpInfo($mixed_order_request, $contentType);
         return $response;
     }
 
@@ -2097,19 +2097,19 @@ class OrdersApi
      *
      * Quote an order
      *
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to price. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to price. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersQuoteOrder'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\OrderQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\MixedQuote|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function ordersQuoteOrderWithHttpInfo(
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersQuoteOrder'][0]
     ): array
     {
-        $request = $this->ordersQuoteOrderRequest($order_request, $contentType);
+        $request = $this->ordersQuoteOrderRequest($mixed_order_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2137,7 +2137,7 @@ class OrdersApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\OrderQuote',
+                        '\OpenRoam\Model\MixedQuote',
                         $request,
                         $response,
                     );
@@ -2193,7 +2193,7 @@ class OrdersApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\OrderQuote',
+                '\OpenRoam\Model\MixedQuote',
                 $request,
                 $response,
             );
@@ -2202,7 +2202,7 @@ class OrdersApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\OrderQuote',
+                        '\OpenRoam\Model\MixedQuote',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2266,18 +2266,18 @@ class OrdersApi
      *
      * Quote an order
      *
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to price. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to price. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersQuoteOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function ordersQuoteOrderAsync(
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersQuoteOrder'][0]
     ): PromiseInterface
     {
-        return $this->ordersQuoteOrderAsyncWithHttpInfo($order_request, $contentType)
+        return $this->ordersQuoteOrderAsyncWithHttpInfo($mixed_order_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2290,19 +2290,19 @@ class OrdersApi
      *
      * Quote an order
      *
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to price. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to price. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersQuoteOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function ordersQuoteOrderAsyncWithHttpInfo(
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersQuoteOrder'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\OrderQuote';
-        $request = $this->ordersQuoteOrderRequest($order_request, $contentType);
+        $returnType = '\OpenRoam\Model\MixedQuote';
+        $request = $this->ordersQuoteOrderRequest($mixed_order_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2351,14 +2351,14 @@ class OrdersApi
     /**
      * Create request for operation 'ordersQuoteOrder'
      *
-     * @param  \OpenRoam\Model\OrderRequest|null $order_request The order to price. (optional)
+     * @param  \OpenRoam\Model\MixedOrderRequest|null $mixed_order_request The order to price. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersQuoteOrder'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function ordersQuoteOrderRequest(
-        ?\OpenRoam\Model\OrderRequest $order_request = null,
+        ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersQuoteOrder'][0]
     ): Request
     {
@@ -2381,16 +2381,16 @@ class OrdersApi
         );
 
         // for model (json/xml)
-        if (isset($order_request)) {
+        if (isset($mixed_order_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($mixed_order_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $order_request;
+                $httpBody = $mixed_order_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

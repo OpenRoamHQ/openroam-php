@@ -60,8 +60,8 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'delivered_value' => '\OpenRoam\Model\MoneyAmount',
-        'details' => '\OpenRoam\Model\AirtimeFulfillmentResultDetails'
+        'delivered_value' => '\OpenRoam\Model\Money',
+        'details' => '\OpenRoam\Model\AirtimeFulfillmentDetails'
     ];
 
     /**
@@ -275,9 +275,9 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets delivered_value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getDeliveredValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getDeliveredValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['delivered_value'];
     }
@@ -285,11 +285,11 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets delivered_value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $delivered_value delivered_value
+     * @param \OpenRoam\Model\Money|null $delivered_value delivered_value
      *
      * @return $this
      */
-    public function setDeliveredValue(?\OpenRoam\Model\MoneyAmount $delivered_value): static
+    public function setDeliveredValue(?\OpenRoam\Model\Money $delivered_value): static
     {
         if (is_null($delivered_value)) {
             array_push($this->openAPINullablesSetToNull, 'delivered_value');
@@ -309,9 +309,9 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\AirtimeFulfillmentResultDetails|null
+     * @return \OpenRoam\Model\AirtimeFulfillmentDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimeFulfillmentResultDetails
+    public function getDetails(): ?\OpenRoam\Model\AirtimeFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +319,11 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\AirtimeFulfillmentResultDetails|null $details How the customer redeems the delivered top-up. `redemption` is null when the route does not declare its delivery.
+     * @param \OpenRoam\Model\AirtimeFulfillmentDetails|null $details How the customer redeems the delivered top-up. `redemption` is null when the route does not declare its delivery.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimeFulfillmentResultDetails $details): static
+    public function setDetails(?\OpenRoam\Model\AirtimeFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

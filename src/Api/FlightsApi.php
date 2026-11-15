@@ -531,12 +531,12 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\SeatMap|\OpenRoam\Model\ErrorResponse
      */
     public function flightsGetSeatMap(
         string $public_id,
         string $contentType = self::contentTypes['flightsGetSeatMap'][0]
-    ): \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\SeatMap|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->flightsGetSeatMapWithHttpInfo($public_id, $contentType);
         return $response;
@@ -552,7 +552,7 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightSeatMap|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\SeatMap|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsGetSeatMapWithHttpInfo(
         string $public_id,
@@ -587,7 +587,7 @@ class FlightsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\FlightSeatMap',
+                        '\OpenRoam\Model\SeatMap',
                         $request,
                         $response,
                     );
@@ -619,7 +619,7 @@ class FlightsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\FlightSeatMap',
+                '\OpenRoam\Model\SeatMap',
                 $request,
                 $response,
             );
@@ -628,7 +628,7 @@ class FlightsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\FlightSeatMap',
+                        '\OpenRoam\Model\SeatMap',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -695,7 +695,7 @@ class FlightsApi
         string $contentType = self::contentTypes['flightsGetSeatMap'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\FlightSeatMap';
+        $returnType = '\OpenRoam\Model\SeatMap';
         $request = $this->flightsGetSeatMapRequest($public_id, $contentType);
 
         return $this->client

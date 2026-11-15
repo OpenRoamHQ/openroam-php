@@ -60,7 +60,7 @@ class FlightSearchResult implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'items' => '\OpenRoam\Model\FlightItinerary[]',
+        'items' => '\OpenRoam\Model\Itinerary[]',
         'pagination' => '\OpenRoam\Model\Pagination'
     ];
 
@@ -275,7 +275,7 @@ class FlightSearchResult implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\FlightItinerary[]|null
+     * @return \OpenRoam\Model\Itinerary[]|null
      */
     public function getItems(): ?array
     {
@@ -285,7 +285,7 @@ class FlightSearchResult implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\FlightItinerary[]|null $items items
+     * @param \OpenRoam\Model\Itinerary[]|null $items items
      *
      * @return $this
      */

@@ -63,7 +63,7 @@ class HotelSearchRequest implements ModelInterface, ArrayAccess, JsonSerializabl
         'search_criteria' => '\OpenRoam\Model\HotelSearchCriteria',
         'check_in' => '\DateTime',
         'check_out' => '\DateTime',
-        'rooms' => '\OpenRoam\Model\HotelSearchRoom[]',
+        'rooms' => '\OpenRoam\Model\RoomOccupancyInput[]',
         'guest_nationality' => 'string',
         'guest_country_of_residence' => 'string',
         'filters' => '\OpenRoam\Model\HotelSearchFilters',
@@ -431,7 +431,7 @@ class HotelSearchRequest implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\HotelSearchRoom[]
+     * @return \OpenRoam\Model\RoomOccupancyInput[]
      */
     public function getRooms(): array
     {
@@ -441,7 +441,7 @@ class HotelSearchRequest implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\HotelSearchRoom[] $rooms One entry per room, 1–9 rooms. Each room is matched by its 1-based position when ordering.
+     * @param \OpenRoam\Model\RoomOccupancyInput[] $rooms One entry per room, 1–9 rooms. Each room is matched by its 1-based position when ordering.
      *
      * @return $this
      */

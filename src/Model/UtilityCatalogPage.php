@@ -60,7 +60,7 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'items' => '\OpenRoam\Model\UtilityBiller[]',
+        'items' => '\OpenRoam\Model\Biller[]',
         'next_cursor' => 'string'
     ];
 
@@ -275,7 +275,7 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\UtilityBiller[]|null
+     * @return \OpenRoam\Model\Biller[]|null
      */
     public function getItems(): ?array
     {
@@ -285,7 +285,7 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\UtilityBiller[]|null $items items
+     * @param \OpenRoam\Model\Biller[]|null $items items
      *
      * @return $this
      */

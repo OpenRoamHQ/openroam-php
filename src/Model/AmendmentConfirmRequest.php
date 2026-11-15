@@ -63,7 +63,7 @@ class AmendmentConfirmRequest implements ModelInterface, ArrayAccess, JsonSerial
         'amendment_request_id' => 'string',
         'payment_method' => 'string',
         'selected_option_id' => 'string',
-        'max_price' => '\OpenRoam\Model\MoneyAmountInput'
+        'max_price' => '\OpenRoam\Model\MoneyInput'
     ];
 
     /**
@@ -415,9 +415,9 @@ class AmendmentConfirmRequest implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets max_price
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMaxPrice(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMaxPrice(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['max_price'];
     }
@@ -425,11 +425,11 @@ class AmendmentConfirmRequest implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets max_price
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $max_price Optional. The most you accept to pay for this amendment, in the currency of the quoted amounts.             Above it the confirm answers 409 with code 11002 at `maxPrice` and nothing is charged. Without it the confirm             charges exactly the quoted amounts, and a price that changed since the quote needs a new quote.
+     * @param \OpenRoam\Model\MoneyInput|null $max_price Optional. The most you accept to pay for this amendment, in the currency of the quoted amounts.             Above it the confirm answers 409 with code 11002 at `maxPrice` and nothing is charged. Without it the confirm             charges exactly the quoted amounts, and a price that changed since the quote needs a new quote.
      *
      * @return $this
      */
-    public function setMaxPrice(?\OpenRoam\Model\MoneyAmountInput $max_price): static
+    public function setMaxPrice(?\OpenRoam\Model\MoneyInput $max_price): static
     {
         if (is_null($max_price)) {
             array_push($this->openAPINullablesSetToNull, 'max_price');

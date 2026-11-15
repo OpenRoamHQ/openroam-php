@@ -63,7 +63,7 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => 'string',
         'quantity' => 'int',
         'name' => 'string',
-        'price' => '\OpenRoam\Model\MoneyAmount'
+        'price' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -441,9 +441,9 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -451,11 +451,11 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $price price
+     * @param \OpenRoam\Model\Money|null $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\MoneyAmount $price): static
+    public function setPrice(?\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

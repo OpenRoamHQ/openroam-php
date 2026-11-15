@@ -60,7 +60,7 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'items' => '\OpenRoam\Model\HotelDestinationSummary[]'
+        'items' => '\OpenRoam\Model\HotelDestination[]'
     ];
 
     /**
@@ -268,7 +268,7 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\HotelDestinationSummary[]|null
+     * @return \OpenRoam\Model\HotelDestination[]|null
      */
     public function getItems(): ?array
     {
@@ -278,7 +278,7 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\HotelDestinationSummary[]|null $items The matching places; empty when none matches.
+     * @param \OpenRoam\Model\HotelDestination[]|null $items The matching places; empty when none matches.
      *
      * @return $this
      */

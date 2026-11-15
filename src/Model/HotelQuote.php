@@ -62,7 +62,7 @@ class HotelQuote implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'currency' => 'string',
         'items' => '\OpenRoam\Model\HotelQuoteItem[]',
-        'total' => '\OpenRoam\Model\MoneyAmount'
+        'total' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -336,9 +336,9 @@ class HotelQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getTotal(): ?\OpenRoam\Model\MoneyAmount
+    public function getTotal(): ?\OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -346,11 +346,11 @@ class HotelQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $total The sum of each item's `price` times its `quantity`, in the quote currency.
+     * @param \OpenRoam\Model\Money|null $total The sum of each item's `price` times its `quantity`, in the quote currency.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\MoneyAmount $total): static
+    public function setTotal(?\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');

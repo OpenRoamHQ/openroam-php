@@ -62,7 +62,7 @@ class AmendmentRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'status' => 'string',
         'method' => 'string',
-        'amount' => '\OpenRoam\Model\MoneyAmount'
+        'amount' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -406,9 +406,9 @@ class AmendmentRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmount(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmount(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -416,11 +416,11 @@ class AmendmentRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount The amount returned.
+     * @param \OpenRoam\Model\Money|null $amount The amount returned.
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\MoneyAmount $amount): static
+    public function setAmount(?\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');

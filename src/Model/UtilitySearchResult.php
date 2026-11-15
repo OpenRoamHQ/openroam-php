@@ -60,7 +60,7 @@ class UtilitySearchResult implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'items' => '\OpenRoam\Model\UtilityBiller[]',
+        'items' => '\OpenRoam\Model\Biller[]',
         'pagination' => '\OpenRoam\Model\Pagination'
     ];
 
@@ -275,7 +275,7 @@ class UtilitySearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\UtilityBiller[]|null
+     * @return \OpenRoam\Model\Biller[]|null
      */
     public function getItems(): ?array
     {
@@ -285,7 +285,7 @@ class UtilitySearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\UtilityBiller[]|null $items items
+     * @param \OpenRoam\Model\Biller[]|null $items items
      *
      * @return $this
      */

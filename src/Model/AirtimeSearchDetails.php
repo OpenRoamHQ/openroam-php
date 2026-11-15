@@ -60,7 +60,7 @@ class AirtimeSearchDetails implements ModelInterface, ArrayAccess, JsonSerializa
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'phone_lookup' => '\OpenRoam\Model\AirtimePhoneLookup'
+        'phone_lookup' => '\OpenRoam\Model\CarrierDetection'
     ];
 
     /**
@@ -268,9 +268,9 @@ class AirtimeSearchDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets phone_lookup
      *
-     * @return \OpenRoam\Model\AirtimePhoneLookup|null
+     * @return \OpenRoam\Model\CarrierDetection|null
      */
-    public function getPhoneLookup(): ?\OpenRoam\Model\AirtimePhoneLookup
+    public function getPhoneLookup(): ?\OpenRoam\Model\CarrierDetection
     {
         return $this->container['phone_lookup'];
     }
@@ -278,11 +278,11 @@ class AirtimeSearchDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets phone_lookup
      *
-     * @param \OpenRoam\Model\AirtimePhoneLookup|null $phone_lookup Outcome of the search's carrier lookup. `carrierName` is the carrier the lookup reported, for display only; it is present for any status when the lookup returned one and is never an operator ID. `countryCode` is the number's country as ISO 3166-1 alpha-2, derived from the number itself and never from the lookup; it is present for every status, so a partner can list that country's operators for the manual flow.
+     * @param \OpenRoam\Model\CarrierDetection|null $phone_lookup Outcome of the search's carrier lookup. `carrierName` is the carrier the lookup reported, for display only; it is present for any status when the lookup returned one and is never an operator ID. `countryCode` is the number's country as ISO 3166-1 alpha-2, derived from the number itself and never from the lookup; it is present for every status, so a partner can list that country's operators for the manual flow.
      *
      * @return $this
      */
-    public function setPhoneLookup(?\OpenRoam\Model\AirtimePhoneLookup $phone_lookup): static
+    public function setPhoneLookup(?\OpenRoam\Model\CarrierDetection $phone_lookup): static
     {
         if (is_null($phone_lookup)) {
             throw new InvalidArgumentException('non-nullable phone_lookup cannot be null');

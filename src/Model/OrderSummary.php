@@ -63,7 +63,7 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'id' => 'string',
         'origin' => '\OpenRoam\Model\OrderOrigin',
         'status' => 'string',
-        'total' => '\OpenRoam\Model\MoneyAmount',
+        'total' => '\OpenRoam\Model\Money',
         'payment' => '\OpenRoam\Model\OrderPayment',
         'item_count' => 'int',
         'created_at' => '\DateTime',
@@ -449,9 +449,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getTotal(): ?\OpenRoam\Model\MoneyAmount
+    public function getTotal(): ?\OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -459,11 +459,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $total What the order costs, in the order's currency.
+     * @param \OpenRoam\Model\Money|null $total What the order costs, in the order's currency.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\MoneyAmount $total): static
+    public function setTotal(?\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');

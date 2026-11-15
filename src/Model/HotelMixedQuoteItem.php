@@ -63,7 +63,7 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'public_id' => 'string',
         'quantity' => 'int',
         'name' => 'string',
-        'price' => '\OpenRoam\Model\MoneyAmount',
+        'price' => '\OpenRoam\Model\Money',
         'details' => '\OpenRoam\Model\HotelQuoteItemDetails'
     ];
 
@@ -448,9 +448,9 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -458,11 +458,11 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $price Price for the whole stay, all rooms and nights, in the quote currency. An order of the returned `publicId` without `inputs.maxPrice` is refused if the rate then costs more.
+     * @param \OpenRoam\Model\Money|null $price Price for the whole stay, all rooms and nights, in the quote currency. An order of the returned `publicId` without `inputs.maxPrice` is refused if the rate then costs more.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\MoneyAmount $price): static
+    public function setPrice(?\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

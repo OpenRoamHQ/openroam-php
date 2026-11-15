@@ -31,7 +31,7 @@ namespace OpenRoam\Model;
 /**
  * OfferValue Class Doc Comment
  *
- * @description Monetary value an offer delivers to the partner&#39;s customer: one fixed amount or a range. The discriminator literals are spelled out because the webhook serializer does not camel-case discriminators the way the API hosts do. Declare members as OfferValueDto: a member typed as a variant is written without its &#x60;type&#x60;.
+ * @description Monetary value an offer delivers to the partner&#39;s customer: one fixed amount or a range. The discriminator literals are spelled out because the webhook serializer does not camel-case discriminators the way the API hosts do. Declare members as OfferValue: a member typed as a variant is written without its &#x60;type&#x60;.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -58,8 +58,8 @@ class OfferValue implements OneOfInterface
     public static function getOneOfTypes(): array
     {
         return [
-            '\OpenRoam\Model\OfferFixedValue',
-            '\OpenRoam\Model\OfferRangeValue'
+            '\OpenRoam\Model\FixedValue',
+            '\OpenRoam\Model\ValueRange'
         ];
     }
 
@@ -77,8 +77,8 @@ class OfferValue implements OneOfInterface
     public static function getOneOfDiscriminatorMappings(): array
     {
         return [
-            'fixed' => '\OpenRoam\Model\OfferFixedValue',
-            'range' => '\OpenRoam\Model\OfferRangeValue'
+            'fixed' => '\OpenRoam\Model\FixedValue',
+            'range' => '\OpenRoam\Model\ValueRange'
         ];
     }
 }

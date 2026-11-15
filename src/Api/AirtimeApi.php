@@ -1624,12 +1624,12 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\NumberLookup|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeLookupNumber(
         string $phone_number,
         string $contentType = self::contentTypes['airtimeLookupNumber'][0]
-    ): \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\NumberLookup|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeLookupNumberWithHttpInfo($phone_number, $contentType);
         return $response;
@@ -1645,7 +1645,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeNumberLookup|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\NumberLookup|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeLookupNumberWithHttpInfo(
         string $phone_number,
@@ -1680,7 +1680,7 @@ class AirtimeApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\AirtimeNumberLookup',
+                        '\OpenRoam\Model\NumberLookup',
                         $request,
                         $response,
                     );
@@ -1718,7 +1718,7 @@ class AirtimeApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\AirtimeNumberLookup',
+                '\OpenRoam\Model\NumberLookup',
                 $request,
                 $response,
             );
@@ -1727,7 +1727,7 @@ class AirtimeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\AirtimeNumberLookup',
+                        '\OpenRoam\Model\NumberLookup',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1802,7 +1802,7 @@ class AirtimeApi
         string $contentType = self::contentTypes['airtimeLookupNumber'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\AirtimeNumberLookup';
+        $returnType = '\OpenRoam\Model\NumberLookup';
         $request = $this->airtimeLookupNumberRequest($phone_number, $contentType);
 
         return $this->client

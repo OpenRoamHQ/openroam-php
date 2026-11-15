@@ -75,13 +75,13 @@ class FlightsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getSeatMap(string $publicId, array $options = []): \OpenRoam\Model\FlightSeatMap
+    public function getSeatMap(string $publicId, array $options = []): \OpenRoam\Model\SeatMap
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\FlightsApi::class,
             'operation' => 'flightsGetSeatMap',
             'path' => ['public_id' => $publicId],
-            'returns' => '\OpenRoam\Model\FlightSeatMap',
+            'returns' => '\OpenRoam\Model\SeatMap',
         ], options: $options);
     }
 }

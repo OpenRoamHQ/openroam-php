@@ -20,14 +20,14 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function search(\OpenRoam\Model\HotelSearchRequest|array $body, array $options = []): \OpenRoam\Model\HotelPropertySearchResult
+    public function search(\OpenRoam\Model\HotelSearchRequest|array $body, array $options = []): \OpenRoam\Model\HotelSearchResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsSearch',
             'body' => 'hotel_search_request',
             'bodyType' => '\OpenRoam\Model\HotelSearchRequest',
-            'returns' => '\OpenRoam\Model\HotelPropertySearchResult',
+            'returns' => '\OpenRoam\Model\HotelSearchResult',
         ], options: $options, body: $body);
     }
 
@@ -38,13 +38,13 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getHotel(string $id, array $options = []): \OpenRoam\Model\HotelCatalogProperty
+    public function getHotel(string $id, array $options = []): \OpenRoam\Model\CatalogHotel
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsGetProperty',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\HotelCatalogProperty',
+            'returns' => '\OpenRoam\Model\CatalogHotel',
         ], options: $options);
     }
 
@@ -71,12 +71,12 @@ class HotelsResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listAmenities(array $options = []): \OpenRoam\Model\HotelAmenityCatalog
+    public function listAmenities(array $options = []): \OpenRoam\Model\AmenityCatalog
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\HotelsApi::class,
             'operation' => 'hotelsGetAmenityCatalog',
-            'returns' => '\OpenRoam\Model\HotelAmenityCatalog',
+            'returns' => '\OpenRoam\Model\AmenityCatalog',
         ], options: $options);
     }
 

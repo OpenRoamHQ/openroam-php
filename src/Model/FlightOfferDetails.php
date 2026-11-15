@@ -62,16 +62,16 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     protected static array $openAPITypes = [
         'expires_at' => '\DateTime',
         'cabin_class' => 'string',
-        'fare' => '\OpenRoam\Model\FlightFare',
+        'fare' => '\OpenRoam\Model\Fare',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'included_baggage' => '\OpenRoam\Model\FlightBaggage[]',
-        'price_breakdown' => '\OpenRoam\Model\FlightPriceBreakdown',
-        'passenger_pricing' => '\OpenRoam\Model\FlightPassengerPricing[]',
-        'offer_passengers' => '\OpenRoam\Model\FlightOfferPassenger[]',
-        'available_services' => '\OpenRoam\Model\FlightAvailableService[]',
+        'included_baggage' => '\OpenRoam\Model\Baggage[]',
+        'price_breakdown' => '\OpenRoam\Model\PriceBreakdown',
+        'passenger_pricing' => '\OpenRoam\Model\PassengerPricing[]',
+        'offer_passengers' => '\OpenRoam\Model\OfferPassenger[]',
+        'available_services' => '\OpenRoam\Model\AvailableService[]',
         'identity_documents_required' => 'bool',
         'supported_document_types' => 'string[]',
-        'segments' => '\OpenRoam\Model\FlightFareSegment[]'
+        'segments' => '\OpenRoam\Model\SegmentFare[]'
     ];
 
     /**
@@ -437,9 +437,9 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets fare
      *
-     * @return \OpenRoam\Model\FlightFare|null
+     * @return \OpenRoam\Model\Fare|null
      */
-    public function getFare(): ?\OpenRoam\Model\FlightFare
+    public function getFare(): ?\OpenRoam\Model\Fare
     {
         return $this->container['fare'];
     }
@@ -447,11 +447,11 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets fare
      *
-     * @param \OpenRoam\Model\FlightFare|null $fare Fare basis, brand, fare family and validating carrier, as far as the airline gives them.
+     * @param \OpenRoam\Model\Fare|null $fare Fare basis, brand, fare family and validating carrier, as far as the airline gives them.
      *
      * @return $this
      */
-    public function setFare(?\OpenRoam\Model\FlightFare $fare): static
+    public function setFare(?\OpenRoam\Model\Fare $fare): static
     {
         if (is_null($fare)) {
             array_push($this->openAPINullablesSetToNull, 'fare');
@@ -498,7 +498,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\FlightBaggage[]|null
+     * @return \OpenRoam\Model\Baggage[]|null
      */
     public function getIncludedBaggage(): ?array
     {
@@ -508,7 +508,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\FlightBaggage[]|null $included_baggage Baggage included for every passenger.
+     * @param \OpenRoam\Model\Baggage[]|null $included_baggage Baggage included for every passenger.
      *
      * @return $this
      */
@@ -525,9 +525,9 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets price_breakdown
      *
-     * @return \OpenRoam\Model\FlightPriceBreakdown|null
+     * @return \OpenRoam\Model\PriceBreakdown|null
      */
-    public function getPriceBreakdown(): ?\OpenRoam\Model\FlightPriceBreakdown
+    public function getPriceBreakdown(): ?\OpenRoam\Model\PriceBreakdown
     {
         return $this->container['price_breakdown'];
     }
@@ -535,11 +535,11 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets price_breakdown
      *
-     * @param \OpenRoam\Model\FlightPriceBreakdown|null $price_breakdown Base fare and taxes of `price`; null when the airline gives no split.
+     * @param \OpenRoam\Model\PriceBreakdown|null $price_breakdown Base fare and taxes of `price`; null when the airline gives no split.
      *
      * @return $this
      */
-    public function setPriceBreakdown(?\OpenRoam\Model\FlightPriceBreakdown $price_breakdown): static
+    public function setPriceBreakdown(?\OpenRoam\Model\PriceBreakdown $price_breakdown): static
     {
         if (is_null($price_breakdown)) {
             array_push($this->openAPINullablesSetToNull, 'price_breakdown');
@@ -559,7 +559,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets passenger_pricing
      *
-     * @return \OpenRoam\Model\FlightPassengerPricing[]|null
+     * @return \OpenRoam\Model\PassengerPricing[]|null
      */
     public function getPassengerPricing(): ?array
     {
@@ -569,7 +569,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets passenger_pricing
      *
-     * @param \OpenRoam\Model\FlightPassengerPricing[]|null $passenger_pricing Price per passenger type.
+     * @param \OpenRoam\Model\PassengerPricing[]|null $passenger_pricing Price per passenger type.
      *
      * @return $this
      */
@@ -586,7 +586,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets offer_passengers
      *
-     * @return \OpenRoam\Model\FlightOfferPassenger[]|null
+     * @return \OpenRoam\Model\OfferPassenger[]|null
      */
     public function getOfferPassengers(): ?array
     {
@@ -596,7 +596,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets offer_passengers
      *
-     * @param \OpenRoam\Model\FlightOfferPassenger[]|null $offer_passengers The passengers the fare is priced for; `passengerIndex` names them in the order inputs.
+     * @param \OpenRoam\Model\OfferPassenger[]|null $offer_passengers The passengers the fare is priced for; `passengerIndex` names them in the order inputs.
      *
      * @return $this
      */
@@ -613,7 +613,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets available_services
      *
-     * @return \OpenRoam\Model\FlightAvailableService[]|null
+     * @return \OpenRoam\Model\AvailableService[]|null
      */
     public function getAvailableServices(): ?array
     {
@@ -623,7 +623,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets available_services
      *
-     * @param \OpenRoam\Model\FlightAvailableService[]|null $available_services Paid extras; empty in search. Quote the fare to list them.
+     * @param \OpenRoam\Model\AvailableService[]|null $available_services Paid extras; empty in search. Quote the fare to list them.
      *
      * @return $this
      */
@@ -694,7 +694,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets segments
      *
-     * @return \OpenRoam\Model\FlightFareSegment[]|null
+     * @return \OpenRoam\Model\SegmentFare[]|null
      */
     public function getSegments(): ?array
     {
@@ -704,7 +704,7 @@ class FlightOfferDetails implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets segments
      *
-     * @param \OpenRoam\Model\FlightFareSegment[]|null $segments Cabin and baggage on each segment of this fare, with 1-based slice and segment positions.
+     * @param \OpenRoam\Model\SegmentFare[]|null $segments Cabin and baggage on each segment of this fare, with 1-based slice and segment positions.
      *
      * @return $this
      */

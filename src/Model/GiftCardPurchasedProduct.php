@@ -63,9 +63,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
         'name' => 'string',
         'country_code' => 'string',
         'logo_url' => 'string',
-        'value' => '\OpenRoam\Model\MoneyAmount',
-        'inputs' => '\OpenRoam\Model\GiftCardPurchasedProductInputs',
-        'details' => '\OpenRoam\Model\GiftCardPurchasedProductDetails'
+        'value' => '\OpenRoam\Model\Money',
+        'inputs' => '\OpenRoam\Model\GiftCardPurchasedInputs',
+        'details' => '\OpenRoam\Model\GiftCardPurchasedDetails'
     ];
 
     /**
@@ -398,9 +398,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['value'];
     }
@@ -408,11 +408,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $value value
+     * @param \OpenRoam\Model\Money|null $value value
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\MoneyAmount $value): static
+    public function setValue(?\OpenRoam\Model\Money $value): static
     {
         if (is_null($value)) {
             array_push($this->openAPINullablesSetToNull, 'value');
@@ -432,9 +432,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\GiftCardPurchasedProductInputs|null
+     * @return \OpenRoam\Model\GiftCardPurchasedInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\GiftCardPurchasedProductInputs
+    public function getInputs(): ?\OpenRoam\Model\GiftCardPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -442,11 +442,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\GiftCardPurchasedProductInputs|null $inputs The item's `inputs` under the request's keys. `recipientIdentifier` and `recipientEmail` are masked; `giftMessage` is returned as given. The identifier is echoed only when the card required it.
+     * @param \OpenRoam\Model\GiftCardPurchasedInputs|null $inputs The item's `inputs` under the request's keys. `recipientIdentifier` and `recipientEmail` are masked; `giftMessage` is returned as given. The identifier is echoed only when the card required it.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\GiftCardPurchasedProductInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\GiftCardPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -459,9 +459,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\GiftCardPurchasedProductDetails|null
+     * @return \OpenRoam\Model\GiftCardPurchasedDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\GiftCardPurchasedProductDetails
+    public function getDetails(): ?\OpenRoam\Model\GiftCardPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -469,11 +469,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\GiftCardPurchasedProductDetails|null $details Gift card facts outside the purchased-product keys every partner service shares, as captured when the card was added. `redemptionInstructions` is the detailed text, or the summary when the card has only that.
+     * @param \OpenRoam\Model\GiftCardPurchasedDetails|null $details Gift card facts outside the purchased-product keys every partner service shares, as captured when the card was added. `redemptionInstructions` is the detailed text, or the summary when the card has only that.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\GiftCardPurchasedProductDetails $details): static
+    public function setDetails(?\OpenRoam\Model\GiftCardPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

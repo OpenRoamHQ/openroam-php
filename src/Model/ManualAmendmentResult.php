@@ -277,7 +277,7 @@ class ManualAmendmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets amendment_id
      *
-     * @param string|null $amendment_id ID of the approved amendment request.
+     * @param string|null $amendment_id ID of the amendment request.
      *
      * @return $this
      */

@@ -61,7 +61,7 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
      */
     protected static array $openAPITypes = [
         'order_item_id' => 'string',
-        'amount' => '\OpenRoam\Model\MoneyAmount',
+        'amount' => '\OpenRoam\Model\Money',
         'method' => 'string',
         'status' => 'string'
     ];
@@ -368,9 +368,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmount(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmount(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -378,11 +378,11 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount The amount refunded, in the order's currency.
+     * @param \OpenRoam\Model\Money|null $amount The amount refunded, in the order's currency.
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\MoneyAmount $amount): static
+    public function setAmount(?\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');

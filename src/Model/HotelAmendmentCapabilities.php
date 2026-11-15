@@ -60,8 +60,8 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'guests' => '\OpenRoam\Model\HotelGuestCapabilities',
-        'rooms' => '\OpenRoam\Model\HotelRoomCapabilities'
+        'guests' => '\OpenRoam\Model\GuestAmendmentCapabilities',
+        'rooms' => '\OpenRoam\Model\RoomAmendmentCapabilities'
     ];
 
     /**
@@ -275,9 +275,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets guests
      *
-     * @return \OpenRoam\Model\HotelGuestCapabilities|null
+     * @return \OpenRoam\Model\GuestAmendmentCapabilities|null
      */
-    public function getGuests(): ?\OpenRoam\Model\HotelGuestCapabilities
+    public function getGuests(): ?\OpenRoam\Model\GuestAmendmentCapabilities
     {
         return $this->container['guests'];
     }
@@ -285,11 +285,11 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets guests
      *
-     * @param \OpenRoam\Model\HotelGuestCapabilities|null $guests What may change about the guests inside a room.
+     * @param \OpenRoam\Model\GuestAmendmentCapabilities|null $guests What may change about the guests inside a room.
      *
      * @return $this
      */
-    public function setGuests(?\OpenRoam\Model\HotelGuestCapabilities $guests): static
+    public function setGuests(?\OpenRoam\Model\GuestAmendmentCapabilities $guests): static
     {
         if (is_null($guests)) {
             throw new InvalidArgumentException('non-nullable guests cannot be null');
@@ -302,9 +302,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\HotelRoomCapabilities|null
+     * @return \OpenRoam\Model\RoomAmendmentCapabilities|null
      */
-    public function getRooms(): ?\OpenRoam\Model\HotelRoomCapabilities
+    public function getRooms(): ?\OpenRoam\Model\RoomAmendmentCapabilities
     {
         return $this->container['rooms'];
     }
@@ -312,11 +312,11 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\HotelRoomCapabilities|null $rooms What may change about the rooms themselves. Adding or removing rooms is not offered today, so both are false.
+     * @param \OpenRoam\Model\RoomAmendmentCapabilities|null $rooms What may change about the rooms themselves. Adding or removing rooms is not offered today, so both are false.
      *
      * @return $this
      */
-    public function setRooms(?\OpenRoam\Model\HotelRoomCapabilities $rooms): static
+    public function setRooms(?\OpenRoam\Model\RoomAmendmentCapabilities $rooms): static
     {
         if (is_null($rooms)) {
             throw new InvalidArgumentException('non-nullable rooms cannot be null');

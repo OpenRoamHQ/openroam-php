@@ -64,10 +64,10 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
         'quoted_at' => '\DateTime',
         'has_seat_maps' => 'bool',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'included_baggage' => '\OpenRoam\Model\FlightBaggage[]',
-        'price_breakdown' => '\OpenRoam\Model\FlightPriceBreakdown',
-        'available_services' => '\OpenRoam\Model\FlightAvailableService[]',
-        'fare_options' => '\OpenRoam\Model\FlightFareOption[]'
+        'included_baggage' => '\OpenRoam\Model\Baggage[]',
+        'price_breakdown' => '\OpenRoam\Model\PriceBreakdown',
+        'available_services' => '\OpenRoam\Model\AvailableService[]',
+        'fare_options' => '\OpenRoam\Model\FareOption[]'
     ];
 
     /**
@@ -425,7 +425,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\FlightBaggage[]|null
+     * @return \OpenRoam\Model\Baggage[]|null
      */
     public function getIncludedBaggage(): ?array
     {
@@ -435,7 +435,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\FlightBaggage[]|null $included_baggage Baggage included for every passenger.
+     * @param \OpenRoam\Model\Baggage[]|null $included_baggage Baggage included for every passenger.
      *
      * @return $this
      */
@@ -452,9 +452,9 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets price_breakdown
      *
-     * @return \OpenRoam\Model\FlightPriceBreakdown|null
+     * @return \OpenRoam\Model\PriceBreakdown|null
      */
-    public function getPriceBreakdown(): ?\OpenRoam\Model\FlightPriceBreakdown
+    public function getPriceBreakdown(): ?\OpenRoam\Model\PriceBreakdown
     {
         return $this->container['price_breakdown'];
     }
@@ -462,11 +462,11 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets price_breakdown
      *
-     * @param \OpenRoam\Model\FlightPriceBreakdown|null $price_breakdown Base fare and taxes of the fare, without paid extras; null when the airline gives no split.
+     * @param \OpenRoam\Model\PriceBreakdown|null $price_breakdown Base fare and taxes of the fare, without paid extras; null when the airline gives no split.
      *
      * @return $this
      */
-    public function setPriceBreakdown(?\OpenRoam\Model\FlightPriceBreakdown $price_breakdown): static
+    public function setPriceBreakdown(?\OpenRoam\Model\PriceBreakdown $price_breakdown): static
     {
         if (is_null($price_breakdown)) {
             array_push($this->openAPINullablesSetToNull, 'price_breakdown');
@@ -486,7 +486,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets available_services
      *
-     * @return \OpenRoam\Model\FlightAvailableService[]|null
+     * @return \OpenRoam\Model\AvailableService[]|null
      */
     public function getAvailableServices(): ?array
     {
@@ -496,7 +496,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets available_services
      *
-     * @param \OpenRoam\Model\FlightAvailableService[]|null $available_services Paid extras such as bags. Send a service's `id` in the order's `inputs.selectedServices`.
+     * @param \OpenRoam\Model\AvailableService[]|null $available_services Paid extras such as bags. Send a service's `id` in the order's `inputs.selectedServices`.
      *
      * @return $this
      */
@@ -513,7 +513,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets fare_options
      *
-     * @return \OpenRoam\Model\FlightFareOption[]|null
+     * @return \OpenRoam\Model\FareOption[]|null
      */
     public function getFareOptions(): ?array
     {
@@ -523,7 +523,7 @@ class FlightQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets fare_options
      *
-     * @param \OpenRoam\Model\FlightFareOption[]|null $fare_options The fares on the same flights sold by the same airline, cheapest first and including the quoted one, each with its own `publicId` to quote or order.
+     * @param \OpenRoam\Model\FareOption[]|null $fare_options The fares on the same flights sold by the same airline, cheapest first and including the quoted one, each with its own `publicId` to quote or order.
      *
      * @return $this
      */

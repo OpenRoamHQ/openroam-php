@@ -63,7 +63,7 @@ class FlightMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializa
         'public_id' => 'string',
         'quantity' => 'int',
         'name' => 'string',
-        'price' => '\OpenRoam\Model\MoneyAmount',
+        'price' => '\OpenRoam\Model\Money',
         'details' => '\OpenRoam\Model\FlightQuoteItemDetails'
     ];
 
@@ -448,9 +448,9 @@ class FlightMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -458,11 +458,11 @@ class FlightMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $price The unit price the order charges now for all passengers: the fare with its taxes, plus the paid extras in the item's `inputs` when they are sent.
+     * @param \OpenRoam\Model\Money|null $price The unit price the order charges now for all passengers: the fare with its taxes, plus the paid extras in the item's `inputs` when they are sent.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\MoneyAmount $price): static
+    public function setPrice(?\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

@@ -58,8 +58,8 @@ class OfferPrice implements OneOfInterface
     public static function getOneOfTypes(): array
     {
         return [
-            '\OpenRoam\Model\OfferFixedPrice',
-            '\OpenRoam\Model\OfferRangePrice'
+            '\OpenRoam\Model\FixedPrice',
+            '\OpenRoam\Model\PriceRange'
         ];
     }
 

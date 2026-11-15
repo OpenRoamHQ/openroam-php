@@ -63,8 +63,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'public_id' => 'string',
         'quantity' => 'int',
         'name' => 'string',
-        'value' => '\OpenRoam\Model\MoneyAmount',
-        'price' => '\OpenRoam\Model\MoneyAmount',
+        'value' => '\OpenRoam\Model\Money',
+        'price' => '\OpenRoam\Model\Money',
         'details' => '\OpenRoam\Model\AirtimeQuoteItemDetails'
     ];
 
@@ -455,9 +455,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['value'];
     }
@@ -465,11 +465,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $value value
+     * @param \OpenRoam\Model\Money|null $value value
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\MoneyAmount $value): static
+    public function setValue(?\OpenRoam\Model\Money $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -482,9 +482,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -492,11 +492,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $price price
+     * @param \OpenRoam\Model\Money|null $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\MoneyAmount $price): static
+    public function setPrice(?\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

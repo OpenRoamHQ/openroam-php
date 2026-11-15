@@ -60,11 +60,11 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'holder' => '\OpenRoam\Model\HotelHolderInput',
-        'room_guests' => '\OpenRoam\Model\HotelRoomGuestsInput[]',
+        'holder' => '\OpenRoam\Model\LeadGuestInput',
+        'room_guests' => '\OpenRoam\Model\RoomGuestsInput[]',
         'special_requests' => 'string',
         'special_request_codes' => 'string[]',
-        'max_price' => '\OpenRoam\Model\MoneyAmountInput'
+        'max_price' => '\OpenRoam\Model\MoneyInput'
     ];
 
     /**
@@ -302,9 +302,9 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets holder
      *
-     * @return \OpenRoam\Model\HotelHolderInput
+     * @return \OpenRoam\Model\LeadGuestInput
      */
-    public function getHolder(): \OpenRoam\Model\HotelHolderInput
+    public function getHolder(): \OpenRoam\Model\LeadGuestInput
     {
         return $this->container['holder'];
     }
@@ -312,11 +312,11 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets holder
      *
-     * @param \OpenRoam\Model\HotelHolderInput $holder The lead guest: the booking is made in this name and the hotel contacts this person.
+     * @param \OpenRoam\Model\LeadGuestInput $holder The lead guest: the booking is made in this name and the hotel contacts this person.
      *
      * @return $this
      */
-    public function setHolder(\OpenRoam\Model\HotelHolderInput $holder): static
+    public function setHolder(\OpenRoam\Model\LeadGuestInput $holder): static
     {
         if (is_null($holder)) {
             throw new InvalidArgumentException('non-nullable holder cannot be null');
@@ -329,7 +329,7 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets room_guests
      *
-     * @return \OpenRoam\Model\HotelRoomGuestsInput[]
+     * @return \OpenRoam\Model\RoomGuestsInput[]
      */
     public function getRoomGuests(): array
     {
@@ -339,7 +339,7 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets room_guests
      *
-     * @param \OpenRoam\Model\HotelRoomGuestsInput[] $room_guests Exactly one entry per searched room, with `roomIndex` 1 to N. Each room's guests must match its searched adults, children and child ages.
+     * @param \OpenRoam\Model\RoomGuestsInput[] $room_guests Exactly one entry per searched room, with `roomIndex` 1 to N. Each room's guests must match its searched adults, children and child ages.
      *
      * @return $this
      */
@@ -424,9 +424,9 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets max_price
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMaxPrice(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMaxPrice(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['max_price'];
     }
@@ -434,11 +434,11 @@ class HotelInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets max_price
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
+     * @param \OpenRoam\Model\MoneyInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
      *
      * @return $this
      */
-    public function setMaxPrice(?\OpenRoam\Model\MoneyAmountInput $max_price): static
+    public function setMaxPrice(?\OpenRoam\Model\MoneyInput $max_price): static
     {
         if (is_null($max_price)) {
             array_push($this->openAPINullablesSetToNull, 'max_price');

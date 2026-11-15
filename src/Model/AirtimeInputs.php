@@ -62,9 +62,9 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'phone_number' => 'string',
         'settings' => 'array<string,string>',
-        'min_delivered_value' => '\OpenRoam\Model\MoneyAmountInput',
-        'value' => '\OpenRoam\Model\MoneyAmountInput',
-        'max_price' => '\OpenRoam\Model\MoneyAmountInput'
+        'min_delivered_value' => '\OpenRoam\Model\MoneyInput',
+        'value' => '\OpenRoam\Model\MoneyInput',
+        'max_price' => '\OpenRoam\Model\MoneyInput'
     ];
 
     /**
@@ -360,9 +360,9 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets min_delivered_value
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMinDeliveredValue(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMinDeliveredValue(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['min_delivered_value'];
     }
@@ -370,11 +370,11 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets min_delivered_value
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $min_delivered_value Optional lowest accepted delivered value, for a range offer only: in the inputs.value currency and at most inputs.value. Without it, the exact value must be delivered.
+     * @param \OpenRoam\Model\MoneyInput|null $min_delivered_value Optional lowest accepted delivered value, for a range offer only: in the inputs.value currency and at most inputs.value. Without it, the exact value must be delivered.
      *
      * @return $this
      */
-    public function setMinDeliveredValue(?\OpenRoam\Model\MoneyAmountInput $min_delivered_value): static
+    public function setMinDeliveredValue(?\OpenRoam\Model\MoneyInput $min_delivered_value): static
     {
         if (is_null($min_delivered_value)) {
             array_push($this->openAPINullablesSetToNull, 'min_delivered_value');
@@ -394,9 +394,9 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getValue(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getValue(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['value'];
     }
@@ -404,11 +404,11 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $value Required for a range offer, within its min and max and on its step; optional for a fixed offer, where it must equal the offer's amount; in the offer's value currency.
+     * @param \OpenRoam\Model\MoneyInput|null $value Required for a range offer, within its min and max and on its step; optional for a fixed offer, where it must equal the offer's amount; in the offer's value currency.
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\MoneyAmountInput $value): static
+    public function setValue(?\OpenRoam\Model\MoneyInput $value): static
     {
         if (is_null($value)) {
             array_push($this->openAPINullablesSetToNull, 'value');
@@ -428,9 +428,9 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets max_price
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMaxPrice(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMaxPrice(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['max_price'];
     }
@@ -438,11 +438,11 @@ class AirtimeInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets max_price
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
+     * @param \OpenRoam\Model\MoneyInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
      *
      * @return $this
      */
-    public function setMaxPrice(?\OpenRoam\Model\MoneyAmountInput $max_price): static
+    public function setMaxPrice(?\OpenRoam\Model\MoneyInput $max_price): static
     {
         if (is_null($max_price)) {
             array_push($this->openAPINullablesSetToNull, 'max_price');

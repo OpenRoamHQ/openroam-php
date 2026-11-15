@@ -54,13 +54,13 @@ class AirtimeResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function lookupNumber(array $query, array $options = []): \OpenRoam\Model\AirtimeNumberLookup
+    public function lookupNumber(array $query, array $options = []): \OpenRoam\Model\NumberLookup
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\AirtimeApi::class,
             'operation' => 'airtimeLookupNumber',
             'query' => ['phoneNumber' => ['phone_number', 'string']],
-            'returns' => '\OpenRoam\Model\AirtimeNumberLookup',
+            'returns' => '\OpenRoam\Model\NumberLookup',
         ], options: $options, query: $query);
     }
 

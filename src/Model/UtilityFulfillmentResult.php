@@ -60,8 +60,8 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'delivered_value' => '\OpenRoam\Model\MoneyAmount',
-        'details' => '\OpenRoam\Model\UtilityFulfillmentResultDetails'
+        'delivered_value' => '\OpenRoam\Model\Money',
+        'details' => '\OpenRoam\Model\UtilityFulfillmentDetails'
     ];
 
     /**
@@ -275,9 +275,9 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets delivered_value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getDeliveredValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getDeliveredValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['delivered_value'];
     }
@@ -285,11 +285,11 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets delivered_value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $delivered_value delivered_value
+     * @param \OpenRoam\Model\Money|null $delivered_value delivered_value
      *
      * @return $this
      */
-    public function setDeliveredValue(?\OpenRoam\Model\MoneyAmount $delivered_value): static
+    public function setDeliveredValue(?\OpenRoam\Model\Money $delivered_value): static
     {
         if (is_null($delivered_value)) {
             array_push($this->openAPINullablesSetToNull, 'delivered_value');
@@ -309,9 +309,9 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\UtilityFulfillmentResultDetails|null
+     * @return \OpenRoam\Model\UtilityFulfillmentDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\UtilityFulfillmentResultDetails
+    public function getDetails(): ?\OpenRoam\Model\UtilityFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +319,11 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\UtilityFulfillmentResultDetails|null $details The prepaid token a token biller delivered, once the payment is ready. Null for direct-credit billers.
+     * @param \OpenRoam\Model\UtilityFulfillmentDetails|null $details The prepaid token a token biller delivered, once the payment is ready. Null for direct-credit billers.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\UtilityFulfillmentResultDetails $details): static
+    public function setDetails(?\OpenRoam\Model\UtilityFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

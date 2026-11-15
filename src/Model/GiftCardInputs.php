@@ -63,8 +63,8 @@ class GiftCardInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'recipient_identifier' => 'string',
         'recipient_email' => 'string',
         'gift_message' => 'string',
-        'value' => '\OpenRoam\Model\MoneyAmountInput',
-        'max_price' => '\OpenRoam\Model\MoneyAmountInput'
+        'value' => '\OpenRoam\Model\MoneyInput',
+        'max_price' => '\OpenRoam\Model\MoneyInput'
     ];
 
     /**
@@ -398,9 +398,9 @@ class GiftCardInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getValue(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getValue(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['value'];
     }
@@ -408,11 +408,11 @@ class GiftCardInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $value Required for a range offer, within its min and max and on its step; optional for a fixed offer, where it must equal the offer's amount; in the offer's value currency.
+     * @param \OpenRoam\Model\MoneyInput|null $value Required for a range offer, within its min and max and on its step; optional for a fixed offer, where it must equal the offer's amount; in the offer's value currency.
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\MoneyAmountInput $value): static
+    public function setValue(?\OpenRoam\Model\MoneyInput $value): static
     {
         if (is_null($value)) {
             array_push($this->openAPINullablesSetToNull, 'value');
@@ -432,9 +432,9 @@ class GiftCardInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets max_price
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMaxPrice(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMaxPrice(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['max_price'];
     }
@@ -442,11 +442,11 @@ class GiftCardInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets max_price
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
+     * @param \OpenRoam\Model\MoneyInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
      *
      * @return $this
      */
-    public function setMaxPrice(?\OpenRoam\Model\MoneyAmountInput $max_price): static
+    public function setMaxPrice(?\OpenRoam\Model\MoneyInput $max_price): static
     {
         if (is_null($max_price)) {
             array_push($this->openAPINullablesSetToNull, 'max_price');

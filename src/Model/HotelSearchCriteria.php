@@ -60,7 +60,7 @@ class HotelSearchCriteria implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $openAPITypes = [
         'hotel_ids' => 'string[]',
-        'location' => '\OpenRoam\Model\HotelLocationSearch'
+        'location' => '\OpenRoam\Model\HotelSearchArea'
     ];
 
     /**
@@ -308,9 +308,9 @@ class HotelSearchCriteria implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets location
      *
-     * @return \OpenRoam\Model\HotelLocationSearch|null
+     * @return \OpenRoam\Model\HotelSearchArea|null
      */
-    public function getLocation(): ?\OpenRoam\Model\HotelLocationSearch
+    public function getLocation(): ?\OpenRoam\Model\HotelSearchArea
     {
         return $this->container['location'];
     }
@@ -318,11 +318,11 @@ class HotelSearchCriteria implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets location
      *
-     * @param \OpenRoam\Model\HotelLocationSearch|null $location The area to search, by `geoNodeId`, `cityCode` or `coordinates`. Results are paged.
+     * @param \OpenRoam\Model\HotelSearchArea|null $location The area to search, by `geoNodeId`, `cityCode` or `coordinates`. Results are paged.
      *
      * @return $this
      */
-    public function setLocation(?\OpenRoam\Model\HotelLocationSearch $location): static
+    public function setLocation(?\OpenRoam\Model\HotelSearchArea $location): static
     {
         if (is_null($location)) {
             array_push($this->openAPINullablesSetToNull, 'location');

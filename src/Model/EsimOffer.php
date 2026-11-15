@@ -64,7 +64,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'string',
         'description' => 'string',
         'price' => '\OpenRoam\Model\OfferPrice',
-        'required_inputs' => '\OpenRoam\Model\RequiredInput[]',
+        'required_inputs' => '\OpenRoam\Model\InputField[]',
         'details' => '\OpenRoam\Model\EsimOfferDetails'
     ];
 
@@ -391,9 +391,9 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
      */
-    public function getPrice(): \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
     {
         return $this->container['price'];
     }
@@ -401,11 +401,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price price
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price price
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -418,7 +418,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets required_inputs
      *
-     * @return \OpenRoam\Model\RequiredInput[]|null
+     * @return \OpenRoam\Model\InputField[]|null
      */
     public function getRequiredInputs(): ?array
     {
@@ -428,7 +428,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets required_inputs
      *
-     * @param \OpenRoam\Model\RequiredInput[]|null $required_inputs required_inputs
+     * @param \OpenRoam\Model\InputField[]|null $required_inputs required_inputs
      *
      * @return $this
      */

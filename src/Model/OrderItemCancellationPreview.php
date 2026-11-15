@@ -60,11 +60,11 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'penalty_amount' => '\OpenRoam\Model\MoneyAmount',
-        'cancellation_fee' => '\OpenRoam\Model\MoneyAmount',
-        'refund_amount' => '\OpenRoam\Model\MoneyAmount',
+        'penalty_amount' => '\OpenRoam\Model\Money',
+        'cancellation_fee' => '\OpenRoam\Model\Money',
+        'refund_amount' => '\OpenRoam\Model\Money',
         'is_refundable' => 'bool',
-        'applied_penalties' => '\OpenRoam\Model\CancellationPenaltyDetail[]',
+        'applied_penalties' => '\OpenRoam\Model\CancellationPenalty[]',
         'effective_cancellation_date' => '\DateTime',
         'check_in_date' => '\DateTime'
     ];
@@ -319,9 +319,9 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets penalty_amount
      *
-     * @return \OpenRoam\Model\MoneyAmount
+     * @return \OpenRoam\Model\Money
      */
-    public function getPenaltyAmount(): \OpenRoam\Model\MoneyAmount
+    public function getPenaltyAmount(): \OpenRoam\Model\Money
     {
         return $this->container['penalty_amount'];
     }
@@ -329,11 +329,11 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets penalty_amount
      *
-     * @param \OpenRoam\Model\MoneyAmount $penalty_amount The penalty that would be kept, in the order currency.
+     * @param \OpenRoam\Model\Money $penalty_amount The penalty that would be kept, in the order currency.
      *
      * @return $this
      */
-    public function setPenaltyAmount(\OpenRoam\Model\MoneyAmount $penalty_amount): static
+    public function setPenaltyAmount(\OpenRoam\Model\Money $penalty_amount): static
     {
         if (is_null($penalty_amount)) {
             throw new InvalidArgumentException('non-nullable penalty_amount cannot be null');
@@ -346,9 +346,9 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets cancellation_fee
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getCancellationFee(): ?\OpenRoam\Model\MoneyAmount
+    public function getCancellationFee(): ?\OpenRoam\Model\Money
     {
         return $this->container['cancellation_fee'];
     }
@@ -356,11 +356,11 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets cancellation_fee
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $cancellation_fee A cancellation fee taken in addition to the penalty, in the order currency; `null` when none applies. It comes out of what the penalty leaves, so it never makes the refund negative.
+     * @param \OpenRoam\Model\Money|null $cancellation_fee A cancellation fee taken in addition to the penalty, in the order currency; `null` when none applies. It comes out of what the penalty leaves, so it never makes the refund negative.
      *
      * @return $this
      */
-    public function setCancellationFee(?\OpenRoam\Model\MoneyAmount $cancellation_fee): static
+    public function setCancellationFee(?\OpenRoam\Model\Money $cancellation_fee): static
     {
         if (is_null($cancellation_fee)) {
             array_push($this->openAPINullablesSetToNull, 'cancellation_fee');
@@ -380,9 +380,9 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets refund_amount
      *
-     * @return \OpenRoam\Model\MoneyAmount
+     * @return \OpenRoam\Model\Money
      */
-    public function getRefundAmount(): \OpenRoam\Model\MoneyAmount
+    public function getRefundAmount(): \OpenRoam\Model\Money
     {
         return $this->container['refund_amount'];
     }
@@ -390,11 +390,11 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets refund_amount
      *
-     * @param \OpenRoam\Model\MoneyAmount $refund_amount The amount that would be refunded, in the order currency: what was paid less the penalty and the             cancellation fee.
+     * @param \OpenRoam\Model\Money $refund_amount The amount that would be refunded, in the order currency: what was paid less the penalty and the             cancellation fee.
      *
      * @return $this
      */
-    public function setRefundAmount(\OpenRoam\Model\MoneyAmount $refund_amount): static
+    public function setRefundAmount(\OpenRoam\Model\Money $refund_amount): static
     {
         if (is_null($refund_amount)) {
             throw new InvalidArgumentException('non-nullable refund_amount cannot be null');
@@ -434,7 +434,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets applied_penalties
      *
-     * @return \OpenRoam\Model\CancellationPenaltyDetail[]|null
+     * @return \OpenRoam\Model\CancellationPenalty[]|null
      */
     public function getAppliedPenalties(): ?array
     {
@@ -444,7 +444,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets applied_penalties
      *
-     * @param \OpenRoam\Model\CancellationPenaltyDetail[]|null $applied_penalties The cancellation band in effect now, priced at `penaltyAmount`: at most one entry. Empty when the item's bands have not started yet; `null` when it states none.
+     * @param \OpenRoam\Model\CancellationPenalty[]|null $applied_penalties The cancellation band in effect now, priced at `penaltyAmount`: at most one entry. Empty when the item's bands have not started yet; `null` when it states none.
      *
      * @return $this
      */

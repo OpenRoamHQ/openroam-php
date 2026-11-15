@@ -995,7 +995,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\EsimCompatibleDevice[]|\OpenRoam\Model\ErrorResponse
      */
     public function esimsGetCompatibleDevices(
         string $contentType = self::contentTypes['esimsGetCompatibleDevices'][0]
@@ -1014,7 +1014,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\CompatibleDevice[]|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimCompatibleDevice[]|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsGetCompatibleDevicesWithHttpInfo(
         string $contentType = self::contentTypes['esimsGetCompatibleDevices'][0]
@@ -1048,7 +1048,7 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\CompatibleDevice[]',
+                        '\OpenRoam\Model\EsimCompatibleDevice[]',
                         $request,
                         $response,
                     );
@@ -1080,7 +1080,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\CompatibleDevice[]',
+                '\OpenRoam\Model\EsimCompatibleDevice[]',
                 $request,
                 $response,
             );
@@ -1089,7 +1089,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\CompatibleDevice[]',
+                        '\OpenRoam\Model\EsimCompatibleDevice[]',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1152,7 +1152,7 @@ class EsimsApi
         string $contentType = self::contentTypes['esimsGetCompatibleDevices'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\CompatibleDevice[]';
+        $returnType = '\OpenRoam\Model\EsimCompatibleDevice[]';
         $request = $this->esimsGetCompatibleDevicesRequest($contentType);
 
         return $this->client
@@ -4101,7 +4101,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisioningRequest|null $esim_provisioning_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -4111,11 +4111,11 @@ class EsimsApi
     public function esimsProvision(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
+        ?\OpenRoam\Model\EsimProvisioningRequest $esim_provisioning_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): \OpenRoam\Model\EsimProfile|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->esimsProvisionWithHttpInfo($id, $idempotency_key, $esim_provision_request, $contentType);
+        list($response) = $this->esimsProvisionWithHttpInfo($id, $idempotency_key, $esim_provisioning_request, $contentType);
         return $response;
     }
 
@@ -4126,7 +4126,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisioningRequest|null $esim_provisioning_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -4136,11 +4136,11 @@ class EsimsApi
     public function esimsProvisionWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
+        ?\OpenRoam\Model\EsimProvisioningRequest $esim_provisioning_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): array
     {
-        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provision_request, $contentType);
+        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provisioning_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4285,7 +4285,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisioningRequest|null $esim_provisioning_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4294,11 +4294,11 @@ class EsimsApi
     public function esimsProvisionAsync(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
+        ?\OpenRoam\Model\EsimProvisioningRequest $esim_provisioning_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): PromiseInterface
     {
-        return $this->esimsProvisionAsyncWithHttpInfo($id, $idempotency_key, $esim_provision_request, $contentType)
+        return $this->esimsProvisionAsyncWithHttpInfo($id, $idempotency_key, $esim_provisioning_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4313,7 +4313,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisioningRequest|null $esim_provisioning_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4322,12 +4322,12 @@ class EsimsApi
     public function esimsProvisionAsyncWithHttpInfo(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
+        ?\OpenRoam\Model\EsimProvisioningRequest $esim_provisioning_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): PromiseInterface
     {
         $returnType = '\OpenRoam\Model\EsimProfile';
-        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provision_request, $contentType);
+        $request = $this->esimsProvisionRequest($id, $idempotency_key, $esim_provisioning_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4378,7 +4378,7 @@ class EsimsApi
      *
      * @param  string $id The order item ID of the deferred eSIM purchase. (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  \OpenRoam\Model\EsimProvisionRequest|null $esim_provision_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
+     * @param  \OpenRoam\Model\EsimProvisioningRequest|null $esim_provisioning_request Optional: &#x60;{ travelStartDate }&#x60;, the first day of travel. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsProvision'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4387,7 +4387,7 @@ class EsimsApi
     public function esimsProvisionRequest(
         string $id,
         string $idempotency_key,
-        ?\OpenRoam\Model\EsimProvisionRequest $esim_provision_request = null,
+        ?\OpenRoam\Model\EsimProvisioningRequest $esim_provisioning_request = null,
         string $contentType = self::contentTypes['esimsProvision'][0]
     ): Request
     {
@@ -4434,16 +4434,16 @@ class EsimsApi
         );
 
         // for model (json/xml)
-        if (isset($esim_provision_request)) {
+        if (isset($esim_provisioning_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_provision_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_provisioning_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $esim_provision_request;
+                $httpBody = $esim_provisioning_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -5290,20 +5290,20 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSmsRequest|null $esim_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\EsimSmsResult|\OpenRoam\Model\ErrorResponse
      */
     public function esimsSendSms(
         string $iccid,
-        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
+        ?\OpenRoam\Model\EsimSmsRequest $esim_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
-    ): \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\EsimSmsResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->esimsSendSmsWithHttpInfo($iccid, $esim_send_sms_request, $contentType);
+        list($response) = $this->esimsSendSmsWithHttpInfo($iccid, $esim_sms_request, $contentType);
         return $response;
     }
 
@@ -5313,20 +5313,20 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSmsRequest|null $esim_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimSendSmsResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimSmsResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsSendSmsWithHttpInfo(
         string $iccid,
-        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
+        ?\OpenRoam\Model\EsimSmsRequest $esim_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): array
     {
-        $request = $this->esimsSendSmsRequest($iccid, $esim_send_sms_request, $contentType);
+        $request = $this->esimsSendSmsRequest($iccid, $esim_sms_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -5354,7 +5354,7 @@ class EsimsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\EsimSendSmsResult',
+                        '\OpenRoam\Model\EsimSmsResult',
                         $request,
                         $response,
                     );
@@ -5392,7 +5392,7 @@ class EsimsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\EsimSendSmsResult',
+                '\OpenRoam\Model\EsimSmsResult',
                 $request,
                 $response,
             );
@@ -5401,7 +5401,7 @@ class EsimsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\EsimSendSmsResult',
+                        '\OpenRoam\Model\EsimSmsResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -5442,7 +5442,7 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSmsRequest|null $esim_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5450,11 +5450,11 @@ class EsimsApi
      */
     public function esimsSendSmsAsync(
         string $iccid,
-        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
+        ?\OpenRoam\Model\EsimSmsRequest $esim_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): PromiseInterface
     {
-        return $this->esimsSendSmsAsyncWithHttpInfo($iccid, $esim_send_sms_request, $contentType)
+        return $this->esimsSendSmsAsyncWithHttpInfo($iccid, $esim_sms_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5468,7 +5468,7 @@ class EsimsApi
      * Send an SMS to an eSIM
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSmsRequest|null $esim_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5476,12 +5476,12 @@ class EsimsApi
      */
     public function esimsSendSmsAsyncWithHttpInfo(
         string $iccid,
-        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
+        ?\OpenRoam\Model\EsimSmsRequest $esim_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\EsimSendSmsResult';
-        $request = $this->esimsSendSmsRequest($iccid, $esim_send_sms_request, $contentType);
+        $returnType = '\OpenRoam\Model\EsimSmsResult';
+        $request = $this->esimsSendSmsRequest($iccid, $esim_sms_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -5531,7 +5531,7 @@ class EsimsApi
      * Create request for operation 'esimsSendSms'
      *
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
-     * @param  \OpenRoam\Model\EsimSendSmsRequest|null $esim_send_sms_request The message to send. (optional)
+     * @param  \OpenRoam\Model\EsimSmsRequest|null $esim_sms_request The message to send. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSendSms'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -5539,7 +5539,7 @@ class EsimsApi
      */
     public function esimsSendSmsRequest(
         string $iccid,
-        ?\OpenRoam\Model\EsimSendSmsRequest $esim_send_sms_request = null,
+        ?\OpenRoam\Model\EsimSmsRequest $esim_sms_request = null,
         string $contentType = self::contentTypes['esimsSendSms'][0]
     ): Request
     {
@@ -5576,16 +5576,16 @@ class EsimsApi
         );
 
         // for model (json/xml)
-        if (isset($esim_send_sms_request)) {
+        if (isset($esim_sms_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_send_sms_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($esim_sms_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $esim_send_sms_request;
+                $httpBody = $esim_sms_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

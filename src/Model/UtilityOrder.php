@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * UtilityOrder Class Doc Comment
  *
- * @description The accepted order. A repeat of the same request with the same idempotency key returns this order&#39;s current state.
+ * @description The current state of an order.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,7 +63,7 @@ class UtilityOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'id' => 'string',
         'origin' => '\OpenRoam\Model\OrderOrigin',
         'status' => 'string',
-        'total' => '\OpenRoam\Model\MoneyAmount',
+        'total' => '\OpenRoam\Model\Money',
         'payment' => '\OpenRoam\Model\OrderPayment',
         'actions' => '\OpenRoam\Model\OrderActions',
         'items' => '\OpenRoam\Model\UtilityOrderItem[]',
@@ -470,9 +470,9 @@ class UtilityOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getTotal(): ?\OpenRoam\Model\MoneyAmount
+    public function getTotal(): ?\OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -480,11 +480,11 @@ class UtilityOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $total What the order costs, in the order's currency: the item prices plus completed amendment charges,             less completed amendment credits.
+     * @param \OpenRoam\Model\Money|null $total What the order costs, in the order's currency: the item prices plus completed amendment charges,             less completed amendment credits.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\MoneyAmount $total): static
+    public function setTotal(?\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');

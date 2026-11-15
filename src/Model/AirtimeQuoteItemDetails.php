@@ -60,7 +60,7 @@ class AirtimeQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerial
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'estimated_delivered_value' => '\OpenRoam\Model\MoneyAmount'
+        'estimated_delivered_value' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -268,9 +268,9 @@ class AirtimeQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets estimated_delivered_value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getEstimatedDeliveredValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getEstimatedDeliveredValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['estimated_delivered_value'];
     }
@@ -278,11 +278,11 @@ class AirtimeQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets estimated_delivered_value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $estimated_delivered_value estimated_delivered_value
+     * @param \OpenRoam\Model\Money|null $estimated_delivered_value estimated_delivered_value
      *
      * @return $this
      */
-    public function setEstimatedDeliveredValue(?\OpenRoam\Model\MoneyAmount $estimated_delivered_value): static
+    public function setEstimatedDeliveredValue(?\OpenRoam\Model\Money $estimated_delivered_value): static
     {
         if (is_null($estimated_delivered_value)) {
             throw new InvalidArgumentException('non-nullable estimated_delivered_value cannot be null');

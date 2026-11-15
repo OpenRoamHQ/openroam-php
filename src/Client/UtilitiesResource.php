@@ -38,14 +38,14 @@ class UtilitiesResource
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getBiller(string $id, array $query = [], array $options = []): \OpenRoam\Model\UtilityBiller
+    public function getBiller(string $id, array $query = [], array $options = []): \OpenRoam\Model\Biller
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\UtilityApi::class,
             'operation' => 'utilityGetBiller',
             'path' => ['id' => $id],
             'query' => ['currency' => ['currency', 'string']],
-            'returns' => '\OpenRoam\Model\UtilityBiller',
+            'returns' => '\OpenRoam\Model\Biller',
         ], options: $options, query: $query);
     }
 

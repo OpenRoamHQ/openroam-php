@@ -61,13 +61,13 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'validity_days' => 'int',
-        'data' => '\OpenRoam\Model\EsimOfferData',
+        'data' => '\OpenRoam\Model\EsimDataAllowance',
         'is_unlimited' => 'bool',
-        'voice' => '\OpenRoam\Model\EsimProductOptionVoice',
-        'sms' => '\OpenRoam\Model\EsimProductOptionSms',
-        'apn' => '\OpenRoam\Model\EsimProductOptionApn',
-        'properties' => '\OpenRoam\Model\EsimProductOptionProperties',
-        'restrictions' => '\OpenRoam\Model\EsimProductOptionRestriction',
+        'voice' => '\OpenRoam\Model\EsimVoiceAllowance',
+        'sms' => '\OpenRoam\Model\EsimSmsAllowance',
+        'apn' => '\OpenRoam\Model\EsimApn',
+        'properties' => '\OpenRoam\Model\EsimFeatures',
+        'restrictions' => '\OpenRoam\Model\EsimRestrictions',
         'notes' => 'string[]',
         'plan' => 'string'
     ];
@@ -358,9 +358,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\EsimOfferData|null
+     * @return \OpenRoam\Model\EsimDataAllowance|null
      */
-    public function getData(): ?\OpenRoam\Model\EsimOfferData
+    public function getData(): ?\OpenRoam\Model\EsimDataAllowance
     {
         return $this->container['data'];
     }
@@ -368,11 +368,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimOfferData|null $data The plan's data allowance as the catalogue stores it: amount, unit and display label.
+     * @param \OpenRoam\Model\EsimDataAllowance|null $data The plan's data allowance as the catalogue stores it: amount, unit and display label.
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\EsimOfferData $data): static
+    public function setData(?\OpenRoam\Model\EsimDataAllowance $data): static
     {
         if (is_null($data)) {
             throw new InvalidArgumentException('non-nullable data cannot be null');
@@ -412,9 +412,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets voice
      *
-     * @return \OpenRoam\Model\EsimProductOptionVoice|null
+     * @return \OpenRoam\Model\EsimVoiceAllowance|null
      */
-    public function getVoice(): ?\OpenRoam\Model\EsimProductOptionVoice
+    public function getVoice(): ?\OpenRoam\Model\EsimVoiceAllowance
     {
         return $this->container['voice'];
     }
@@ -422,11 +422,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets voice
      *
-     * @param \OpenRoam\Model\EsimProductOptionVoice|null $voice The plan's calling allowance; null when the plan includes no calls.
+     * @param \OpenRoam\Model\EsimVoiceAllowance|null $voice The plan's calling allowance; null when the plan includes no calls.
      *
      * @return $this
      */
-    public function setVoice(?\OpenRoam\Model\EsimProductOptionVoice $voice): static
+    public function setVoice(?\OpenRoam\Model\EsimVoiceAllowance $voice): static
     {
         if (is_null($voice)) {
             array_push($this->openAPINullablesSetToNull, 'voice');
@@ -446,9 +446,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets sms
      *
-     * @return \OpenRoam\Model\EsimProductOptionSms|null
+     * @return \OpenRoam\Model\EsimSmsAllowance|null
      */
-    public function getSms(): ?\OpenRoam\Model\EsimProductOptionSms
+    public function getSms(): ?\OpenRoam\Model\EsimSmsAllowance
     {
         return $this->container['sms'];
     }
@@ -456,11 +456,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sms
      *
-     * @param \OpenRoam\Model\EsimProductOptionSms|null $sms The plan's SMS allowance; null when the plan includes no SMS.
+     * @param \OpenRoam\Model\EsimSmsAllowance|null $sms The plan's SMS allowance; null when the plan includes no SMS.
      *
      * @return $this
      */
-    public function setSms(?\OpenRoam\Model\EsimProductOptionSms $sms): static
+    public function setSms(?\OpenRoam\Model\EsimSmsAllowance $sms): static
     {
         if (is_null($sms)) {
             array_push($this->openAPINullablesSetToNull, 'sms');
@@ -480,9 +480,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets apn
      *
-     * @return \OpenRoam\Model\EsimProductOptionApn|null
+     * @return \OpenRoam\Model\EsimApn|null
      */
-    public function getApn(): ?\OpenRoam\Model\EsimProductOptionApn
+    public function getApn(): ?\OpenRoam\Model\EsimApn
     {
         return $this->container['apn'];
     }
@@ -490,11 +490,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets apn
      *
-     * @param \OpenRoam\Model\EsimProductOptionApn|null $apn apn
+     * @param \OpenRoam\Model\EsimApn|null $apn apn
      *
      * @return $this
      */
-    public function setApn(?\OpenRoam\Model\EsimProductOptionApn $apn): static
+    public function setApn(?\OpenRoam\Model\EsimApn $apn): static
     {
         if (is_null($apn)) {
             throw new InvalidArgumentException('non-nullable apn cannot be null');
@@ -507,9 +507,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets properties
      *
-     * @return \OpenRoam\Model\EsimProductOptionProperties|null
+     * @return \OpenRoam\Model\EsimFeatures|null
      */
-    public function getProperties(): ?\OpenRoam\Model\EsimProductOptionProperties
+    public function getProperties(): ?\OpenRoam\Model\EsimFeatures
     {
         return $this->container['properties'];
     }
@@ -517,11 +517,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets properties
      *
-     * @param \OpenRoam\Model\EsimProductOptionProperties|null $properties properties
+     * @param \OpenRoam\Model\EsimFeatures|null $properties properties
      *
      * @return $this
      */
-    public function setProperties(?\OpenRoam\Model\EsimProductOptionProperties $properties): static
+    public function setProperties(?\OpenRoam\Model\EsimFeatures $properties): static
     {
         if (is_null($properties)) {
             throw new InvalidArgumentException('non-nullable properties cannot be null');
@@ -534,9 +534,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets restrictions
      *
-     * @return \OpenRoam\Model\EsimProductOptionRestriction|null
+     * @return \OpenRoam\Model\EsimRestrictions|null
      */
-    public function getRestrictions(): ?\OpenRoam\Model\EsimProductOptionRestriction
+    public function getRestrictions(): ?\OpenRoam\Model\EsimRestrictions
     {
         return $this->container['restrictions'];
     }
@@ -544,11 +544,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets restrictions
      *
-     * @param \OpenRoam\Model\EsimProductOptionRestriction|null $restrictions restrictions
+     * @param \OpenRoam\Model\EsimRestrictions|null $restrictions restrictions
      *
      * @return $this
      */
-    public function setRestrictions(?\OpenRoam\Model\EsimProductOptionRestriction $restrictions): static
+    public function setRestrictions(?\OpenRoam\Model\EsimRestrictions $restrictions): static
     {
         if (is_null($restrictions)) {
             throw new InvalidArgumentException('non-nullable restrictions cannot be null');

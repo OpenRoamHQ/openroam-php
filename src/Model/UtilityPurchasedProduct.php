@@ -63,9 +63,9 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
         'name' => 'string',
         'country_code' => 'string',
         'logo_url' => 'string',
-        'value' => '\OpenRoam\Model\MoneyAmount',
-        'inputs' => '\OpenRoam\Model\UtilityPurchasedProductInputs',
-        'details' => '\OpenRoam\Model\UtilityPurchasedProductDetails'
+        'value' => '\OpenRoam\Model\Money',
+        'inputs' => '\OpenRoam\Model\UtilityPurchasedInputs',
+        'details' => '\OpenRoam\Model\UtilityPurchasedDetails'
     ];
 
     /**
@@ -391,9 +391,9 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['value'];
     }
@@ -401,11 +401,11 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $value value
+     * @param \OpenRoam\Model\Money|null $value value
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\MoneyAmount $value): static
+    public function setValue(?\OpenRoam\Model\Money $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -418,9 +418,9 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\UtilityPurchasedProductInputs|null
+     * @return \OpenRoam\Model\UtilityPurchasedInputs|null
      */
-    public function getInputs(): ?\OpenRoam\Model\UtilityPurchasedProductInputs
+    public function getInputs(): ?\OpenRoam\Model\UtilityPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -428,11 +428,11 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\UtilityPurchasedProductInputs|null $inputs The item's `inputs` under the request's keys, each masked: `mobileNumber` and `beneficiaryMobileNumber` as phone numbers, `accountNumber` and `invoiceId` (the biller's reference of the bill) as identifiers. An input is echoed only when the item stored it.
+     * @param \OpenRoam\Model\UtilityPurchasedInputs|null $inputs The item's `inputs` under the request's keys, each masked: `mobileNumber` and `beneficiaryMobileNumber` as phone numbers, `accountNumber` and `invoiceId` (the biller's reference of the bill) as identifiers. An input is echoed only when the item stored it.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\UtilityPurchasedProductInputs $inputs): static
+    public function setInputs(?\OpenRoam\Model\UtilityPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -445,9 +445,9 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\UtilityPurchasedProductDetails|null
+     * @return \OpenRoam\Model\UtilityPurchasedDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\UtilityPurchasedProductDetails
+    public function getDetails(): ?\OpenRoam\Model\UtilityPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -455,11 +455,11 @@ class UtilityPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\UtilityPurchasedProductDetails|null $details Biller facts outside the purchased-product keys every partner service shares, as captured when the item was added. `deliveryType` is `unknown` for items added before it was captured.
+     * @param \OpenRoam\Model\UtilityPurchasedDetails|null $details Biller facts outside the purchased-product keys every partner service shares, as captured when the item was added. `deliveryType` is `unknown` for items added before it was captured.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\UtilityPurchasedProductDetails $details): static
+    public function setDetails(?\OpenRoam\Model\UtilityPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

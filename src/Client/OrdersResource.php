@@ -33,17 +33,17 @@ class OrdersResource
     /**
      * Create an order. POST /api/v1/b2b/orders
      *
-     * @param \OpenRoam\Model\OrderRequest|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\MixedOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function order(\OpenRoam\Model\OrderRequest|array $body, array $options = []): \OpenRoam\Model\Order
+    public function order(\OpenRoam\Model\MixedOrderRequest|array $body, array $options = []): \OpenRoam\Model\Order
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersCreateOrder',
-            'body' => 'order_request',
-            'bodyType' => '\OpenRoam\Model\OrderRequest',
+            'body' => 'mixed_order_request',
+            'bodyType' => '\OpenRoam\Model\MixedOrderRequest',
             'idempotencyKey' => 'idempotency_key',
             'returns' => '\OpenRoam\Model\Order',
         ], options: $options, body: $body);
@@ -69,18 +69,18 @@ class OrdersResource
     /**
      * Quote an order. POST /api/v1/b2b/orders/quote
      *
-     * @param \OpenRoam\Model\OrderRequest|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\MixedOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quote(\OpenRoam\Model\OrderRequest|array $body, array $options = []): \OpenRoam\Model\OrderQuote
+    public function quote(\OpenRoam\Model\MixedOrderRequest|array $body, array $options = []): \OpenRoam\Model\MixedQuote
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersQuoteOrder',
-            'body' => 'order_request',
-            'bodyType' => '\OpenRoam\Model\OrderRequest',
-            'returns' => '\OpenRoam\Model\OrderQuote',
+            'body' => 'mixed_order_request',
+            'bodyType' => '\OpenRoam\Model\MixedOrderRequest',
+            'returns' => '\OpenRoam\Model\MixedQuote',
         ], options: $options, body: $body);
     }
 

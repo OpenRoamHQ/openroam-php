@@ -63,7 +63,7 @@ class HotelContact implements ModelInterface, ArrayAccess, JsonSerializable
         'phone' => 'string',
         'email' => 'string',
         'website' => 'string',
-        'address' => '\OpenRoam\Model\HotelAddress'
+        'address' => '\OpenRoam\Model\Address'
     ];
 
     /**
@@ -391,9 +391,9 @@ class HotelContact implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets address
      *
-     * @return \OpenRoam\Model\HotelAddress|null
+     * @return \OpenRoam\Model\Address|null
      */
-    public function getAddress(): ?\OpenRoam\Model\HotelAddress
+    public function getAddress(): ?\OpenRoam\Model\Address
     {
         return $this->container['address'];
     }
@@ -401,11 +401,11 @@ class HotelContact implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets address
      *
-     * @param \OpenRoam\Model\HotelAddress|null $address Postal address.
+     * @param \OpenRoam\Model\Address|null $address Postal address.
      *
      * @return $this
      */
-    public function setAddress(?\OpenRoam\Model\HotelAddress $address): static
+    public function setAddress(?\OpenRoam\Model\Address $address): static
     {
         if (is_null($address)) {
             array_push($this->openAPINullablesSetToNull, 'address');

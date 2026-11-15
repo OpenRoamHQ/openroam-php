@@ -62,12 +62,12 @@ class UtilityOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'id' => 'string',
         'order_id' => 'string',
         'product_type' => 'string',
-        'price' => '\OpenRoam\Model\MoneyAmount',
+        'price' => '\OpenRoam\Model\Money',
         'purchased_product' => '\OpenRoam\Model\UtilityPurchasedProduct',
         'fulfillment' => '\OpenRoam\Model\UtilityFulfillment',
         'actions' => '\OpenRoam\Model\OrderItemActions',
         'created_at' => '\DateTime',
-        'effective_paid_amount' => '\OpenRoam\Model\MoneyAmount',
+        'effective_paid_amount' => '\OpenRoam\Model\Money',
         'refund' => '\OpenRoam\Model\OrderItemRefund'
     ];
 
@@ -446,9 +446,9 @@ class UtilityOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPrice(): ?\OpenRoam\Model\MoneyAmount
+    public function getPrice(): ?\OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -456,11 +456,11 @@ class UtilityOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $price The price paid for the item at purchase, in the order's currency.
+     * @param \OpenRoam\Model\Money|null $price The price paid for the item at purchase, in the order's currency.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\MoneyAmount $price): static
+    public function setPrice(?\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -581,9 +581,9 @@ class UtilityOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets effective_paid_amount
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getEffectivePaidAmount(): ?\OpenRoam\Model\MoneyAmount
+    public function getEffectivePaidAmount(): ?\OpenRoam\Model\Money
     {
         return $this->container['effective_paid_amount'];
     }
@@ -591,11 +591,11 @@ class UtilityOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets effective_paid_amount
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $effective_paid_amount What has been paid for the item so far: `price` plus completed amendment             charges, less completed amendment credits.
+     * @param \OpenRoam\Model\Money|null $effective_paid_amount What has been paid for the item so far: `price` plus completed amendment             charges, less completed amendment credits.
      *
      * @return $this
      */
-    public function setEffectivePaidAmount(?\OpenRoam\Model\MoneyAmount $effective_paid_amount): static
+    public function setEffectivePaidAmount(?\OpenRoam\Model\Money $effective_paid_amount): static
     {
         if (is_null($effective_paid_amount)) {
             throw new InvalidArgumentException('non-nullable effective_paid_amount cannot be null');

@@ -65,7 +65,7 @@ class EsimInputs implements ModelInterface, ArrayAccess, JsonSerializable
         'imei2' => 'string',
         'travel_start_date' => '\DateTime',
         'iccid' => 'string',
-        'max_price' => '\OpenRoam\Model\MoneyAmountInput'
+        'max_price' => '\OpenRoam\Model\MoneyInput'
     ];
 
     /**
@@ -473,9 +473,9 @@ class EsimInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets max_price
      *
-     * @return \OpenRoam\Model\MoneyAmountInput|null
+     * @return \OpenRoam\Model\MoneyInput|null
      */
-    public function getMaxPrice(): ?\OpenRoam\Model\MoneyAmountInput
+    public function getMaxPrice(): ?\OpenRoam\Model\MoneyInput
     {
         return $this->container['max_price'];
     }
@@ -483,11 +483,11 @@ class EsimInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets max_price
      *
-     * @param \OpenRoam\Model\MoneyAmountInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
+     * @param \OpenRoam\Model\MoneyInput|null $max_price Optional highest accepted unit price, in the order or cart currency; a higher current unit price gives 409 / 11002.
      *
      * @return $this
      */
-    public function setMaxPrice(?\OpenRoam\Model\MoneyAmountInput $max_price): static
+    public function setMaxPrice(?\OpenRoam\Model\MoneyInput $max_price): static
     {
         if (is_null($max_price)) {
             array_push($this->openAPINullablesSetToNull, 'max_price');

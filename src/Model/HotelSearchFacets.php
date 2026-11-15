@@ -60,8 +60,8 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'amenities' => '\OpenRoam\Model\HotelAmenityFacet[]',
-        'amenity_groups' => '\OpenRoam\Model\HotelAmenityGroupFacet[]'
+        'amenities' => '\OpenRoam\Model\AmenityFacet[]',
+        'amenity_groups' => '\OpenRoam\Model\AmenityGroup[]'
     ];
 
     /**
@@ -275,7 +275,7 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenities
      *
-     * @return \OpenRoam\Model\HotelAmenityFacet[]|null
+     * @return \OpenRoam\Model\AmenityFacet[]|null
      */
     public function getAmenities(): ?array
     {
@@ -285,7 +285,7 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenities
      *
-     * @param \OpenRoam\Model\HotelAmenityFacet[]|null $amenities amenities
+     * @param \OpenRoam\Model\AmenityFacet[]|null $amenities amenities
      *
      * @return $this
      */
@@ -302,7 +302,7 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenity_groups
      *
-     * @return \OpenRoam\Model\HotelAmenityGroupFacet[]|null
+     * @return \OpenRoam\Model\AmenityGroup[]|null
      */
     public function getAmenityGroups(): ?array
     {
@@ -312,7 +312,7 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenity_groups
      *
-     * @param \OpenRoam\Model\HotelAmenityGroupFacet[]|null $amenity_groups amenity_groups
+     * @param \OpenRoam\Model\AmenityGroup[]|null $amenity_groups amenity_groups
      *
      * @return $this
      */

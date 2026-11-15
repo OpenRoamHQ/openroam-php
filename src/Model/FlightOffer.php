@@ -384,9 +384,9 @@ class FlightOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
      */
-    public function getPrice(): \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
     {
         return $this->container['price'];
     }
@@ -394,11 +394,11 @@ class FlightOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price Indicative price for all passengers, in the search currency.
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price Indicative price for all passengers, in the search currency.
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

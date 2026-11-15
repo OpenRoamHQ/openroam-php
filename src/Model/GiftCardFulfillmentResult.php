@@ -60,8 +60,8 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'delivered_value' => '\OpenRoam\Model\MoneyAmount',
-        'details' => '\OpenRoam\Model\GiftCardFulfillmentResultDetails'
+        'delivered_value' => '\OpenRoam\Model\Money',
+        'details' => '\OpenRoam\Model\GiftCardFulfillmentDetails'
     ];
 
     /**
@@ -275,9 +275,9 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Gets delivered_value
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getDeliveredValue(): ?\OpenRoam\Model\MoneyAmount
+    public function getDeliveredValue(): ?\OpenRoam\Model\Money
     {
         return $this->container['delivered_value'];
     }
@@ -285,11 +285,11 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Sets delivered_value
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $delivered_value delivered_value
+     * @param \OpenRoam\Model\Money|null $delivered_value delivered_value
      *
      * @return $this
      */
-    public function setDeliveredValue(?\OpenRoam\Model\MoneyAmount $delivered_value): static
+    public function setDeliveredValue(?\OpenRoam\Model\Money $delivered_value): static
     {
         if (is_null($delivered_value)) {
             array_push($this->openAPINullablesSetToNull, 'delivered_value');
@@ -309,9 +309,9 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\GiftCardFulfillmentResultDetails|null
+     * @return \OpenRoam\Model\GiftCardFulfillmentDetails|null
      */
-    public function getDetails(): ?\OpenRoam\Model\GiftCardFulfillmentResultDetails
+    public function getDetails(): ?\OpenRoam\Model\GiftCardFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +319,11 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\GiftCardFulfillmentResultDetails|null $details The issued codes and, for a gift, the email delivery. `codes` is empty while the order item does not release them, for example after a refund. `delivery` is null for a card that is not a gift.
+     * @param \OpenRoam\Model\GiftCardFulfillmentDetails|null $details The issued codes and, for a gift, the email delivery. `codes` is empty while the order item does not release them, for example after a refund. `delivery` is null for a card that is not a gift.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\GiftCardFulfillmentResultDetails $details): static
+    public function setDetails(?\OpenRoam\Model\GiftCardFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

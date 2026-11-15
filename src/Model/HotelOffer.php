@@ -384,9 +384,9 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
      */
-    public function getPrice(): \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
     {
         return $this->container['price'];
     }
@@ -394,11 +394,11 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price Price for the whole stay, all rooms and nights, in the search currency. Indicative: quote and order price the rate again.
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price Price for the whole stay, all rooms and nights, in the search currency. Indicative: quote and order price the rate again.
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\OfferFixedPrice|\OpenRoam\Model\OfferRangePrice|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');

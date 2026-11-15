@@ -71,13 +71,13 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'is_apn_automatic' => 'bool',
         'with_sms' => 'bool',
         'with_call' => 'bool',
-        'properties' => '\OpenRoam\Model\EsimProductOptionProperties',
-        'esim' => '\OpenRoam\Model\EsimSim',
+        'properties' => '\OpenRoam\Model\EsimFeatures',
+        'esim' => '\OpenRoam\Model\SimCard',
         'addon' => '\OpenRoam\Model\EsimAddon[]',
-        'data' => '\OpenRoam\Model\EsimProductOptionData',
-        'sms' => '\OpenRoam\Model\EsimProductOptionSms',
-        'voice' => '\OpenRoam\Model\EsimProductOptionVoice',
-        'apn' => '\OpenRoam\Model\EsimProductOptionApn',
+        'data' => '\OpenRoam\Model\EsimProfileData',
+        'sms' => '\OpenRoam\Model\EsimSmsAllowance',
+        'voice' => '\OpenRoam\Model\EsimVoiceAllowance',
+        'apn' => '\OpenRoam\Model\EsimApn',
         'expired_at' => '\DateTime'
     ];
 
@@ -767,9 +767,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets properties
      *
-     * @return \OpenRoam\Model\EsimProductOptionProperties|null
+     * @return \OpenRoam\Model\EsimFeatures|null
      */
-    public function getProperties(): ?\OpenRoam\Model\EsimProductOptionProperties
+    public function getProperties(): ?\OpenRoam\Model\EsimFeatures
     {
         return $this->container['properties'];
     }
@@ -777,11 +777,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets properties
      *
-     * @param \OpenRoam\Model\EsimProductOptionProperties|null $properties Plan features, such as hotspot and top-up support.
+     * @param \OpenRoam\Model\EsimFeatures|null $properties Plan features, such as hotspot and top-up support.
      *
      * @return $this
      */
-    public function setProperties(?\OpenRoam\Model\EsimProductOptionProperties $properties): static
+    public function setProperties(?\OpenRoam\Model\EsimFeatures $properties): static
     {
         if (is_null($properties)) {
             array_push($this->openAPINullablesSetToNull, 'properties');
@@ -801,9 +801,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets esim
      *
-     * @return \OpenRoam\Model\EsimSim|null
+     * @return \OpenRoam\Model\SimCard|null
      */
-    public function getEsim(): ?\OpenRoam\Model\EsimSim
+    public function getEsim(): ?\OpenRoam\Model\SimCard
     {
         return $this->container['esim'];
     }
@@ -811,11 +811,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets esim
      *
-     * @param \OpenRoam\Model\EsimSim|null $esim SIM details: LPA code, QR code URL, quick-install links and usage; null until the eSIM is provisioned.
+     * @param \OpenRoam\Model\SimCard|null $esim SIM details: LPA code, QR code URL, quick-install links and usage; null until the eSIM is provisioned.
      *
      * @return $this
      */
-    public function setEsim(?\OpenRoam\Model\EsimSim $esim): static
+    public function setEsim(?\OpenRoam\Model\SimCard $esim): static
     {
         if (is_null($esim)) {
             array_push($this->openAPINullablesSetToNull, 'esim');
@@ -862,9 +862,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\EsimProductOptionData|null
+     * @return \OpenRoam\Model\EsimProfileData|null
      */
-    public function getData(): ?\OpenRoam\Model\EsimProductOptionData
+    public function getData(): ?\OpenRoam\Model\EsimProfileData
     {
         return $this->container['data'];
     }
@@ -872,11 +872,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimProductOptionData|null $data The plan's data allowance.
+     * @param \OpenRoam\Model\EsimProfileData|null $data The plan's data allowance.
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\EsimProductOptionData $data): static
+    public function setData(?\OpenRoam\Model\EsimProfileData $data): static
     {
         if (is_null($data)) {
             array_push($this->openAPINullablesSetToNull, 'data');
@@ -896,9 +896,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets sms
      *
-     * @return \OpenRoam\Model\EsimProductOptionSms|null
+     * @return \OpenRoam\Model\EsimSmsAllowance|null
      */
-    public function getSms(): ?\OpenRoam\Model\EsimProductOptionSms
+    public function getSms(): ?\OpenRoam\Model\EsimSmsAllowance
     {
         return $this->container['sms'];
     }
@@ -906,11 +906,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sms
      *
-     * @param \OpenRoam\Model\EsimProductOptionSms|null $sms The plan's SMS allowance, when it includes SMS.
+     * @param \OpenRoam\Model\EsimSmsAllowance|null $sms The plan's SMS allowance, when it includes SMS.
      *
      * @return $this
      */
-    public function setSms(?\OpenRoam\Model\EsimProductOptionSms $sms): static
+    public function setSms(?\OpenRoam\Model\EsimSmsAllowance $sms): static
     {
         if (is_null($sms)) {
             array_push($this->openAPINullablesSetToNull, 'sms');
@@ -930,9 +930,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets voice
      *
-     * @return \OpenRoam\Model\EsimProductOptionVoice|null
+     * @return \OpenRoam\Model\EsimVoiceAllowance|null
      */
-    public function getVoice(): ?\OpenRoam\Model\EsimProductOptionVoice
+    public function getVoice(): ?\OpenRoam\Model\EsimVoiceAllowance
     {
         return $this->container['voice'];
     }
@@ -940,11 +940,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets voice
      *
-     * @param \OpenRoam\Model\EsimProductOptionVoice|null $voice The plan's calling allowance, when it includes calls.
+     * @param \OpenRoam\Model\EsimVoiceAllowance|null $voice The plan's calling allowance, when it includes calls.
      *
      * @return $this
      */
-    public function setVoice(?\OpenRoam\Model\EsimProductOptionVoice $voice): static
+    public function setVoice(?\OpenRoam\Model\EsimVoiceAllowance $voice): static
     {
         if (is_null($voice)) {
             array_push($this->openAPINullablesSetToNull, 'voice');
@@ -964,9 +964,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets apn
      *
-     * @return \OpenRoam\Model\EsimProductOptionApn|null
+     * @return \OpenRoam\Model\EsimApn|null
      */
-    public function getApn(): ?\OpenRoam\Model\EsimProductOptionApn
+    public function getApn(): ?\OpenRoam\Model\EsimApn
     {
         return $this->container['apn'];
     }
@@ -974,11 +974,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets apn
      *
-     * @param \OpenRoam\Model\EsimProductOptionApn|null $apn APN settings for manual device setup.
+     * @param \OpenRoam\Model\EsimApn|null $apn APN settings for manual device setup.
      *
      * @return $this
      */
-    public function setApn(?\OpenRoam\Model\EsimProductOptionApn $apn): static
+    public function setApn(?\OpenRoam\Model\EsimApn $apn): static
     {
         if (is_null($apn)) {
             array_push($this->openAPINullablesSetToNull, 'apn');

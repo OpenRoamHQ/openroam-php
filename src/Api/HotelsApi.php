@@ -539,11 +539,11 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\HotelAmenityCatalog|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\AmenityCatalog|\OpenRoam\Model\ErrorResponse
      */
     public function hotelsGetAmenityCatalog(
         string $contentType = self::contentTypes['hotelsGetAmenityCatalog'][0]
-    ): \OpenRoam\Model\HotelAmenityCatalog|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\AmenityCatalog|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelsGetAmenityCatalogWithHttpInfo($contentType);
         return $response;
@@ -558,7 +558,7 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\HotelAmenityCatalog|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AmenityCatalog|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelsGetAmenityCatalogWithHttpInfo(
         string $contentType = self::contentTypes['hotelsGetAmenityCatalog'][0]
@@ -592,7 +592,7 @@ class HotelsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\HotelAmenityCatalog',
+                        '\OpenRoam\Model\AmenityCatalog',
                         $request,
                         $response,
                     );
@@ -624,7 +624,7 @@ class HotelsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\HotelAmenityCatalog',
+                '\OpenRoam\Model\AmenityCatalog',
                 $request,
                 $response,
             );
@@ -633,7 +633,7 @@ class HotelsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\HotelAmenityCatalog',
+                        '\OpenRoam\Model\AmenityCatalog',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -696,7 +696,7 @@ class HotelsApi
         string $contentType = self::contentTypes['hotelsGetAmenityCatalog'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\HotelAmenityCatalog';
+        $returnType = '\OpenRoam\Model\AmenityCatalog';
         $request = $this->hotelsGetAmenityCatalogRequest($contentType);
 
         return $this->client
@@ -1430,12 +1430,12 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\HotelCatalogProperty|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\CatalogHotel|\OpenRoam\Model\ErrorResponse
      */
     public function hotelsGetProperty(
         string $id,
         string $contentType = self::contentTypes['hotelsGetProperty'][0]
-    ): \OpenRoam\Model\HotelCatalogProperty|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\CatalogHotel|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelsGetPropertyWithHttpInfo($id, $contentType);
         return $response;
@@ -1451,7 +1451,7 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\HotelCatalogProperty|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\CatalogHotel|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelsGetPropertyWithHttpInfo(
         string $id,
@@ -1486,7 +1486,7 @@ class HotelsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\HotelCatalogProperty',
+                        '\OpenRoam\Model\CatalogHotel',
                         $request,
                         $response,
                     );
@@ -1524,7 +1524,7 @@ class HotelsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\HotelCatalogProperty',
+                '\OpenRoam\Model\CatalogHotel',
                 $request,
                 $response,
             );
@@ -1533,7 +1533,7 @@ class HotelsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\HotelCatalogProperty',
+                        '\OpenRoam\Model\CatalogHotel',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1608,7 +1608,7 @@ class HotelsApi
         string $contentType = self::contentTypes['hotelsGetProperty'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\HotelCatalogProperty';
+        $returnType = '\OpenRoam\Model\CatalogHotel';
         $request = $this->hotelsGetPropertyRequest($id, $contentType);
 
         return $this->client
@@ -2086,12 +2086,12 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\HotelPropertySearchResult|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\HotelSearchResult|\OpenRoam\Model\ErrorResponse
      */
     public function hotelsSearch(
         ?\OpenRoam\Model\HotelSearchRequest $hotel_search_request = null,
         string $contentType = self::contentTypes['hotelsSearch'][0]
-    ): \OpenRoam\Model\HotelPropertySearchResult|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\HotelSearchResult|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelsSearchWithHttpInfo($hotel_search_request, $contentType);
         return $response;
@@ -2107,7 +2107,7 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\HotelPropertySearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\HotelSearchResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelsSearchWithHttpInfo(
         ?\OpenRoam\Model\HotelSearchRequest $hotel_search_request = null,
@@ -2142,7 +2142,7 @@ class HotelsApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\HotelPropertySearchResult',
+                        '\OpenRoam\Model\HotelSearchResult',
                         $request,
                         $response,
                     );
@@ -2180,7 +2180,7 @@ class HotelsApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\HotelPropertySearchResult',
+                '\OpenRoam\Model\HotelSearchResult',
                 $request,
                 $response,
             );
@@ -2189,7 +2189,7 @@ class HotelsApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\HotelPropertySearchResult',
+                        '\OpenRoam\Model\HotelSearchResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2264,7 +2264,7 @@ class HotelsApi
         string $contentType = self::contentTypes['hotelsSearch'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\HotelPropertySearchResult';
+        $returnType = '\OpenRoam\Model\HotelSearchResult';
         $request = $this->hotelsSearchRequest($hotel_search_request, $contentType);
 
         return $this->client

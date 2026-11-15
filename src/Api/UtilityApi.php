@@ -533,13 +533,13 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\Biller|\OpenRoam\Model\ErrorResponse
      */
     public function utilityGetBiller(
         string $id,
         ?string $currency = null,
         string $contentType = self::contentTypes['utilityGetBiller'][0]
-    ): \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\Biller|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityGetBillerWithHttpInfo($id, $currency, $contentType);
         return $response;
@@ -556,7 +556,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityBiller|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\Biller|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityGetBillerWithHttpInfo(
         string $id,
@@ -592,7 +592,7 @@ class UtilityApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\UtilityBiller',
+                        '\OpenRoam\Model\Biller',
                         $request,
                         $response,
                     );
@@ -624,7 +624,7 @@ class UtilityApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\UtilityBiller',
+                '\OpenRoam\Model\Biller',
                 $request,
                 $response,
             );
@@ -633,7 +633,7 @@ class UtilityApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\UtilityBiller',
+                        '\OpenRoam\Model\Biller',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -704,7 +704,7 @@ class UtilityApi
         string $contentType = self::contentTypes['utilityGetBiller'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\UtilityBiller';
+        $returnType = '\OpenRoam\Model\Biller';
         $request = $this->utilityGetBillerRequest($id, $currency, $contentType);
 
         return $this->client

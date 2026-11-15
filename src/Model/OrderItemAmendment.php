@@ -65,8 +65,8 @@ class OrderItemAmendment implements ModelInterface, ArrayAccess, JsonSerializabl
         'status' => 'string',
         'product_type' => 'string',
         'created_at' => '\DateTime',
-        'amount_to_pay' => '\OpenRoam\Model\MoneyAmount',
-        'amount_to_refund' => '\OpenRoam\Model\MoneyAmount'
+        'amount_to_pay' => '\OpenRoam\Model\Money',
+        'amount_to_refund' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -561,9 +561,9 @@ class OrderItemAmendment implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets amount_to_pay
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmountToPay(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmountToPay(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount_to_pay'];
     }
@@ -571,11 +571,11 @@ class OrderItemAmendment implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets amount_to_pay
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_pay The surcharge for the change.
+     * @param \OpenRoam\Model\Money|null $amount_to_pay The surcharge for the change.
      *
      * @return $this
      */
-    public function setAmountToPay(?\OpenRoam\Model\MoneyAmount $amount_to_pay): static
+    public function setAmountToPay(?\OpenRoam\Model\Money $amount_to_pay): static
     {
         if (is_null($amount_to_pay)) {
             throw new InvalidArgumentException('non-nullable amount_to_pay cannot be null');
@@ -588,9 +588,9 @@ class OrderItemAmendment implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets amount_to_refund
      *
-     * @return \OpenRoam\Model\MoneyAmount|null
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getAmountToRefund(): ?\OpenRoam\Model\MoneyAmount
+    public function getAmountToRefund(): ?\OpenRoam\Model\Money
     {
         return $this->container['amount_to_refund'];
     }
@@ -598,11 +598,11 @@ class OrderItemAmendment implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets amount_to_refund
      *
-     * @param \OpenRoam\Model\MoneyAmount|null $amount_to_refund The credit for the change.
+     * @param \OpenRoam\Model\Money|null $amount_to_refund The credit for the change.
      *
      * @return $this
      */
-    public function setAmountToRefund(?\OpenRoam\Model\MoneyAmount $amount_to_refund): static
+    public function setAmountToRefund(?\OpenRoam\Model\Money $amount_to_refund): static
     {
         if (is_null($amount_to_refund)) {
             throw new InvalidArgumentException('non-nullable amount_to_refund cannot be null');

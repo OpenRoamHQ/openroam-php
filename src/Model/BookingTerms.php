@@ -60,9 +60,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'payment' => '\OpenRoam\Model\BookingTermsPayment',
-        'cancellation' => '\OpenRoam\Model\BookingTermsCancellation',
-        'changes' => '\OpenRoam\Model\BookingTermsChanges'
+        'payment' => '\OpenRoam\Model\PaymentTerms',
+        'cancellation' => '\OpenRoam\Model\CancellationTerms',
+        'changes' => '\OpenRoam\Model\ChangeTerms'
     ];
 
     /**
@@ -282,9 +282,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets payment
      *
-     * @return \OpenRoam\Model\BookingTermsPayment|null
+     * @return \OpenRoam\Model\PaymentTerms|null
      */
-    public function getPayment(): ?\OpenRoam\Model\BookingTermsPayment
+    public function getPayment(): ?\OpenRoam\Model\PaymentTerms
     {
         return $this->container['payment'];
     }
@@ -292,11 +292,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets payment
      *
-     * @param \OpenRoam\Model\BookingTermsPayment|null $payment What the partner's wallet is charged at order, and what the guest pays later.
+     * @param \OpenRoam\Model\PaymentTerms|null $payment What the partner's wallet is charged at order, and what the guest pays later.
      *
      * @return $this
      */
-    public function setPayment(?\OpenRoam\Model\BookingTermsPayment $payment): static
+    public function setPayment(?\OpenRoam\Model\PaymentTerms $payment): static
     {
         if (is_null($payment)) {
             throw new InvalidArgumentException('non-nullable payment cannot be null');
@@ -309,9 +309,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets cancellation
      *
-     * @return \OpenRoam\Model\BookingTermsCancellation|null
+     * @return \OpenRoam\Model\CancellationTerms|null
      */
-    public function getCancellation(): ?\OpenRoam\Model\BookingTermsCancellation
+    public function getCancellation(): ?\OpenRoam\Model\CancellationTerms
     {
         return $this->container['cancellation'];
     }
@@ -319,11 +319,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets cancellation
      *
-     * @param \OpenRoam\Model\BookingTermsCancellation|null $cancellation What cancelling gives back, and from when.
+     * @param \OpenRoam\Model\CancellationTerms|null $cancellation What cancelling gives back, and from when.
      *
      * @return $this
      */
-    public function setCancellation(?\OpenRoam\Model\BookingTermsCancellation $cancellation): static
+    public function setCancellation(?\OpenRoam\Model\CancellationTerms $cancellation): static
     {
         if (is_null($cancellation)) {
             throw new InvalidArgumentException('non-nullable cancellation cannot be null');
@@ -336,9 +336,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets changes
      *
-     * @return \OpenRoam\Model\BookingTermsChanges|null
+     * @return \OpenRoam\Model\ChangeTerms|null
      */
-    public function getChanges(): ?\OpenRoam\Model\BookingTermsChanges
+    public function getChanges(): ?\OpenRoam\Model\ChangeTerms
     {
         return $this->container['changes'];
     }
@@ -346,11 +346,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets changes
      *
-     * @param \OpenRoam\Model\BookingTermsChanges|null $changes Whether the booking can be changed, and OpenRoam's fee for a change.
+     * @param \OpenRoam\Model\ChangeTerms|null $changes Whether the booking can be changed, and OpenRoam's fee for a change.
      *
      * @return $this
      */
-    public function setChanges(?\OpenRoam\Model\BookingTermsChanges $changes): static
+    public function setChanges(?\OpenRoam\Model\ChangeTerms $changes): static
     {
         if (is_null($changes)) {
             throw new InvalidArgumentException('non-nullable changes cannot be null');

@@ -64,9 +64,9 @@ class HotelQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerializ
         'availability' => 'string',
         'check_in_date' => '\DateTime',
         'check_out_date' => '\DateTime',
-        'requested_rooms' => '\OpenRoam\Model\HotelRoomOccupancy[]',
+        'requested_rooms' => '\OpenRoam\Model\RoomOccupancy[]',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'rate' => '\OpenRoam\Model\HotelQuotedRate'
+        'rate' => '\OpenRoam\Model\QuotedRate'
     ];
 
     /**
@@ -452,7 +452,7 @@ class HotelQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets requested_rooms
      *
-     * @return \OpenRoam\Model\HotelRoomOccupancy[]|null
+     * @return \OpenRoam\Model\RoomOccupancy[]|null
      */
     public function getRequestedRooms(): ?array
     {
@@ -462,7 +462,7 @@ class HotelQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets requested_rooms
      *
-     * @param \OpenRoam\Model\HotelRoomOccupancy[]|null $requested_rooms The searched rooms, in search order: adults, children and child ages.
+     * @param \OpenRoam\Model\RoomOccupancy[]|null $requested_rooms The searched rooms, in search order: adults, children and child ages.
      *
      * @return $this
      */
@@ -506,9 +506,9 @@ class HotelQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets rate
      *
-     * @return \OpenRoam\Model\HotelQuotedRate|null
+     * @return \OpenRoam\Model\QuotedRate|null
      */
-    public function getRate(): ?\OpenRoam\Model\HotelQuotedRate
+    public function getRate(): ?\OpenRoam\Model\QuotedRate
     {
         return $this->container['rate'];
     }
@@ -516,11 +516,11 @@ class HotelQuoteItemDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets rate
      *
-     * @param \OpenRoam\Model\HotelQuotedRate|null $rate The rate as quoted: rooms, board, taxes, nightly prices and surcharges. The quote's surcharges are the binding list.
+     * @param \OpenRoam\Model\QuotedRate|null $rate The rate as quoted: rooms, board, taxes, nightly prices and surcharges. The quote's surcharges are the binding list.
      *
      * @return $this
      */
-    public function setRate(?\OpenRoam\Model\HotelQuotedRate $rate): static
+    public function setRate(?\OpenRoam\Model\QuotedRate $rate): static
     {
         if (is_null($rate)) {
             throw new InvalidArgumentException('non-nullable rate cannot be null');
