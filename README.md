@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="brand/lockup-color-on-dark.svg" />
+    <img src="brand/lockup-ink.svg" alt="OpenRoam" width="280" />
+  </picture>
+</p>
+
 # OpenRoam SDK for PHP
 
 Official client for the OpenRoam Partner API: eSIMs, airtime, utility payments, gift cards, hotels and flights.
@@ -6,10 +13,16 @@ PHP 8.1+.
 ## Install
 
 ```bash
-composer require openroam/sdk:0.1.0-rc.6
+composer require openroam/sdk:0.1.0-rc.7
 ```
 
 > This is a **release candidate**: install it by its exact version, as above; a plain install does not pick it up. Before 1.0 the API can change between minor versions; every change is listed in the [changelog](https://openroamhq.github.io/openroam-sdks/changelog/).
+
+## Environments
+
+Partners use **Sandbox** (`https://api.sandbox.openroam.com`) or **Production** (`https://api.openroam.com`).
+Default is Production. Pass `'environment' => 'sandbox'` for Sandbox. An explicit `baseUrl` is an unnamed override only —
+not a third environment. The SDK sends your key as `X-Partner-Key`; a key works only on the environment that issued it.
 
 ## Quick start
 
@@ -30,10 +43,13 @@ $openroam->hotels->search([/* ... */]);
 ```
 
 Every product is a property of the client: `esims`, `airtime`, `utilities`, `giftCards`, `hotels`, `flights`, plus `orders`, `orderItems`,
-`wallets`, `currencies`, `countries` and `mobileNetworks`. Buying always reads `search`, `quote`, `order`; `get` fetches one thing you own,
+`wallets`, `account`, `browserSessions`, `checkouts`, `currencies`, `countries` and `mobileNetworks`. Buying always reads `search`, `quote`, `order`; `get` fetches one thing you own,
 `list...` returns many, everything else starts with a verb. A path id is the first argument; a body is passed as it is, as an array or as
 the generated model (`OpenRoam\Model\EsimOrderRequest`, ...); query parameters are one array with the API's names; options come last.
 Answers are the generated models, read with getters: `$found->getItems()`.
+
+`checkouts->confirm` and `checkouts->fail` answer a checkout of a site that takes payment on your own page. Send them from your server
+with a client whose `apiKey` is that site's confirmation key (`orck_...`): a partner API key gets `403`. No signature headers are sent.
 
 Options when you need them:
 
@@ -42,14 +58,14 @@ $openroam = new OpenRoam([
     'apiKey' => 'key',
     'environment' => 'sandbox', // default 'production'
     'maxRetries' => 3,          // default 0: no retries
-    // 'baseUrl' => 'https://...' to point anywhere else, for example a development host
+    // 'baseUrl' => 'https://...' // optional unnamed override (not a named environment)
     // 'handler' => a Guzzle handler, for example a HandlerStack with your own middleware
 ]);
 ```
 
 A call takes `['timeout' => 10]` (seconds) as its last argument to give up waiting.
 
-## Orders are safe to repeat
+## Idempotency
 
 An idempotency key means: if the same request arrives twice, OpenRoam makes one order, not two. `order()` creates a key for you on every call.
 To stay safe even if *your own* program crashes and asks again, pass a UUID generated once and persisted for that purchase, for example your order id if it is a UUID:
@@ -110,7 +126,7 @@ The full behaviour: [Retries and idempotency](https://openroamhq.github.io/openr
 
 ## Good to know
 
-- **Amounts** are `{ amount, currency }`. `price` is what OpenRoam charges you, `value` what your customer receives.
-- Full API documentation: https://openroam.com (partner portal). Support: support@openroam.com.
+- **Amounts** are `{ amount, currency }`. `price` is what OpenRoam charges you, `value` what your customer receives. Do not do arithmetic on amounts (JSON numbers are floating point in this language).
+- API reference and partner portal: https://openroam.com. Support: support@openroam.com.
 
 The client is generated from the OpenRoam Partner API description, so it always matches the API; `Webhooks`, `Retry` and the errors are hand-written. MIT licensed.
