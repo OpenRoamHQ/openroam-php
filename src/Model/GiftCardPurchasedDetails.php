@@ -267,6 +267,12 @@ class GiftCardPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['brand_name'] === null) {
+            $invalidProperties[] = "'brand_name' can't be null";
+        }
+        if ($this->container['is_redeemable_globally'] === null) {
+            $invalidProperties[] = "'is_redeemable_globally' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +288,9 @@ class GiftCardPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets brand_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getBrandName(): ?string
+    public function getBrandName(): string
     {
         return $this->container['brand_name'];
     }
@@ -292,11 +298,11 @@ class GiftCardPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets brand_name
      *
-     * @param string|null $brand_name brand_name
+     * @param string $brand_name brand_name
      *
      * @return $this
      */
-    public function setBrandName(?string $brand_name): static
+    public function setBrandName(string $brand_name): static
     {
         if (is_null($brand_name)) {
             throw new InvalidArgumentException('non-nullable brand_name cannot be null');
@@ -309,9 +315,9 @@ class GiftCardPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets is_redeemable_globally
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsRedeemableGlobally(): ?bool
+    public function getIsRedeemableGlobally(): bool
     {
         return $this->container['is_redeemable_globally'];
     }
@@ -319,11 +325,11 @@ class GiftCardPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets is_redeemable_globally
      *
-     * @param bool|null $is_redeemable_globally is_redeemable_globally
+     * @param bool $is_redeemable_globally is_redeemable_globally
      *
      * @return $this
      */
-    public function setIsRedeemableGlobally(?bool $is_redeemable_globally): static
+    public function setIsRedeemableGlobally(bool $is_redeemable_globally): static
     {
         if (is_null($is_redeemable_globally)) {
             throw new InvalidArgumentException('non-nullable is_redeemable_globally cannot be null');

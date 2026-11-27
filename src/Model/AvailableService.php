@@ -303,6 +303,12 @@ class AvailableService implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['price'] === null) {
             $invalidProperties[] = "'price' can't be null";
         }
+        if ($this->container['passenger_indexes'] === null) {
+            $invalidProperties[] = "'passenger_indexes' can't be null";
+        }
+        if ($this->container['segments'] === null) {
+            $invalidProperties[] = "'segments' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -399,9 +405,9 @@ class AvailableService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets passenger_indexes
      *
-     * @return int[]|null
+     * @return int[]
      */
-    public function getPassengerIndexes(): ?array
+    public function getPassengerIndexes(): array
     {
         return $this->container['passenger_indexes'];
     }
@@ -409,11 +415,11 @@ class AvailableService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets passenger_indexes
      *
-     * @param int[]|null $passenger_indexes 1-based positions in the offer's passenger list.
+     * @param int[] $passenger_indexes 1-based positions in the offer's passenger list.
      *
      * @return $this
      */
-    public function setPassengerIndexes(?array $passenger_indexes): static
+    public function setPassengerIndexes(array $passenger_indexes): static
     {
         if (is_null($passenger_indexes)) {
             throw new InvalidArgumentException('non-nullable passenger_indexes cannot be null');
@@ -426,9 +432,9 @@ class AvailableService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets segments
      *
-     * @return \OpenRoam\Model\SegmentPosition[]|null
+     * @return \OpenRoam\Model\SegmentPosition[]
      */
-    public function getSegments(): ?array
+    public function getSegments(): array
     {
         return $this->container['segments'];
     }
@@ -436,11 +442,11 @@ class AvailableService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets segments
      *
-     * @param \OpenRoam\Model\SegmentPosition[]|null $segments segments
+     * @param \OpenRoam\Model\SegmentPosition[] $segments segments
      *
      * @return $this
      */
-    public function setSegments(?array $segments): static
+    public function setSegments(array $segments): static
     {
         if (is_null($segments)) {
             throw new InvalidArgumentException('non-nullable segments cannot be null');

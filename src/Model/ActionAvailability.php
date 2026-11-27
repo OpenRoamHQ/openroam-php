@@ -218,7 +218,6 @@ class ActionAvailability implements ModelInterface, ArrayAccess, JsonSerializabl
 
     public const AVAILABILITY_AVAILABLE = 'available';
     public const AVAILABILITY_NOT_AVAILABLE = 'notAvailable';
-    public const AVAILABILITY_REQUIRES_DASHBOARD = 'requiresDashboard';
     public const AVAILABILITY_MANUAL_REVIEW = 'manualReview';
     public const AVAILABILITY_IN_PROGRESS = 'inProgress';
 
@@ -232,7 +231,6 @@ class ActionAvailability implements ModelInterface, ArrayAccess, JsonSerializabl
         return [
             self::AVAILABILITY_AVAILABLE,
             self::AVAILABILITY_NOT_AVAILABLE,
-            self::AVAILABILITY_REQUIRES_DASHBOARD,
             self::AVAILABILITY_MANUAL_REVIEW,
             self::AVAILABILITY_IN_PROGRESS,
         ];
@@ -281,6 +279,9 @@ class ActionAvailability implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['availability'] === null) {
+            $invalidProperties[] = "'availability' can't be null";
+        }
         $allowedValues = self::getAvailabilityAllowableValues();
         if (!is_null($this->container['availability']) && !in_array($this->container['availability'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -305,9 +306,9 @@ class ActionAvailability implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets availability
      *
-     * @return string|null
+     * @return string
      */
-    public function getAvailability(): ?string
+    public function getAvailability(): string
     {
         return $this->container['availability'];
     }
@@ -315,11 +316,11 @@ class ActionAvailability implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets availability
      *
-     * @param string|null $availability `available`; `notAvailable`; `requiresDashboard` (use the dashboard);             `manualReview` (handled by support or the manual flow); or `inProgress` (already running).
+     * @param string $availability `available`; `notAvailable`; `manualReview` (handled by support or the             manual flow); or `inProgress` (already running).
      *
      * @return $this
      */
-    public function setAvailability(?string $availability): static
+    public function setAvailability(string $availability): static
     {
         if (is_null($availability)) {
             throw new InvalidArgumentException('non-nullable availability cannot be null');

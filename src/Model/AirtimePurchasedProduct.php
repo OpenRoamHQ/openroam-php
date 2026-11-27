@@ -288,6 +288,18 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +315,9 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -313,11 +325,11 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -330,9 +342,9 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -340,11 +352,11 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');
@@ -425,9 +437,9 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\AirtimePurchasedInputs|null
+     * @return \OpenRoam\Model\AirtimePurchasedInputs
      */
-    public function getInputs(): ?\OpenRoam\Model\AirtimePurchasedInputs
+    public function getInputs(): \OpenRoam\Model\AirtimePurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -435,11 +447,11 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\AirtimePurchasedInputs|null $inputs The item's `inputs` under the request's keys. `phoneNumber` is masked; `minDeliveredValue` is returned as accepted, in the value's currency, and is null when the item took no minimum. Operator settings are not echoed.
+     * @param \OpenRoam\Model\AirtimePurchasedInputs $inputs The item's `inputs` under the request's keys. `phoneNumber` is masked; `minDeliveredValue` is returned as accepted, in the value's currency, and is null when the item took no minimum. Operator settings are not echoed.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\AirtimePurchasedInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\AirtimePurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -452,9 +464,9 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\AirtimePurchasedDetails|null
+     * @return \OpenRoam\Model\AirtimePurchasedDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimePurchasedDetails
+    public function getDetails(): \OpenRoam\Model\AirtimePurchasedDetails
     {
         return $this->container['details'];
     }
@@ -462,11 +474,11 @@ class AirtimePurchasedProduct implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\AirtimePurchasedDetails|null $details Airtime facts outside the purchased-product keys every partner service shares, as captured at purchase. `redemptionType` is null when the selected route did not declare how the top-up is delivered. `estimatedDeliveredValue` is what the selected route expected the recipient to receive, null when it was not known. `readMore` is stored Markdown.
+     * @param \OpenRoam\Model\AirtimePurchasedDetails $details Airtime facts outside the purchased-product keys every partner service shares, as captured at purchase. `redemptionType` is null when the selected route did not declare how the top-up is delivered. `estimatedDeliveredValue` is what the selected route expected the recipient to receive, null when it was not known. `readMore` is stored Markdown.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimePurchasedDetails $details): static
+    public function setDetails(\OpenRoam\Model\AirtimePurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

@@ -253,6 +253,9 @@ class CountryList implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class CountryList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\Country[]|null
+     * @return \OpenRoam\Model\Country[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -278,11 +281,11 @@ class CountryList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\Country[]|null $items items
+     * @param \OpenRoam\Model\Country[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

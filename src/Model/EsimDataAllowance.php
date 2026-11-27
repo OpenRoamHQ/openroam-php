@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimDataAllowance Class Doc Comment
  *
- * @description The plan&#39;s data allowance as the catalogue stores it: amount, unit and display label.
+ * @description A plan&#39;s data allowance. Data is always counted in MB (1 MB &#x3D; 1024 KB).
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,6 +62,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'amount' => 'int',
         'unit' => 'string',
+        'is_unlimited' => 'bool',
         'label' => 'string'
     ];
 
@@ -73,6 +74,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'amount' => 'int64',
         'unit' => null,
+        'is_unlimited' => null,
         'label' => null
     ];
 
@@ -82,8 +84,9 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'amount' => false,
-        'unit' => true,
+        'amount' => true,
+        'unit' => false,
+        'is_unlimited' => false,
         'label' => false
     ];
 
@@ -165,6 +168,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'amount' => 'amount',
         'unit' => 'unit',
+        'is_unlimited' => 'isUnlimited',
         'label' => 'label'
     ];
 
@@ -176,6 +180,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'amount' => 'setAmount',
         'unit' => 'setUnit',
+        'is_unlimited' => 'setIsUnlimited',
         'label' => 'setLabel'
     ];
 
@@ -187,6 +192,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'amount' => 'getAmount',
         'unit' => 'getUnit',
+        'is_unlimited' => 'getIsUnlimited',
         'label' => 'getLabel'
     ];
 
@@ -239,6 +245,7 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $this->setIfExists('amount', $data ?? [], null);
         $this->setIfExists('unit', $data ?? [], null);
+        $this->setIfExists('is_unlimited', $data ?? [], null);
         $this->setIfExists('label', $data ?? [], null);
     }
 
@@ -267,6 +274,15 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['unit'] === null) {
+            $invalidProperties[] = "'unit' can't be null";
+        }
+        if ($this->container['is_unlimited'] === null) {
+            $invalidProperties[] = "'is_unlimited' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -292,14 +308,21 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param int|null $amount amount
+     * @param int|null $amount The data in MB; null when the data is unlimited or the plan does not state it.
      *
      * @return $this
      */
     public function setAmount(?int $amount): static
     {
         if (is_null($amount)) {
-            throw new InvalidArgumentException('non-nullable amount cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'amount');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('amount', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['amount'] = $amount;
 
@@ -309,9 +332,9 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets unit
      *
-     * @return string|null
+     * @return string
      */
-    public function getUnit(): ?string
+    public function getUnit(): string
     {
         return $this->container['unit'];
     }
@@ -319,21 +342,14 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets unit
      *
-     * @param string|null $unit unit
+     * @param string $unit Always `MB`.
      *
      * @return $this
      */
-    public function setUnit(?string $unit): static
+    public function setUnit(string $unit): static
     {
         if (is_null($unit)) {
-            array_push($this->openAPINullablesSetToNull, 'unit');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('unit', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new InvalidArgumentException('non-nullable unit cannot be null');
         }
         $this->container['unit'] = $unit;
 
@@ -341,11 +357,38 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets is_unlimited
+     *
+     * @return bool
+     */
+    public function getIsUnlimited(): bool
+    {
+        return $this->container['is_unlimited'];
+    }
+
+    /**
+     * Sets is_unlimited
+     *
+     * @param bool $is_unlimited Whether the data is unlimited; `amount` is then null.
+     *
+     * @return $this
+     */
+    public function setIsUnlimited(bool $is_unlimited): static
+    {
+        if (is_null($is_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
+        }
+        $this->container['is_unlimited'] = $is_unlimited;
+
+        return $this;
+    }
+
+    /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -353,11 +396,11 @@ class EsimDataAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label label
+     * @param string $label The allowance as the plan displays it, for example `3 GB`.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');

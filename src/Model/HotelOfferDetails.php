@@ -64,7 +64,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => '\OpenRoam\Model\Room[]',
         'board' => '\OpenRoam\Model\MealPlan',
         'terms' => '\OpenRoam\Model\BookingTerms',
-        'taxes' => '\OpenRoam\Model\TaxBreakdown',
         'price_is_binding' => 'bool',
         'nightly_prices' => '\OpenRoam\Model\NightlyPrice[]',
         'surcharges' => '\OpenRoam\Model\Surcharge[]',
@@ -76,7 +75,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => '\OpenRoam\Model\GuestNameRules',
         'minimum_selling_price' => '\OpenRoam\Model\Money',
         'allows_special_requests' => 'bool',
-        'special_request_options' => '\OpenRoam\Model\SpecialRequestOption[]'
+        'special_request_options' => '\OpenRoam\Model\SpecialRequestOption[]',
+        'group_key' => 'string'
     ];
 
     /**
@@ -89,7 +89,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => null,
         'board' => null,
         'terms' => null,
-        'taxes' => null,
         'price_is_binding' => null,
         'nightly_prices' => null,
         'surcharges' => null,
@@ -101,7 +100,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => null,
         'minimum_selling_price' => null,
         'allows_special_requests' => null,
-        'special_request_options' => null
+        'special_request_options' => null,
+        'group_key' => null
     ];
 
     /**
@@ -114,7 +114,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => false,
         'board' => false,
         'terms' => false,
-        'taxes' => true,
         'price_is_binding' => true,
         'nightly_prices' => false,
         'surcharges' => false,
@@ -126,7 +125,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => false,
         'minimum_selling_price' => true,
         'allows_special_requests' => true,
-        'special_request_options' => true
+        'special_request_options' => true,
+        'group_key' => true
     ];
 
     /**
@@ -209,7 +209,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => 'rooms',
         'board' => 'board',
         'terms' => 'terms',
-        'taxes' => 'taxes',
         'price_is_binding' => 'priceIsBinding',
         'nightly_prices' => 'nightlyPrices',
         'surcharges' => 'surcharges',
@@ -221,7 +220,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => 'guestNameRules',
         'minimum_selling_price' => 'minimumSellingPrice',
         'allows_special_requests' => 'allowsSpecialRequests',
-        'special_request_options' => 'specialRequestOptions'
+        'special_request_options' => 'specialRequestOptions',
+        'group_key' => 'groupKey'
     ];
 
     /**
@@ -234,7 +234,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => 'setRooms',
         'board' => 'setBoard',
         'terms' => 'setTerms',
-        'taxes' => 'setTaxes',
         'price_is_binding' => 'setPriceIsBinding',
         'nightly_prices' => 'setNightlyPrices',
         'surcharges' => 'setSurcharges',
@@ -246,7 +245,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => 'setGuestNameRules',
         'minimum_selling_price' => 'setMinimumSellingPrice',
         'allows_special_requests' => 'setAllowsSpecialRequests',
-        'special_request_options' => 'setSpecialRequestOptions'
+        'special_request_options' => 'setSpecialRequestOptions',
+        'group_key' => 'setGroupKey'
     ];
 
     /**
@@ -259,7 +259,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'rooms' => 'getRooms',
         'board' => 'getBoard',
         'terms' => 'getTerms',
-        'taxes' => 'getTaxes',
         'price_is_binding' => 'getPriceIsBinding',
         'nightly_prices' => 'getNightlyPrices',
         'surcharges' => 'getSurcharges',
@@ -271,7 +270,8 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         'guest_name_rules' => 'getGuestNameRules',
         'minimum_selling_price' => 'getMinimumSellingPrice',
         'allows_special_requests' => 'getAllowsSpecialRequests',
-        'special_request_options' => 'getSpecialRequestOptions'
+        'special_request_options' => 'getSpecialRequestOptions',
+        'group_key' => 'getGroupKey'
     ];
 
     /**
@@ -359,7 +359,6 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('rooms', $data ?? [], null);
         $this->setIfExists('board', $data ?? [], null);
         $this->setIfExists('terms', $data ?? [], null);
-        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('price_is_binding', $data ?? [], null);
         $this->setIfExists('nightly_prices', $data ?? [], null);
         $this->setIfExists('surcharges', $data ?? [], null);
@@ -372,6 +371,7 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('minimum_selling_price', $data ?? [], null);
         $this->setIfExists('allows_special_requests', $data ?? [], null);
         $this->setIfExists('special_request_options', $data ?? [], null);
+        $this->setIfExists('group_key', $data ?? [], null);
     }
 
     /**
@@ -399,6 +399,39 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['expires_at'] === null) {
+            $invalidProperties[] = "'expires_at' can't be null";
+        }
+        if ($this->container['rooms'] === null) {
+            $invalidProperties[] = "'rooms' can't be null";
+        }
+        if ($this->container['board'] === null) {
+            $invalidProperties[] = "'board' can't be null";
+        }
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['nightly_prices'] === null) {
+            $invalidProperties[] = "'nightly_prices' can't be null";
+        }
+        if ($this->container['surcharges'] === null) {
+            $invalidProperties[] = "'surcharges' can't be null";
+        }
+        if ($this->container['rate_tags'] === null) {
+            $invalidProperties[] = "'rate_tags' can't be null";
+        }
+        if ($this->container['remarks'] === null) {
+            $invalidProperties[] = "'remarks' can't be null";
+        }
+        if ($this->container['with_transfers'] === null) {
+            $invalidProperties[] = "'with_transfers' can't be null";
+        }
+        if ($this->container['rate_rules'] === null) {
+            $invalidProperties[] = "'rate_rules' can't be null";
+        }
+        if ($this->container['amendability_status'] === null) {
+            $invalidProperties[] = "'amendability_status' can't be null";
+        }
         $allowedValues = self::getAmendabilityStatusAllowableValues();
         if (!is_null($this->container['amendability_status']) && !in_array($this->container['amendability_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -408,6 +441,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['guest_name_rules'] === null) {
+            $invalidProperties[] = "'guest_name_rules' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -423,9 +459,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets expires_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getExpiresAt(): ?\DateTime
+    public function getExpiresAt(): \DateTime
     {
         return $this->container['expires_at'];
     }
@@ -433,11 +469,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets expires_at
      *
-     * @param \DateTime|null $expires_at When `publicId` stops being accepted (UTC): at most 30 minutes after the search, and never after an expiry the hotel system states. Quote or order before then.
+     * @param \DateTime $expires_at When `publicId` stops being accepted (UTC): at most 30 minutes after the search, and never after an expiry the hotel system states. Quote or order before then.
      *
      * @return $this
      */
-    public function setExpiresAt(?\DateTime $expires_at): static
+    public function setExpiresAt(\DateTime $expires_at): static
     {
         if (is_null($expires_at)) {
             throw new InvalidArgumentException('non-nullable expires_at cannot be null');
@@ -450,9 +486,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\Room[]|null
+     * @return \OpenRoam\Model\Room[]
      */
-    public function getRooms(): ?array
+    public function getRooms(): array
     {
         return $this->container['rooms'];
     }
@@ -460,11 +496,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\Room[]|null $rooms The rooms of the rate, one per searched room, with that room's searched occupancy.
+     * @param \OpenRoam\Model\Room[] $rooms The rooms of the rate, one per searched room, with that room's searched occupancy.
      *
      * @return $this
      */
-    public function setRooms(?array $rooms): static
+    public function setRooms(array $rooms): static
     {
         if (is_null($rooms)) {
             throw new InvalidArgumentException('non-nullable rooms cannot be null');
@@ -477,9 +513,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets board
      *
-     * @return \OpenRoam\Model\MealPlan|null
+     * @return \OpenRoam\Model\MealPlan
      */
-    public function getBoard(): ?\OpenRoam\Model\MealPlan
+    public function getBoard(): \OpenRoam\Model\MealPlan
     {
         return $this->container['board'];
     }
@@ -487,11 +523,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets board
      *
-     * @param \OpenRoam\Model\MealPlan|null $board The meal plan.
+     * @param \OpenRoam\Model\MealPlan $board The meal plan.
      *
      * @return $this
      */
-    public function setBoard(?\OpenRoam\Model\MealPlan $board): static
+    public function setBoard(\OpenRoam\Model\MealPlan $board): static
     {
         if (is_null($board)) {
             throw new InvalidArgumentException('non-nullable board cannot be null');
@@ -504,9 +540,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets terms
      *
-     * @return \OpenRoam\Model\BookingTerms|null
+     * @return \OpenRoam\Model\BookingTerms
      */
-    public function getTerms(): ?\OpenRoam\Model\BookingTerms
+    public function getTerms(): \OpenRoam\Model\BookingTerms
     {
         return $this->container['terms'];
     }
@@ -514,50 +550,16 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets terms
      *
-     * @param \OpenRoam\Model\BookingTerms|null $terms How the stay is paid, what cancelling gives back and whether it can be changed, in the rate's currency and with OpenRoam's fees included.
+     * @param \OpenRoam\Model\BookingTerms $terms How the stay is paid, what cancelling gives back and whether it can be changed, in the rate's currency and with OpenRoam's fees included. Each cancellation instant is also stated on the hotel's clock.
      *
      * @return $this
      */
-    public function setTerms(?\OpenRoam\Model\BookingTerms $terms): static
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
     {
         if (is_null($terms)) {
             throw new InvalidArgumentException('non-nullable terms cannot be null');
         }
         $this->container['terms'] = $terms;
-
-        return $this;
-    }
-
-    /**
-     * Gets taxes
-     *
-     * @return \OpenRoam\Model\TaxBreakdown|null
-     */
-    public function getTaxes(): ?\OpenRoam\Model\TaxBreakdown
-    {
-        return $this->container['taxes'];
-    }
-
-    /**
-     * Sets taxes
-     *
-     * @param \OpenRoam\Model\TaxBreakdown|null $taxes Taxes included in or added to the price, as far as they are stated; null when not stated.
-     *
-     * @return $this
-     */
-    public function setTaxes(?\OpenRoam\Model\TaxBreakdown $taxes): static
-    {
-        if (is_null($taxes)) {
-            array_push($this->openAPINullablesSetToNull, 'taxes');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('taxes', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['taxes'] = $taxes;
 
         return $this;
     }
@@ -599,9 +601,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets nightly_prices
      *
-     * @return \OpenRoam\Model\NightlyPrice[]|null
+     * @return \OpenRoam\Model\NightlyPrice[]
      */
-    public function getNightlyPrices(): ?array
+    public function getNightlyPrices(): array
     {
         return $this->container['nightly_prices'];
     }
@@ -609,11 +611,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets nightly_prices
      *
-     * @param \OpenRoam\Model\NightlyPrice[]|null $nightly_prices The price split by night, every night in the price's currency; the nights add up to the price. Empty when the price is not split by night: on a B2B location search, when no nightly amounts are given, or when a night could not be converted to the search currency.
+     * @param \OpenRoam\Model\NightlyPrice[] $nightly_prices The price split by night, every night in the price's currency; the nights add up to the price. Empty when the price is not split by night: on a B2B location search, when no nightly amounts are given, or when a night could not be converted to the search currency.
      *
      * @return $this
      */
-    public function setNightlyPrices(?array $nightly_prices): static
+    public function setNightlyPrices(array $nightly_prices): static
     {
         if (is_null($nightly_prices)) {
             throw new InvalidArgumentException('non-nullable nightly_prices cannot be null');
@@ -626,9 +628,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets surcharges
      *
-     * @return \OpenRoam\Model\Surcharge[]|null
+     * @return \OpenRoam\Model\Surcharge[]
      */
-    public function getSurcharges(): ?array
+    public function getSurcharges(): array
     {
         return $this->container['surcharges'];
     }
@@ -636,11 +638,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets surcharges
      *
-     * @param \OpenRoam\Model\Surcharge[]|null $surcharges Fees outside the room rate, such as a city tax or a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
+     * @param \OpenRoam\Model\Surcharge[] $surcharges Fees outside the room rate, such as a deposit, in the quote's and the order item's shape: `price` in the property's currency, `approxPrice` in the search currency or null when it could not be converted, and `includedInTotal` when the fee is already in the offer's price. A tax paid at the hotel is an `onSite` line of `taxes` instead. Indicative: the quote's surcharges are binding. Empty on a B2B location search.
      *
      * @return $this
      */
-    public function setSurcharges(?array $surcharges): static
+    public function setSurcharges(array $surcharges): static
     {
         if (is_null($surcharges)) {
             throw new InvalidArgumentException('non-nullable surcharges cannot be null');
@@ -653,9 +655,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_tags
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRateTags(): ?array
+    public function getRateTags(): array
     {
         return $this->container['rate_tags'];
     }
@@ -663,11 +665,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_tags
      *
-     * @param string[]|null $rate_tags Short labels on the rate, such as a promotion name.
+     * @param string[] $rate_tags Short labels on the rate, such as a promotion name.
      *
      * @return $this
      */
-    public function setRateTags(?array $rate_tags): static
+    public function setRateTags(array $rate_tags): static
     {
         if (is_null($rate_tags)) {
             throw new InvalidArgumentException('non-nullable rate_tags cannot be null');
@@ -680,9 +682,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets remarks
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRemarks(): ?array
+    public function getRemarks(): array
     {
         return $this->container['remarks'];
     }
@@ -690,11 +692,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets remarks
      *
-     * @param string[]|null $remarks Remarks about the rate, verbatim.
+     * @param string[] $remarks Remarks about the rate, verbatim.
      *
      * @return $this
      */
-    public function setRemarks(?array $remarks): static
+    public function setRemarks(array $remarks): static
     {
         if (is_null($remarks)) {
             throw new InvalidArgumentException('non-nullable remarks cannot be null');
@@ -707,9 +709,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_transfers
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithTransfers(): ?bool
+    public function getWithTransfers(): bool
     {
         return $this->container['with_transfers'];
     }
@@ -717,11 +719,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_transfers
      *
-     * @param bool|null $with_transfers Whether the rate includes transfers.
+     * @param bool $with_transfers Whether the rate includes transfers.
      *
      * @return $this
      */
-    public function setWithTransfers(?bool $with_transfers): static
+    public function setWithTransfers(bool $with_transfers): static
     {
         if (is_null($with_transfers)) {
             throw new InvalidArgumentException('non-nullable with_transfers cannot be null');
@@ -734,9 +736,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_rules
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRateRules(): ?array
+    public function getRateRules(): array
     {
         return $this->container['rate_rules'];
     }
@@ -744,11 +746,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_rules
      *
-     * @param string[]|null $rate_rules The rate's classes, such as `nonRefundable` or `package`.
+     * @param string[] $rate_rules The rate's classes, such as `nonRefundable` or `package`.
      *
      * @return $this
      */
-    public function setRateRules(?array $rate_rules): static
+    public function setRateRules(array $rate_rules): static
     {
         if (is_null($rate_rules)) {
             throw new InvalidArgumentException('non-nullable rate_rules cannot be null');
@@ -770,9 +772,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amendability_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getAmendabilityStatus(): ?string
+    public function getAmendabilityStatus(): string
     {
         return $this->container['amendability_status'];
     }
@@ -780,11 +782,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amendability_status
      *
-     * @param string|null $amendability_status Whether a booking of this rate can be amended.
+     * @param string $amendability_status Whether a booking of this rate can be amended.
      *
      * @return $this
      */
-    public function setAmendabilityStatus(?string $amendability_status): static
+    public function setAmendabilityStatus(string $amendability_status): static
     {
         if (is_null($amendability_status)) {
             throw new InvalidArgumentException('non-nullable amendability_status cannot be null');
@@ -807,9 +809,9 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets guest_name_rules
      *
-     * @return \OpenRoam\Model\GuestNameRules|null
+     * @return \OpenRoam\Model\GuestNameRules
      */
-    public function getGuestNameRules(): ?\OpenRoam\Model\GuestNameRules
+    public function getGuestNameRules(): \OpenRoam\Model\GuestNameRules
     {
         return $this->container['guest_name_rules'];
     }
@@ -817,11 +819,11 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets guest_name_rules
      *
-     * @param \OpenRoam\Model\GuestNameRules|null $guest_name_rules What the booking accepts as a holder's or guest's first and last name, so a form can check the names before the order is sent.
+     * @param \OpenRoam\Model\GuestNameRules $guest_name_rules What the booking accepts as a holder's or guest's first and last name, so a form can check the names before the order is sent.
      *
      * @return $this
      */
-    public function setGuestNameRules(?\OpenRoam\Model\GuestNameRules $guest_name_rules): static
+    public function setGuestNameRules(\OpenRoam\Model\GuestNameRules $guest_name_rules): static
     {
         if (is_null($guest_name_rules)) {
             throw new InvalidArgumentException('non-nullable guest_name_rules cannot be null');
@@ -929,6 +931,40 @@ class HotelOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['special_request_options'] = $special_request_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets group_key
+     *
+     * @return string|null
+     */
+    public function getGroupKey(): ?string
+    {
+        return $this->container['group_key'];
+    }
+
+    /**
+     * Sets group_key
+     *
+     * @param string|null $group_key Opaque key, equal on two offers exactly when their `terms` are the same but for the price: the same payment type, the same changes, and the same cancellation steps from the same instants, each keeping the same share of the stay, under the same OpenRoam fees. Use it to show offers that differ only in board or price under one cancellation choice. Compare it; do not read it. Null when the terms cannot be compared exactly: show that offer's terms on their own.
+     *
+     * @return $this
+     */
+    public function setGroupKey(?string $group_key): static
+    {
+        if (is_null($group_key)) {
+            array_push($this->openAPINullablesSetToNull, 'group_key');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('group_key', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['group_key'] = $group_key;
 
         return $this;
     }

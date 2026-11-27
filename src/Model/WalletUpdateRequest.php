@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * WalletUpdateRequest Class Doc Comment
  *
- * @description The new label and low-balance threshold of a wallet. Both values are replaced.
+ * @description The changes to a wallet. A member left out keeps its value; send at least one member. The wallet id             comes from the route only.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -60,7 +60,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'wallet_id' => 'string',
         'label' => 'string',
         'low_balance_threshold' => 'float'
     ];
@@ -71,7 +70,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'wallet_id' => 'uuid',
         'label' => null,
         'low_balance_threshold' => 'decimal'
     ];
@@ -82,8 +80,7 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'wallet_id' => false,
-        'label' => false,
+        'label' => true,
         'low_balance_threshold' => true
     ];
 
@@ -163,7 +160,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'wallet_id' => 'walletId',
         'label' => 'label',
         'low_balance_threshold' => 'lowBalanceThreshold'
     ];
@@ -174,7 +170,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $setters = [
-        'wallet_id' => 'setWalletId',
         'label' => 'setLabel',
         'low_balance_threshold' => 'setLowBalanceThreshold'
     ];
@@ -185,7 +180,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $getters = [
-        'wallet_id' => 'getWalletId',
         'label' => 'getLabel',
         'low_balance_threshold' => 'getLowBalanceThreshold'
     ];
@@ -237,7 +231,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('wallet_id', $data ?? [], null);
         $this->setIfExists('label', $data ?? [], null);
         $this->setIfExists('low_balance_threshold', $data ?? [], null);
     }
@@ -280,33 +273,6 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
 
 
     /**
-     * Gets wallet_id
-     *
-     * @return string|null
-     */
-    public function getWalletId(): ?string
-    {
-        return $this->container['wallet_id'];
-    }
-
-    /**
-     * Sets wallet_id
-     *
-     * @param string|null $wallet_id Ignored; the wallet id comes from the route.
-     *
-     * @return $this
-     */
-    public function setWalletId(?string $wallet_id): static
-    {
-        if (is_null($wallet_id)) {
-            throw new InvalidArgumentException('non-nullable wallet_id cannot be null');
-        }
-        $this->container['wallet_id'] = $wallet_id;
-
-        return $this;
-    }
-
-    /**
      * Gets label
      *
      * @return string|null
@@ -319,14 +285,21 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets label
      *
-     * @param string|null $label Required. Display name, unique among the partner's wallets ignoring case.
+     * @param string|null $label New display name, unique among the partner's wallets ignoring case. Leave it out to keep the             current label; it cannot be `null` or blank.
      *
      * @return $this
      */
     public function setLabel(?string $label): static
     {
         if (is_null($label)) {
-            throw new InvalidArgumentException('non-nullable label cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'label');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('label', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['label'] = $label;
 
@@ -346,7 +319,7 @@ class WalletUpdateRequest implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets low_balance_threshold
      *
-     * @param float|null $low_balance_threshold Low-balance threshold in the wallet's currency. When it is above zero, the             `partner.balance.low` webhook reports the balance falling toward and below it. Omit it or send             `null` to clear it.
+     * @param float|null $low_balance_threshold New low-balance threshold in the wallet's currency, with at most that currency's ISO 4217 decimals             (`INVALID_VALUE` at `lowBalanceThreshold` otherwise, whose `message` names the decimals             allowed, such as `An amount in JPY cannot have decimals.`). When it is above zero, the             `partner.balance.low` webhook reports the balance falling toward and below it. Leave it out to keep             the current threshold; send `null` to clear it.
      *
      * @return $this
      */

@@ -290,6 +290,15 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['type'] === null) {
             $invalidProperties[] = "'type' can't be null";
         }
+        if ($this->container['is_available'] === null) {
+            $invalidProperties[] = "'is_available' can't be null";
+        }
+        if ($this->container['characteristics'] === null) {
+            $invalidProperties[] = "'characteristics' can't be null";
+        }
+        if ($this->container['available_for'] === null) {
+            $invalidProperties[] = "'available_for' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -400,9 +409,9 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_available
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsAvailable(): ?bool
+    public function getIsAvailable(): bool
     {
         return $this->container['is_available'];
     }
@@ -410,11 +419,11 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_available
      *
-     * @param bool|null $is_available is_available
+     * @param bool $is_available is_available
      *
      * @return $this
      */
-    public function setIsAvailable(?bool $is_available): static
+    public function setIsAvailable(bool $is_available): static
     {
         if (is_null($is_available)) {
             throw new InvalidArgumentException('non-nullable is_available cannot be null');
@@ -427,9 +436,9 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets characteristics
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getCharacteristics(): ?array
+    public function getCharacteristics(): array
     {
         return $this->container['characteristics'];
     }
@@ -437,11 +446,11 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets characteristics
      *
-     * @param string[]|null $characteristics characteristics
+     * @param string[] $characteristics characteristics
      *
      * @return $this
      */
-    public function setCharacteristics(?array $characteristics): static
+    public function setCharacteristics(array $characteristics): static
     {
         if (is_null($characteristics)) {
             throw new InvalidArgumentException('non-nullable characteristics cannot be null');
@@ -454,9 +463,9 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets available_for
      *
-     * @return \OpenRoam\Model\SeatAvailability[]|null
+     * @return \OpenRoam\Model\SeatAvailability[]
      */
-    public function getAvailableFor(): ?array
+    public function getAvailableFor(): array
     {
         return $this->container['available_for'];
     }
@@ -464,11 +473,11 @@ class SeatMapElement implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets available_for
      *
-     * @param \OpenRoam\Model\SeatAvailability[]|null $available_for Passengers who can take this seat, with the price for each.
+     * @param \OpenRoam\Model\SeatAvailability[] $available_for Passengers who can take this seat, with the price for each.
      *
      * @return $this
      */
-    public function setAvailableFor(?array $available_for): static
+    public function setAvailableFor(array $available_for): static
     {
         if (is_null($available_for)) {
             throw new InvalidArgumentException('non-nullable available_for cannot be null');

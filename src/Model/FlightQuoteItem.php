@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * FlightQuoteItem Class Doc Comment
  *
- * @description One quoted fare. Flights sell no monetary value, so the item has no &#x60;value&#x60;.
+ * @description One quoted fare, with its terms, its bookable extras and the other fares on the same flights. Flights sell no monetary value, so the item has no &#x60;value&#x60;. Positions (&#x60;passengerIndexes&#x60;, &#x60;sliceIndex&#x60;, &#x60;segmentIndex&#x60;) are 1-based, as in search.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -64,7 +64,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => 'int',
         'name' => 'string',
         'price' => '\OpenRoam\Model\Money',
-        'details' => '\OpenRoam\Model\FlightQuoteItemDetails'
+        'taxes' => '\OpenRoam\Model\TaxSummary',
+        'expires_at' => '\DateTime',
+        'quoted_at' => '\DateTime',
+        'has_seat_maps' => 'bool',
+        'terms' => '\OpenRoam\Model\BookingTerms',
+        'included_baggage' => '\OpenRoam\Model\Baggage[]',
+        'available_services' => '\OpenRoam\Model\AvailableService[]',
+        'fare_options' => '\OpenRoam\Model\FareOption[]'
     ];
 
     /**
@@ -77,7 +84,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => 'int32',
         'name' => null,
         'price' => null,
-        'details' => null
+        'taxes' => null,
+        'expires_at' => 'date-time',
+        'quoted_at' => 'date-time',
+        'has_seat_maps' => null,
+        'terms' => null,
+        'included_baggage' => null,
+        'available_services' => null,
+        'fare_options' => null
     ];
 
     /**
@@ -90,7 +104,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => false,
         'name' => false,
         'price' => false,
-        'details' => false
+        'taxes' => false,
+        'expires_at' => false,
+        'quoted_at' => false,
+        'has_seat_maps' => false,
+        'terms' => false,
+        'included_baggage' => false,
+        'available_services' => false,
+        'fare_options' => false
     ];
 
     /**
@@ -173,7 +194,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => 'quantity',
         'name' => 'name',
         'price' => 'price',
-        'details' => 'details'
+        'taxes' => 'taxes',
+        'expires_at' => 'expiresAt',
+        'quoted_at' => 'quotedAt',
+        'has_seat_maps' => 'hasSeatMaps',
+        'terms' => 'terms',
+        'included_baggage' => 'includedBaggage',
+        'available_services' => 'availableServices',
+        'fare_options' => 'fareOptions'
     ];
 
     /**
@@ -186,7 +214,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => 'setQuantity',
         'name' => 'setName',
         'price' => 'setPrice',
-        'details' => 'setDetails'
+        'taxes' => 'setTaxes',
+        'expires_at' => 'setExpiresAt',
+        'quoted_at' => 'setQuotedAt',
+        'has_seat_maps' => 'setHasSeatMaps',
+        'terms' => 'setTerms',
+        'included_baggage' => 'setIncludedBaggage',
+        'available_services' => 'setAvailableServices',
+        'fare_options' => 'setFareOptions'
     ];
 
     /**
@@ -199,7 +234,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         'quantity' => 'getQuantity',
         'name' => 'getName',
         'price' => 'getPrice',
-        'details' => 'getDetails'
+        'taxes' => 'getTaxes',
+        'expires_at' => 'getExpiresAt',
+        'quoted_at' => 'getQuotedAt',
+        'has_seat_maps' => 'getHasSeatMaps',
+        'terms' => 'getTerms',
+        'included_baggage' => 'getIncludedBaggage',
+        'available_services' => 'getAvailableServices',
+        'fare_options' => 'getFareOptions'
     ];
 
     /**
@@ -253,7 +295,14 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('quantity', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
+        $this->setIfExists('expires_at', $data ?? [], null);
+        $this->setIfExists('quoted_at', $data ?? [], null);
+        $this->setIfExists('has_seat_maps', $data ?? [], null);
+        $this->setIfExists('terms', $data ?? [], null);
+        $this->setIfExists('included_baggage', $data ?? [], null);
+        $this->setIfExists('available_services', $data ?? [], null);
+        $this->setIfExists('fare_options', $data ?? [], null);
     }
 
     /**
@@ -284,6 +333,39 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['public_id'] === null) {
             $invalidProperties[] = "'public_id' can't be null";
         }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['expires_at'] === null) {
+            $invalidProperties[] = "'expires_at' can't be null";
+        }
+        if ($this->container['quoted_at'] === null) {
+            $invalidProperties[] = "'quoted_at' can't be null";
+        }
+        if ($this->container['has_seat_maps'] === null) {
+            $invalidProperties[] = "'has_seat_maps' can't be null";
+        }
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['included_baggage'] === null) {
+            $invalidProperties[] = "'included_baggage' can't be null";
+        }
+        if ($this->container['available_services'] === null) {
+            $invalidProperties[] = "'available_services' can't be null";
+        }
+        if ($this->container['fare_options'] === null) {
+            $invalidProperties[] = "'fare_options' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -309,7 +391,7 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets public_id
      *
-     * @param string $public_id The new `publicId` of the fare: it keeps `price`'s fare price, without paid extras, as the cap of an order without `inputs.maxPrice`, and expires at `details.expiresAt`.
+     * @param string $public_id The new `publicId` of the fare: it keeps `price`'s fare price, without paid extras, as the cap of an order without `inputs.maxPrice`, and expires at `expiresAt`.
      *
      * @return $this
      */
@@ -326,9 +408,9 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -336,11 +418,11 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets quantity
      *
-     * @param int|null $quantity Always 1.
+     * @param int $quantity Always 1.
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -353,9 +435,9 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -363,11 +445,11 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name \"{route} · {dates} · {fare}\", for example \"LHR ⇄ JFK · 12–19 Dec · Economy Basic\".
+     * @param string $name \"{route} · {dates} · {fare}\", for example \"LHR ⇄ JFK · 12–19 Dec · Economy Basic\".
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -380,9 +462,9 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -390,11 +472,11 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price The unit price the order charges now for all passengers: the fare with its taxes, plus the paid extras in the item's `inputs` when they are sent.
+     * @param \OpenRoam\Model\Money $price The unit price the order charges now for all passengers: the fare with its taxes, plus the paid extras in the item's `inputs` when they are sent.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -405,28 +487,217 @@ class FlightQuoteItem implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets taxes
      *
-     * @return \OpenRoam\Model\FlightQuoteItemDetails|null
+     * @return \OpenRoam\Model\TaxSummary
      */
-    public function getDetails(): ?\OpenRoam\Model\FlightQuoteItemDetails
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
     {
-        return $this->container['details'];
+        return $this->container['taxes'];
     }
 
     /**
-     * Sets details
+     * Sets taxes
      *
-     * @param \OpenRoam\Model\FlightQuoteItemDetails|null $details The fare's terms, its bookable extras and the other fares on the same flights.
+     * @param \OpenRoam\Model\TaxSummary $taxes The airline's taxes inside `price`: always `included`, with the fare's lines. The amount is the airline's tax when it states one and `price` holds no paid extra, whose tax it does not state; otherwise null.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\FlightQuoteItemDetails $details): static
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets expires_at
+     *
+     * @return \DateTime
+     */
+    public function getExpiresAt(): \DateTime
+    {
+        return $this->container['expires_at'];
+    }
+
+    /**
+     * Sets expires_at
+     *
+     * @param \DateTime $expires_at When the item's `publicId` and its services' ids expire; order before then.
+     *
+     * @return $this
+     */
+    public function setExpiresAt(\DateTime $expires_at): static
+    {
+        if (is_null($expires_at)) {
+            throw new InvalidArgumentException('non-nullable expires_at cannot be null');
+        }
+        $this->container['expires_at'] = $expires_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets quoted_at
+     *
+     * @return \DateTime
+     */
+    public function getQuotedAt(): \DateTime
+    {
+        return $this->container['quoted_at'];
+    }
+
+    /**
+     * Sets quoted_at
+     *
+     * @param \DateTime $quoted_at When the airline priced the fare for this quote.
+     *
+     * @return $this
+     */
+    public function setQuotedAt(\DateTime $quoted_at): static
+    {
+        if (is_null($quoted_at)) {
+            throw new InvalidArgumentException('non-nullable quoted_at cannot be null');
+        }
+        $this->container['quoted_at'] = $quoted_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets has_seat_maps
+     *
+     * @return bool
+     */
+    public function getHasSeatMaps(): bool
+    {
+        return $this->container['has_seat_maps'];
+    }
+
+    /**
+     * Sets has_seat_maps
+     *
+     * @param bool $has_seat_maps Whether the seat map of the item's `publicId` offers seats to choose.
+     *
+     * @return $this
+     */
+    public function setHasSeatMaps(bool $has_seat_maps): static
+    {
+        if (is_null($has_seat_maps)) {
+            throw new InvalidArgumentException('non-nullable has_seat_maps cannot be null');
+        }
+        $this->container['has_seat_maps'] = $has_seat_maps;
+
+        return $this;
+    }
+
+    /**
+     * Gets terms
+     *
+     * @return \OpenRoam\Model\BookingTerms
+     */
+    public function getTerms(): \OpenRoam\Model\BookingTerms
+    {
+        return $this->container['terms'];
+    }
+
+    /**
+     * Sets terms
+     *
+     * @param \OpenRoam\Model\BookingTerms $terms How the item is paid (always `payNow`), what cancelling it gives back and whether it can be changed, on the item's price (the fare and any paid extras) in the quote currency, OpenRoam's fees included. The order item keeps them. Each cancellation instant is also stated on the clock of the first departure airport.
+     *
+     * @return $this
+     */
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
+    {
+        if (is_null($terms)) {
+            throw new InvalidArgumentException('non-nullable terms cannot be null');
+        }
+        $this->container['terms'] = $terms;
+
+        return $this;
+    }
+
+    /**
+     * Gets included_baggage
+     *
+     * @return \OpenRoam\Model\Baggage[]
+     */
+    public function getIncludedBaggage(): array
+    {
+        return $this->container['included_baggage'];
+    }
+
+    /**
+     * Sets included_baggage
+     *
+     * @param \OpenRoam\Model\Baggage[] $included_baggage Baggage included for every passenger.
+     *
+     * @return $this
+     */
+    public function setIncludedBaggage(array $included_baggage): static
+    {
+        if (is_null($included_baggage)) {
+            throw new InvalidArgumentException('non-nullable included_baggage cannot be null');
+        }
+        $this->container['included_baggage'] = $included_baggage;
+
+        return $this;
+    }
+
+    /**
+     * Gets available_services
+     *
+     * @return \OpenRoam\Model\AvailableService[]
+     */
+    public function getAvailableServices(): array
+    {
+        return $this->container['available_services'];
+    }
+
+    /**
+     * Sets available_services
+     *
+     * @param \OpenRoam\Model\AvailableService[] $available_services Paid extras such as bags. Send a service's `id` in the order's `inputs.selectedServices`.
+     *
+     * @return $this
+     */
+    public function setAvailableServices(array $available_services): static
+    {
+        if (is_null($available_services)) {
+            throw new InvalidArgumentException('non-nullable available_services cannot be null');
+        }
+        $this->container['available_services'] = $available_services;
+
+        return $this;
+    }
+
+    /**
+     * Gets fare_options
+     *
+     * @return \OpenRoam\Model\FareOption[]
+     */
+    public function getFareOptions(): array
+    {
+        return $this->container['fare_options'];
+    }
+
+    /**
+     * Sets fare_options
+     *
+     * @param \OpenRoam\Model\FareOption[] $fare_options The fares on the same flights sold by the same airline, cheapest first and including the quoted one, each with its own `publicId` to quote or order.
+     *
+     * @return $this
+     */
+    public function setFareOptions(array $fare_options): static
+    {
+        if (is_null($fare_options)) {
+            throw new InvalidArgumentException('non-nullable fare_options cannot be null');
+        }
+        $this->container['fare_options'] = $fare_options;
 
         return $this;
     }

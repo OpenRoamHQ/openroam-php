@@ -281,6 +281,15 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +305,9 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -306,11 +315,11 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets name
      *
-     * @param string|null $name `\"{hotel} · {offer}\"`, named as the quote names it, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
+     * @param string $name `\"{hotel} · {offer}\"`, named as the quote names it, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -391,9 +400,9 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\HotelPurchasedInputs|null
+     * @return \OpenRoam\Model\HotelPurchasedInputs
      */
-    public function getInputs(): ?\OpenRoam\Model\HotelPurchasedInputs
+    public function getInputs(): \OpenRoam\Model\HotelPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -401,11 +410,11 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\HotelPurchasedInputs|null $inputs The item's inputs, with the holder's email and phone masked.
+     * @param \OpenRoam\Model\HotelPurchasedInputs $inputs The item's inputs, with the holder's email and phone masked.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\HotelPurchasedInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\HotelPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -418,9 +427,9 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\HotelPurchasedDetails|null
+     * @return \OpenRoam\Model\HotelPurchasedDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelPurchasedDetails
+    public function getDetails(): \OpenRoam\Model\HotelPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -428,11 +437,11 @@ class HotelPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\HotelPurchasedDetails|null $details The stay, the hotel and the rate bought.
+     * @param \OpenRoam\Model\HotelPurchasedDetails $details The stay, the hotel and the rate bought.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelPurchasedDetails $details): static
+    public function setDetails(\OpenRoam\Model\HotelPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

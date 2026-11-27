@@ -93,8 +93,8 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
         'nationality' => true,
         'country_of_residence' => true,
         'title' => true,
-        'first_name' => false,
-        'last_name' => false,
+        'first_name' => true,
+        'last_name' => true,
         'middle_name' => true,
         'age' => true
     ];
@@ -295,12 +295,6 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['first_name'] === null) {
-            $invalidProperties[] = "'first_name' can't be null";
-        }
-        if ($this->container['last_name'] === null) {
-            $invalidProperties[] = "'last_name' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -418,9 +412,9 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets first_name
      *
-     * @return string
+     * @return string|null
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->container['first_name'];
     }
@@ -428,14 +422,21 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets first_name
      *
-     * @param string $first_name First name.
+     * @param string|null $first_name First name. Supply both names unless the offer allows omitting guest names.
      *
      * @return $this
      */
-    public function setFirstName(string $first_name): static
+    public function setFirstName(?string $first_name): static
     {
         if (is_null($first_name)) {
-            throw new InvalidArgumentException('non-nullable first_name cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'first_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('first_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['first_name'] = $first_name;
 
@@ -445,9 +446,9 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets last_name
      *
-     * @return string
+     * @return string|null
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->container['last_name'];
     }
@@ -455,14 +456,21 @@ class GuestInput implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets last_name
      *
-     * @param string $last_name Last name.
+     * @param string|null $last_name Last name. Supply both names unless the offer allows omitting guest names.
      *
      * @return $this
      */
-    public function setLastName(string $last_name): static
+    public function setLastName(?string $last_name): static
     {
         if (is_null($last_name)) {
-            throw new InvalidArgumentException('non-nullable last_name cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'last_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['last_name'] = $last_name;
 

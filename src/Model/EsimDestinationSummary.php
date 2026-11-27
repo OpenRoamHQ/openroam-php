@@ -298,6 +298,15 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -322,9 +331,9 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -332,11 +341,11 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -349,9 +358,9 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -359,11 +368,11 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -410,9 +419,9 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -420,11 +429,11 @@ class EsimDestinationSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');

@@ -253,6 +253,9 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\EsimFulfillmentDetails|null
+     * @return \OpenRoam\Model\EsimFulfillmentDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\EsimFulfillmentDetails
+    public function getDetails(): \OpenRoam\Model\EsimFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -278,11 +281,11 @@ class EsimFulfillmentResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\EsimFulfillmentDetails|null $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode` `topUp`.
+     * @param \OpenRoam\Model\EsimFulfillmentDetails $details The eSIM an order item delivered: its ICCID and states, how to install it, and its plan. A top-up item reads the eSIM it topped up, with `mode` `topUp`.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\EsimFulfillmentDetails $details): static
+    public function setDetails(\OpenRoam\Model\EsimFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

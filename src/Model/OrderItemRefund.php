@@ -62,7 +62,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'status' => 'string',
         'amount' => '\OpenRoam\Model\Money',
-        'updated_at' => '\DateTime'
+        'updated_at' => '\DateTime',
+        'wallet' => '\OpenRoam\Model\OrderItemRefundWallet',
+        'methods' => 'string[]'
     ];
 
     /**
@@ -73,7 +75,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'status' => null,
         'amount' => null,
-        'updated_at' => 'date-time'
+        'updated_at' => 'date-time',
+        'wallet' => null,
+        'methods' => null
     ];
 
     /**
@@ -84,7 +88,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'status' => false,
         'amount' => false,
-        'updated_at' => false
+        'updated_at' => false,
+        'wallet' => true,
+        'methods' => false
     ];
 
     /**
@@ -165,7 +171,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'status' => 'status',
         'amount' => 'amount',
-        'updated_at' => 'updatedAt'
+        'updated_at' => 'updatedAt',
+        'wallet' => 'wallet',
+        'methods' => 'methods'
     ];
 
     /**
@@ -176,7 +184,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'status' => 'setStatus',
         'amount' => 'setAmount',
-        'updated_at' => 'setUpdatedAt'
+        'updated_at' => 'setUpdatedAt',
+        'wallet' => 'setWallet',
+        'methods' => 'setMethods'
     ];
 
     /**
@@ -187,7 +197,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'status' => 'getStatus',
         'amount' => 'getAmount',
-        'updated_at' => 'getUpdatedAt'
+        'updated_at' => 'getUpdatedAt',
+        'wallet' => 'getWallet',
+        'methods' => 'getMethods'
     ];
 
     /**
@@ -226,6 +238,8 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     public const STATUS_REFUNDED = 'refunded';
     public const STATUS_FAILED = 'failed';
     public const STATUS_PROCESSING = 'processing';
+    public const METHODS_BALANCE = 'balance';
+    public const METHODS_CARD = 'card';
 
     /**
      * Gets allowable values of the enum
@@ -239,6 +253,19 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
             self::STATUS_REFUNDED,
             self::STATUS_FAILED,
             self::STATUS_PROCESSING,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getMethodsAllowableValues()
+    {
+        return [
+            self::METHODS_BALANCE,
+            self::METHODS_CARD,
         ];
     }
 
@@ -259,6 +286,8 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('amount', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
+        $this->setIfExists('wallet', $data ?? [], null);
+        $this->setIfExists('methods', $data ?? [], null);
     }
 
     /**
@@ -286,6 +315,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -295,6 +327,15 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['amount'] === null) {
+            $invalidProperties[] = "'amount' can't be null";
+        }
+        if ($this->container['updated_at'] === null) {
+            $invalidProperties[] = "'updated_at' can't be null";
+        }
+        if ($this->container['methods'] === null) {
+            $invalidProperties[] = "'methods' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +351,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -320,11 +361,11 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status `pending`, `processing`, `refunded` or `failed`.
+     * @param string $status `pending`, `processing`, `refunded` or `failed`.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -347,9 +388,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmount(): ?\OpenRoam\Model\Money
+    public function getAmount(): \OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -357,11 +398,11 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\Money|null $amount The recorded refund amount in its currency; settled only when `refunded`.
+     * @param \OpenRoam\Model\Money $amount The recorded refund amount in its currency; settled only when `refunded`.
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\Money $amount): static
+    public function setAmount(\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');
@@ -374,9 +415,9 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets updated_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->container['updated_at'];
     }
@@ -384,16 +425,86 @@ class OrderItemRefund implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets updated_at
      *
-     * @param \DateTime|null $updated_at When the refund was last updated (UTC).
+     * @param \DateTime $updated_at When the refund was last updated (UTC).
      *
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTime $updated_at): static
     {
         if (is_null($updated_at)) {
             throw new InvalidArgumentException('non-nullable updated_at cannot be null');
         }
         $this->container['updated_at'] = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets wallet
+     *
+     * @return \OpenRoam\Model\OrderItemRefundWallet|null
+     */
+    public function getWallet(): ?\OpenRoam\Model\OrderItemRefundWallet
+    {
+        return $this->container['wallet'];
+    }
+
+    /**
+     * Sets wallet
+     *
+     * @param \OpenRoam\Model\OrderItemRefundWallet|null $wallet The credited wallet and what it received, when one wallet credit can be identified.
+     *
+     * @return $this
+     */
+    public function setWallet(?\OpenRoam\Model\OrderItemRefundWallet $wallet): static
+    {
+        if (is_null($wallet)) {
+            array_push($this->openAPINullablesSetToNull, 'wallet');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('wallet', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['wallet'] = $wallet;
+
+        return $this;
+    }
+
+    /**
+     * Gets methods
+     *
+     * @return string[]
+     */
+    public function getMethods(): array
+    {
+        return $this->container['methods'];
+    }
+
+    /**
+     * Sets methods
+     *
+     * @param string[] $methods The recorded refund methods, `balance` for a wallet and `card` for a card.             Can contain both after an additional payment. An empty list means no method is known or no money is being             returned. Use `status` to tell whether the refund has completed.
+     *
+     * @return $this
+     */
+    public function setMethods(array $methods): static
+    {
+        if (is_null($methods)) {
+            throw new InvalidArgumentException('non-nullable methods cannot be null');
+        }
+        $allowedValues = self::getMethodsAllowableValues();
+        if (array_diff($methods, $allowedValues)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'methods', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['methods'] = $methods;
 
         return $this;
     }

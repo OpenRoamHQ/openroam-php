@@ -63,7 +63,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => 'string',
         'amount_to_pay' => '\OpenRoam\Model\Money',
         'amount_to_refund' => '\OpenRoam\Model\Money',
-        'amendment_fee' => '\OpenRoam\Model\Money'
+        'amendment_fee' => '\OpenRoam\Model\Money',
+        'traveller_refund' => '\OpenRoam\Model\Money',
+        'traveller_refund_checkout_tax' => '\OpenRoam\Model\CheckoutTax'
     ];
 
     /**
@@ -75,7 +77,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => null,
         'amount_to_pay' => null,
         'amount_to_refund' => null,
-        'amendment_fee' => null
+        'amendment_fee' => null,
+        'traveller_refund' => null,
+        'traveller_refund_checkout_tax' => null
     ];
 
     /**
@@ -87,7 +91,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => false,
         'amount_to_pay' => false,
         'amount_to_refund' => false,
-        'amendment_fee' => true
+        'amendment_fee' => true,
+        'traveller_refund' => true,
+        'traveller_refund_checkout_tax' => true
     ];
 
     /**
@@ -169,7 +175,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => 'id',
         'amount_to_pay' => 'amountToPay',
         'amount_to_refund' => 'amountToRefund',
-        'amendment_fee' => 'amendmentFee'
+        'amendment_fee' => 'amendmentFee',
+        'traveller_refund' => 'travellerRefund',
+        'traveller_refund_checkout_tax' => 'travellerRefundCheckoutTax'
     ];
 
     /**
@@ -181,7 +189,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => 'setId',
         'amount_to_pay' => 'setAmountToPay',
         'amount_to_refund' => 'setAmountToRefund',
-        'amendment_fee' => 'setAmendmentFee'
+        'amendment_fee' => 'setAmendmentFee',
+        'traveller_refund' => 'setTravellerRefund',
+        'traveller_refund_checkout_tax' => 'setTravellerRefundCheckoutTax'
     ];
 
     /**
@@ -193,7 +203,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         'id' => 'getId',
         'amount_to_pay' => 'getAmountToPay',
         'amount_to_refund' => 'getAmountToRefund',
-        'amendment_fee' => 'getAmendmentFee'
+        'amendment_fee' => 'getAmendmentFee',
+        'traveller_refund' => 'getTravellerRefund',
+        'traveller_refund_checkout_tax' => 'getTravellerRefundCheckoutTax'
     ];
 
     /**
@@ -247,6 +259,8 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
         $this->setIfExists('amount_to_pay', $data ?? [], null);
         $this->setIfExists('amount_to_refund', $data ?? [], null);
         $this->setIfExists('amendment_fee', $data ?? [], null);
+        $this->setIfExists('traveller_refund', $data ?? [], null);
+        $this->setIfExists('traveller_refund_checkout_tax', $data ?? [], null);
     }
 
     /**
@@ -274,6 +288,15 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['amount_to_pay'] === null) {
+            $invalidProperties[] = "'amount_to_pay' can't be null";
+        }
+        if ($this->container['amount_to_refund'] === null) {
+            $invalidProperties[] = "'amount_to_refund' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +312,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -299,11 +322,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets id
      *
-     * @param string|null $id Option id, sent as `selectedOptionId` when confirming.
+     * @param string $id Option id, sent as `selectedOptionId` when confirming.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -316,9 +339,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets amount_to_pay
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmountToPay(): ?\OpenRoam\Model\Money
+    public function getAmountToPay(): \OpenRoam\Model\Money
     {
         return $this->container['amount_to_pay'];
     }
@@ -326,11 +349,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets amount_to_pay
      *
-     * @param \OpenRoam\Model\Money|null $amount_to_pay The surcharge charged on confirm, including any amendment fee.
+     * @param \OpenRoam\Model\Money $amount_to_pay The surcharge charged on confirm, including any amendment fee.
      *
      * @return $this
      */
-    public function setAmountToPay(?\OpenRoam\Model\Money $amount_to_pay): static
+    public function setAmountToPay(\OpenRoam\Model\Money $amount_to_pay): static
     {
         if (is_null($amount_to_pay)) {
             throw new InvalidArgumentException('non-nullable amount_to_pay cannot be null');
@@ -343,9 +366,9 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets amount_to_refund
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmountToRefund(): ?\OpenRoam\Model\Money
+    public function getAmountToRefund(): \OpenRoam\Model\Money
     {
         return $this->container['amount_to_refund'];
     }
@@ -353,11 +376,11 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets amount_to_refund
      *
-     * @param \OpenRoam\Model\Money|null $amount_to_refund The credit returned on confirm, after any amendment fee.
+     * @param \OpenRoam\Model\Money $amount_to_refund The credit returned on confirm, after any amendment fee.
      *
      * @return $this
      */
-    public function setAmountToRefund(?\OpenRoam\Model\Money $amount_to_refund): static
+    public function setAmountToRefund(\OpenRoam\Model\Money $amount_to_refund): static
     {
         if (is_null($amount_to_refund)) {
             throw new InvalidArgumentException('non-nullable amount_to_refund cannot be null');
@@ -397,6 +420,74 @@ class AmendmentQuoteOption implements ModelInterface, ArrayAccess, JsonSerializa
             }
         }
         $this->container['amendment_fee'] = $amendment_fee;
+
+        return $this;
+    }
+
+    /**
+     * Gets traveller_refund
+     *
+     * @return \OpenRoam\Model\Money|null
+     */
+    public function getTravellerRefund(): ?\OpenRoam\Model\Money
+    {
+        return $this->container['traveller_refund'];
+    }
+
+    /**
+     * Sets traveller_refund
+     *
+     * @param \OpenRoam\Model\Money|null $traveller_refund On an order placed on one of your sites where the traveller paid OpenRoam by card: what             confirming this option would return to their card now, their share of the part of amountToRefund left after any             earlier charges to your wallet for the item come back to it; 0 when nothing goes back. Null on every other order,             where all of amountToRefund goes to your wallet, and when the card's part cannot be stated before you confirm.
+     *
+     * @return $this
+     */
+    public function setTravellerRefund(?\OpenRoam\Model\Money $traveller_refund): static
+    {
+        if (is_null($traveller_refund)) {
+            array_push($this->openAPINullablesSetToNull, 'traveller_refund');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('traveller_refund', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['traveller_refund'] = $traveller_refund;
+
+        return $this;
+    }
+
+    /**
+     * Gets traveller_refund_checkout_tax
+     *
+     * @return \OpenRoam\Model\CheckoutTax|null
+     */
+    public function getTravellerRefundCheckoutTax(): ?\OpenRoam\Model\CheckoutTax
+    {
+        return $this->container['traveller_refund_checkout_tax'];
+    }
+
+    /**
+     * Sets traveller_refund_checkout_tax
+     *
+     * @param \OpenRoam\Model\CheckoutTax|null $traveller_refund_checkout_tax The part of travellerRefund that is the tax OpenRoam added when the traveller             paid by card, already in it. Null when travellerRefund is null, and when the checkout added no tax.
+     *
+     * @return $this
+     */
+    public function setTravellerRefundCheckoutTax(?\OpenRoam\Model\CheckoutTax $traveller_refund_checkout_tax): static
+    {
+        if (is_null($traveller_refund_checkout_tax)) {
+            array_push($this->openAPINullablesSetToNull, 'traveller_refund_checkout_tax');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('traveller_refund_checkout_tax', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['traveller_refund_checkout_tax'] = $traveller_refund_checkout_tax;
 
         return $this;
     }

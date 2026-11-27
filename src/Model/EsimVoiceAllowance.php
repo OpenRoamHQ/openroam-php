@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimVoiceAllowance Class Doc Comment
  *
+ * @description A plan&#39;s calling allowance. Calls are always counted in minutes.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,10 +60,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'call_amount' => 'int',
-        'call_unit' => 'string',
-        'call_label' => 'string',
-        'call_type' => 'string'
+        'amount' => 'int',
+        'unit' => 'string',
+        'is_unlimited' => 'bool',
+        'label' => 'string',
+        'type' => 'string'
     ];
 
     /**
@@ -71,10 +73,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'call_amount' => 'int64',
-        'call_unit' => null,
-        'call_label' => null,
-        'call_type' => null
+        'amount' => 'int64',
+        'unit' => null,
+        'is_unlimited' => null,
+        'label' => null,
+        'type' => null
     ];
 
     /**
@@ -83,10 +86,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'call_amount' => false,
-        'call_unit' => true,
-        'call_label' => true,
-        'call_type' => true
+        'amount' => true,
+        'unit' => false,
+        'is_unlimited' => false,
+        'label' => true,
+        'type' => true
     ];
 
     /**
@@ -165,10 +169,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'call_amount' => 'callAmount',
-        'call_unit' => 'callUnit',
-        'call_label' => 'callLabel',
-        'call_type' => 'callType'
+        'amount' => 'amount',
+        'unit' => 'unit',
+        'is_unlimited' => 'isUnlimited',
+        'label' => 'label',
+        'type' => 'type'
     ];
 
     /**
@@ -177,10 +182,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $setters = [
-        'call_amount' => 'setCallAmount',
-        'call_unit' => 'setCallUnit',
-        'call_label' => 'setCallLabel',
-        'call_type' => 'setCallType'
+        'amount' => 'setAmount',
+        'unit' => 'setUnit',
+        'is_unlimited' => 'setIsUnlimited',
+        'label' => 'setLabel',
+        'type' => 'setType'
     ];
 
     /**
@@ -189,10 +195,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      * @var array<string, string>
      */
     protected static array $getters = [
-        'call_amount' => 'getCallAmount',
-        'call_unit' => 'getCallUnit',
-        'call_label' => 'getCallLabel',
-        'call_type' => 'getCallType'
+        'amount' => 'getAmount',
+        'unit' => 'getUnit',
+        'is_unlimited' => 'getIsUnlimited',
+        'label' => 'getLabel',
+        'type' => 'getType'
     ];
 
     /**
@@ -242,10 +249,11 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('call_amount', $data ?? [], null);
-        $this->setIfExists('call_unit', $data ?? [], null);
-        $this->setIfExists('call_label', $data ?? [], null);
-        $this->setIfExists('call_type', $data ?? [], null);
+        $this->setIfExists('amount', $data ?? [], null);
+        $this->setIfExists('unit', $data ?? [], null);
+        $this->setIfExists('is_unlimited', $data ?? [], null);
+        $this->setIfExists('label', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
     }
 
     /**
@@ -273,6 +281,12 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['unit'] === null) {
+            $invalidProperties[] = "'unit' can't be null";
+        }
+        if ($this->container['is_unlimited'] === null) {
+            $invalidProperties[] = "'is_unlimited' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -286,130 +300,157 @@ class EsimVoiceAllowance implements ModelInterface, ArrayAccess, JsonSerializabl
 
 
     /**
-     * Gets call_amount
+     * Gets amount
      *
      * @return int|null
      */
-    public function getCallAmount(): ?int
+    public function getAmount(): ?int
     {
-        return $this->container['call_amount'];
+        return $this->container['amount'];
     }
 
     /**
-     * Sets call_amount
+     * Sets amount
      *
-     * @param int|null $call_amount call_amount
+     * @param int|null $amount The calling time in minutes; null when it is unlimited or the plan does not state it.
      *
      * @return $this
      */
-    public function setCallAmount(?int $call_amount): static
+    public function setAmount(?int $amount): static
     {
-        if (is_null($call_amount)) {
-            throw new InvalidArgumentException('non-nullable call_amount cannot be null');
-        }
-        $this->container['call_amount'] = $call_amount;
-
-        return $this;
-    }
-
-    /**
-     * Gets call_unit
-     *
-     * @return string|null
-     */
-    public function getCallUnit(): ?string
-    {
-        return $this->container['call_unit'];
-    }
-
-    /**
-     * Sets call_unit
-     *
-     * @param string|null $call_unit call_unit
-     *
-     * @return $this
-     */
-    public function setCallUnit(?string $call_unit): static
-    {
-        if (is_null($call_unit)) {
-            array_push($this->openAPINullablesSetToNull, 'call_unit');
+        if (is_null($amount)) {
+            array_push($this->openAPINullablesSetToNull, 'amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('call_unit', $nullablesSetToNull);
+            $index = array_search('amount', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['call_unit'] = $call_unit;
+        $this->container['amount'] = $amount;
 
         return $this;
     }
 
     /**
-     * Gets call_label
+     * Gets unit
      *
-     * @return string|null
+     * @return string
      */
-    public function getCallLabel(): ?string
+    public function getUnit(): string
     {
-        return $this->container['call_label'];
+        return $this->container['unit'];
     }
 
     /**
-     * Sets call_label
+     * Sets unit
      *
-     * @param string|null $call_label call_label
+     * @param string $unit Always `minutes`.
      *
      * @return $this
      */
-    public function setCallLabel(?string $call_label): static
+    public function setUnit(string $unit): static
     {
-        if (is_null($call_label)) {
-            array_push($this->openAPINullablesSetToNull, 'call_label');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('call_label', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($unit)) {
+            throw new InvalidArgumentException('non-nullable unit cannot be null');
         }
-        $this->container['call_label'] = $call_label;
+        $this->container['unit'] = $unit;
 
         return $this;
     }
 
     /**
-     * Gets call_type
+     * Gets is_unlimited
      *
-     * @return string|null
+     * @return bool
      */
-    public function getCallType(): ?string
+    public function getIsUnlimited(): bool
     {
-        return $this->container['call_type'];
+        return $this->container['is_unlimited'];
     }
 
     /**
-     * Sets call_type
+     * Sets is_unlimited
      *
-     * @param string|null $call_type call_type
+     * @param bool $is_unlimited Whether calling is unlimited; `amount` is then null.
      *
      * @return $this
      */
-    public function setCallType(?string $call_type): static
+    public function setIsUnlimited(bool $is_unlimited): static
     {
-        if (is_null($call_type)) {
-            array_push($this->openAPINullablesSetToNull, 'call_type');
+        if (is_null($is_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
+        }
+        $this->container['is_unlimited'] = $is_unlimited;
+
+        return $this;
+    }
+
+    /**
+     * Gets label
+     *
+     * @return string|null
+     */
+    public function getLabel(): ?string
+    {
+        return $this->container['label'];
+    }
+
+    /**
+     * Sets label
+     *
+     * @param string|null $label The allowance as the plan displays it, or null.
+     *
+     * @return $this
+     */
+    public function setLabel(?string $label): static
+    {
+        if (is_null($label)) {
+            array_push($this->openAPINullablesSetToNull, 'label');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('call_type', $nullablesSetToNull);
+            $index = array_search('label', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['call_type'] = $call_type;
+        $this->container['label'] = $label;
+
+        return $this;
+    }
+
+    /**
+     * Gets type
+     *
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->container['type'];
+    }
+
+    /**
+     * Sets type
+     *
+     * @param string|null $type Which calls the allowance covers, as the plan states it, for example `all`.
+     *
+     * @return $this
+     */
+    public function setType(?string $type): static
+    {
+        if (is_null($type)) {
+            array_push($this->openAPINullablesSetToNull, 'type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['type'] = $type;
 
         return $this;
     }

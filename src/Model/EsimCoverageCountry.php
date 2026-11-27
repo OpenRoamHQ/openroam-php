@@ -274,6 +274,18 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['networks'] === null) {
+            $invalidProperties[] = "'networks' can't be null";
+        }
+        if ($this->container['carriers'] === null) {
+            $invalidProperties[] = "'carriers' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +301,9 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -299,11 +311,11 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');
@@ -316,9 +328,9 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -326,11 +338,11 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -343,9 +355,9 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets networks
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getNetworks(): ?array
+    public function getNetworks(): array
     {
         return $this->container['networks'];
     }
@@ -353,11 +365,11 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets networks
      *
-     * @param string[]|null $networks networks
+     * @param string[] $networks networks
      *
      * @return $this
      */
-    public function setNetworks(?array $networks): static
+    public function setNetworks(array $networks): static
     {
         if (is_null($networks)) {
             throw new InvalidArgumentException('non-nullable networks cannot be null');
@@ -370,9 +382,9 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets carriers
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getCarriers(): ?array
+    public function getCarriers(): array
     {
         return $this->container['carriers'];
     }
@@ -380,11 +392,11 @@ class EsimCoverageCountry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets carriers
      *
-     * @param string[]|null $carriers carriers
+     * @param string[] $carriers carriers
      *
      * @return $this
      */
-    public function setCarriers(?array $carriers): static
+    public function setCarriers(array $carriers): static
     {
         if (is_null($carriers)) {
             throw new InvalidArgumentException('non-nullable carriers cannot be null');

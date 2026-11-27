@@ -159,13 +159,13 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\HotelOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\HotelOrder|\OpenRoam\Model\ErrorResponse
      */
     public function hotelsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\HotelOrderRequest $hotel_order_request = null,
         string $contentType = self::contentTypes['hotelsCreateOrder'][0]
-    ): \OpenRoam\Model\HotelOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\HotelOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->hotelsCreateOrderWithHttpInfo($idempotency_key, $hotel_order_request, $contentType);
         return $response;
@@ -182,7 +182,7 @@ class HotelsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\HotelOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\HotelOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function hotelsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -222,13 +222,13 @@ class HotelsApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -282,15 +282,15 @@ class HotelsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -442,7 +442,7 @@ class HotelsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/hotels/order';
+        $resourcePath = '/v1/hotels/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -756,7 +756,7 @@ class HotelsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/hotels/amenities/catalog';
+        $resourcePath = '/v1/hotels/amenities/catalog';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -777,6 +777,11 @@ class HotelsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1026,7 +1031,7 @@ class HotelsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/hotels/catalog/files';
+        $resourcePath = '/v1/hotels/catalog/files';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1346,7 +1351,7 @@ class HotelsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/hotels/destinations';
+        $resourcePath = '/v1/hotels/destinations';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1397,6 +1402,11 @@ class HotelsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1676,7 +1686,7 @@ class HotelsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/hotels/properties/{id}';
+        $resourcePath = '/v1/hotels/properties/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1705,6 +1715,11 @@ class HotelsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1992,7 +2007,7 @@ class HotelsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/hotels/quote';
+        $resourcePath = '/v1/hotels/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -2053,6 +2068,11 @@ class HotelsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -2326,7 +2346,7 @@ class HotelsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/hotels/search';
+        $resourcePath = '/v1/hotels/search';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -2387,6 +2407,11 @@ class HotelsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

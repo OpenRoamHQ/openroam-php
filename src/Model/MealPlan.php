@@ -296,6 +296,9 @@ class MealPlan implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
+        if ($this->container['board_type'] === null) {
+            $invalidProperties[] = "'board_type' can't be null";
+        }
         $allowedValues = self::getBoardTypeAllowableValues();
         if (!is_null($this->container['board_type']) && !in_array($this->container['board_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -374,9 +377,9 @@ class MealPlan implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets board_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getBoardType(): ?string
+    public function getBoardType(): string
     {
         return $this->container['board_type'];
     }
@@ -384,11 +387,11 @@ class MealPlan implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets board_type
      *
-     * @param string|null $board_type board_type
+     * @param string $board_type board_type
      *
      * @return $this
      */
-    public function setBoardType(?string $board_type): static
+    public function setBoardType(string $board_type): static
     {
         if (is_null($board_type)) {
             throw new InvalidArgumentException('non-nullable board_type cannot be null');

@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimRestrictions Class Doc Comment
  *
+ * @description A plan&#39;s throttling and expiry. Every throttle field is null when the plan does not throttle.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -88,10 +89,10 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPINullables = [
         'throttle' => false,
-        'throttle_speed' => false,
-        'throttle_unit' => false,
-        'throttle_threshold' => false,
-        'throttle_threshold_unit' => false,
+        'throttle_speed' => true,
+        'throttle_unit' => true,
+        'throttle_threshold' => true,
+        'throttle_threshold_unit' => true,
         'expire_in_days' => false
     ];
 
@@ -287,6 +288,12 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['throttle'] === null) {
+            $invalidProperties[] = "'throttle' can't be null";
+        }
+        if ($this->container['expire_in_days'] === null) {
+            $invalidProperties[] = "'expire_in_days' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -302,9 +309,9 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets throttle
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getThrottle(): ?bool
+    public function getThrottle(): bool
     {
         return $this->container['throttle'];
     }
@@ -312,11 +319,11 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets throttle
      *
-     * @param bool|null $throttle throttle
+     * @param bool $throttle Whether the speed drops once some of the data is used.
      *
      * @return $this
      */
-    public function setThrottle(?bool $throttle): static
+    public function setThrottle(bool $throttle): static
     {
         if (is_null($throttle)) {
             throw new InvalidArgumentException('non-nullable throttle cannot be null');
@@ -339,14 +346,21 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets throttle_speed
      *
-     * @param float|null $throttle_speed throttle_speed
+     * @param float|null $throttle_speed The speed after throttling, in kbps; 0 when the connection stops; null without throttling.
      *
      * @return $this
      */
     public function setThrottleSpeed(?float $throttle_speed): static
     {
         if (is_null($throttle_speed)) {
-            throw new InvalidArgumentException('non-nullable throttle_speed cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'throttle_speed');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('throttle_speed', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['throttle_speed'] = $throttle_speed;
 
@@ -366,14 +380,21 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets throttle_unit
      *
-     * @param string|null $throttle_unit throttle_unit
+     * @param string|null $throttle_unit Always `kbps` when the plan throttles; null without throttling.
      *
      * @return $this
      */
     public function setThrottleUnit(?string $throttle_unit): static
     {
         if (is_null($throttle_unit)) {
-            throw new InvalidArgumentException('non-nullable throttle_unit cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'throttle_unit');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('throttle_unit', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['throttle_unit'] = $throttle_unit;
 
@@ -393,14 +414,21 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets throttle_threshold
      *
-     * @param float|null $throttle_threshold throttle_threshold
+     * @param float|null $throttle_threshold The data in MB used at full speed before throttling starts; null when throttling starts only once the data allowance is used up, and null without throttling.
      *
      * @return $this
      */
     public function setThrottleThreshold(?float $throttle_threshold): static
     {
         if (is_null($throttle_threshold)) {
-            throw new InvalidArgumentException('non-nullable throttle_threshold cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'throttle_threshold');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('throttle_threshold', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['throttle_threshold'] = $throttle_threshold;
 
@@ -420,14 +448,21 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets throttle_threshold_unit
      *
-     * @param string|null $throttle_threshold_unit throttle_threshold_unit
+     * @param string|null $throttle_threshold_unit Always `MB` when `throttleThreshold` is set; otherwise null.
      *
      * @return $this
      */
     public function setThrottleThresholdUnit(?string $throttle_threshold_unit): static
     {
         if (is_null($throttle_threshold_unit)) {
-            throw new InvalidArgumentException('non-nullable throttle_threshold_unit cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'throttle_threshold_unit');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('throttle_threshold_unit', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['throttle_threshold_unit'] = $throttle_threshold_unit;
 
@@ -437,9 +472,9 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets expire_in_days
      *
-     * @return int|null
+     * @return int
      */
-    public function getExpireInDays(): ?int
+    public function getExpireInDays(): int
     {
         return $this->container['expire_in_days'];
     }
@@ -447,11 +482,11 @@ class EsimRestrictions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets expire_in_days
      *
-     * @param int|null $expire_in_days expire_in_days
+     * @param int $expire_in_days How many days the eSIM stays valid after activation.
      *
      * @return $this
      */
-    public function setExpireInDays(?int $expire_in_days): static
+    public function setExpireInDays(int $expire_in_days): static
     {
         if (is_null($expire_in_days)) {
             throw new InvalidArgumentException('non-nullable expire_in_days cannot be null');

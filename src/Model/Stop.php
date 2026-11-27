@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * Stop Class Doc Comment
  *
+ * @description A technical stop within a leg, where the aircraft lands and leaves again.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,7 +62,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'airport' => '\OpenRoam\Model\Airport',
         'arriving_at' => '\DateTime',
+        'arriving_local_time' => 'string',
         'departing_at' => '\DateTime',
+        'departing_local_time' => 'string',
         'duration_minutes' => 'int'
     ];
 
@@ -73,7 +76,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'airport' => null,
         'arriving_at' => 'date-time',
+        'arriving_local_time' => null,
         'departing_at' => 'date-time',
+        'departing_local_time' => null,
         'duration_minutes' => 'int32'
     ];
 
@@ -85,7 +90,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'airport' => false,
         'arriving_at' => false,
+        'arriving_local_time' => true,
         'departing_at' => false,
+        'departing_local_time' => true,
         'duration_minutes' => false
     ];
 
@@ -167,7 +174,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'airport' => 'airport',
         'arriving_at' => 'arrivingAt',
+        'arriving_local_time' => 'arrivingLocalTime',
         'departing_at' => 'departingAt',
+        'departing_local_time' => 'departingLocalTime',
         'duration_minutes' => 'durationMinutes'
     ];
 
@@ -179,7 +188,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'airport' => 'setAirport',
         'arriving_at' => 'setArrivingAt',
+        'arriving_local_time' => 'setArrivingLocalTime',
         'departing_at' => 'setDepartingAt',
+        'departing_local_time' => 'setDepartingLocalTime',
         'duration_minutes' => 'setDurationMinutes'
     ];
 
@@ -191,7 +202,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'airport' => 'getAirport',
         'arriving_at' => 'getArrivingAt',
+        'arriving_local_time' => 'getArrivingLocalTime',
         'departing_at' => 'getDepartingAt',
+        'departing_local_time' => 'getDepartingLocalTime',
         'duration_minutes' => 'getDurationMinutes'
     ];
 
@@ -244,7 +257,9 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $this->setIfExists('airport', $data ?? [], null);
         $this->setIfExists('arriving_at', $data ?? [], null);
+        $this->setIfExists('arriving_local_time', $data ?? [], null);
         $this->setIfExists('departing_at', $data ?? [], null);
+        $this->setIfExists('departing_local_time', $data ?? [], null);
         $this->setIfExists('duration_minutes', $data ?? [], null);
     }
 
@@ -279,8 +294,19 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['arriving_at'] === null) {
             $invalidProperties[] = "'arriving_at' can't be null";
         }
+        if (!is_null($this->container['arriving_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['arriving_local_time'])) {
+            $invalidProperties[] = "invalid value for 'arriving_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
         if ($this->container['departing_at'] === null) {
             $invalidProperties[] = "'departing_at' can't be null";
+        }
+        if (!is_null($this->container['departing_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['departing_local_time'])) {
+            $invalidProperties[] = "invalid value for 'departing_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['duration_minutes'] === null) {
+            $invalidProperties[] = "'duration_minutes' can't be null";
         }
         return $invalidProperties;
     }
@@ -307,7 +333,7 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets airport
      *
-     * @param \OpenRoam\Model\Airport $airport airport
+     * @param \OpenRoam\Model\Airport $airport The airport of the stop.
      *
      * @return $this
      */
@@ -334,7 +360,7 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets arriving_at
      *
-     * @param \DateTime $arriving_at arriving_at
+     * @param \DateTime $arriving_at When the aircraft lands at the stop, a UTC instant; `airport.timezone` gives the airport's clock.
      *
      * @return $this
      */
@@ -344,6 +370,45 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable arriving_at cannot be null');
         }
         $this->container['arriving_at'] = $arriving_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets arriving_local_time
+     *
+     * @return string|null
+     */
+    public function getArrivingLocalTime(): ?string
+    {
+        return $this->container['arriving_local_time'];
+    }
+
+    /**
+     * Sets arriving_local_time
+     *
+     * @param string|null $arriving_local_time The clock at the stop's airport (`airport.timezone`) at `arrivingAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `arrivingAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setArrivingLocalTime(?string $arriving_local_time): static
+    {
+        if (is_null($arriving_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'arriving_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('arriving_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($arriving_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($arriving_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$arriving_local_time when calling Stop., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['arriving_local_time'] = $arriving_local_time;
 
         return $this;
     }
@@ -361,7 +426,7 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets departing_at
      *
-     * @param \DateTime $departing_at departing_at
+     * @param \DateTime $departing_at When the aircraft leaves the stop, a UTC instant; `airport.timezone` gives the airport's clock.
      *
      * @return $this
      */
@@ -376,11 +441,50 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets departing_local_time
+     *
+     * @return string|null
+     */
+    public function getDepartingLocalTime(): ?string
+    {
+        return $this->container['departing_local_time'];
+    }
+
+    /**
+     * Sets departing_local_time
+     *
+     * @param string|null $departing_local_time The clock at the stop's airport (`airport.timezone`) at `departingAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `departingAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setDepartingLocalTime(?string $departing_local_time): static
+    {
+        if (is_null($departing_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'departing_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('departing_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($departing_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($departing_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$departing_local_time when calling Stop., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['departing_local_time'] = $departing_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets duration_minutes
      *
-     * @return int|null
+     * @return int
      */
-    public function getDurationMinutes(): ?int
+    public function getDurationMinutes(): int
     {
         return $this->container['duration_minutes'];
     }
@@ -388,11 +492,11 @@ class Stop implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets duration_minutes
      *
-     * @param int|null $duration_minutes duration_minutes
+     * @param int $duration_minutes How long the aircraft stays at the stop.
      *
      * @return $this
      */
-    public function setDurationMinutes(?int $duration_minutes): static
+    public function setDurationMinutes(int $duration_minutes): static
     {
         if (is_null($duration_minutes)) {
             throw new InvalidArgumentException('non-nullable duration_minutes cannot be null');

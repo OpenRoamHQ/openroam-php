@@ -333,6 +333,15 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
+        if ($this->container['beds'] === null) {
+            $invalidProperties[] = "'beds' can't be null";
+        }
+        if ($this->container['amenities'] === null) {
+            $invalidProperties[] = "'amenities' can't be null";
+        }
+        if ($this->container['image_urls'] === null) {
+            $invalidProperties[] = "'image_urls' can't be null";
+        }
         if ($this->container['room_index'] === null) {
             $invalidProperties[] = "'room_index' can't be null";
         }
@@ -446,9 +455,9 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets beds
      *
-     * @return \OpenRoam\Model\Bed[]|null
+     * @return \OpenRoam\Model\Bed[]
      */
-    public function getBeds(): ?array
+    public function getBeds(): array
     {
         return $this->container['beds'];
     }
@@ -456,11 +465,11 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets beds
      *
-     * @param \OpenRoam\Model\Bed[]|null $beds beds
+     * @param \OpenRoam\Model\Bed[] $beds beds
      *
      * @return $this
      */
-    public function setBeds(?array $beds): static
+    public function setBeds(array $beds): static
     {
         if (is_null($beds)) {
             throw new InvalidArgumentException('non-nullable beds cannot be null');
@@ -541,9 +550,9 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenities
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getAmenities(): ?array
+    public function getAmenities(): array
     {
         return $this->container['amenities'];
     }
@@ -551,11 +560,11 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenities
      *
-     * @param string[]|null $amenities amenities
+     * @param string[] $amenities amenities
      *
      * @return $this
      */
-    public function setAmenities(?array $amenities): static
+    public function setAmenities(array $amenities): static
     {
         if (is_null($amenities)) {
             throw new InvalidArgumentException('non-nullable amenities cannot be null');
@@ -568,9 +577,9 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets image_urls
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getImageUrls(): ?array
+    public function getImageUrls(): array
     {
         return $this->container['image_urls'];
     }
@@ -578,11 +587,11 @@ class Room implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets image_urls
      *
-     * @param string[]|null $image_urls image_urls
+     * @param string[] $image_urls image_urls
      *
      * @return $this
      */
-    public function setImageUrls(?array $image_urls): static
+    public function setImageUrls(array $image_urls): static
     {
         if (is_null($image_urls)) {
             throw new InvalidArgumentException('non-nullable image_urls cannot be null');

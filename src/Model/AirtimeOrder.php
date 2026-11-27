@@ -64,14 +64,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => '\OpenRoam\Model\OrderOrigin',
         'status' => 'string',
         'total' => '\OpenRoam\Model\Money',
+        'refunded' => '\OpenRoam\Model\Money',
         'payment' => '\OpenRoam\Model\OrderPayment',
-        'actions' => '\OpenRoam\Model\OrderActions',
         'items' => '\OpenRoam\Model\AirtimeOrderItem[]',
         'timeline' => '\OpenRoam\Model\OrderTimelineEntry[]',
         'created_at' => '\DateTime',
         'updated_at' => '\DateTime',
         'fulfillment_version' => 'int',
-        'reference_id' => 'string'
+        'reference_id' => 'string',
+        'customer' => '\OpenRoam\Model\OrderCustomer',
+        'checkout' => '\OpenRoam\Model\OrderCheckout'
     ];
 
     /**
@@ -84,14 +86,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => null,
         'status' => null,
         'total' => null,
+        'refunded' => null,
         'payment' => null,
-        'actions' => null,
         'items' => null,
         'timeline' => null,
         'created_at' => 'date-time',
         'updated_at' => 'date-time',
         'fulfillment_version' => 'int64',
-        'reference_id' => null
+        'reference_id' => null,
+        'customer' => null,
+        'checkout' => null
     ];
 
     /**
@@ -104,14 +108,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => false,
         'status' => false,
         'total' => false,
+        'refunded' => false,
         'payment' => true,
-        'actions' => false,
         'items' => false,
         'timeline' => false,
         'created_at' => false,
         'updated_at' => false,
         'fulfillment_version' => false,
-        'reference_id' => true
+        'reference_id' => true,
+        'customer' => true,
+        'checkout' => true
     ];
 
     /**
@@ -194,14 +200,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'origin',
         'status' => 'status',
         'total' => 'total',
+        'refunded' => 'refunded',
         'payment' => 'payment',
-        'actions' => 'actions',
         'items' => 'items',
         'timeline' => 'timeline',
         'created_at' => 'createdAt',
         'updated_at' => 'updatedAt',
         'fulfillment_version' => 'fulfillmentVersion',
-        'reference_id' => 'referenceId'
+        'reference_id' => 'referenceId',
+        'customer' => 'customer',
+        'checkout' => 'checkout'
     ];
 
     /**
@@ -214,14 +222,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'setOrigin',
         'status' => 'setStatus',
         'total' => 'setTotal',
+        'refunded' => 'setRefunded',
         'payment' => 'setPayment',
-        'actions' => 'setActions',
         'items' => 'setItems',
         'timeline' => 'setTimeline',
         'created_at' => 'setCreatedAt',
         'updated_at' => 'setUpdatedAt',
         'fulfillment_version' => 'setFulfillmentVersion',
-        'reference_id' => 'setReferenceId'
+        'reference_id' => 'setReferenceId',
+        'customer' => 'setCustomer',
+        'checkout' => 'setCheckout'
     ];
 
     /**
@@ -234,14 +244,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'getOrigin',
         'status' => 'getStatus',
         'total' => 'getTotal',
+        'refunded' => 'getRefunded',
         'payment' => 'getPayment',
-        'actions' => 'getActions',
         'items' => 'getItems',
         'timeline' => 'getTimeline',
         'created_at' => 'getCreatedAt',
         'updated_at' => 'getUpdatedAt',
         'fulfillment_version' => 'getFulfillmentVersion',
-        'reference_id' => 'getReferenceId'
+        'reference_id' => 'getReferenceId',
+        'customer' => 'getCustomer',
+        'checkout' => 'getCheckout'
     ];
 
     /**
@@ -277,12 +289,13 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     public const STATUS_PAYMENT_PENDING = 'paymentPending';
-    public const STATUS_PAID = 'paid';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
-    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
-    public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PARTIALLY_FULFILLED = 'partiallyFulfilled';
+    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
+    public const STATUS_PARTIALLY_REFUNDED = 'partiallyRefunded';
+    public const STATUS_REFUNDED = 'refunded';
+    public const STATUS_CANCELLED = 'cancelled';
 
     /**
      * Gets allowable values of the enum
@@ -293,12 +306,13 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     {
         return [
             self::STATUS_PAYMENT_PENDING,
-            self::STATUS_PAID,
             self::STATUS_PROCESSING,
             self::STATUS_COMPLETED,
-            self::STATUS_FULFILLMENT_FAILED,
-            self::STATUS_CANCELLED,
             self::STATUS_PARTIALLY_FULFILLED,
+            self::STATUS_FULFILLMENT_FAILED,
+            self::STATUS_PARTIALLY_REFUNDED,
+            self::STATUS_REFUNDED,
+            self::STATUS_CANCELLED,
         ];
     }
 
@@ -320,14 +334,16 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('origin', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('total', $data ?? [], null);
+        $this->setIfExists('refunded', $data ?? [], null);
         $this->setIfExists('payment', $data ?? [], null);
-        $this->setIfExists('actions', $data ?? [], null);
         $this->setIfExists('items', $data ?? [], null);
         $this->setIfExists('timeline', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('fulfillment_version', $data ?? [], null);
         $this->setIfExists('reference_id', $data ?? [], null);
+        $this->setIfExists('customer', $data ?? [], null);
+        $this->setIfExists('checkout', $data ?? [], null);
     }
 
     /**
@@ -355,6 +371,15 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['origin'] === null) {
+            $invalidProperties[] = "'origin' can't be null";
+        }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -364,6 +389,27 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['total'] === null) {
+            $invalidProperties[] = "'total' can't be null";
+        }
+        if ($this->container['refunded'] === null) {
+            $invalidProperties[] = "'refunded' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['timeline'] === null) {
+            $invalidProperties[] = "'timeline' can't be null";
+        }
+        if ($this->container['created_at'] === null) {
+            $invalidProperties[] = "'created_at' can't be null";
+        }
+        if ($this->container['updated_at'] === null) {
+            $invalidProperties[] = "'updated_at' can't be null";
+        }
+        if ($this->container['fulfillment_version'] === null) {
+            $invalidProperties[] = "'fulfillment_version' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -379,9 +425,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -389,11 +435,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Order id.
+     * @param string $id Order id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -406,9 +452,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\OrderOrigin|null
+     * @return \OpenRoam\Model\OrderOrigin
      */
-    public function getOrigin(): ?\OpenRoam\Model\OrderOrigin
+    public function getOrigin(): \OpenRoam\Model\OrderOrigin
     {
         return $this->container['origin'];
     }
@@ -416,11 +462,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\OrderOrigin|null $origin Where the order was created.
+     * @param \OpenRoam\Model\OrderOrigin $origin Where the order was created.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\OrderOrigin $origin): static
+    public function setOrigin(\OpenRoam\Model\OrderOrigin $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -433,9 +479,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -443,11 +489,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status Current order status.
+     * @param string $status Current order status: `paymentPending`, `processing`, `completed`,             `partiallyFulfilled`, `fulfillmentFailed`, `partiallyRefunded`, `refunded` or `cancelled`.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -470,9 +516,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getTotal(): ?\OpenRoam\Model\Money
+    public function getTotal(): \OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -480,16 +526,43 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\Money|null $total What the order costs, in the order's currency: the item prices plus completed amendment charges,             less completed amendment credits.
+     * @param \OpenRoam\Model\Money $total What was charged for the order, in the order's currency, before refunds: the item prices plus             completed amendment charges, less completed amendment credits.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\Money $total): static
+    public function setTotal(\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');
         }
         $this->container['total'] = $total;
+
+        return $this;
+    }
+
+    /**
+     * Gets refunded
+     *
+     * @return \OpenRoam\Model\Money
+     */
+    public function getRefunded(): \OpenRoam\Model\Money
+    {
+        return $this->container['refunded'];
+    }
+
+    /**
+     * Sets refunded
+     *
+     * @param \OpenRoam\Model\Money $refunded What completed item refunds returned, in the order's currency; zero when nothing was             returned. You paid `total` minus `refunded`, the sum of the items' `effectivePaidAmount`.
+     *
+     * @return $this
+     */
+    public function setRefunded(\OpenRoam\Model\Money $refunded): static
+    {
+        if (is_null($refunded)) {
+            throw new InvalidArgumentException('non-nullable refunded cannot be null');
+        }
+        $this->container['refunded'] = $refunded;
 
         return $this;
     }
@@ -529,38 +602,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets actions
-     *
-     * @return \OpenRoam\Model\OrderActions|null
-     */
-    public function getActions(): ?\OpenRoam\Model\OrderActions
-    {
-        return $this->container['actions'];
-    }
-
-    /**
-     * Sets actions
-     *
-     * @param \OpenRoam\Model\OrderActions|null $actions Whether payment retry and fulfillment retry are available now.
-     *
-     * @return $this
-     */
-    public function setActions(?\OpenRoam\Model\OrderActions $actions): static
-    {
-        if (is_null($actions)) {
-            throw new InvalidArgumentException('non-nullable actions cannot be null');
-        }
-        $this->container['actions'] = $actions;
-
-        return $this;
-    }
-
-    /**
      * Gets items
      *
-     * @return \OpenRoam\Model\AirtimeOrderItem[]|null
+     * @return \OpenRoam\Model\AirtimeOrderItem[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -568,11 +614,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\AirtimeOrderItem[]|null $items The order items, one per unit bought.
+     * @param \OpenRoam\Model\AirtimeOrderItem[] $items The order items, one per unit bought.
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -585,9 +631,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets timeline
      *
-     * @return \OpenRoam\Model\OrderTimelineEntry[]|null
+     * @return \OpenRoam\Model\OrderTimelineEntry[]
      */
-    public function getTimeline(): ?array
+    public function getTimeline(): array
     {
         return $this->container['timeline'];
     }
@@ -595,11 +641,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets timeline
      *
-     * @param \OpenRoam\Model\OrderTimelineEntry[]|null $timeline Every status the order has had, oldest first.
+     * @param \OpenRoam\Model\OrderTimelineEntry[] $timeline Every status the order has had, oldest first, each once per stretch.
      *
      * @return $this
      */
-    public function setTimeline(?array $timeline): static
+    public function setTimeline(array $timeline): static
     {
         if (is_null($timeline)) {
             throw new InvalidArgumentException('non-nullable timeline cannot be null');
@@ -612,9 +658,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets created_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTime
     {
         return $this->container['created_at'];
     }
@@ -622,11 +668,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets created_at
      *
-     * @param \DateTime|null $created_at When the order was created (UTC).
+     * @param \DateTime $created_at When the order was created (UTC).
      *
      * @return $this
      */
-    public function setCreatedAt(?\DateTime $created_at): static
+    public function setCreatedAt(\DateTime $created_at): static
     {
         if (is_null($created_at)) {
             throw new InvalidArgumentException('non-nullable created_at cannot be null');
@@ -639,9 +685,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets updated_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->container['updated_at'];
     }
@@ -649,11 +695,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets updated_at
      *
-     * @param \DateTime|null $updated_at When the order last changed (UTC).
+     * @param \DateTime $updated_at When anything in the order last changed (UTC): its status, an item's fulfillment, a refund             or an amendment.
      *
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTime $updated_at): static
     {
         if (is_null($updated_at)) {
             throw new InvalidArgumentException('non-nullable updated_at cannot be null');
@@ -666,9 +712,9 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets fulfillment_version
      *
-     * @return int|null
+     * @return int
      */
-    public function getFulfillmentVersion(): ?int
+    public function getFulfillmentVersion(): int
     {
         return $this->container['fulfillment_version'];
     }
@@ -676,11 +722,11 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets fulfillment_version
      *
-     * @param int|null $fulfillment_version Increases with every fulfillment change; matches the             `order.fulfillment.updated` webhook.
+     * @param int $fulfillment_version Increases with every fulfillment change; matches the             `order.fulfillment.updated` webhook.
      *
      * @return $this
      */
-    public function setFulfillmentVersion(?int $fulfillment_version): static
+    public function setFulfillmentVersion(int $fulfillment_version): static
     {
         if (is_null($fulfillment_version)) {
             throw new InvalidArgumentException('non-nullable fulfillment_version cannot be null');
@@ -720,6 +766,74 @@ class AirtimeOrder implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['reference_id'] = $reference_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer
+     *
+     * @return \OpenRoam\Model\OrderCustomer|null
+     */
+    public function getCustomer(): ?\OpenRoam\Model\OrderCustomer
+    {
+        return $this->container['customer'];
+    }
+
+    /**
+     * Sets customer
+     *
+     * @param \OpenRoam\Model\OrderCustomer|null $customer The traveller who paid on your hosted site, masked; `null` unless the origin is `site`, and             once the traveller's details are deleted at the end of their retention period.
+     *
+     * @return $this
+     */
+    public function setCustomer(?\OpenRoam\Model\OrderCustomer $customer): static
+    {
+        if (is_null($customer)) {
+            array_push($this->openAPINullablesSetToNull, 'customer');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer'] = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Gets checkout
+     *
+     * @return \OpenRoam\Model\OrderCheckout|null
+     */
+    public function getCheckout(): ?\OpenRoam\Model\OrderCheckout
+    {
+        return $this->container['checkout'];
+    }
+
+    /**
+     * Sets checkout
+     *
+     * @param \OpenRoam\Model\OrderCheckout|null $checkout The checkout the order was placed from, with your payment reference; `null` unless a traveller             paid for it on your own page, on one of your sites that takes payment itself.
+     *
+     * @return $this
+     */
+    public function setCheckout(?\OpenRoam\Model\OrderCheckout $checkout): static
+    {
+        if (is_null($checkout)) {
+            array_push($this->openAPINullablesSetToNull, 'checkout');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('checkout', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['checkout'] = $checkout;
 
         return $this;
     }

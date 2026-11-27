@@ -260,6 +260,9 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -309,9 +312,9 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\AirtimeFulfillmentDetails|null
+     * @return \OpenRoam\Model\AirtimeFulfillmentDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimeFulfillmentDetails
+    public function getDetails(): \OpenRoam\Model\AirtimeFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +322,11 @@ class AirtimeFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\AirtimeFulfillmentDetails|null $details How the customer redeems the delivered top-up. `redemption` is null when the route does not declare its delivery.
+     * @param \OpenRoam\Model\AirtimeFulfillmentDetails $details How the customer redeems the delivered top-up. `redemption` is null when the route does not declare its delivery.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimeFulfillmentDetails $details): static
+    public function setDetails(\OpenRoam\Model\AirtimeFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

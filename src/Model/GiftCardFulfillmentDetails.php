@@ -260,6 +260,9 @@ class GiftCardFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSer
     {
         $invalidProperties = [];
 
+        if ($this->container['codes'] === null) {
+            $invalidProperties[] = "'codes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +278,9 @@ class GiftCardFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets codes
      *
-     * @return \OpenRoam\Model\GiftCardCode[]|null
+     * @return \OpenRoam\Model\GiftCardCode[]
      */
-    public function getCodes(): ?array
+    public function getCodes(): array
     {
         return $this->container['codes'];
     }
@@ -285,11 +288,11 @@ class GiftCardFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets codes
      *
-     * @param \OpenRoam\Model\GiftCardCode[]|null $codes codes
+     * @param \OpenRoam\Model\GiftCardCode[] $codes codes
      *
      * @return $this
      */
-    public function setCodes(?array $codes): static
+    public function setCodes(array $codes): static
     {
         if (is_null($codes)) {
             throw new InvalidArgumentException('non-nullable codes cannot be null');

@@ -279,6 +279,9 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
         $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -288,6 +291,9 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['unique_identifier'] === null) {
+            $invalidProperties[] = "'unique_identifier' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +309,9 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -313,11 +319,11 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type `electronicTicket`, `electronicMiscellaneousDocumentAssociated`, `electronicMiscellaneousDocumentStandalone` or `other`.
+     * @param string $type `electronicTicket`, `electronicMiscellaneousDocumentAssociated`, `electronicMiscellaneousDocumentStandalone` or `other`.
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -340,9 +346,9 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets unique_identifier
      *
-     * @return string|null
+     * @return string
      */
-    public function getUniqueIdentifier(): ?string
+    public function getUniqueIdentifier(): string
     {
         return $this->container['unique_identifier'];
     }
@@ -350,11 +356,11 @@ class TicketDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets unique_identifier
      *
-     * @param string|null $unique_identifier The document's number.
+     * @param string $unique_identifier The document's number.
      *
      * @return $this
      */
-    public function setUniqueIdentifier(?string $unique_identifier): static
+    public function setUniqueIdentifier(string $unique_identifier): static
     {
         if (is_null($unique_identifier)) {
             throw new InvalidArgumentException('non-nullable unique_identifier cannot be null');

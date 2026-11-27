@@ -280,6 +280,21 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['wallet_id'] === null) {
+            $invalidProperties[] = "'wallet_id' can't be null";
+        }
+        if ($this->container['balance'] === null) {
+            $invalidProperties[] = "'balance' can't be null";
+        }
+        if ($this->container['low_balance_threshold'] === null) {
+            $invalidProperties[] = "'low_balance_threshold' can't be null";
+        }
+        if ($this->container['threshold_percentage'] === null) {
+            $invalidProperties[] = "'threshold_percentage' can't be null";
+        }
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -295,9 +310,9 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets wallet_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getWalletId(): ?string
+    public function getWalletId(): string
     {
         return $this->container['wallet_id'];
     }
@@ -305,11 +320,11 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets wallet_id
      *
-     * @param string|null $wallet_id wallet_id
+     * @param string $wallet_id wallet_id
      *
      * @return $this
      */
-    public function setWalletId(?string $wallet_id): static
+    public function setWalletId(string $wallet_id): static
     {
         if (is_null($wallet_id)) {
             throw new InvalidArgumentException('non-nullable wallet_id cannot be null');
@@ -322,9 +337,9 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets balance
      *
-     * @return float|null
+     * @return float
      */
-    public function getBalance(): ?float
+    public function getBalance(): float
     {
         return $this->container['balance'];
     }
@@ -332,11 +347,11 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets balance
      *
-     * @param float|null $balance balance
+     * @param float $balance balance
      *
      * @return $this
      */
-    public function setBalance(?float $balance): static
+    public function setBalance(float $balance): static
     {
         if (is_null($balance)) {
             throw new InvalidArgumentException('non-nullable balance cannot be null');
@@ -349,9 +364,9 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets low_balance_threshold
      *
-     * @return float|null
+     * @return float
      */
-    public function getLowBalanceThreshold(): ?float
+    public function getLowBalanceThreshold(): float
     {
         return $this->container['low_balance_threshold'];
     }
@@ -359,11 +374,11 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets low_balance_threshold
      *
-     * @param float|null $low_balance_threshold low_balance_threshold
+     * @param float $low_balance_threshold low_balance_threshold
      *
      * @return $this
      */
-    public function setLowBalanceThreshold(?float $low_balance_threshold): static
+    public function setLowBalanceThreshold(float $low_balance_threshold): static
     {
         if (is_null($low_balance_threshold)) {
             throw new InvalidArgumentException('non-nullable low_balance_threshold cannot be null');
@@ -376,9 +391,9 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets threshold_percentage
      *
-     * @return int|null
+     * @return int
      */
-    public function getThresholdPercentage(): ?int
+    public function getThresholdPercentage(): int
     {
         return $this->container['threshold_percentage'];
     }
@@ -386,11 +401,11 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets threshold_percentage
      *
-     * @param int|null $threshold_percentage threshold_percentage
+     * @param int $threshold_percentage threshold_percentage
      *
      * @return $this
      */
-    public function setThresholdPercentage(?int $threshold_percentage): static
+    public function setThresholdPercentage(int $threshold_percentage): static
     {
         if (is_null($threshold_percentage)) {
             throw new InvalidArgumentException('non-nullable threshold_percentage cannot be null');
@@ -403,9 +418,9 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getCurrency(): ?string
+    public function getCurrency(): string
     {
         return $this->container['currency'];
     }
@@ -413,11 +428,11 @@ class BalanceLowWebhookData implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets currency
      *
-     * @param string|null $currency currency
+     * @param string $currency currency
      *
      * @return $this
      */
-    public function setCurrency(?string $currency): static
+    public function setCurrency(string $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');

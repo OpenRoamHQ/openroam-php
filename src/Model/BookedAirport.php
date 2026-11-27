@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * BookedAirport Class Doc Comment
  *
+ * @description An airport.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -301,6 +302,9 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['iata_code'] === null) {
+            $invalidProperties[] = "'iata_code' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -316,9 +320,9 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets iata_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getIataCode(): ?string
+    public function getIataCode(): string
     {
         return $this->container['iata_code'];
     }
@@ -326,11 +330,11 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets iata_code
      *
-     * @param string|null $iata_code iata_code
+     * @param string $iata_code The airport's IATA code, for example `LHR`.
      *
      * @return $this
      */
-    public function setIataCode(?string $iata_code): static
+    public function setIataCode(string $iata_code): static
     {
         if (is_null($iata_code)) {
             throw new InvalidArgumentException('non-nullable iata_code cannot be null');
@@ -353,7 +357,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets icao_code
      *
-     * @param string|null $icao_code icao_code
+     * @param string|null $icao_code The airport's ICAO code; null when not stated.
      *
      * @return $this
      */
@@ -387,7 +391,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string|null $name The airport's name; null when not stated.
      *
      * @return $this
      */
@@ -421,7 +425,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets city
      *
-     * @param string|null $city city
+     * @param string|null $city The city the airport serves; null when not stated.
      *
      * @return $this
      */
@@ -455,7 +459,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets city_iata_code
      *
-     * @param string|null $city_iata_code city_iata_code
+     * @param string|null $city_iata_code The IATA code of that city; null when not stated.
      *
      * @return $this
      */
@@ -489,7 +493,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string|null $country_code ISO 3166-1 alpha-2 country of the airport; null when not stated.
      *
      * @return $this
      */
@@ -523,7 +527,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets terminal
      *
-     * @param string|null $terminal terminal
+     * @param string|null $terminal The terminal; null when not stated.
      *
      * @return $this
      */
@@ -557,7 +561,7 @@ class BookedAirport implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets timezone
      *
-     * @param string|null $timezone timezone
+     * @param string|null $timezone The airport's IANA time zone, such as `Europe/London`: it turns the UTC times at this             airport into the airport's clock.
      *
      * @return $this
      */

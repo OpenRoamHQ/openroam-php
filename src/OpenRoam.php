@@ -14,9 +14,12 @@ use OpenRoam\Client\FlightsResource;
 use OpenRoam\Client\OrdersResource;
 use OpenRoam\Client\OrderItemsResource;
 use OpenRoam\Client\WalletsResource;
+use OpenRoam\Client\AccountResource;
 use OpenRoam\Client\CurrenciesResource;
 use OpenRoam\Client\CountriesResource;
 use OpenRoam\Client\MobileNetworksResource;
+use OpenRoam\Client\BrowserSessionsResource;
+use OpenRoam\Client\CheckoutsResource;
 use OpenRoam\Client\Transport;
 
 /**
@@ -38,9 +41,12 @@ class OpenRoam
     public readonly OrdersResource $orders;
     public readonly OrderItemsResource $orderItems;
     public readonly WalletsResource $wallets;
+    public readonly AccountResource $account;
     public readonly CurrenciesResource $currencies;
     public readonly CountriesResource $countries;
     public readonly MobileNetworksResource $mobileNetworks;
+    public readonly BrowserSessionsResource $browserSessions;
+    public readonly CheckoutsResource $checkouts;
 
     /**
      * @param string|array{apiKey?: string, environment?: string, baseUrl?: string, maxRetries?: int, handler?: callable}|null $options
@@ -59,8 +65,11 @@ class OpenRoam
         $this->orders = new OrdersResource($transport);
         $this->orderItems = new OrderItemsResource($transport);
         $this->wallets = new WalletsResource($transport);
+        $this->account = new AccountResource($transport);
         $this->currencies = new CurrenciesResource($transport);
         $this->countries = new CountriesResource($transport);
         $this->mobileNetworks = new MobileNetworksResource($transport);
+        $this->browserSessions = new BrowserSessionsResource($transport);
+        $this->checkouts = new CheckoutsResource($transport);
     }
 }

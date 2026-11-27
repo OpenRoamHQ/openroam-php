@@ -65,7 +65,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'string',
         'value' => '\OpenRoam\Model\Money',
         'price' => '\OpenRoam\Model\Money',
-        'details' => '\OpenRoam\Model\AirtimeQuoteItemDetails'
+        'taxes' => '\OpenRoam\Model\TaxSummary',
+        'estimated_delivered_value' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -80,7 +81,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => null,
         'value' => null,
         'price' => null,
-        'details' => null
+        'taxes' => null,
+        'estimated_delivered_value' => null
     ];
 
     /**
@@ -95,7 +97,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => false,
         'value' => false,
         'price' => false,
-        'details' => false
+        'taxes' => false,
+        'estimated_delivered_value' => false
     ];
 
     /**
@@ -180,7 +183,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'name',
         'value' => 'value',
         'price' => 'price',
-        'details' => 'details'
+        'taxes' => 'taxes',
+        'estimated_delivered_value' => 'estimatedDeliveredValue'
     ];
 
     /**
@@ -195,7 +199,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'setName',
         'value' => 'setValue',
         'price' => 'setPrice',
-        'details' => 'setDetails'
+        'taxes' => 'setTaxes',
+        'estimated_delivered_value' => 'setEstimatedDeliveredValue'
     ];
 
     /**
@@ -210,7 +215,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'getName',
         'value' => 'getValue',
         'price' => 'getPrice',
-        'details' => 'getDetails'
+        'taxes' => 'getTaxes',
+        'estimated_delivered_value' => 'getEstimatedDeliveredValue'
     ];
 
     /**
@@ -279,7 +285,8 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
+        $this->setIfExists('estimated_delivered_value', $data ?? [], null);
     }
 
     /**
@@ -321,6 +328,24 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
 
         if ($this->container['public_id'] === null) {
             $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['value'] === null) {
+            $invalidProperties[] = "'value' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['estimated_delivered_value'] === null) {
+            $invalidProperties[] = "'estimated_delivered_value' can't be null";
         }
         return $invalidProperties;
     }
@@ -401,9 +426,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -411,11 +436,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -428,9 +453,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -438,11 +463,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -455,9 +480,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getValue(): ?\OpenRoam\Model\Money
+    public function getValue(): \OpenRoam\Model\Money
     {
         return $this->container['value'];
     }
@@ -465,11 +490,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\Money|null $value value
+     * @param \OpenRoam\Model\Money $value value
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\Money $value): static
+    public function setValue(\OpenRoam\Model\Money $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -482,9 +507,9 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -492,11 +517,11 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price price
+     * @param \OpenRoam\Model\Money $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -507,28 +532,55 @@ class AirtimeMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     }
 
     /**
-     * Gets details
+     * Gets taxes
      *
-     * @return \OpenRoam\Model\AirtimeQuoteItemDetails|null
+     * @return \OpenRoam\Model\TaxSummary
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimeQuoteItemDetails
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
     {
-        return $this->container['details'];
+        return $this->container['taxes'];
     }
 
     /**
-     * Sets details
+     * Sets taxes
      *
-     * @param \OpenRoam\Model\AirtimeQuoteItemDetails|null $details Airtime quote facts outside the quote item keys every partner service shares. `estimatedDeliveredValue` is what the selected route expects the recipient to receive, which a range item with a `minDeliveredValue` may set below the ordered value.
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside one unit of the `price` beside it, in one shape for every service. The server sets every field; a client never derives a treatment, never adds up `lines` and never computes an amount.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimeQuoteItemDetails $details): static
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets estimated_delivered_value
+     *
+     * @return \OpenRoam\Model\Money
+     */
+    public function getEstimatedDeliveredValue(): \OpenRoam\Model\Money
+    {
+        return $this->container['estimated_delivered_value'];
+    }
+
+    /**
+     * Sets estimated_delivered_value
+     *
+     * @param \OpenRoam\Model\Money $estimated_delivered_value estimated_delivered_value
+     *
+     * @return $this
+     */
+    public function setEstimatedDeliveredValue(\OpenRoam\Model\Money $estimated_delivered_value): static
+    {
+        if (is_null($estimated_delivered_value)) {
+            throw new InvalidArgumentException('non-nullable estimated_delivered_value cannot be null');
+        }
+        $this->container['estimated_delivered_value'] = $estimated_delivered_value;
 
         return $this;
     }

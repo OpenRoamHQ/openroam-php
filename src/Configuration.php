@@ -108,14 +108,14 @@ class Configuration
      *
      * @var string
      */
-    protected string $host = 'https://b2b-api.openroam.com';
+    protected string $host = 'https://api.openroam.com';
 
     /**
      * User agent of the HTTP request, set to "OpenAPI-Generator/{version}/PHP" by default
      *
      * @var string
      */
-    protected string $userAgent = 'OpenAPI-Generator/0.1.0-rc.6/PHP';
+    protected string $userAgent = 'OpenAPI-Generator/0.1.0-rc.7/PHP';
 
     /**
      * Debug switch (default set to false)
@@ -486,7 +486,7 @@ class Configuration
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    The version of the OpenAPI document: v1' . PHP_EOL;
-        $report .= '    SDK Package Version: 0.1.0-rc.6' . PHP_EOL;
+        $report .= '    SDK Package Version: 0.1.0-rc.7' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;
@@ -526,7 +526,7 @@ class Configuration
     {
         return [
             [
-                "url" => "https://b2b-api.openroam.com",
+                "url" => "https://api.openroam.com",
                 "description" => "Production",
             ]
         ];

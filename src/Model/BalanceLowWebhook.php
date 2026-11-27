@@ -62,7 +62,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'string',
         'event_type' => 'string',
         'timestamp' => 'int',
-        'data' => '\OpenRoam\Model\BalanceLowWebhookData'
+        'data' => '\OpenRoam\Model\BalanceLowWebhookData',
+        'is_test' => 'bool'
     ];
 
     /**
@@ -74,7 +75,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'uuid',
         'event_type' => null,
         'timestamp' => 'int64',
-        'data' => null
+        'data' => null,
+        'is_test' => null
     ];
 
     /**
@@ -86,7 +88,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => false,
         'event_type' => false,
         'timestamp' => false,
-        'data' => false
+        'data' => false,
+        'is_test' => false
     ];
 
     /**
@@ -168,7 +171,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'eventId',
         'event_type' => 'eventType',
         'timestamp' => 'timestamp',
-        'data' => 'data'
+        'data' => 'data',
+        'is_test' => 'isTest'
     ];
 
     /**
@@ -180,7 +184,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'setEventId',
         'event_type' => 'setEventType',
         'timestamp' => 'setTimestamp',
-        'data' => 'setData'
+        'data' => 'setData',
+        'is_test' => 'setIsTest'
     ];
 
     /**
@@ -192,7 +197,8 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'getEventId',
         'event_type' => 'getEventType',
         'timestamp' => 'getTimestamp',
-        'data' => 'getData'
+        'data' => 'getData',
+        'is_test' => 'getIsTest'
     ];
 
     /**
@@ -246,6 +252,7 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('event_type', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('is_test', $data ?? [], null);
     }
 
     /**
@@ -273,6 +280,18 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['event_id'] === null) {
+            $invalidProperties[] = "'event_id' can't be null";
+        }
+        if ($this->container['event_type'] === null) {
+            $invalidProperties[] = "'event_type' can't be null";
+        }
+        if ($this->container['timestamp'] === null) {
+            $invalidProperties[] = "'timestamp' can't be null";
+        }
+        if ($this->container['data'] === null) {
+            $invalidProperties[] = "'data' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -288,9 +307,9 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets event_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getEventId(): ?string
+    public function getEventId(): string
     {
         return $this->container['event_id'];
     }
@@ -298,11 +317,11 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets event_id
      *
-     * @param string|null $event_id event_id
+     * @param string $event_id event_id
      *
      * @return $this
      */
-    public function setEventId(?string $event_id): static
+    public function setEventId(string $event_id): static
     {
         if (is_null($event_id)) {
             throw new InvalidArgumentException('non-nullable event_id cannot be null');
@@ -315,9 +334,9 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets event_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getEventType(): ?string
+    public function getEventType(): string
     {
         return $this->container['event_type'];
     }
@@ -325,11 +344,11 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets event_type
      *
-     * @param string|null $event_type event_type
+     * @param string $event_type event_type
      *
      * @return $this
      */
-    public function setEventType(?string $event_type): static
+    public function setEventType(string $event_type): static
     {
         if (is_null($event_type)) {
             throw new InvalidArgumentException('non-nullable event_type cannot be null');
@@ -342,9 +361,9 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets timestamp
      *
-     * @return int|null
+     * @return int
      */
-    public function getTimestamp(): ?int
+    public function getTimestamp(): int
     {
         return $this->container['timestamp'];
     }
@@ -352,11 +371,11 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets timestamp
      *
-     * @param int|null $timestamp timestamp
+     * @param int $timestamp timestamp
      *
      * @return $this
      */
-    public function setTimestamp(?int $timestamp): static
+    public function setTimestamp(int $timestamp): static
     {
         if (is_null($timestamp)) {
             throw new InvalidArgumentException('non-nullable timestamp cannot be null');
@@ -369,9 +388,9 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\BalanceLowWebhookData|null
+     * @return \OpenRoam\Model\BalanceLowWebhookData
      */
-    public function getData(): ?\OpenRoam\Model\BalanceLowWebhookData
+    public function getData(): \OpenRoam\Model\BalanceLowWebhookData
     {
         return $this->container['data'];
     }
@@ -379,16 +398,43 @@ class BalanceLowWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\BalanceLowWebhookData|null $data data
+     * @param \OpenRoam\Model\BalanceLowWebhookData $data data
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\BalanceLowWebhookData $data): static
+    public function setData(\OpenRoam\Model\BalanceLowWebhookData $data): static
     {
         if (is_null($data)) {
             throw new InvalidArgumentException('non-nullable data cannot be null');
         }
         $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_test
+     *
+     * @return bool|null
+     */
+    public function getIsTest(): ?bool
+    {
+        return $this->container['is_test'];
+    }
+
+    /**
+     * Sets is_test
+     *
+     * @param bool|null $is_test True for a synthetic test delivery. Omitted on live events.
+     *
+     * @return $this
+     */
+    public function setIsTest(?bool $is_test): static
+    {
+        if (is_null($is_test)) {
+            throw new InvalidArgumentException('non-nullable is_test cannot be null');
+        }
+        $this->container['is_test'] = $is_test;
 
         return $this;
     }

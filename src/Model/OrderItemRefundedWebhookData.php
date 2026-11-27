@@ -67,7 +67,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => 'string',
         'payment_method' => 'string',
         'status' => 'string',
-        'reason' => 'string'
+        'reason' => 'string',
+        'checkout' => '\OpenRoam\Model\OrderCheckout',
+        'selling_price' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -84,7 +86,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => null,
         'payment_method' => null,
         'status' => null,
-        'reason' => null
+        'reason' => null,
+        'checkout' => null,
+        'selling_price' => null
     ];
 
     /**
@@ -101,7 +105,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => false,
         'payment_method' => false,
         'status' => false,
-        'reason' => true
+        'reason' => false,
+        'checkout' => true,
+        'selling_price' => true
     ];
 
     /**
@@ -188,7 +194,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => 'currencyCode',
         'payment_method' => 'paymentMethod',
         'status' => 'status',
-        'reason' => 'reason'
+        'reason' => 'reason',
+        'checkout' => 'checkout',
+        'selling_price' => 'sellingPrice'
     ];
 
     /**
@@ -205,7 +213,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => 'setCurrencyCode',
         'payment_method' => 'setPaymentMethod',
         'status' => 'setStatus',
-        'reason' => 'setReason'
+        'reason' => 'setReason',
+        'checkout' => 'setCheckout',
+        'selling_price' => 'setSellingPrice'
     ];
 
     /**
@@ -222,7 +232,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         'currency_code' => 'getCurrencyCode',
         'payment_method' => 'getPaymentMethod',
         'status' => 'getStatus',
-        'reason' => 'getReason'
+        'reason' => 'getReason',
+        'checkout' => 'getCheckout',
+        'selling_price' => 'getSellingPrice'
     ];
 
     /**
@@ -263,6 +275,10 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     public const STATUS_REFUNDED = 'refunded';
     public const STATUS_FAILED = 'failed';
     public const STATUS_PROCESSING = 'processing';
+    public const REASON_REQUESTED_BY_CUSTOMER = 'requestedByCustomer';
+    public const REASON_DUPLICATE = 'duplicate';
+    public const REASON_FRAUDULENT = 'fraudulent';
+    public const REASON_FULFILLMENT_FAILED = 'fulfillmentFailed';
 
     /**
      * Gets allowable values of the enum
@@ -293,6 +309,21 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     }
 
     /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getReasonAllowableValues()
+    {
+        return [
+            self::REASON_REQUESTED_BY_CUSTOMER,
+            self::REASON_DUPLICATE,
+            self::REASON_FRAUDULENT,
+            self::REASON_FULFILLMENT_FAILED,
+        ];
+    }
+
+    /**
      * Associative array for storing property values
      *
      * @var array
@@ -315,6 +346,8 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
         $this->setIfExists('payment_method', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('reason', $data ?? [], null);
+        $this->setIfExists('checkout', $data ?? [], null);
+        $this->setIfExists('selling_price', $data ?? [], null);
     }
 
     /**
@@ -342,6 +375,27 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     {
         $invalidProperties = [];
 
+        if ($this->container['order_id'] === null) {
+            $invalidProperties[] = "'order_id' can't be null";
+        }
+        if ($this->container['order_item_id'] === null) {
+            $invalidProperties[] = "'order_item_id' can't be null";
+        }
+        if ($this->container['public_id'] === null) {
+            $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['refund_id'] === null) {
+            $invalidProperties[] = "'refund_id' can't be null";
+        }
+        if ($this->container['refund_amount'] === null) {
+            $invalidProperties[] = "'refund_amount' can't be null";
+        }
+        if ($this->container['currency_code'] === null) {
+            $invalidProperties[] = "'currency_code' can't be null";
+        }
+        if ($this->container['payment_method'] === null) {
+            $invalidProperties[] = "'payment_method' can't be null";
+        }
         $allowedValues = self::getPaymentMethodAllowableValues();
         if (!is_null($this->container['payment_method']) && !in_array($this->container['payment_method'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -351,11 +405,26 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
             );
         }
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'status', must be one of '%s'",
                 $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['reason'] === null) {
+            $invalidProperties[] = "'reason' can't be null";
+        }
+        $allowedValues = self::getReasonAllowableValues();
+        if (!is_null($this->container['reason']) && !in_array($this->container['reason'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'reason', must be one of '%s'",
+                $this->container['reason'],
                 implode("', '", $allowedValues)
             );
         }
@@ -375,9 +444,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets order_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->container['order_id'];
     }
@@ -385,11 +454,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets order_id
      *
-     * @param string|null $order_id order_id
+     * @param string $order_id order_id
      *
      * @return $this
      */
-    public function setOrderId(?string $order_id): static
+    public function setOrderId(string $order_id): static
     {
         if (is_null($order_id)) {
             throw new InvalidArgumentException('non-nullable order_id cannot be null');
@@ -402,9 +471,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets order_item_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderItemId(): ?string
+    public function getOrderItemId(): string
     {
         return $this->container['order_item_id'];
     }
@@ -412,11 +481,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets order_item_id
      *
-     * @param string|null $order_item_id order_item_id
+     * @param string $order_item_id order_item_id
      *
      * @return $this
      */
-    public function setOrderItemId(?string $order_item_id): static
+    public function setOrderItemId(string $order_item_id): static
     {
         if (is_null($order_item_id)) {
             throw new InvalidArgumentException('non-nullable order_item_id cannot be null');
@@ -429,9 +498,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets public_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getPublicId(): ?string
+    public function getPublicId(): string
     {
         return $this->container['public_id'];
     }
@@ -439,11 +508,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets public_id
      *
-     * @param string|null $public_id public_id
+     * @param string $public_id public_id
      *
      * @return $this
      */
-    public function setPublicId(?string $public_id): static
+    public function setPublicId(string $public_id): static
     {
         if (is_null($public_id)) {
             throw new InvalidArgumentException('non-nullable public_id cannot be null');
@@ -456,9 +525,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets refund_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getRefundId(): ?string
+    public function getRefundId(): string
     {
         return $this->container['refund_id'];
     }
@@ -466,11 +535,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets refund_id
      *
-     * @param string|null $refund_id refund_id
+     * @param string $refund_id refund_id
      *
      * @return $this
      */
-    public function setRefundId(?string $refund_id): static
+    public function setRefundId(string $refund_id): static
     {
         if (is_null($refund_id)) {
             throw new InvalidArgumentException('non-nullable refund_id cannot be null');
@@ -483,9 +552,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets refund_amount
      *
-     * @return float|null
+     * @return float
      */
-    public function getRefundAmount(): ?float
+    public function getRefundAmount(): float
     {
         return $this->container['refund_amount'];
     }
@@ -493,11 +562,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets refund_amount
      *
-     * @param float|null $refund_amount refund_amount
+     * @param float $refund_amount refund_amount
      *
      * @return $this
      */
-    public function setRefundAmount(?float $refund_amount): static
+    public function setRefundAmount(float $refund_amount): static
     {
         if (is_null($refund_amount)) {
             throw new InvalidArgumentException('non-nullable refund_amount cannot be null');
@@ -510,9 +579,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets currency_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCurrencyCode(): ?string
+    public function getCurrencyCode(): string
     {
         return $this->container['currency_code'];
     }
@@ -520,11 +589,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets currency_code
      *
-     * @param string|null $currency_code currency_code
+     * @param string $currency_code currency_code
      *
      * @return $this
      */
-    public function setCurrencyCode(?string $currency_code): static
+    public function setCurrencyCode(string $currency_code): static
     {
         if (is_null($currency_code)) {
             throw new InvalidArgumentException('non-nullable currency_code cannot be null');
@@ -537,9 +606,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets payment_method
      *
-     * @return string|null
+     * @return string
      */
-    public function getPaymentMethod(): ?string
+    public function getPaymentMethod(): string
     {
         return $this->container['payment_method'];
     }
@@ -547,11 +616,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets payment_method
      *
-     * @param string|null $payment_method How a payment was made, in the words of the partner API: `balance` from a wallet, or `card`. It is the wire name of `PaymentMethodEnum` for partners. That enum names the card processor, which a partner must not see, so the B2B API and the partner dashboard both expose this one.
+     * @param string $payment_method How a payment was made: `balance` from a wallet, or `card`.
      *
      * @return $this
      */
-    public function setPaymentMethod(?string $payment_method): static
+    public function setPaymentMethod(string $payment_method): static
     {
         if (is_null($payment_method)) {
             throw new InvalidArgumentException('non-nullable payment_method cannot be null');
@@ -574,9 +643,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -584,11 +653,11 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets status
      *
-     * @param string|null $status status
+     * @param string $status status
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -611,9 +680,9 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets reason
      *
-     * @return string|null
+     * @return string
      */
-    public function getReason(): ?string
+    public function getReason(): string
     {
         return $this->container['reason'];
     }
@@ -621,23 +690,94 @@ class OrderItemRefundedWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets reason
      *
-     * @param string|null $reason reason
+     * @param string $reason reason
      *
      * @return $this
      */
-    public function setReason(?string $reason): static
+    public function setReason(string $reason): static
     {
         if (is_null($reason)) {
-            array_push($this->openAPINullablesSetToNull, 'reason');
+            throw new InvalidArgumentException('non-nullable reason cannot be null');
+        }
+        $allowedValues = self::getReasonAllowableValues();
+        if (!in_array($reason, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'reason', must be one of '%s'",
+                    $reason,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['reason'] = $reason;
+
+        return $this;
+    }
+
+    /**
+     * Gets checkout
+     *
+     * @return \OpenRoam\Model\OrderCheckout|null
+     */
+    public function getCheckout(): ?\OpenRoam\Model\OrderCheckout
+    {
+        return $this->container['checkout'];
+    }
+
+    /**
+     * Sets checkout
+     *
+     * @param \OpenRoam\Model\OrderCheckout|null $checkout The checkout the order was placed from, with your payment reference; `null` unless a traveller             paid for the order on your own page, on one of your sites that takes payment itself.
+     *
+     * @return $this
+     */
+    public function setCheckout(?\OpenRoam\Model\OrderCheckout $checkout): static
+    {
+        if (is_null($checkout)) {
+            array_push($this->openAPINullablesSetToNull, 'checkout');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('reason', $nullablesSetToNull);
+            $index = array_search('checkout', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['reason'] = $reason;
+        $this->container['checkout'] = $checkout;
+
+        return $this;
+    }
+
+    /**
+     * Gets selling_price
+     *
+     * @return \OpenRoam\Model\Money|null
+     */
+    public function getSellingPrice(): ?\OpenRoam\Model\Money
+    {
+        return $this->container['selling_price'];
+    }
+
+    /**
+     * Sets selling_price
+     *
+     * @param \OpenRoam\Model\Money|null $selling_price What the traveller paid you for the refunded unit, in the checkout's currency: the part of their payment             to refund them. `null` unless `checkout` is set.
+     *
+     * @return $this
+     */
+    public function setSellingPrice(?\OpenRoam\Model\Money $selling_price): static
+    {
+        if (is_null($selling_price)) {
+            array_push($this->openAPINullablesSetToNull, 'selling_price');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('selling_price', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['selling_price'] = $selling_price;
 
         return $this;
     }

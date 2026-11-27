@@ -274,6 +274,9 @@ class GiftCardDelivery implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -298,9 +301,9 @@ class GiftCardDelivery implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -308,11 +311,11 @@ class GiftCardDelivery implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status status
+     * @param string $status status
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');

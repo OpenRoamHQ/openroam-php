@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * FlightQuote Class Doc Comment
  *
- * @description Current prices for the requested items, in request order, in &#x60;currency&#x60;. &#x60;total&#x60; is the sum of each item&#39;s unit price times its quantity. Each item has a new &#x60;publicId&#x60; that keeps its fare price: order with it before its &#x60;details.expiresAt&#x60;. Nothing is charged or held.
+ * @description Current prices for the requested items, in request order, in &#x60;currency&#x60;. &#x60;total&#x60; is the sum of each item&#39;s unit price times its quantity. Each item has a new &#x60;publicId&#x60; that keeps its fare price: order with it before its &#x60;expiresAt&#x60;. Nothing is charged or held.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -267,6 +267,15 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['total'] === null) {
+            $invalidProperties[] = "'total' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getCurrency(): ?string
+    public function getCurrency(): string
     {
         return $this->container['currency'];
     }
@@ -292,11 +301,11 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param string|null $currency currency
+     * @param string $currency currency
      *
      * @return $this
      */
-    public function setCurrency(?string $currency): static
+    public function setCurrency(string $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');
@@ -309,9 +318,9 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\FlightQuoteItem[]|null
+     * @return \OpenRoam\Model\FlightQuoteItem[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -319,11 +328,11 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\FlightQuoteItem[]|null $items items
+     * @param \OpenRoam\Model\FlightQuoteItem[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -336,9 +345,9 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getTotal(): ?\OpenRoam\Model\Money
+    public function getTotal(): \OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -346,11 +355,11 @@ class FlightQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\Money|null $total total
+     * @param \OpenRoam\Model\Money $total total
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\Money $total): static
+    public function setTotal(\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');

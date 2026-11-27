@@ -353,7 +353,7 @@ class CommonApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/common/countries';
+        $resourcePath = '/v1/common/countries';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -374,6 +374,11 @@ class CommonApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -643,7 +648,7 @@ class CommonApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/common/mccmnc';
+        $resourcePath = '/v1/common/mccmnc';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -684,6 +689,11 @@ class CommonApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

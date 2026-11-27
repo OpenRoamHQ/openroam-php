@@ -282,6 +282,9 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['variant'] === null) {
+            $invalidProperties[] = "'variant' can't be null";
+        }
         $allowedValues = self::getVariantAllowableValues();
         if (!is_null($this->container['variant']) && !in_array($this->container['variant'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -291,6 +294,12 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['url'] === null) {
+            $invalidProperties[] = "'url' can't be null";
+        }
+        if ($this->container['size_bytes'] === null) {
+            $invalidProperties[] = "'size_bytes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -306,9 +315,9 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets variant
      *
-     * @return string|null
+     * @return string
      */
-    public function getVariant(): ?string
+    public function getVariant(): string
     {
         return $this->container['variant'];
     }
@@ -316,11 +325,11 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets variant
      *
-     * @param string|null $variant variant
+     * @param string $variant variant
      *
      * @return $this
      */
-    public function setVariant(?string $variant): static
+    public function setVariant(string $variant): static
     {
         if (is_null($variant)) {
             throw new InvalidArgumentException('non-nullable variant cannot be null');
@@ -343,9 +352,9 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets url
      *
-     * @return string|null
+     * @return string
      */
-    public function getUrl(): ?string
+    public function getUrl(): string
     {
         return $this->container['url'];
     }
@@ -353,11 +362,11 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets url
      *
-     * @param string|null $url url
+     * @param string $url A download link for this file, sure to work until `linksExpireAt`; not to be stored.
      *
      * @return $this
      */
-    public function setUrl(?string $url): static
+    public function setUrl(string $url): static
     {
         if (is_null($url)) {
             throw new InvalidArgumentException('non-nullable url cannot be null');
@@ -370,9 +379,9 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets size_bytes
      *
-     * @return int|null
+     * @return int
      */
-    public function getSizeBytes(): ?int
+    public function getSizeBytes(): int
     {
         return $this->container['size_bytes'];
     }
@@ -380,11 +389,11 @@ class HotelCatalogFile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets size_bytes
      *
-     * @param int|null $size_bytes size_bytes
+     * @param int $size_bytes size_bytes
      *
      * @return $this
      */
-    public function setSizeBytes(?int $size_bytes): static
+    public function setSizeBytes(int $size_bytes): static
     {
         if (is_null($size_bytes)) {
             throw new InvalidArgumentException('non-nullable size_bytes cannot be null');

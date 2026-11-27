@@ -14,7 +14,7 @@ class CountriesResource
     }
 
     /**
-     * List countries. GET /api/v1/b2b/common/countries
+     * List countries. GET /v1/common/countries
      *
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException

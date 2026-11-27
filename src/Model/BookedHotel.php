@@ -302,6 +302,15 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['image_urls'] === null) {
+            $invalidProperties[] = "'image_urls' can't be null";
+        }
+        if ($this->container['amenity_groups'] === null) {
+            $invalidProperties[] = "'amenity_groups' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -317,9 +326,9 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -327,11 +336,11 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name The hotel's name, the first part of the purchased product's `name`.
+     * @param string $name The hotel's name, the first part of the purchased product's `name`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -480,9 +489,9 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets image_urls
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getImageUrls(): ?array
+    public function getImageUrls(): array
     {
         return $this->container['image_urls'];
     }
@@ -490,11 +499,11 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets image_urls
      *
-     * @param string[]|null $image_urls The gallery images stored at purchase.
+     * @param string[] $image_urls The gallery images stored at purchase.
      *
      * @return $this
      */
-    public function setImageUrls(?array $image_urls): static
+    public function setImageUrls(array $image_urls): static
     {
         if (is_null($image_urls)) {
             throw new InvalidArgumentException('non-nullable image_urls cannot be null');
@@ -507,9 +516,9 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenity_groups
      *
-     * @return \OpenRoam\Model\HotelAmenityGroup[]|null
+     * @return \OpenRoam\Model\HotelAmenityGroup[]
      */
-    public function getAmenityGroups(): ?array
+    public function getAmenityGroups(): array
     {
         return $this->container['amenity_groups'];
     }
@@ -517,11 +526,11 @@ class BookedHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenity_groups
      *
-     * @param \OpenRoam\Model\HotelAmenityGroup[]|null $amenity_groups The amenities stored at purchase, as codes in display groups; label them from `hotels/amenities/catalog`.
+     * @param \OpenRoam\Model\HotelAmenityGroup[] $amenity_groups The amenities stored at purchase, as codes in display groups; label them from `hotels/amenities/catalog`.
      *
      * @return $this
      */
-    public function setAmenityGroups(?array $amenity_groups): static
+    public function setAmenityGroups(array $amenity_groups): static
     {
         if (is_null($amenity_groups)) {
             throw new InvalidArgumentException('non-nullable amenity_groups cannot be null');

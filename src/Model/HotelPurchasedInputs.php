@@ -274,6 +274,12 @@ class HotelPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['holder'] === null) {
+            $invalidProperties[] = "'holder' can't be null";
+        }
+        if ($this->container['room_guests'] === null) {
+            $invalidProperties[] = "'room_guests' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +295,9 @@ class HotelPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets holder
      *
-     * @return \OpenRoam\Model\LeadGuest|null
+     * @return \OpenRoam\Model\LeadGuest
      */
-    public function getHolder(): ?\OpenRoam\Model\LeadGuest
+    public function getHolder(): \OpenRoam\Model\LeadGuest
     {
         return $this->container['holder'];
     }
@@ -299,11 +305,11 @@ class HotelPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets holder
      *
-     * @param \OpenRoam\Model\LeadGuest|null $holder The lead guest, with email and phone masked.
+     * @param \OpenRoam\Model\LeadGuest $holder The lead guest, with email and phone masked.
      *
      * @return $this
      */
-    public function setHolder(?\OpenRoam\Model\LeadGuest $holder): static
+    public function setHolder(\OpenRoam\Model\LeadGuest $holder): static
     {
         if (is_null($holder)) {
             throw new InvalidArgumentException('non-nullable holder cannot be null');
@@ -316,9 +322,9 @@ class HotelPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets room_guests
      *
-     * @return \OpenRoam\Model\RoomGuests[]|null
+     * @return \OpenRoam\Model\RoomGuests[]
      */
-    public function getRoomGuests(): ?array
+    public function getRoomGuests(): array
     {
         return $this->container['room_guests'];
     }
@@ -326,11 +332,11 @@ class HotelPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets room_guests
      *
-     * @param \OpenRoam\Model\RoomGuests[]|null $room_guests One entry per room, in room order, with the guests as sent.
+     * @param \OpenRoam\Model\RoomGuests[] $room_guests One entry per room, in room order, with the guests as sent.
      *
      * @return $this
      */
-    public function setRoomGuests(?array $room_guests): static
+    public function setRoomGuests(array $room_guests): static
     {
         if (is_null($room_guests)) {
             throw new InvalidArgumentException('non-nullable room_guests cannot be null');

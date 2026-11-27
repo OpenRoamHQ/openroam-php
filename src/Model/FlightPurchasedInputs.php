@@ -260,6 +260,12 @@ class FlightPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['passengers'] === null) {
+            $invalidProperties[] = "'passengers' can't be null";
+        }
+        if ($this->container['selected_services'] === null) {
+            $invalidProperties[] = "'selected_services' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class FlightPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets passengers
      *
-     * @return \OpenRoam\Model\Passenger[]|null
+     * @return \OpenRoam\Model\Passenger[]
      */
-    public function getPassengers(): ?array
+    public function getPassengers(): array
     {
         return $this->container['passengers'];
     }
@@ -285,11 +291,11 @@ class FlightPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets passengers
      *
-     * @param \OpenRoam\Model\Passenger[]|null $passengers Every passenger of the fare, in `passengerIndex` order.
+     * @param \OpenRoam\Model\Passenger[] $passengers Every passenger of the fare, in `passengerIndex` order.
      *
      * @return $this
      */
-    public function setPassengers(?array $passengers): static
+    public function setPassengers(array $passengers): static
     {
         if (is_null($passengers)) {
             throw new InvalidArgumentException('non-nullable passengers cannot be null');
@@ -302,9 +308,9 @@ class FlightPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\SelectedServiceInput[]|null
+     * @return \OpenRoam\Model\SelectedServiceInput[]
      */
-    public function getSelectedServices(): ?array
+    public function getSelectedServices(): array
     {
         return $this->container['selected_services'];
     }
@@ -312,11 +318,11 @@ class FlightPurchasedInputs implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\SelectedServiceInput[]|null $selected_services The paid extras chosen in `selectedServices`; seats are on the passengers.
+     * @param \OpenRoam\Model\SelectedServiceInput[] $selected_services The paid extras chosen in `selectedServices`; seats are on the passengers.
      *
      * @return $this
      */
-    public function setSelectedServices(?array $selected_services): static
+    public function setSelectedServices(array $selected_services): static
     {
         if (is_null($selected_services)) {
             throw new InvalidArgumentException('non-nullable selected_services cannot be null');

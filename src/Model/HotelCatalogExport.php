@@ -62,7 +62,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => '\DateTime',
         'hotel_count' => 'int',
         'files' => '\OpenRoam\Model\HotelCatalogFile[]',
-        'replacements' => '\OpenRoam\Model\HotelCatalogReplacementFile'
+        'replacements' => '\OpenRoam\Model\HotelCatalogReplacementFile',
+        'links_expire_at' => '\DateTime'
     ];
 
     /**
@@ -74,7 +75,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => 'date-time',
         'hotel_count' => 'int32',
         'files' => null,
-        'replacements' => null
+        'replacements' => null,
+        'links_expire_at' => 'date-time'
     ];
 
     /**
@@ -86,7 +88,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => true,
         'hotel_count' => false,
         'files' => false,
-        'replacements' => true
+        'replacements' => true,
+        'links_expire_at' => true
     ];
 
     /**
@@ -168,7 +171,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => 'generatedAt',
         'hotel_count' => 'hotelCount',
         'files' => 'files',
-        'replacements' => 'replacements'
+        'replacements' => 'replacements',
+        'links_expire_at' => 'linksExpireAt'
     ];
 
     /**
@@ -180,7 +184,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => 'setGeneratedAt',
         'hotel_count' => 'setHotelCount',
         'files' => 'setFiles',
-        'replacements' => 'setReplacements'
+        'replacements' => 'setReplacements',
+        'links_expire_at' => 'setLinksExpireAt'
     ];
 
     /**
@@ -192,7 +197,8 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         'generated_at' => 'getGeneratedAt',
         'hotel_count' => 'getHotelCount',
         'files' => 'getFiles',
-        'replacements' => 'getReplacements'
+        'replacements' => 'getReplacements',
+        'links_expire_at' => 'getLinksExpireAt'
     ];
 
     /**
@@ -246,6 +252,7 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
         $this->setIfExists('hotel_count', $data ?? [], null);
         $this->setIfExists('files', $data ?? [], null);
         $this->setIfExists('replacements', $data ?? [], null);
+        $this->setIfExists('links_expire_at', $data ?? [], null);
     }
 
     /**
@@ -273,6 +280,12 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['hotel_count'] === null) {
+            $invalidProperties[] = "'hotel_count' can't be null";
+        }
+        if ($this->container['files'] === null) {
+            $invalidProperties[] = "'files' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -322,9 +335,9 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets hotel_count
      *
-     * @return int|null
+     * @return int
      */
-    public function getHotelCount(): ?int
+    public function getHotelCount(): int
     {
         return $this->container['hotel_count'];
     }
@@ -332,11 +345,11 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets hotel_count
      *
-     * @param int|null $hotel_count Hotels in each file; 0 when there are no files.
+     * @param int $hotel_count Hotels in each file; 0 when there are no files.
      *
      * @return $this
      */
-    public function setHotelCount(?int $hotel_count): static
+    public function setHotelCount(int $hotel_count): static
     {
         if (is_null($hotel_count)) {
             throw new InvalidArgumentException('non-nullable hotel_count cannot be null');
@@ -349,9 +362,9 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets files
      *
-     * @return \OpenRoam\Model\HotelCatalogFile[]|null
+     * @return \OpenRoam\Model\HotelCatalogFile[]
      */
-    public function getFiles(): ?array
+    public function getFiles(): array
     {
         return $this->container['files'];
     }
@@ -359,11 +372,11 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets files
      *
-     * @param \OpenRoam\Model\HotelCatalogFile[]|null $files The current catalog zips, one per variant; empty whenever `generatedAt` is null.
+     * @param \OpenRoam\Model\HotelCatalogFile[] $files The current catalog zips, one per variant; empty whenever `generatedAt` is null.
      *
      * @return $this
      */
-    public function setFiles(?array $files): static
+    public function setFiles(array $files): static
     {
         if (is_null($files)) {
             throw new InvalidArgumentException('non-nullable files cannot be null');
@@ -403,6 +416,40 @@ class HotelCatalogExport implements ModelInterface, ArrayAccess, JsonSerializabl
             }
         }
         $this->container['replacements'] = $replacements;
+
+        return $this;
+    }
+
+    /**
+     * Gets links_expire_at
+     *
+     * @return \DateTime|null
+     */
+    public function getLinksExpireAt(): ?\DateTime
+    {
+        return $this->container['links_expire_at'];
+    }
+
+    /**
+     * Sets links_expire_at
+     *
+     * @param \DateTime|null $links_expire_at Until when the file and replacement links are sure to work (UTC), about an hour after this answer; null when there are no files. A download must start before then. A link may keep working after this time but can stop at any moment, so it is not stored: to resume or retry later, call this route again and continue with a `Range` request on the new link.
+     *
+     * @return $this
+     */
+    public function setLinksExpireAt(?\DateTime $links_expire_at): static
+    {
+        if (is_null($links_expire_at)) {
+            array_push($this->openAPINullablesSetToNull, 'links_expire_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('links_expire_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['links_expire_at'] = $links_expire_at;
 
         return $this;
     }

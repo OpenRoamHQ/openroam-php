@@ -253,6 +253,9 @@ class AirtimeOperatorList implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class AirtimeOperatorList implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\AirtimeOperatorSummary[]|null
+     * @return \OpenRoam\Model\AirtimeOperatorSummary[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -278,11 +281,11 @@ class AirtimeOperatorList implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\AirtimeOperatorSummary[]|null $items items
+     * @param \OpenRoam\Model\AirtimeOperatorSummary[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

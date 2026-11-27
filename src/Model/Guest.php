@@ -295,6 +295,12 @@ class Guest implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['first_name'] === null) {
+            $invalidProperties[] = "'first_name' can't be null";
+        }
+        if ($this->container['last_name'] === null) {
+            $invalidProperties[] = "'last_name' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -412,9 +418,9 @@ class Guest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets first_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->container['first_name'];
     }
@@ -422,11 +428,11 @@ class Guest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets first_name
      *
-     * @param string|null $first_name First name.
+     * @param string $first_name First name.
      *
      * @return $this
      */
-    public function setFirstName(?string $first_name): static
+    public function setFirstName(string $first_name): static
     {
         if (is_null($first_name)) {
             throw new InvalidArgumentException('non-nullable first_name cannot be null');
@@ -439,9 +445,9 @@ class Guest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets last_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->container['last_name'];
     }
@@ -449,11 +455,11 @@ class Guest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets last_name
      *
-     * @param string|null $last_name Last name.
+     * @param string $last_name Last name.
      *
      * @return $this
      */
-    public function setLastName(?string $last_name): static
+    public function setLastName(string $last_name): static
     {
         if (is_null($last_name)) {
             throw new InvalidArgumentException('non-nullable last_name cannot be null');

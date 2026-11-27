@@ -442,6 +442,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['mode'] === null) {
+            $invalidProperties[] = "'mode' can't be null";
+        }
         $allowedValues = self::getModeAllowableValues();
         if (!is_null($this->container['mode']) && !in_array($this->container['mode'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -451,6 +454,15 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
             );
         }
 
+        if ($this->container['provisioning'] === null) {
+            $invalidProperties[] = "'provisioning' can't be null";
+        }
+        if ($this->container['can_provision'] === null) {
+            $invalidProperties[] = "'can_provision' can't be null";
+        }
+        if ($this->container['esim_status'] === null) {
+            $invalidProperties[] = "'esim_status' can't be null";
+        }
         $allowedValues = self::getEsimStatusAllowableValues();
         if (!is_null($this->container['esim_status']) && !in_array($this->container['esim_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -460,6 +472,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
             );
         }
 
+        if ($this->container['profile_status'] === null) {
+            $invalidProperties[] = "'profile_status' can't be null";
+        }
         $allowedValues = self::getProfileStatusAllowableValues();
         if (!is_null($this->container['profile_status']) && !in_array($this->container['profile_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -469,6 +484,12 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
             );
         }
 
+        if ($this->container['addons'] === null) {
+            $invalidProperties[] = "'addons' can't be null";
+        }
+        if ($this->container['notes'] === null) {
+            $invalidProperties[] = "'notes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -518,9 +539,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets mode
      *
-     * @return string|null
+     * @return string
      */
-    public function getMode(): ?string
+    public function getMode(): string
     {
         return $this->container['mode'];
     }
@@ -528,11 +549,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets mode
      *
-     * @param string|null $mode How the item was fulfilled: a new instant or deferred eSIM, or a top-up.
+     * @param string $mode How the item was fulfilled: a new instant or deferred eSIM, or a top-up.
      *
      * @return $this
      */
-    public function setMode(?string $mode): static
+    public function setMode(string $mode): static
     {
         if (is_null($mode)) {
             throw new InvalidArgumentException('non-nullable mode cannot be null');
@@ -555,9 +576,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets provisioning
      *
-     * @return \OpenRoam\Model\EsimProvisioning|null
+     * @return \OpenRoam\Model\EsimProvisioning
      */
-    public function getProvisioning(): ?\OpenRoam\Model\EsimProvisioning
+    public function getProvisioning(): \OpenRoam\Model\EsimProvisioning
     {
         return $this->container['provisioning'];
     }
@@ -565,11 +586,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets provisioning
      *
-     * @param \OpenRoam\Model\EsimProvisioning|null $provisioning Progress of provisioning the eSIM.
+     * @param \OpenRoam\Model\EsimProvisioning $provisioning Progress of provisioning the eSIM.
      *
      * @return $this
      */
-    public function setProvisioning(?\OpenRoam\Model\EsimProvisioning $provisioning): static
+    public function setProvisioning(\OpenRoam\Model\EsimProvisioning $provisioning): static
     {
         if (is_null($provisioning)) {
             throw new InvalidArgumentException('non-nullable provisioning cannot be null');
@@ -582,9 +603,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets can_provision
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getCanProvision(): ?bool
+    public function getCanProvision(): bool
     {
         return $this->container['can_provision'];
     }
@@ -592,11 +613,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets can_provision
      *
-     * @param bool|null $can_provision True while a deferred eSIM waits for `POST /esims/{id}/provisioning`.
+     * @param bool $can_provision True while a deferred eSIM waits for `POST /esims/{id}/provisioning`.
      *
      * @return $this
      */
-    public function setCanProvision(?bool $can_provision): static
+    public function setCanProvision(bool $can_provision): static
     {
         if (is_null($can_provision)) {
             throw new InvalidArgumentException('non-nullable can_provision cannot be null');
@@ -609,9 +630,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets esim_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getEsimStatus(): ?string
+    public function getEsimStatus(): string
     {
         return $this->container['esim_status'];
     }
@@ -619,11 +640,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets esim_status
      *
-     * @param string|null $esim_status The eSIM's lifecycle status. An eSIM under review reads as pending.
+     * @param string $esim_status The eSIM's lifecycle status. An eSIM under review reads as pending.
      *
      * @return $this
      */
-    public function setEsimStatus(?string $esim_status): static
+    public function setEsimStatus(string $esim_status): static
     {
         if (is_null($esim_status)) {
             throw new InvalidArgumentException('non-nullable esim_status cannot be null');
@@ -646,9 +667,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets profile_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getProfileStatus(): ?string
+    public function getProfileStatus(): string
     {
         return $this->container['profile_status'];
     }
@@ -656,11 +677,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets profile_status
      *
-     * @param string|null $profile_status The installed profile's status, as last recorded.
+     * @param string $profile_status The installed profile's status, as last recorded.
      *
      * @return $this
      */
-    public function setProfileStatus(?string $profile_status): static
+    public function setProfileStatus(string $profile_status): static
     {
         if (is_null($profile_status)) {
             throw new InvalidArgumentException('non-nullable profile_status cannot be null');
@@ -829,7 +850,7 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimDataAllowance|null $data The plan's data allowance as the catalogue stores it: amount, unit and display label.
+     * @param \OpenRoam\Model\EsimDataAllowance|null $data The plan's data allowance, as the offer shows it.
      *
      * @return $this
      */
@@ -955,9 +976,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets addons
      *
-     * @return \OpenRoam\Model\EsimAddon[]|null
+     * @return \OpenRoam\Model\EsimAddon[]
      */
-    public function getAddons(): ?array
+    public function getAddons(): array
     {
         return $this->container['addons'];
     }
@@ -965,11 +986,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets addons
      *
-     * @param \OpenRoam\Model\EsimAddon[]|null $addons The top-ups applied to the eSIM.
+     * @param \OpenRoam\Model\EsimAddon[] $addons The top-ups applied to the eSIM.
      *
      * @return $this
      */
-    public function setAddons(?array $addons): static
+    public function setAddons(array $addons): static
     {
         if (is_null($addons)) {
             throw new InvalidArgumentException('non-nullable addons cannot be null');
@@ -982,9 +1003,9 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets notes
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getNotes(): ?array
+    public function getNotes(): array
     {
         return $this->container['notes'];
     }
@@ -992,11 +1013,11 @@ class EsimFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets notes
      *
-     * @param string[]|null $notes Stored notes about the plan, shown verbatim.
+     * @param string[] $notes Stored notes about the plan, shown verbatim.
      *
      * @return $this
      */
-    public function setNotes(?array $notes): static
+    public function setNotes(array $notes): static
     {
         if (is_null($notes)) {
             throw new InvalidArgumentException('non-nullable notes cannot be null');

@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimSmsAllowance Class Doc Comment
  *
+ * @description A plan&#39;s SMS allowance. Text messages are always counted one by one.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,10 +60,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'sms_amount' => 'int',
-        'sms_unit' => 'string',
-        'sms_label' => 'string',
-        'sms_type' => 'string'
+        'amount' => 'int',
+        'unit' => 'string',
+        'is_unlimited' => 'bool',
+        'label' => 'string',
+        'type' => 'string'
     ];
 
     /**
@@ -71,10 +73,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'sms_amount' => 'int64',
-        'sms_unit' => null,
-        'sms_label' => null,
-        'sms_type' => null
+        'amount' => 'int64',
+        'unit' => null,
+        'is_unlimited' => null,
+        'label' => null,
+        'type' => null
     ];
 
     /**
@@ -83,10 +86,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'sms_amount' => false,
-        'sms_unit' => true,
-        'sms_label' => true,
-        'sms_type' => true
+        'amount' => true,
+        'unit' => false,
+        'is_unlimited' => false,
+        'label' => true,
+        'type' => true
     ];
 
     /**
@@ -165,10 +169,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'sms_amount' => 'smsAmount',
-        'sms_unit' => 'smsUnit',
-        'sms_label' => 'smsLabel',
-        'sms_type' => 'smsType'
+        'amount' => 'amount',
+        'unit' => 'unit',
+        'is_unlimited' => 'isUnlimited',
+        'label' => 'label',
+        'type' => 'type'
     ];
 
     /**
@@ -177,10 +182,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $setters = [
-        'sms_amount' => 'setSmsAmount',
-        'sms_unit' => 'setSmsUnit',
-        'sms_label' => 'setSmsLabel',
-        'sms_type' => 'setSmsType'
+        'amount' => 'setAmount',
+        'unit' => 'setUnit',
+        'is_unlimited' => 'setIsUnlimited',
+        'label' => 'setLabel',
+        'type' => 'setType'
     ];
 
     /**
@@ -189,10 +195,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $getters = [
-        'sms_amount' => 'getSmsAmount',
-        'sms_unit' => 'getSmsUnit',
-        'sms_label' => 'getSmsLabel',
-        'sms_type' => 'getSmsType'
+        'amount' => 'getAmount',
+        'unit' => 'getUnit',
+        'is_unlimited' => 'getIsUnlimited',
+        'label' => 'getLabel',
+        'type' => 'getType'
     ];
 
     /**
@@ -242,10 +249,11 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('sms_amount', $data ?? [], null);
-        $this->setIfExists('sms_unit', $data ?? [], null);
-        $this->setIfExists('sms_label', $data ?? [], null);
-        $this->setIfExists('sms_type', $data ?? [], null);
+        $this->setIfExists('amount', $data ?? [], null);
+        $this->setIfExists('unit', $data ?? [], null);
+        $this->setIfExists('is_unlimited', $data ?? [], null);
+        $this->setIfExists('label', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
     }
 
     /**
@@ -273,6 +281,12 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['unit'] === null) {
+            $invalidProperties[] = "'unit' can't be null";
+        }
+        if ($this->container['is_unlimited'] === null) {
+            $invalidProperties[] = "'is_unlimited' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -286,130 +300,157 @@ class EsimSmsAllowance implements ModelInterface, ArrayAccess, JsonSerializable
 
 
     /**
-     * Gets sms_amount
+     * Gets amount
      *
      * @return int|null
      */
-    public function getSmsAmount(): ?int
+    public function getAmount(): ?int
     {
-        return $this->container['sms_amount'];
+        return $this->container['amount'];
     }
 
     /**
-     * Sets sms_amount
+     * Sets amount
      *
-     * @param int|null $sms_amount sms_amount
+     * @param int|null $amount The number of messages; null when it is unlimited or the plan does not state it.
      *
      * @return $this
      */
-    public function setSmsAmount(?int $sms_amount): static
+    public function setAmount(?int $amount): static
     {
-        if (is_null($sms_amount)) {
-            throw new InvalidArgumentException('non-nullable sms_amount cannot be null');
-        }
-        $this->container['sms_amount'] = $sms_amount;
-
-        return $this;
-    }
-
-    /**
-     * Gets sms_unit
-     *
-     * @return string|null
-     */
-    public function getSmsUnit(): ?string
-    {
-        return $this->container['sms_unit'];
-    }
-
-    /**
-     * Sets sms_unit
-     *
-     * @param string|null $sms_unit sms_unit
-     *
-     * @return $this
-     */
-    public function setSmsUnit(?string $sms_unit): static
-    {
-        if (is_null($sms_unit)) {
-            array_push($this->openAPINullablesSetToNull, 'sms_unit');
+        if (is_null($amount)) {
+            array_push($this->openAPINullablesSetToNull, 'amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('sms_unit', $nullablesSetToNull);
+            $index = array_search('amount', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['sms_unit'] = $sms_unit;
+        $this->container['amount'] = $amount;
 
         return $this;
     }
 
     /**
-     * Gets sms_label
+     * Gets unit
      *
-     * @return string|null
+     * @return string
      */
-    public function getSmsLabel(): ?string
+    public function getUnit(): string
     {
-        return $this->container['sms_label'];
+        return $this->container['unit'];
     }
 
     /**
-     * Sets sms_label
+     * Sets unit
      *
-     * @param string|null $sms_label sms_label
+     * @param string $unit Always `messages`.
      *
      * @return $this
      */
-    public function setSmsLabel(?string $sms_label): static
+    public function setUnit(string $unit): static
     {
-        if (is_null($sms_label)) {
-            array_push($this->openAPINullablesSetToNull, 'sms_label');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('sms_label', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($unit)) {
+            throw new InvalidArgumentException('non-nullable unit cannot be null');
         }
-        $this->container['sms_label'] = $sms_label;
+        $this->container['unit'] = $unit;
 
         return $this;
     }
 
     /**
-     * Gets sms_type
+     * Gets is_unlimited
      *
-     * @return string|null
+     * @return bool
      */
-    public function getSmsType(): ?string
+    public function getIsUnlimited(): bool
     {
-        return $this->container['sms_type'];
+        return $this->container['is_unlimited'];
     }
 
     /**
-     * Sets sms_type
+     * Sets is_unlimited
      *
-     * @param string|null $sms_type sms_type
+     * @param bool $is_unlimited Whether messages are unlimited; `amount` is then null.
      *
      * @return $this
      */
-    public function setSmsType(?string $sms_type): static
+    public function setIsUnlimited(bool $is_unlimited): static
     {
-        if (is_null($sms_type)) {
-            array_push($this->openAPINullablesSetToNull, 'sms_type');
+        if (is_null($is_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
+        }
+        $this->container['is_unlimited'] = $is_unlimited;
+
+        return $this;
+    }
+
+    /**
+     * Gets label
+     *
+     * @return string|null
+     */
+    public function getLabel(): ?string
+    {
+        return $this->container['label'];
+    }
+
+    /**
+     * Sets label
+     *
+     * @param string|null $label The allowance as the plan displays it, or null.
+     *
+     * @return $this
+     */
+    public function setLabel(?string $label): static
+    {
+        if (is_null($label)) {
+            array_push($this->openAPINullablesSetToNull, 'label');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('sms_type', $nullablesSetToNull);
+            $index = array_search('label', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['sms_type'] = $sms_type;
+        $this->container['label'] = $label;
+
+        return $this;
+    }
+
+    /**
+     * Gets type
+     *
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->container['type'];
+    }
+
+    /**
+     * Sets type
+     *
+     * @param string|null $type Which messages the allowance covers, as the plan states it, for example `all`.
+     *
+     * @return $this
+     */
+    public function setType(?string $type): static
+    {
+        if (is_null($type)) {
+            array_push($this->openAPINullablesSetToNull, 'type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['type'] = $type;
 
         return $this;
     }

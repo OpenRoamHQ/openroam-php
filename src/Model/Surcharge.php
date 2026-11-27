@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * Surcharge Class Doc Comment
  *
- * @description A fee outside the room rate, in the same shape on search, quote and the order item.
+ * @description A fee outside the room rate, in the same shape on search, quote and the order item. A tax the guest pays at the hotel is not a surcharge: it is an &#x60;onSite&#x60; line of the offer&#39;s or item&#39;s &#x60;taxes&#x60;.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -303,6 +303,18 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
+        if ($this->container['description'] === null) {
+            $invalidProperties[] = "'description' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['included_in_total'] === null) {
+            $invalidProperties[] = "'included_in_total' can't be null";
+        }
         $allowedValues = self::getPayableAtAllowableValues();
         if (!is_null($this->container['payable_at']) && !in_array($this->container['payable_at'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -327,9 +339,9 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -337,11 +349,11 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type type
+     * @param string $type type
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -354,9 +366,9 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets description
      *
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->container['description'];
     }
@@ -364,11 +376,11 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets description
      *
-     * @param string|null $description description
+     * @param string $description description
      *
      * @return $this
      */
-    public function setDescription(?string $description): static
+    public function setDescription(string $description): static
     {
         if (is_null($description)) {
             throw new InvalidArgumentException('non-nullable description cannot be null');
@@ -381,9 +393,9 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -391,11 +403,11 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price price
+     * @param \OpenRoam\Model\Money $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -442,9 +454,9 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets included_in_total
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIncludedInTotal(): ?bool
+    public function getIncludedInTotal(): bool
     {
         return $this->container['included_in_total'];
     }
@@ -452,11 +464,11 @@ class Surcharge implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets included_in_total
      *
-     * @param bool|null $included_in_total included_in_total
+     * @param bool $included_in_total included_in_total
      *
      * @return $this
      */
-    public function setIncludedInTotal(?bool $included_in_total): static
+    public function setIncludedInTotal(bool $included_in_total): static
     {
         if (is_null($included_in_total)) {
             throw new InvalidArgumentException('non-nullable included_in_total cannot be null');

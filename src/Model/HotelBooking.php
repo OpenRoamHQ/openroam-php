@@ -274,6 +274,18 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['check_in_date'] === null) {
+            $invalidProperties[] = "'check_in_date' can't be null";
+        }
+        if ($this->container['check_out_date'] === null) {
+            $invalidProperties[] = "'check_out_date' can't be null";
+        }
+        if ($this->container['holder'] === null) {
+            $invalidProperties[] = "'holder' can't be null";
+        }
+        if ($this->container['room_guests'] === null) {
+            $invalidProperties[] = "'room_guests' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +301,9 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets check_in_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCheckInDate(): ?\DateTime
+    public function getCheckInDate(): \DateTime
     {
         return $this->container['check_in_date'];
     }
@@ -299,11 +311,11 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets check_in_date
      *
-     * @param \DateTime|null $check_in_date The check-in date booked now.
+     * @param \DateTime $check_in_date The check-in date booked now.
      *
      * @return $this
      */
-    public function setCheckInDate(?\DateTime $check_in_date): static
+    public function setCheckInDate(\DateTime $check_in_date): static
     {
         if (is_null($check_in_date)) {
             throw new InvalidArgumentException('non-nullable check_in_date cannot be null');
@@ -316,9 +328,9 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets check_out_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCheckOutDate(): ?\DateTime
+    public function getCheckOutDate(): \DateTime
     {
         return $this->container['check_out_date'];
     }
@@ -326,11 +338,11 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets check_out_date
      *
-     * @param \DateTime|null $check_out_date The check-out date booked now.
+     * @param \DateTime $check_out_date The check-out date booked now.
      *
      * @return $this
      */
-    public function setCheckOutDate(?\DateTime $check_out_date): static
+    public function setCheckOutDate(\DateTime $check_out_date): static
     {
         if (is_null($check_out_date)) {
             throw new InvalidArgumentException('non-nullable check_out_date cannot be null');
@@ -343,9 +355,9 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets holder
      *
-     * @return \OpenRoam\Model\LeadGuest|null
+     * @return \OpenRoam\Model\LeadGuest
      */
-    public function getHolder(): ?\OpenRoam\Model\LeadGuest
+    public function getHolder(): \OpenRoam\Model\LeadGuest
     {
         return $this->container['holder'];
     }
@@ -353,11 +365,11 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets holder
      *
-     * @param \OpenRoam\Model\LeadGuest|null $holder The lead guest booked now, with email and phone masked.
+     * @param \OpenRoam\Model\LeadGuest $holder The lead guest booked now, with email and phone masked.
      *
      * @return $this
      */
-    public function setHolder(?\OpenRoam\Model\LeadGuest $holder): static
+    public function setHolder(\OpenRoam\Model\LeadGuest $holder): static
     {
         if (is_null($holder)) {
             throw new InvalidArgumentException('non-nullable holder cannot be null');
@@ -370,9 +382,9 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets room_guests
      *
-     * @return \OpenRoam\Model\RoomGuests[]|null
+     * @return \OpenRoam\Model\RoomGuests[]
      */
-    public function getRoomGuests(): ?array
+    public function getRoomGuests(): array
     {
         return $this->container['room_guests'];
     }
@@ -380,11 +392,11 @@ class HotelBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets room_guests
      *
-     * @param \OpenRoam\Model\RoomGuests[]|null $room_guests The guests of each room booked now, in room order. The booking keeps no guest nationality or country of residence, so those are null.
+     * @param \OpenRoam\Model\RoomGuests[] $room_guests The guests of each room booked now, in room order. The booking keeps no guest nationality or country of residence, so those are null.
      *
      * @return $this
      */
-    public function setRoomGuests(?array $room_guests): static
+    public function setRoomGuests(array $room_guests): static
     {
         if (is_null($room_guests)) {
             throw new InvalidArgumentException('non-nullable room_guests cannot be null');

@@ -253,6 +253,9 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\HotelDestination[]|null
+     * @return \OpenRoam\Model\HotelDestination[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -278,11 +281,11 @@ class HotelDestinationList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\HotelDestination[]|null $items The matching places; empty when none matches.
+     * @param \OpenRoam\Model\HotelDestination[] $items The matching places; empty when none matches.
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

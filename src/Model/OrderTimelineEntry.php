@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * OrderTimelineEntry Class Doc Comment
  *
- * @description A status the order entered.
+ * @description A status the order entered. Each status appears once per stretch: &#x60;processing&#x60; at the time the             payment succeeded, &#x60;partiallyRefunded&#x60; or &#x60;refunded&#x60; at the time of the refund that caused it.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -217,12 +217,13 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     public const STATUS_PAYMENT_PENDING = 'paymentPending';
-    public const STATUS_PAID = 'paid';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
-    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
-    public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PARTIALLY_FULFILLED = 'partiallyFulfilled';
+    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
+    public const STATUS_PARTIALLY_REFUNDED = 'partiallyRefunded';
+    public const STATUS_REFUNDED = 'refunded';
+    public const STATUS_CANCELLED = 'cancelled';
 
     /**
      * Gets allowable values of the enum
@@ -233,12 +234,13 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         return [
             self::STATUS_PAYMENT_PENDING,
-            self::STATUS_PAID,
             self::STATUS_PROCESSING,
             self::STATUS_COMPLETED,
-            self::STATUS_FULFILLMENT_FAILED,
-            self::STATUS_CANCELLED,
             self::STATUS_PARTIALLY_FULFILLED,
+            self::STATUS_FULFILLMENT_FAILED,
+            self::STATUS_PARTIALLY_REFUNDED,
+            self::STATUS_REFUNDED,
+            self::STATUS_CANCELLED,
         ];
     }
 
@@ -285,6 +287,9 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -294,6 +299,9 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
             );
         }
 
+        if ($this->container['occurred_at'] === null) {
+            $invalidProperties[] = "'occurred_at' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -309,9 +317,9 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -319,11 +327,11 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets status
      *
-     * @param string|null $status The order status.
+     * @param string $status The order status.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -346,9 +354,9 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets occurred_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getOccurredAt(): ?\DateTime
+    public function getOccurredAt(): \DateTime
     {
         return $this->container['occurred_at'];
     }
@@ -356,11 +364,11 @@ class OrderTimelineEntry implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets occurred_at
      *
-     * @param \DateTime|null $occurred_at When the order entered it (UTC).
+     * @param \DateTime $occurred_at When the order entered it (UTC).
      *
      * @return $this
      */
-    public function setOccurredAt(?\DateTime $occurred_at): static
+    public function setOccurredAt(\DateTime $occurred_at): static
     {
         if (is_null($occurred_at)) {
             throw new InvalidArgumentException('non-nullable occurred_at cannot be null');

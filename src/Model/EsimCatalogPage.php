@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimCatalogPage Class Doc Comment
  *
- * @description A page of the partner catalog walk, ordered by destination ID. Continue with &#x60;nextCursor&#x60;, the same filters and the same currency until it is null.
+ * @description A page of the partner catalog walk, in a fixed order. Continue with &#x60;nextCursor&#x60;, the same filters and the same currency until it is null.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -260,6 +260,9 @@ class EsimCatalogPage implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +278,9 @@ class EsimCatalogPage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\EsimDestination[]|null
+     * @return \OpenRoam\Model\EsimDestination[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -285,11 +288,11 @@ class EsimCatalogPage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\EsimDestination[]|null $items items
+     * @param \OpenRoam\Model\EsimDestination[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

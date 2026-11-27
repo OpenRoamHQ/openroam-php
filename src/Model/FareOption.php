@@ -63,6 +63,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => 'string',
         'name' => 'string',
         'price' => '\OpenRoam\Model\Money',
+        'taxes' => '\OpenRoam\Model\TaxSummary',
         'details' => '\OpenRoam\Model\FlightOfferDetails'
     ];
 
@@ -75,6 +76,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => null,
         'name' => null,
         'price' => null,
+        'taxes' => null,
         'details' => null
     ];
 
@@ -87,6 +89,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => false,
         'name' => false,
         'price' => false,
+        'taxes' => false,
         'details' => false
     ];
 
@@ -169,6 +172,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => 'publicId',
         'name' => 'name',
         'price' => 'price',
+        'taxes' => 'taxes',
         'details' => 'details'
     ];
 
@@ -181,6 +185,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => 'setPublicId',
         'name' => 'setName',
         'price' => 'setPrice',
+        'taxes' => 'setTaxes',
         'details' => 'setDetails'
     ];
 
@@ -193,6 +198,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         'public_id' => 'getPublicId',
         'name' => 'getName',
         'price' => 'getPrice',
+        'taxes' => 'getTaxes',
         'details' => 'getDetails'
     ];
 
@@ -246,6 +252,7 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('public_id', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('details', $data ?? [], null);
     }
 
@@ -274,6 +281,21 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['public_id'] === null) {
+            $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +311,9 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets public_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getPublicId(): ?string
+    public function getPublicId(): string
     {
         return $this->container['public_id'];
     }
@@ -299,11 +321,11 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets public_id
      *
-     * @param string|null $public_id The fare's own `publicId`: quote or order it before `details.expiresAt`.
+     * @param string $public_id The fare's own `publicId`: quote or order it before `details.expiresAt`.
      *
      * @return $this
      */
-    public function setPublicId(?string $public_id): static
+    public function setPublicId(string $public_id): static
     {
         if (is_null($public_id)) {
             throw new InvalidArgumentException('non-nullable public_id cannot be null');
@@ -316,9 +338,9 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -326,11 +348,11 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name The fare's brand with its cabin, for example \"Economy Standard\"; the cabin alone without a brand.
+     * @param string $name The fare's brand with its cabin, for example \"Economy Standard\"; the cabin alone without a brand.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -343,9 +365,9 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -353,11 +375,11 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price The fare's price for all passengers, in the quote currency, without paid extras.
+     * @param \OpenRoam\Model\Money $price The fare's price for all passengers, in the quote currency, without paid extras.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -368,11 +390,38 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The airline's taxes inside `price`: always `included`, with the airline's tax amount and lines when it states them.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
      * Gets details
      *
-     * @return \OpenRoam\Model\FlightOfferDetails|null
+     * @return \OpenRoam\Model\FlightOfferDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\FlightOfferDetails
+    public function getDetails(): \OpenRoam\Model\FlightOfferDetails
     {
         return $this->container['details'];
     }
@@ -380,11 +429,11 @@ class FareOption implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\FlightOfferDetails|null $details The fare's terms, as an offer's `details` in search.
+     * @param \OpenRoam\Model\FlightOfferDetails $details The fare's terms, as an offer's `details` in search.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\FlightOfferDetails $details): static
+    public function setDetails(\OpenRoam\Model\FlightOfferDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

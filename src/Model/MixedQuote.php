@@ -274,6 +274,15 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['total'] === null) {
+            $invalidProperties[] = "'total' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +298,9 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getCurrency(): ?string
+    public function getCurrency(): string
     {
         return $this->container['currency'];
     }
@@ -299,11 +308,11 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param string|null $currency The quote currency: the body `currency`, or the API key's currency when it is omitted.
+     * @param string $currency The quote currency: the body `currency`, or the API key's currency when it is omitted.
      *
      * @return $this
      */
-    public function setCurrency(?string $currency): static
+    public function setCurrency(string $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');
@@ -316,9 +325,9 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return (\OpenRoam\Model\EsimMixedQuoteItem|\OpenRoam\Model\HotelMixedQuoteItem|\OpenRoam\Model\FlightMixedQuoteItem|\OpenRoam\Model\GiftCardMixedQuoteItem|\OpenRoam\Model\AirtimeMixedQuoteItem|\OpenRoam\Model\UtilityMixedQuoteItem)[]|null
+     * @return (\OpenRoam\Model\EsimMixedQuoteItem|\OpenRoam\Model\HotelMixedQuoteItem|\OpenRoam\Model\FlightMixedQuoteItem|\OpenRoam\Model\GiftCardMixedQuoteItem|\OpenRoam\Model\AirtimeMixedQuoteItem|\OpenRoam\Model\UtilityMixedQuoteItem)[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -326,11 +335,11 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param (\OpenRoam\Model\EsimMixedQuoteItem|\OpenRoam\Model\HotelMixedQuoteItem|\OpenRoam\Model\FlightMixedQuoteItem|\OpenRoam\Model\GiftCardMixedQuoteItem|\OpenRoam\Model\AirtimeMixedQuoteItem|\OpenRoam\Model\UtilityMixedQuoteItem)[]|null $items One quoted item per request item, in request order. Each is the quote item of its product with `productType`; its `publicId` may be a new one that the order should use.
+     * @param (\OpenRoam\Model\EsimMixedQuoteItem|\OpenRoam\Model\HotelMixedQuoteItem|\OpenRoam\Model\FlightMixedQuoteItem|\OpenRoam\Model\GiftCardMixedQuoteItem|\OpenRoam\Model\AirtimeMixedQuoteItem|\OpenRoam\Model\UtilityMixedQuoteItem)[] $items One quoted item per request item, in request order. Each is the quote item of its product with `productType`; its `publicId` may be a new one that the order should use.
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -343,9 +352,9 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getTotal(): ?\OpenRoam\Model\Money
+    public function getTotal(): \OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -353,11 +362,11 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\Money|null $total The sum of each item's `price` times its `quantity`, in the quote currency.
+     * @param \OpenRoam\Model\Money $total The sum of each item's `price` times its `quantity`, in the quote currency.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\Money $total): static
+    public function setTotal(\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');
@@ -380,7 +389,7 @@ class MixedQuote implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets expires_at
      *
-     * @param \DateTime|null $expires_at The earliest `details.expiresAt` of the items that have one (UTC): order before then. `null` when no item has an expiry.
+     * @param \DateTime|null $expires_at The earliest expiry of the items that have one (UTC), the `expiresAt` of a hotel or flight item: order before then. `null` when no item has an expiry.
      *
      * @return $this
      */

@@ -288,6 +288,24 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['check_in_date'] === null) {
+            $invalidProperties[] = "'check_in_date' can't be null";
+        }
+        if ($this->container['check_out_date'] === null) {
+            $invalidProperties[] = "'check_out_date' can't be null";
+        }
+        if ($this->container['requested_rooms'] === null) {
+            $invalidProperties[] = "'requested_rooms' can't be null";
+        }
+        if ($this->container['hotel'] === null) {
+            $invalidProperties[] = "'hotel' can't be null";
+        }
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['rate'] === null) {
+            $invalidProperties[] = "'rate' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +321,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets check_in_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCheckInDate(): ?\DateTime
+    public function getCheckInDate(): \DateTime
     {
         return $this->container['check_in_date'];
     }
@@ -313,11 +331,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets check_in_date
      *
-     * @param \DateTime|null $check_in_date The check-in date bought.
+     * @param \DateTime $check_in_date The check-in date bought.
      *
      * @return $this
      */
-    public function setCheckInDate(?\DateTime $check_in_date): static
+    public function setCheckInDate(\DateTime $check_in_date): static
     {
         if (is_null($check_in_date)) {
             throw new InvalidArgumentException('non-nullable check_in_date cannot be null');
@@ -330,9 +348,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets check_out_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCheckOutDate(): ?\DateTime
+    public function getCheckOutDate(): \DateTime
     {
         return $this->container['check_out_date'];
     }
@@ -340,11 +358,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets check_out_date
      *
-     * @param \DateTime|null $check_out_date The check-out date bought.
+     * @param \DateTime $check_out_date The check-out date bought.
      *
      * @return $this
      */
-    public function setCheckOutDate(?\DateTime $check_out_date): static
+    public function setCheckOutDate(\DateTime $check_out_date): static
     {
         if (is_null($check_out_date)) {
             throw new InvalidArgumentException('non-nullable check_out_date cannot be null');
@@ -357,9 +375,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets requested_rooms
      *
-     * @return \OpenRoam\Model\RoomOccupancy[]|null
+     * @return \OpenRoam\Model\RoomOccupancy[]
      */
-    public function getRequestedRooms(): ?array
+    public function getRequestedRooms(): array
     {
         return $this->container['requested_rooms'];
     }
@@ -367,11 +385,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets requested_rooms
      *
-     * @param \OpenRoam\Model\RoomOccupancy[]|null $requested_rooms The rooms bought, in room order: adults, children and child ages, in the quote's `requestedRooms` shape.
+     * @param \OpenRoam\Model\RoomOccupancy[] $requested_rooms The rooms bought, in room order: adults, children and child ages, in the quote's `requestedRooms` shape.
      *
      * @return $this
      */
-    public function setRequestedRooms(?array $requested_rooms): static
+    public function setRequestedRooms(array $requested_rooms): static
     {
         if (is_null($requested_rooms)) {
             throw new InvalidArgumentException('non-nullable requested_rooms cannot be null');
@@ -384,9 +402,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets hotel
      *
-     * @return \OpenRoam\Model\BookedHotel|null
+     * @return \OpenRoam\Model\BookedHotel
      */
-    public function getHotel(): ?\OpenRoam\Model\BookedHotel
+    public function getHotel(): \OpenRoam\Model\BookedHotel
     {
         return $this->container['hotel'];
     }
@@ -394,11 +412,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets hotel
      *
-     * @param \OpenRoam\Model\BookedHotel|null $hotel The hotel of the stay.
+     * @param \OpenRoam\Model\BookedHotel $hotel The hotel of the stay.
      *
      * @return $this
      */
-    public function setHotel(?\OpenRoam\Model\BookedHotel $hotel): static
+    public function setHotel(\OpenRoam\Model\BookedHotel $hotel): static
     {
         if (is_null($hotel)) {
             throw new InvalidArgumentException('non-nullable hotel cannot be null');
@@ -411,9 +429,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets terms
      *
-     * @return \OpenRoam\Model\BookingTerms|null
+     * @return \OpenRoam\Model\BookingTerms
      */
-    public function getTerms(): ?\OpenRoam\Model\BookingTerms
+    public function getTerms(): \OpenRoam\Model\BookingTerms
     {
         return $this->container['terms'];
     }
@@ -421,11 +439,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets terms
      *
-     * @param \OpenRoam\Model\BookingTerms|null $terms The terms the stay was bought on, as quoted: they do not change when a free window later closes.
+     * @param \OpenRoam\Model\BookingTerms $terms The terms the stay was bought on, as quoted: they do not change when a free window later closes. Each cancellation instant is also stated on the hotel's clock.
      *
      * @return $this
      */
-    public function setTerms(?\OpenRoam\Model\BookingTerms $terms): static
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
     {
         if (is_null($terms)) {
             throw new InvalidArgumentException('non-nullable terms cannot be null');
@@ -438,9 +456,9 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets rate
      *
-     * @return \OpenRoam\Model\QuotedRate|null
+     * @return \OpenRoam\Model\QuotedRate
      */
-    public function getRate(): ?\OpenRoam\Model\QuotedRate
+    public function getRate(): \OpenRoam\Model\QuotedRate
     {
         return $this->container['rate'];
     }
@@ -448,11 +466,11 @@ class HotelPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets rate
      *
-     * @param \OpenRoam\Model\QuotedRate|null $rate The rate bought: rooms, board, taxes, nightly prices and surcharges, as on the quote.
+     * @param \OpenRoam\Model\QuotedRate $rate The rate bought: rooms, board, taxes, nightly prices and surcharges, as on the quote.
      *
      * @return $this
      */
-    public function setRate(?\OpenRoam\Model\QuotedRate $rate): static
+    public function setRate(\OpenRoam\Model\QuotedRate $rate): static
     {
         if (is_null($rate)) {
             throw new InvalidArgumentException('non-nullable rate cannot be null');

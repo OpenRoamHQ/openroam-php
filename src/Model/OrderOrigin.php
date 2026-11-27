@@ -212,6 +212,7 @@ class OrderOrigin implements ModelInterface, ArrayAccess, JsonSerializable
 
     public const CHANNEL_API = 'api';
     public const CHANNEL_DASHBOARD = 'dashboard';
+    public const CHANNEL_SITE = 'site';
 
     /**
      * Gets allowable values of the enum
@@ -223,6 +224,7 @@ class OrderOrigin implements ModelInterface, ArrayAccess, JsonSerializable
         return [
             self::CHANNEL_API,
             self::CHANNEL_DASHBOARD,
+            self::CHANNEL_SITE,
         ];
     }
 
@@ -268,6 +270,9 @@ class OrderOrigin implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['channel'] === null) {
+            $invalidProperties[] = "'channel' can't be null";
+        }
         $allowedValues = self::getChannelAllowableValues();
         if (!is_null($this->container['channel']) && !in_array($this->container['channel'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -292,9 +297,9 @@ class OrderOrigin implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets channel
      *
-     * @return string|null
+     * @return string
      */
-    public function getChannel(): ?string
+    public function getChannel(): string
     {
         return $this->container['channel'];
     }
@@ -302,11 +307,11 @@ class OrderOrigin implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets channel
      *
-     * @param string|null $channel `api` or `dashboard`.
+     * @param string $channel `api`, `dashboard` or `site` (placed through one of the partner's sites).
      *
      * @return $this
      */
-    public function setChannel(?string $channel): static
+    public function setChannel(string $channel): static
     {
         if (is_null($channel)) {
             throw new InvalidArgumentException('non-nullable channel cannot be null');

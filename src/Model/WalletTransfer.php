@@ -295,6 +295,24 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['transfer_id'] === null) {
+            $invalidProperties[] = "'transfer_id' can't be null";
+        }
+        if ($this->container['sent_amount'] === null) {
+            $invalidProperties[] = "'sent_amount' can't be null";
+        }
+        if ($this->container['sent_currency'] === null) {
+            $invalidProperties[] = "'sent_currency' can't be null";
+        }
+        if ($this->container['received_amount'] === null) {
+            $invalidProperties[] = "'received_amount' can't be null";
+        }
+        if ($this->container['received_currency'] === null) {
+            $invalidProperties[] = "'received_currency' can't be null";
+        }
+        if ($this->container['transfer_date'] === null) {
+            $invalidProperties[] = "'transfer_date' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +328,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets transfer_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getTransferId(): ?string
+    public function getTransferId(): string
     {
         return $this->container['transfer_id'];
     }
@@ -320,11 +338,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets transfer_id
      *
-     * @param string|null $transfer_id Transfer id.
+     * @param string $transfer_id Transfer id.
      *
      * @return $this
      */
-    public function setTransferId(?string $transfer_id): static
+    public function setTransferId(string $transfer_id): static
     {
         if (is_null($transfer_id)) {
             throw new InvalidArgumentException('non-nullable transfer_id cannot be null');
@@ -337,9 +355,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets sent_amount
      *
-     * @return float|null
+     * @return float
      */
-    public function getSentAmount(): ?float
+    public function getSentAmount(): float
     {
         return $this->container['sent_amount'];
     }
@@ -347,11 +365,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sent_amount
      *
-     * @param float|null $sent_amount The amount taken from the source wallet.
+     * @param float $sent_amount The amount taken from the source wallet.
      *
      * @return $this
      */
-    public function setSentAmount(?float $sent_amount): static
+    public function setSentAmount(float $sent_amount): static
     {
         if (is_null($sent_amount)) {
             throw new InvalidArgumentException('non-nullable sent_amount cannot be null');
@@ -364,9 +382,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets sent_currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getSentCurrency(): ?string
+    public function getSentCurrency(): string
     {
         return $this->container['sent_currency'];
     }
@@ -374,11 +392,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sent_currency
      *
-     * @param string|null $sent_currency The source wallet's currency.
+     * @param string $sent_currency The source wallet's currency.
      *
      * @return $this
      */
-    public function setSentCurrency(?string $sent_currency): static
+    public function setSentCurrency(string $sent_currency): static
     {
         if (is_null($sent_currency)) {
             throw new InvalidArgumentException('non-nullable sent_currency cannot be null');
@@ -391,9 +409,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets received_amount
      *
-     * @return float|null
+     * @return float
      */
-    public function getReceivedAmount(): ?float
+    public function getReceivedAmount(): float
     {
         return $this->container['received_amount'];
     }
@@ -401,11 +419,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets received_amount
      *
-     * @param float|null $received_amount The amount added to the destination wallet.
+     * @param float $received_amount The amount added to the destination wallet.
      *
      * @return $this
      */
-    public function setReceivedAmount(?float $received_amount): static
+    public function setReceivedAmount(float $received_amount): static
     {
         if (is_null($received_amount)) {
             throw new InvalidArgumentException('non-nullable received_amount cannot be null');
@@ -418,9 +436,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets received_currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getReceivedCurrency(): ?string
+    public function getReceivedCurrency(): string
     {
         return $this->container['received_currency'];
     }
@@ -428,11 +446,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets received_currency
      *
-     * @param string|null $received_currency The destination wallet's currency.
+     * @param string $received_currency The destination wallet's currency.
      *
      * @return $this
      */
-    public function setReceivedCurrency(?string $received_currency): static
+    public function setReceivedCurrency(string $received_currency): static
     {
         if (is_null($received_currency)) {
             throw new InvalidArgumentException('non-nullable received_currency cannot be null');
@@ -479,9 +497,9 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets transfer_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getTransferDate(): ?\DateTime
+    public function getTransferDate(): \DateTime
     {
         return $this->container['transfer_date'];
     }
@@ -489,11 +507,11 @@ class WalletTransfer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets transfer_date
      *
-     * @param \DateTime|null $transfer_date When the transfer was made (UTC).
+     * @param \DateTime $transfer_date When the transfer was made (UTC).
      *
      * @return $this
      */
-    public function setTransferDate(?\DateTime $transfer_date): static
+    public function setTransferDate(\DateTime $transfer_date): static
     {
         if (is_null($transfer_date)) {
             throw new InvalidArgumentException('non-nullable transfer_date cannot be null');

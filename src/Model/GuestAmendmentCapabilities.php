@@ -281,6 +281,21 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     {
         $invalidProperties = [];
 
+        if ($this->container['add_more'] === null) {
+            $invalidProperties[] = "'add_more' can't be null";
+        }
+        if ($this->container['remove'] === null) {
+            $invalidProperties[] = "'remove' can't be null";
+        }
+        if ($this->container['guest_type'] === null) {
+            $invalidProperties[] = "'guest_type' can't be null";
+        }
+        if ($this->container['names'] === null) {
+            $invalidProperties[] = "'names' can't be null";
+        }
+        if ($this->container['ages'] === null) {
+            $invalidProperties[] = "'ages' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +311,9 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets add_more
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getAddMore(): ?bool
+    public function getAddMore(): bool
     {
         return $this->container['add_more'];
     }
@@ -306,11 +321,11 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets add_more
      *
-     * @param bool|null $add_more add_more
+     * @param bool $add_more add_more
      *
      * @return $this
      */
-    public function setAddMore(?bool $add_more): static
+    public function setAddMore(bool $add_more): static
     {
         if (is_null($add_more)) {
             throw new InvalidArgumentException('non-nullable add_more cannot be null');
@@ -323,9 +338,9 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets remove
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getRemove(): ?bool
+    public function getRemove(): bool
     {
         return $this->container['remove'];
     }
@@ -333,11 +348,11 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets remove
      *
-     * @param bool|null $remove remove
+     * @param bool $remove remove
      *
      * @return $this
      */
-    public function setRemove(?bool $remove): static
+    public function setRemove(bool $remove): static
     {
         if (is_null($remove)) {
             throw new InvalidArgumentException('non-nullable remove cannot be null');
@@ -350,9 +365,9 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets guest_type
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getGuestType(): ?bool
+    public function getGuestType(): bool
     {
         return $this->container['guest_type'];
     }
@@ -360,11 +375,11 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets guest_type
      *
-     * @param bool|null $guest_type A guest may switch between adult and child.
+     * @param bool $guest_type A guest may switch between adult and child.
      *
      * @return $this
      */
-    public function setGuestType(?bool $guest_type): static
+    public function setGuestType(bool $guest_type): static
     {
         if (is_null($guest_type)) {
             throw new InvalidArgumentException('non-nullable guest_type cannot be null');
@@ -377,9 +392,9 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets names
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getNames(): ?bool
+    public function getNames(): bool
     {
         return $this->container['names'];
     }
@@ -387,11 +402,11 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets names
      *
-     * @param bool|null $names names
+     * @param bool $names names
      *
      * @return $this
      */
-    public function setNames(?bool $names): static
+    public function setNames(bool $names): static
     {
         if (is_null($names)) {
             throw new InvalidArgumentException('non-nullable names cannot be null');
@@ -404,9 +419,9 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets ages
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getAges(): ?bool
+    public function getAges(): bool
     {
         return $this->container['ages'];
     }
@@ -414,11 +429,11 @@ class GuestAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets ages
      *
-     * @param bool|null $ages ages
+     * @param bool $ages ages
      *
      * @return $this
      */
-    public function setAges(?bool $ages): static
+    public function setAges(bool $ages): static
     {
         if (is_null($ages)) {
             throw new InvalidArgumentException('non-nullable ages cannot be null');

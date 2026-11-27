@@ -61,9 +61,9 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'items' => '\OpenRoam\Model\Hotel[]',
-        'pagination' => '\OpenRoam\Model\Pagination',
+        'pagination' => '\OpenRoam\Model\HotelSearchPagination',
         'next_cursor' => 'string',
-        'details' => '\OpenRoam\Model\HotelSearchDetails'
+        'available_filters' => '\OpenRoam\Model\HotelSearchFacets'
     ];
 
     /**
@@ -75,7 +75,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         'items' => null,
         'pagination' => null,
         'next_cursor' => null,
-        'details' => null
+        'available_filters' => null
     ];
 
     /**
@@ -87,7 +87,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         'items' => false,
         'pagination' => false,
         'next_cursor' => true,
-        'details' => false
+        'available_filters' => true
     ];
 
     /**
@@ -169,7 +169,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         'items' => 'items',
         'pagination' => 'pagination',
         'next_cursor' => 'nextCursor',
-        'details' => 'details'
+        'available_filters' => 'availableFilters'
     ];
 
     /**
@@ -181,7 +181,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         'items' => 'setItems',
         'pagination' => 'setPagination',
         'next_cursor' => 'setNextCursor',
-        'details' => 'setDetails'
+        'available_filters' => 'setAvailableFilters'
     ];
 
     /**
@@ -193,7 +193,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         'items' => 'getItems',
         'pagination' => 'getPagination',
         'next_cursor' => 'getNextCursor',
-        'details' => 'getDetails'
+        'available_filters' => 'getAvailableFilters'
     ];
 
     /**
@@ -246,7 +246,7 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('items', $data ?? [], null);
         $this->setIfExists('pagination', $data ?? [], null);
         $this->setIfExists('next_cursor', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('available_filters', $data ?? [], null);
     }
 
     /**
@@ -274,6 +274,12 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['pagination'] === null) {
+            $invalidProperties[] = "'pagination' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -289,9 +295,9 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\Hotel[]|null
+     * @return \OpenRoam\Model\Hotel[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -299,11 +305,11 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\Hotel[]|null $items The hotels of this page, each with its offers.
+     * @param \OpenRoam\Model\Hotel[] $items The hotels of this page, each with its offers.
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -316,9 +322,9 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets pagination
      *
-     * @return \OpenRoam\Model\Pagination|null
+     * @return \OpenRoam\Model\HotelSearchPagination
      */
-    public function getPagination(): ?\OpenRoam\Model\Pagination
+    public function getPagination(): \OpenRoam\Model\HotelSearchPagination
     {
         return $this->container['pagination'];
     }
@@ -326,11 +332,11 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets pagination
      *
-     * @param \OpenRoam\Model\Pagination|null $pagination Where this page sits. On a location search `totalCount` counts the candidate hotels of the area, an upper bound of what the pages list.
+     * @param \OpenRoam\Model\HotelSearchPagination $pagination Where this page sits. A location search walks the area's hotels with a cursor, so it states no page number and no total.
      *
      * @return $this
      */
-    public function setPagination(?\OpenRoam\Model\Pagination $pagination): static
+    public function setPagination(\OpenRoam\Model\HotelSearchPagination $pagination): static
     {
         if (is_null($pagination)) {
             throw new InvalidArgumentException('non-nullable pagination cannot be null');
@@ -375,28 +381,35 @@ class HotelSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets available_filters
      *
-     * @return \OpenRoam\Model\HotelSearchDetails|null
+     * @return \OpenRoam\Model\HotelSearchFacets|null
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelSearchDetails
+    public function getAvailableFilters(): ?\OpenRoam\Model\HotelSearchFacets
     {
-        return $this->container['details'];
+        return $this->container['available_filters'];
     }
 
     /**
-     * Sets details
+     * Sets available_filters
      *
-     * @param \OpenRoam\Model\HotelSearchDetails|null $details Hotel search facts outside the keys every partner service shares.
+     * @param \OpenRoam\Model\HotelSearchFacets|null $available_filters Amenity filter values for this search with hotel counts. Computed for a `cityCode` search only; null on `geoNodeId`, coordinate and `hotelIds` searches.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelSearchDetails $details): static
+    public function setAvailableFilters(?\OpenRoam\Model\HotelSearchFacets $available_filters): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($available_filters)) {
+            array_push($this->openAPINullablesSetToNull, 'available_filters');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('available_filters', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['details'] = $details;
+        $this->container['available_filters'] = $available_filters;
 
         return $this;
     }

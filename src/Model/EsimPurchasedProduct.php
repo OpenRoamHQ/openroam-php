@@ -281,6 +281,15 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +305,9 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -306,11 +315,11 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -391,9 +400,9 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\EsimPurchasedInputs|null
+     * @return \OpenRoam\Model\EsimPurchasedInputs
      */
-    public function getInputs(): ?\OpenRoam\Model\EsimPurchasedInputs
+    public function getInputs(): \OpenRoam\Model\EsimPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -401,11 +410,11 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\EsimPurchasedInputs|null $inputs The item's `inputs` under the request's keys. `eid`, `imei2` and `iccid` are masked; `travelStartDate` and `isInstant` are returned as applied, so a new eSIM ordered without `isInstant` reads `true`. An input the item did not take is null: a new eSIM has no `iccid`, and a top-up takes no `isInstant`.
+     * @param \OpenRoam\Model\EsimPurchasedInputs $inputs The item's `inputs` under the request's keys. `eid`, `imei2` and `iccid` are masked; `travelStartDate` and `isInstant` are returned as applied, so a new eSIM ordered without `isInstant` reads `true`. An input the item did not take is null: a new eSIM has no `iccid`, and a top-up takes no `isInstant`.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\EsimPurchasedInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\EsimPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -418,9 +427,9 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\EsimPurchasedDetails|null
+     * @return \OpenRoam\Model\EsimPurchasedDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\EsimPurchasedDetails
+    public function getDetails(): \OpenRoam\Model\EsimPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -428,11 +437,11 @@ class EsimPurchasedProduct implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\EsimPurchasedDetails|null $details eSIM facts outside the purchased-product keys every partner service shares. `isInstant` says whether the eSIM is provisioned when the item is fulfilled; a deferred one waits for `POST /esims/{id}/provisioning`. A top-up is always instant.
+     * @param \OpenRoam\Model\EsimPurchasedDetails $details eSIM facts outside the purchased-product keys every partner service shares. `isInstant` says whether the eSIM is provisioned when the item is fulfilled; a deferred one waits for `POST /esims/{id}/provisioning`. A top-up is always instant.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\EsimPurchasedDetails $details): static
+    public function setDetails(\OpenRoam\Model\EsimPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

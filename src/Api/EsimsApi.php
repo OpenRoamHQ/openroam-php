@@ -185,13 +185,13 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\EsimOrder|\OpenRoam\Model\ErrorResponse
      */
     public function esimsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\EsimOrderRequest $esim_order_request = null,
         string $contentType = self::contentTypes['esimsCreateOrder'][0]
-    ): \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\EsimOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->esimsCreateOrderWithHttpInfo($idempotency_key, $esim_order_request, $contentType);
         return $response;
@@ -208,7 +208,7 @@ class EsimsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\EsimOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\EsimOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function esimsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -248,13 +248,19 @@ class EsimsApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 404:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -308,15 +314,23 @@ class EsimsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -468,7 +482,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/order';
+        $resourcePath = '/v1/esims/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -566,7 +580,7 @@ class EsimsApi
      * @param  string|null $region Keep the destinations of this region, in display or slug form, for example &#x60;North America&#x60; or &#x60;north-america&#x60;. (optional)
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetCatalog'] to see the possible values for this operation
@@ -601,7 +615,7 @@ class EsimsApi
      * @param  string|null $region Keep the destinations of this region, in display or slug form, for example &#x60;North America&#x60; or &#x60;north-america&#x60;. (optional)
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetCatalog'] to see the possible values for this operation
@@ -728,7 +742,7 @@ class EsimsApi
      * @param  string|null $region Keep the destinations of this region, in display or slug form, for example &#x60;North America&#x60; or &#x60;north-america&#x60;. (optional)
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetCatalog'] to see the possible values for this operation
@@ -766,7 +780,7 @@ class EsimsApi
      * @param  string|null $region Keep the destinations of this region, in display or slug form, for example &#x60;North America&#x60; or &#x60;north-america&#x60;. (optional)
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetCatalog'] to see the possible values for this operation
@@ -841,7 +855,7 @@ class EsimsApi
      * @param  string|null $region Keep the destinations of this region, in display or slug form, for example &#x60;North America&#x60; or &#x60;north-america&#x60;. (optional)
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetCatalog'] to see the possible values for this operation
@@ -862,7 +876,7 @@ class EsimsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/esims/catalog';
+        $resourcePath = '/v1/esims/catalog';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1212,7 +1226,7 @@ class EsimsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/esims/compatible-devices';
+        $resourcePath = '/v1/esims/compatible-devices';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1233,6 +1247,11 @@ class EsimsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1262,7 +1281,7 @@ class EsimsApi
      * Get an eSIM destination
      *
      * @param  string $id The destination &#x60;id&#x60; from search, the destination list or the catalog. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetDestination'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -1285,7 +1304,7 @@ class EsimsApi
      * Get an eSIM destination
      *
      * @param  string $id The destination &#x60;id&#x60; from search, the destination list or the catalog. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetDestination'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -1400,7 +1419,7 @@ class EsimsApi
      * Get an eSIM destination
      *
      * @param  string $id The destination &#x60;id&#x60; from search, the destination list or the catalog. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetDestination'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1426,7 +1445,7 @@ class EsimsApi
      * Get an eSIM destination
      *
      * @param  string $id The destination &#x60;id&#x60; from search, the destination list or the catalog. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetDestination'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1489,7 +1508,7 @@ class EsimsApi
      * Create request for operation 'esimsGetDestination'
      *
      * @param  string $id The destination &#x60;id&#x60; from search, the destination list or the catalog. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetDestination'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1508,7 +1527,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/destinations/{id}';
+        $resourcePath = '/v1/esims/destinations/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1547,6 +1566,11 @@ class EsimsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1816,7 +1840,7 @@ class EsimsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/esims/destinations';
+        $resourcePath = '/v1/esims/destinations';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1857,6 +1881,11 @@ class EsimsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -2164,7 +2193,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/profile';
+        $resourcePath = '/v1/esims/{iccid}/profile';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2224,8 +2253,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetLocationEvents'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2253,8 +2282,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetLocationEvents'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2402,8 +2431,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetLocationEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2434,8 +2463,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetLocationEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2503,8 +2532,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetLocationEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2526,7 +2555,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/location-events';
+        $resourcePath = '/v1/esims/{iccid}/location-events';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2626,8 +2655,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetStatusEvents'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2655,8 +2684,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetStatusEvents'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2804,8 +2833,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetStatusEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2836,8 +2865,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetStatusEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2905,8 +2934,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only events that occurred at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only events that occurred at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetStatusEvents'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2928,7 +2957,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/status-events';
+        $resourcePath = '/v1/esims/{iccid}/status-events';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -3304,7 +3333,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/usage';
+        $resourcePath = '/v1/esims/{iccid}/usage';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -3640,7 +3669,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/usage/details';
+        $resourcePath = '/v1/esims/{iccid}/usage/details';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -3700,8 +3729,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only readings captured at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only readings captured at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only readings captured at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only readings captured at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetUsageHistory'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -3729,8 +3758,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only readings captured at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only readings captured at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only readings captured at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only readings captured at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetUsageHistory'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -3878,8 +3907,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only readings captured at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only readings captured at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only readings captured at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only readings captured at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetUsageHistory'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3910,8 +3939,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only readings captured at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only readings captured at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only readings captured at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only readings captured at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetUsageHistory'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -3979,8 +4008,8 @@ class EsimsApi
      * @param  string $iccid The eSIM&#39;s ICCID, from the order item&#39;s &#x60;fulfillment.result.details.iccid&#x60;. (required)
      * @param  int|null $page Page number, from 1; default 1. (optional, default to 1)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional, default to 10)
-     * @param  \DateTime|null $from Only readings captured at or after this UTC time. (optional)
-     * @param  \DateTime|null $to Only readings captured at or before this UTC time. (optional)
+     * @param  \DateTime|null $from Only readings captured at or after this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $to Only readings captured at or before this UTC time. ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsGetUsageHistory'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4002,7 +4031,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/usage/history';
+        $resourcePath = '/v1/esims/{iccid}/usage/history';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -4184,6 +4213,12 @@ class EsimsApi
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 409:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
@@ -4241,6 +4276,14 @@ class EsimsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -4404,7 +4447,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{id}/provisioning';
+        $resourcePath = '/v1/esims/{id}/provisioning';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -4576,6 +4619,12 @@ class EsimsApi
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 409:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
@@ -4619,6 +4668,14 @@ class EsimsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -4750,7 +4807,7 @@ class EsimsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/esims/quote';
+        $resourcePath = '/v1/esims/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -4813,6 +4870,11 @@ class EsimsApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -4845,7 +4907,7 @@ class EsimsApi
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
      * @param  string|null $iccid Top-up search: the ICCID (18 to 22 digits) of your eSIM to list the plans that can top it up. No other filter than &#x60;currency&#x60; is allowed with it. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSearch'] to see the possible values for this operation
@@ -4882,7 +4944,7 @@ class EsimsApi
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
      * @param  string|null $iccid Top-up search: the ICCID (18 to 22 digits) of your eSIM to list the plans that can top it up. No other filter than &#x60;currency&#x60; is allowed with it. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSearch'] to see the possible values for this operation
@@ -4942,6 +5004,12 @@ class EsimsApi
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 429:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
@@ -4986,6 +5054,14 @@ class EsimsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -5011,7 +5087,7 @@ class EsimsApi
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
      * @param  string|null $iccid Top-up search: the ICCID (18 to 22 digits) of your eSIM to list the plans that can top it up. No other filter than &#x60;currency&#x60; is allowed with it. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSearch'] to see the possible values for this operation
@@ -5051,7 +5127,7 @@ class EsimsApi
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
      * @param  string|null $iccid Top-up search: the ICCID (18 to 22 digits) of your eSIM to list the plans that can top it up. No other filter than &#x60;currency&#x60; is allowed with it. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSearch'] to see the possible values for this operation
@@ -5128,7 +5204,7 @@ class EsimsApi
      * @param  int|null $validity_days Keep the plans valid for exactly this many days; at least 1. (optional)
      * @param  bool|null $is_unlimited Keep the unlimited (&#x60;true&#x60;) or the limited (&#x60;false&#x60;) plans. (optional)
      * @param  string|null $iccid Top-up search: the ICCID (18 to 22 digits) of your eSIM to list the plans that can top it up. No other filter than &#x60;currency&#x60; is allowed with it. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['esimsSearch'] to see the possible values for this operation
@@ -5150,7 +5226,7 @@ class EsimsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/esims/search';
+        $resourcePath = '/v1/esims/search';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -5263,6 +5339,11 @@ class EsimsApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -5370,7 +5451,25 @@ class EsimsApi
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 429:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 502:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -5422,7 +5521,31 @@ class EsimsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 502:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -5550,7 +5673,7 @@ class EsimsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/esims/{iccid}/sms';
+        $resourcePath = '/v1/esims/{iccid}/sms';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

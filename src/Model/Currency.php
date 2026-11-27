@@ -281,6 +281,21 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['rate_to_usd'] === null) {
+            $invalidProperties[] = "'rate_to_usd' can't be null";
+        }
+        if ($this->container['rate_date'] === null) {
+            $invalidProperties[] = "'rate_date' can't be null";
+        }
+        if ($this->container['daily_percentage_difference'] === null) {
+            $invalidProperties[] = "'daily_percentage_difference' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +311,9 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -306,11 +321,11 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Currency id, used as `currencyId` when creating a wallet.
+     * @param string $id Currency id, used as `currencyId` when creating a wallet.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -323,9 +338,9 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->container['code'];
     }
@@ -333,11 +348,11 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code Three-letter currency code, for example `USD`.
+     * @param string $code Three-letter currency code, for example `USD`.
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setCode(string $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -350,9 +365,9 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_to_usd
      *
-     * @return float|null
+     * @return float
      */
-    public function getRateToUsd(): ?float
+    public function getRateToUsd(): float
     {
         return $this->container['rate_to_usd'];
     }
@@ -360,11 +375,11 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_to_usd
      *
-     * @param float|null $rate_to_usd The USD value of one unit of the currency.
+     * @param float $rate_to_usd The USD value of one unit of the currency.
      *
      * @return $this
      */
-    public function setRateToUsd(?float $rate_to_usd): static
+    public function setRateToUsd(float $rate_to_usd): static
     {
         if (is_null($rate_to_usd)) {
             throw new InvalidArgumentException('non-nullable rate_to_usd cannot be null');
@@ -377,9 +392,9 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getRateDate(): ?\DateTime
+    public function getRateDate(): \DateTime
     {
         return $this->container['rate_date'];
     }
@@ -387,11 +402,11 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_date
      *
-     * @param \DateTime|null $rate_date When the rate was last updated (UTC).
+     * @param \DateTime $rate_date When the rate was last updated (UTC).
      *
      * @return $this
      */
-    public function setRateDate(?\DateTime $rate_date): static
+    public function setRateDate(\DateTime $rate_date): static
     {
         if (is_null($rate_date)) {
             throw new InvalidArgumentException('non-nullable rate_date cannot be null');
@@ -404,9 +419,9 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets daily_percentage_difference
      *
-     * @return float|null
+     * @return float
      */
-    public function getDailyPercentageDifference(): ?float
+    public function getDailyPercentageDifference(): float
     {
         return $this->container['daily_percentage_difference'];
     }
@@ -414,11 +429,11 @@ class Currency implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets daily_percentage_difference
      *
-     * @param float|null $daily_percentage_difference Percentage change of the rate against the previous day.
+     * @param float $daily_percentage_difference Percentage change of the rate against the previous day.
      *
      * @return $this
      */
-    public function setDailyPercentageDifference(?float $daily_percentage_difference): static
+    public function setDailyPercentageDifference(float $daily_percentage_difference): static
     {
         if (is_null($daily_percentage_difference)) {
             throw new InvalidArgumentException('non-nullable daily_percentage_difference cannot be null');

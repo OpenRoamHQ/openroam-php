@@ -287,6 +287,12 @@ class EsimCompatibleDevice implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['brand'] === null) {
+            $invalidProperties[] = "'brand' can't be null";
+        }
+        if ($this->container['model'] === null) {
+            $invalidProperties[] = "'model' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -302,9 +308,9 @@ class EsimCompatibleDevice implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets brand
      *
-     * @return string|null
+     * @return string
      */
-    public function getBrand(): ?string
+    public function getBrand(): string
     {
         return $this->container['brand'];
     }
@@ -312,11 +318,11 @@ class EsimCompatibleDevice implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets brand
      *
-     * @param string|null $brand brand
+     * @param string $brand brand
      *
      * @return $this
      */
-    public function setBrand(?string $brand): static
+    public function setBrand(string $brand): static
     {
         if (is_null($brand)) {
             throw new InvalidArgumentException('non-nullable brand cannot be null');
@@ -329,9 +335,9 @@ class EsimCompatibleDevice implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets model
      *
-     * @return string|null
+     * @return string
      */
-    public function getModel(): ?string
+    public function getModel(): string
     {
         return $this->container['model'];
     }
@@ -339,11 +345,11 @@ class EsimCompatibleDevice implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets model
      *
-     * @param string|null $model model
+     * @param string $model model
      *
      * @return $this
      */
-    public function setModel(?string $model): static
+    public function setModel(string $model): static
     {
         if (is_null($model)) {
             throw new InvalidArgumentException('non-nullable model cannot be null');

@@ -14,7 +14,7 @@ class WalletsResource
     }
 
     /**
-     * List wallets. GET /api/v1/b2b/wallets
+     * List wallets. GET /v1/wallets
      *
      * @param array{timeout?: float|int} $options
      * @return \OpenRoam\Model\WalletSummary[]
@@ -30,7 +30,7 @@ class WalletsResource
     }
 
     /**
-     * Create a wallet. POST /api/v1/b2b/wallets
+     * Create a wallet. POST /v1/wallets
      *
      * @param \OpenRoam\Model\WalletCreateRequest|array|null $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -47,7 +47,7 @@ class WalletsResource
     }
 
     /**
-     * Get a wallet. GET /api/v1/b2b/wallets/{id}
+     * Get a wallet. GET /v1/wallets/{id}
      *
      * @param string $id
      * @param array{timeout?: float|int} $options
@@ -64,7 +64,7 @@ class WalletsResource
     }
 
     /**
-     * Update a wallet. PATCH /api/v1/b2b/wallets/{id}
+     * Update a wallet. PATCH /v1/wallets/{id}
      *
      * @param string $id
      * @param \OpenRoam\Model\WalletUpdateRequest|array|null $body the model, or an array of the same fields
@@ -83,7 +83,7 @@ class WalletsResource
     }
 
     /**
-     * Select a wallet. PATCH /api/v1/b2b/wallets/select/{id}
+     * Select a wallet. PATCH /v1/wallets/select/{id}
      *
      * @param string $id
      * @param array{timeout?: float|int} $options
@@ -99,7 +99,7 @@ class WalletsResource
     }
 
     /**
-     * Transfer between wallets. POST /api/v1/b2b/wallets/transfer
+     * Transfer between wallets. POST /v1/wallets/transfer
      *
      * @param \OpenRoam\Model\WalletTransferRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -118,7 +118,7 @@ class WalletsResource
     }
 
     /**
-     * List wallet transactions. GET /api/v1/b2b/wallets/{walletId}/transactions
+     * List wallet transactions. GET /v1/wallets/{walletId}/transactions
      *
      * @param string $walletId
      * @param array{page?: int, limit?: int, startDate?: \DateTimeInterface|string, endDate?: \DateTimeInterface|string, type?: string, source?: string} $query

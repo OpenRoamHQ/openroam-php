@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimUsageWebhookData Class Doc Comment
  *
- * @description Data of the &#x60;esim.usage.updated&#x60; webhook. Partners address the eSIM by its order item and ICCID; the offer&#39;s public id and internal package ids are not part of it. Allowances and remaining amounts are the base plan&#39;s, without top-ups: data in MB (binary 1024), voice in seconds and SMS in messages.
+ * @description Data of the &#x60;esim.usage.updated&#x60; webhook, with the names, meanings, units and formats of &#x60;GET /esims/{iccid}/usage&#x60;: plan and top-ups together, data in MB (1 MB &#x3D; 1024 KB), SMS in messages, voice in minutes, and null for an amount that is unlimited, not reported or not included. Partners address the eSIM by its order item and ICCID; the offer&#39;s public id and internal package ids are not part of it.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,17 +63,20 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'order_id' => 'string',
         'order_item_id' => 'string',
         'iccid' => 'string',
-        'start' => 'int',
-        'end' => 'int',
-        'status' => 'string',
+        'start' => '\DateTime',
+        'end' => '\DateTime',
+        'esim_status' => 'string',
+        'profile_status' => 'string',
         'package_name' => 'string',
-        'is_unlimited' => 'bool',
         'allowed_data' => 'int',
         'remaining_data' => 'int',
+        'is_data_unlimited' => 'bool',
         'allowed_sms' => 'int',
         'remaining_sms' => 'int',
+        'is_sms_unlimited' => 'bool',
         'allowed_voice' => 'int',
-        'remaining_voice' => 'int'
+        'remaining_voice' => 'int',
+        'is_voice_unlimited' => 'bool'
     ];
 
     /**
@@ -85,17 +88,20 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'order_id' => 'uuid',
         'order_item_id' => 'uuid',
         'iccid' => null,
-        'start' => 'int64',
-        'end' => 'int64',
-        'status' => null,
+        'start' => 'date-time',
+        'end' => 'date-time',
+        'esim_status' => null,
+        'profile_status' => null,
         'package_name' => null,
-        'is_unlimited' => null,
         'allowed_data' => 'int64',
         'remaining_data' => 'int64',
+        'is_data_unlimited' => null,
         'allowed_sms' => 'int64',
         'remaining_sms' => 'int64',
+        'is_sms_unlimited' => null,
         'allowed_voice' => 'int64',
-        'remaining_voice' => 'int64'
+        'remaining_voice' => 'int64',
+        'is_voice_unlimited' => null
     ];
 
     /**
@@ -109,15 +115,18 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'iccid' => true,
         'start' => true,
         'end' => true,
-        'status' => false,
+        'esim_status' => false,
+        'profile_status' => false,
         'package_name' => false,
-        'is_unlimited' => false,
-        'allowed_data' => false,
-        'remaining_data' => false,
-        'allowed_sms' => false,
-        'remaining_sms' => false,
-        'allowed_voice' => false,
-        'remaining_voice' => false
+        'allowed_data' => true,
+        'remaining_data' => true,
+        'is_data_unlimited' => false,
+        'allowed_sms' => true,
+        'remaining_sms' => true,
+        'is_sms_unlimited' => false,
+        'allowed_voice' => true,
+        'remaining_voice' => true,
+        'is_voice_unlimited' => false
     ];
 
     /**
@@ -201,15 +210,18 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'iccid' => 'iccid',
         'start' => 'start',
         'end' => 'end',
-        'status' => 'status',
+        'esim_status' => 'esimStatus',
+        'profile_status' => 'profileStatus',
         'package_name' => 'packageName',
-        'is_unlimited' => 'isUnlimited',
         'allowed_data' => 'allowedData',
         'remaining_data' => 'remainingData',
+        'is_data_unlimited' => 'isDataUnlimited',
         'allowed_sms' => 'allowedSms',
         'remaining_sms' => 'remainingSms',
+        'is_sms_unlimited' => 'isSmsUnlimited',
         'allowed_voice' => 'allowedVoice',
-        'remaining_voice' => 'remainingVoice'
+        'remaining_voice' => 'remainingVoice',
+        'is_voice_unlimited' => 'isVoiceUnlimited'
     ];
 
     /**
@@ -223,15 +235,18 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'iccid' => 'setIccid',
         'start' => 'setStart',
         'end' => 'setEnd',
-        'status' => 'setStatus',
+        'esim_status' => 'setEsimStatus',
+        'profile_status' => 'setProfileStatus',
         'package_name' => 'setPackageName',
-        'is_unlimited' => 'setIsUnlimited',
         'allowed_data' => 'setAllowedData',
         'remaining_data' => 'setRemainingData',
+        'is_data_unlimited' => 'setIsDataUnlimited',
         'allowed_sms' => 'setAllowedSms',
         'remaining_sms' => 'setRemainingSms',
+        'is_sms_unlimited' => 'setIsSmsUnlimited',
         'allowed_voice' => 'setAllowedVoice',
-        'remaining_voice' => 'setRemainingVoice'
+        'remaining_voice' => 'setRemainingVoice',
+        'is_voice_unlimited' => 'setIsVoiceUnlimited'
     ];
 
     /**
@@ -245,15 +260,18 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         'iccid' => 'getIccid',
         'start' => 'getStart',
         'end' => 'getEnd',
-        'status' => 'getStatus',
+        'esim_status' => 'getEsimStatus',
+        'profile_status' => 'getProfileStatus',
         'package_name' => 'getPackageName',
-        'is_unlimited' => 'getIsUnlimited',
         'allowed_data' => 'getAllowedData',
         'remaining_data' => 'getRemainingData',
+        'is_data_unlimited' => 'getIsDataUnlimited',
         'allowed_sms' => 'getAllowedSms',
         'remaining_sms' => 'getRemainingSms',
+        'is_sms_unlimited' => 'getIsSmsUnlimited',
         'allowed_voice' => 'getAllowedVoice',
-        'remaining_voice' => 'getRemainingVoice'
+        'remaining_voice' => 'getRemainingVoice',
+        'is_voice_unlimited' => 'getIsVoiceUnlimited'
     ];
 
     /**
@@ -288,6 +306,66 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         return self::$openAPIModelName;
     }
 
+    public const ESIM_STATUS__NEW = 'new';
+    public const ESIM_STATUS_PROCURING = 'procuring';
+    public const ESIM_STATUS_PENDING = 'pending';
+    public const ESIM_STATUS_FAILED = 'failed';
+    public const ESIM_STATUS_READY = 'ready';
+    public const ESIM_STATUS_CANCELLED = 'cancelled';
+    public const ESIM_STATUS_REVOKED = 'revoked';
+    public const ESIM_STATUS_EXPIRED = 'expired';
+    public const ESIM_STATUS_UNKNOWN = 'unknown';
+    public const PROFILE_STATUS__EMPTY = 'empty';
+    public const PROFILE_STATUS__NEW = 'new';
+    public const PROFILE_STATUS_DOWNLOADED = 'downloaded';
+    public const PROFILE_STATUS_INSTALLED = 'installed';
+    public const PROFILE_STATUS_ACTIVATED = 'activated';
+    public const PROFILE_STATUS_INACTIVE = 'inactive';
+    public const PROFILE_STATUS_DELETED = 'deleted';
+    public const PROFILE_STATUS_REVOKED = 'revoked';
+    public const PROFILE_STATUS_EXPIRED = 'expired';
+    public const PROFILE_STATUS_UNKNOWN = 'unknown';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getEsimStatusAllowableValues()
+    {
+        return [
+            self::ESIM_STATUS__NEW,
+            self::ESIM_STATUS_PROCURING,
+            self::ESIM_STATUS_PENDING,
+            self::ESIM_STATUS_FAILED,
+            self::ESIM_STATUS_READY,
+            self::ESIM_STATUS_CANCELLED,
+            self::ESIM_STATUS_REVOKED,
+            self::ESIM_STATUS_EXPIRED,
+            self::ESIM_STATUS_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getProfileStatusAllowableValues()
+    {
+        return [
+            self::PROFILE_STATUS__EMPTY,
+            self::PROFILE_STATUS__NEW,
+            self::PROFILE_STATUS_DOWNLOADED,
+            self::PROFILE_STATUS_INSTALLED,
+            self::PROFILE_STATUS_ACTIVATED,
+            self::PROFILE_STATUS_INACTIVE,
+            self::PROFILE_STATUS_DELETED,
+            self::PROFILE_STATUS_REVOKED,
+            self::PROFILE_STATUS_EXPIRED,
+            self::PROFILE_STATUS_UNKNOWN,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -308,15 +386,18 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
         $this->setIfExists('iccid', $data ?? [], null);
         $this->setIfExists('start', $data ?? [], null);
         $this->setIfExists('end', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('esim_status', $data ?? [], null);
+        $this->setIfExists('profile_status', $data ?? [], null);
         $this->setIfExists('package_name', $data ?? [], null);
-        $this->setIfExists('is_unlimited', $data ?? [], null);
         $this->setIfExists('allowed_data', $data ?? [], null);
         $this->setIfExists('remaining_data', $data ?? [], null);
+        $this->setIfExists('is_data_unlimited', $data ?? [], null);
         $this->setIfExists('allowed_sms', $data ?? [], null);
         $this->setIfExists('remaining_sms', $data ?? [], null);
+        $this->setIfExists('is_sms_unlimited', $data ?? [], null);
         $this->setIfExists('allowed_voice', $data ?? [], null);
         $this->setIfExists('remaining_voice', $data ?? [], null);
+        $this->setIfExists('is_voice_unlimited', $data ?? [], null);
     }
 
     /**
@@ -344,6 +425,48 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['order_id'] === null) {
+            $invalidProperties[] = "'order_id' can't be null";
+        }
+        if ($this->container['order_item_id'] === null) {
+            $invalidProperties[] = "'order_item_id' can't be null";
+        }
+        if ($this->container['esim_status'] === null) {
+            $invalidProperties[] = "'esim_status' can't be null";
+        }
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!is_null($this->container['esim_status']) && !in_array($this->container['esim_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'esim_status', must be one of '%s'",
+                $this->container['esim_status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['profile_status'] === null) {
+            $invalidProperties[] = "'profile_status' can't be null";
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!is_null($this->container['profile_status']) && !in_array($this->container['profile_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'profile_status', must be one of '%s'",
+                $this->container['profile_status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['package_name'] === null) {
+            $invalidProperties[] = "'package_name' can't be null";
+        }
+        if ($this->container['is_data_unlimited'] === null) {
+            $invalidProperties[] = "'is_data_unlimited' can't be null";
+        }
+        if ($this->container['is_sms_unlimited'] === null) {
+            $invalidProperties[] = "'is_sms_unlimited' can't be null";
+        }
+        if ($this->container['is_voice_unlimited'] === null) {
+            $invalidProperties[] = "'is_voice_unlimited' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -359,9 +482,9 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets order_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->container['order_id'];
     }
@@ -369,11 +492,11 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets order_id
      *
-     * @param string|null $order_id order_id
+     * @param string $order_id order_id
      *
      * @return $this
      */
-    public function setOrderId(?string $order_id): static
+    public function setOrderId(string $order_id): static
     {
         if (is_null($order_id)) {
             throw new InvalidArgumentException('non-nullable order_id cannot be null');
@@ -386,9 +509,9 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets order_item_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderItemId(): ?string
+    public function getOrderItemId(): string
     {
         return $this->container['order_item_id'];
     }
@@ -396,11 +519,11 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets order_item_id
      *
-     * @param string|null $order_item_id order_item_id
+     * @param string $order_item_id order_item_id
      *
      * @return $this
      */
-    public function setOrderItemId(?string $order_item_id): static
+    public function setOrderItemId(string $order_item_id): static
     {
         if (is_null($order_item_id)) {
             throw new InvalidArgumentException('non-nullable order_item_id cannot be null');
@@ -423,7 +546,7 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets iccid
      *
-     * @param string|null $iccid iccid
+     * @param string|null $iccid The eSIM's ICCID; null until the eSIM is provisioned.
      *
      * @return $this
      */
@@ -447,9 +570,9 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets start
      *
-     * @return int|null
+     * @return \DateTime|null
      */
-    public function getStart(): ?int
+    public function getStart(): ?\DateTime
     {
         return $this->container['start'];
     }
@@ -457,11 +580,11 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets start
      *
-     * @param int|null $start start
+     * @param \DateTime|null $start When the plan started, in UTC (ISO 8601); null until it is activated.
      *
      * @return $this
      */
-    public function setStart(?int $start): static
+    public function setStart(?\DateTime $start): static
     {
         if (is_null($start)) {
             array_push($this->openAPINullablesSetToNull, 'start');
@@ -481,9 +604,9 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets end
      *
-     * @return int|null
+     * @return \DateTime|null
      */
-    public function getEnd(): ?int
+    public function getEnd(): ?\DateTime
     {
         return $this->container['end'];
     }
@@ -491,11 +614,11 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets end
      *
-     * @param int|null $end end
+     * @param \DateTime|null $end When the plan ends, in UTC (ISO 8601), as last reported; null while no end is reported.
      *
      * @return $this
      */
-    public function setEnd(?int $end): static
+    public function setEnd(?\DateTime $end): static
     {
         if (is_null($end)) {
             array_push($this->openAPINullablesSetToNull, 'end');
@@ -513,28 +636,75 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Gets status
+     * Gets esim_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getEsimStatus(): string
     {
-        return $this->container['status'];
+        return $this->container['esim_status'];
     }
 
     /**
-     * Sets status
+     * Sets esim_status
      *
-     * @param string|null $status status
+     * @param string $esim_status The eSIM's lifecycle status, as `esimStatus` on the order item and usage reads.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setEsimStatus(string $esim_status): static
     {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($esim_status)) {
+            throw new InvalidArgumentException('non-nullable esim_status cannot be null');
         }
-        $this->container['status'] = $status;
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!in_array($esim_status, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'esim_status', must be one of '%s'",
+                    $esim_status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['esim_status'] = $esim_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets profile_status
+     *
+     * @return string
+     */
+    public function getProfileStatus(): string
+    {
+        return $this->container['profile_status'];
+    }
+
+    /**
+     * Sets profile_status
+     *
+     * @param string $profile_status The installed profile's status, as `profileStatus` on the order item and usage reads.
+     *
+     * @return $this
+     */
+    public function setProfileStatus(string $profile_status): static
+    {
+        if (is_null($profile_status)) {
+            throw new InvalidArgumentException('non-nullable profile_status cannot be null');
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!in_array($profile_status, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'profile_status', must be one of '%s'",
+                    $profile_status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['profile_status'] = $profile_status;
 
         return $this;
     }
@@ -542,9 +712,9 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets package_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getPackageName(): ?string
+    public function getPackageName(): string
     {
         return $this->container['package_name'];
     }
@@ -552,43 +722,16 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets package_name
      *
-     * @param string|null $package_name package_name
+     * @param string $package_name Display name of the purchased plan.
      *
      * @return $this
      */
-    public function setPackageName(?string $package_name): static
+    public function setPackageName(string $package_name): static
     {
         if (is_null($package_name)) {
             throw new InvalidArgumentException('non-nullable package_name cannot be null');
         }
         $this->container['package_name'] = $package_name;
-
-        return $this;
-    }
-
-    /**
-     * Gets is_unlimited
-     *
-     * @return bool|null
-     */
-    public function getIsUnlimited(): ?bool
-    {
-        return $this->container['is_unlimited'];
-    }
-
-    /**
-     * Sets is_unlimited
-     *
-     * @param bool|null $is_unlimited is_unlimited
-     *
-     * @return $this
-     */
-    public function setIsUnlimited(?bool $is_unlimited): static
-    {
-        if (is_null($is_unlimited)) {
-            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
-        }
-        $this->container['is_unlimited'] = $is_unlimited;
 
         return $this;
     }
@@ -606,14 +749,21 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets allowed_data
      *
-     * @param int|null $allowed_data allowed_data
+     * @param int|null $allowed_data Total data in MB; null when unlimited or not reported.
      *
      * @return $this
      */
     public function setAllowedData(?int $allowed_data): static
     {
         if (is_null($allowed_data)) {
-            throw new InvalidArgumentException('non-nullable allowed_data cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_data'] = $allowed_data;
 
@@ -633,16 +783,50 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets remaining_data
      *
-     * @param int|null $remaining_data remaining_data
+     * @param int|null $remaining_data Remaining data in MB; null when unlimited or not reported.
      *
      * @return $this
      */
     public function setRemainingData(?int $remaining_data): static
     {
         if (is_null($remaining_data)) {
-            throw new InvalidArgumentException('non-nullable remaining_data cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_data'] = $remaining_data;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_data_unlimited
+     *
+     * @return bool
+     */
+    public function getIsDataUnlimited(): bool
+    {
+        return $this->container['is_data_unlimited'];
+    }
+
+    /**
+     * Sets is_data_unlimited
+     *
+     * @param bool $is_data_unlimited Whether the data is unlimited.
+     *
+     * @return $this
+     */
+    public function setIsDataUnlimited(bool $is_data_unlimited): static
+    {
+        if (is_null($is_data_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_data_unlimited cannot be null');
+        }
+        $this->container['is_data_unlimited'] = $is_data_unlimited;
 
         return $this;
     }
@@ -660,14 +844,21 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets allowed_sms
      *
-     * @param int|null $allowed_sms allowed_sms
+     * @param int|null $allowed_sms Total SMS, in messages; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setAllowedSms(?int $allowed_sms): static
     {
         if (is_null($allowed_sms)) {
-            throw new InvalidArgumentException('non-nullable allowed_sms cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_sms');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_sms', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_sms'] = $allowed_sms;
 
@@ -687,16 +878,50 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets remaining_sms
      *
-     * @param int|null $remaining_sms remaining_sms
+     * @param int|null $remaining_sms Remaining SMS, in messages; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setRemainingSms(?int $remaining_sms): static
     {
         if (is_null($remaining_sms)) {
-            throw new InvalidArgumentException('non-nullable remaining_sms cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_sms');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_sms', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_sms'] = $remaining_sms;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_sms_unlimited
+     *
+     * @return bool
+     */
+    public function getIsSmsUnlimited(): bool
+    {
+        return $this->container['is_sms_unlimited'];
+    }
+
+    /**
+     * Sets is_sms_unlimited
+     *
+     * @param bool $is_sms_unlimited Whether SMS are unlimited.
+     *
+     * @return $this
+     */
+    public function setIsSmsUnlimited(bool $is_sms_unlimited): static
+    {
+        if (is_null($is_sms_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_sms_unlimited cannot be null');
+        }
+        $this->container['is_sms_unlimited'] = $is_sms_unlimited;
 
         return $this;
     }
@@ -714,14 +939,21 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets allowed_voice
      *
-     * @param int|null $allowed_voice allowed_voice
+     * @param int|null $allowed_voice Total voice, in minutes; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setAllowedVoice(?int $allowed_voice): static
     {
         if (is_null($allowed_voice)) {
-            throw new InvalidArgumentException('non-nullable allowed_voice cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_voice');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_voice', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_voice'] = $allowed_voice;
 
@@ -741,16 +973,50 @@ class EsimUsageWebhookData implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets remaining_voice
      *
-     * @param int|null $remaining_voice remaining_voice
+     * @param int|null $remaining_voice Remaining voice, in whole minutes; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setRemainingVoice(?int $remaining_voice): static
     {
         if (is_null($remaining_voice)) {
-            throw new InvalidArgumentException('non-nullable remaining_voice cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_voice');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_voice', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_voice'] = $remaining_voice;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_voice_unlimited
+     *
+     * @return bool
+     */
+    public function getIsVoiceUnlimited(): bool
+    {
+        return $this->container['is_voice_unlimited'];
+    }
+
+    /**
+     * Sets is_voice_unlimited
+     *
+     * @param bool $is_voice_unlimited Whether voice is unlimited.
+     *
+     * @return $this
+     */
+    public function setIsVoiceUnlimited(bool $is_voice_unlimited): static
+    {
+        if (is_null($is_voice_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_voice_unlimited cannot be null');
+        }
+        $this->container['is_voice_unlimited'] = $is_voice_unlimited;
 
         return $this;
     }

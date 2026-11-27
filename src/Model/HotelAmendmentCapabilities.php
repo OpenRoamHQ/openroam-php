@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * HotelAmendmentCapabilities Class Doc Comment
  *
- * @description Which parts of the booked room and guest &lt;b&gt;composition&lt;/b&gt; an amendment can change for this booking. Dates and the holder are not covered here.
+ * @description Which parts of the booked stay an amendment can change for this booking: its room and guest &lt;b&gt;composition&lt;/b&gt;, its dates and its holder.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,7 +61,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $openAPITypes = [
         'guests' => '\OpenRoam\Model\GuestAmendmentCapabilities',
-        'rooms' => '\OpenRoam\Model\RoomAmendmentCapabilities'
+        'rooms' => '\OpenRoam\Model\RoomAmendmentCapabilities',
+        'dates' => '\OpenRoam\Model\DateAmendmentCapabilities',
+        'holder' => '\OpenRoam\Model\HolderAmendmentCapabilities'
     ];
 
     /**
@@ -71,7 +73,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $openAPIFormats = [
         'guests' => null,
-        'rooms' => null
+        'rooms' => null,
+        'dates' => null,
+        'holder' => null
     ];
 
     /**
@@ -81,7 +85,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $openAPINullables = [
         'guests' => false,
-        'rooms' => false
+        'rooms' => false,
+        'dates' => false,
+        'holder' => false
     ];
 
     /**
@@ -161,7 +167,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $attributeMap = [
         'guests' => 'guests',
-        'rooms' => 'rooms'
+        'rooms' => 'rooms',
+        'dates' => 'dates',
+        'holder' => 'holder'
     ];
 
     /**
@@ -171,7 +179,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $setters = [
         'guests' => 'setGuests',
-        'rooms' => 'setRooms'
+        'rooms' => 'setRooms',
+        'dates' => 'setDates',
+        'holder' => 'setHolder'
     ];
 
     /**
@@ -181,7 +191,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
      */
     protected static array $getters = [
         'guests' => 'getGuests',
-        'rooms' => 'getRooms'
+        'rooms' => 'getRooms',
+        'dates' => 'getDates',
+        'holder' => 'getHolder'
     ];
 
     /**
@@ -233,6 +245,8 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     {
         $this->setIfExists('guests', $data ?? [], null);
         $this->setIfExists('rooms', $data ?? [], null);
+        $this->setIfExists('dates', $data ?? [], null);
+        $this->setIfExists('holder', $data ?? [], null);
     }
 
     /**
@@ -260,6 +274,18 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     {
         $invalidProperties = [];
 
+        if ($this->container['guests'] === null) {
+            $invalidProperties[] = "'guests' can't be null";
+        }
+        if ($this->container['rooms'] === null) {
+            $invalidProperties[] = "'rooms' can't be null";
+        }
+        if ($this->container['dates'] === null) {
+            $invalidProperties[] = "'dates' can't be null";
+        }
+        if ($this->container['holder'] === null) {
+            $invalidProperties[] = "'holder' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +301,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets guests
      *
-     * @return \OpenRoam\Model\GuestAmendmentCapabilities|null
+     * @return \OpenRoam\Model\GuestAmendmentCapabilities
      */
-    public function getGuests(): ?\OpenRoam\Model\GuestAmendmentCapabilities
+    public function getGuests(): \OpenRoam\Model\GuestAmendmentCapabilities
     {
         return $this->container['guests'];
     }
@@ -285,11 +311,11 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets guests
      *
-     * @param \OpenRoam\Model\GuestAmendmentCapabilities|null $guests What may change about the guests inside a room.
+     * @param \OpenRoam\Model\GuestAmendmentCapabilities $guests What may change about the guests inside a room.
      *
      * @return $this
      */
-    public function setGuests(?\OpenRoam\Model\GuestAmendmentCapabilities $guests): static
+    public function setGuests(\OpenRoam\Model\GuestAmendmentCapabilities $guests): static
     {
         if (is_null($guests)) {
             throw new InvalidArgumentException('non-nullable guests cannot be null');
@@ -302,9 +328,9 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\RoomAmendmentCapabilities|null
+     * @return \OpenRoam\Model\RoomAmendmentCapabilities
      */
-    public function getRooms(): ?\OpenRoam\Model\RoomAmendmentCapabilities
+    public function getRooms(): \OpenRoam\Model\RoomAmendmentCapabilities
     {
         return $this->container['rooms'];
     }
@@ -312,16 +338,70 @@ class HotelAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSer
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\RoomAmendmentCapabilities|null $rooms What may change about the rooms themselves. Adding or removing rooms is not offered today, so both are false.
+     * @param \OpenRoam\Model\RoomAmendmentCapabilities $rooms What may change about the rooms themselves. Adding a room is offered nowhere; removing one only where a single room of a multi-room stay can be cancelled on its own (`roomRemovalOnly`).
      *
      * @return $this
      */
-    public function setRooms(?\OpenRoam\Model\RoomAmendmentCapabilities $rooms): static
+    public function setRooms(\OpenRoam\Model\RoomAmendmentCapabilities $rooms): static
     {
         if (is_null($rooms)) {
             throw new InvalidArgumentException('non-nullable rooms cannot be null');
         }
         $this->container['rooms'] = $rooms;
+
+        return $this;
+    }
+
+    /**
+     * Gets dates
+     *
+     * @return \OpenRoam\Model\DateAmendmentCapabilities
+     */
+    public function getDates(): \OpenRoam\Model\DateAmendmentCapabilities
+    {
+        return $this->container['dates'];
+    }
+
+    /**
+     * Sets dates
+     *
+     * @param \OpenRoam\Model\DateAmendmentCapabilities $dates Whether the check-in and check-out dates may move.
+     *
+     * @return $this
+     */
+    public function setDates(\OpenRoam\Model\DateAmendmentCapabilities $dates): static
+    {
+        if (is_null($dates)) {
+            throw new InvalidArgumentException('non-nullable dates cannot be null');
+        }
+        $this->container['dates'] = $dates;
+
+        return $this;
+    }
+
+    /**
+     * Gets holder
+     *
+     * @return \OpenRoam\Model\HolderAmendmentCapabilities
+     */
+    public function getHolder(): \OpenRoam\Model\HolderAmendmentCapabilities
+    {
+        return $this->container['holder'];
+    }
+
+    /**
+     * Sets holder
+     *
+     * @param \OpenRoam\Model\HolderAmendmentCapabilities $holder Whether the booking holder may change.
+     *
+     * @return $this
+     */
+    public function setHolder(\OpenRoam\Model\HolderAmendmentCapabilities $holder): static
+    {
+        if (is_null($holder)) {
+            throw new InvalidArgumentException('non-nullable holder cannot be null');
+        }
+        $this->container['holder'] = $holder;
 
         return $this;
     }

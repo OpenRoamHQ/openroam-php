@@ -1,6 +1,5 @@
 <p align="center">
-  <img alt="OpenRoam" src="brand/readme-lockup-light.svg#gh-light-mode-only" width="280" />
-  <img alt="OpenRoam" src="brand/readme-lockup-dark.svg#gh-dark-mode-only" width="280" />
+  <img alt="OpenRoam" src="https://openroamhq.github.io/openroam-sdks/brand/readme-lockup-light.svg" width="280" />
 </p>
 
 # OpenRoam SDK for PHP

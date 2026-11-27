@@ -66,6 +66,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'amount' => 'float',
         'currency' => 'string',
         'description' => 'string',
+        'order_id' => 'string',
         'original_amount' => 'float',
         'original_currency' => 'string',
         'conversion_rate' => 'float',
@@ -84,6 +85,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'amount' => 'decimal',
         'currency' => null,
         'description' => null,
+        'order_id' => 'uuid',
         'original_amount' => 'decimal',
         'original_currency' => null,
         'conversion_rate' => 'decimal',
@@ -101,7 +103,8 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'source' => false,
         'amount' => false,
         'currency' => false,
-        'description' => true,
+        'description' => false,
+        'order_id' => true,
         'original_amount' => false,
         'original_currency' => false,
         'conversion_rate' => true,
@@ -190,6 +193,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'amount' => 'amount',
         'currency' => 'currency',
         'description' => 'description',
+        'order_id' => 'orderId',
         'original_amount' => 'originalAmount',
         'original_currency' => 'originalCurrency',
         'conversion_rate' => 'conversionRate',
@@ -208,6 +212,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'amount' => 'setAmount',
         'currency' => 'setCurrency',
         'description' => 'setDescription',
+        'order_id' => 'setOrderId',
         'original_amount' => 'setOriginalAmount',
         'original_currency' => 'setOriginalCurrency',
         'conversion_rate' => 'setConversionRate',
@@ -226,6 +231,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         'amount' => 'getAmount',
         'currency' => 'getCurrency',
         'description' => 'getDescription',
+        'order_id' => 'getOrderId',
         'original_amount' => 'getOriginalAmount',
         'original_currency' => 'getOriginalCurrency',
         'conversion_rate' => 'getConversionRate',
@@ -264,8 +270,8 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const TYPE_CREDIT = 'credit';
     public const TYPE_DEBIT = 'debit';
+    public const TYPE_CREDIT = 'credit';
     public const SOURCE_TOP_UP = 'topUp';
     public const SOURCE_PAY_OUT = 'payOut';
     public const SOURCE_ORDER = 'order';
@@ -280,8 +286,8 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     public static function getTypeAllowableValues()
     {
         return [
-            self::TYPE_CREDIT,
             self::TYPE_DEBIT,
+            self::TYPE_CREDIT,
         ];
     }
 
@@ -321,6 +327,7 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('amount', $data ?? [], null);
         $this->setIfExists('currency', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
+        $this->setIfExists('order_id', $data ?? [], null);
         $this->setIfExists('original_amount', $data ?? [], null);
         $this->setIfExists('original_currency', $data ?? [], null);
         $this->setIfExists('conversion_rate', $data ?? [], null);
@@ -352,6 +359,12 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
         $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -361,6 +374,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['source'] === null) {
+            $invalidProperties[] = "'source' can't be null";
+        }
         $allowedValues = self::getSourceAllowableValues();
         if (!is_null($this->container['source']) && !in_array($this->container['source'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -370,6 +386,24 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['amount'] === null) {
+            $invalidProperties[] = "'amount' can't be null";
+        }
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
+        if ($this->container['description'] === null) {
+            $invalidProperties[] = "'description' can't be null";
+        }
+        if ($this->container['original_amount'] === null) {
+            $invalidProperties[] = "'original_amount' can't be null";
+        }
+        if ($this->container['original_currency'] === null) {
+            $invalidProperties[] = "'original_currency' can't be null";
+        }
+        if ($this->container['date'] === null) {
+            $invalidProperties[] = "'date' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -385,9 +419,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -395,11 +429,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Transaction id.
+     * @param string $id Transaction id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -412,9 +446,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -422,11 +456,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type `debit` adds funds to the wallet; `credit` takes funds from it.
+     * @param string $type `debit` takes funds from the wallet, such as an order payment; `credit` adds funds to             it, such as a top-up or a refund.
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -449,9 +483,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets source
      *
-     * @return string|null
+     * @return string
      */
-    public function getSource(): ?string
+    public function getSource(): string
     {
         return $this->container['source'];
     }
@@ -459,11 +493,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets source
      *
-     * @param string|null $source Why the transaction was made, such as `order`, `topUp` or `exchange`.
+     * @param string $source Why the transaction was made, such as `order`, `topUp` or `exchange`.
      *
      * @return $this
      */
-    public function setSource(?string $source): static
+    public function setSource(string $source): static
     {
         if (is_null($source)) {
             throw new InvalidArgumentException('non-nullable source cannot be null');
@@ -486,9 +520,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amount
      *
-     * @return float|null
+     * @return float
      */
-    public function getAmount(): ?float
+    public function getAmount(): float
     {
         return $this->container['amount'];
     }
@@ -496,11 +530,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param float|null $amount The amount, in the wallet's currency.
+     * @param float $amount The amount, in the wallet's currency.
      *
      * @return $this
      */
-    public function setAmount(?float $amount): static
+    public function setAmount(float $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');
@@ -513,9 +547,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getCurrency(): ?string
+    public function getCurrency(): string
     {
         return $this->container['currency'];
     }
@@ -523,11 +557,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param string|null $currency The wallet's currency.
+     * @param string $currency The wallet's currency.
      *
      * @return $this
      */
-    public function setCurrency(?string $currency): static
+    public function setCurrency(string $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');
@@ -540,9 +574,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets description
      *
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->container['description'];
     }
@@ -550,21 +584,14 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets description
      *
-     * @param string|null $description A short description.
+     * @param string $description What the transaction was for, such as `Wallet top-up` or             `Order payment for order {orderId}`.
      *
      * @return $this
      */
-    public function setDescription(?string $description): static
+    public function setDescription(string $description): static
     {
         if (is_null($description)) {
-            array_push($this->openAPINullablesSetToNull, 'description');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('description', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new InvalidArgumentException('non-nullable description cannot be null');
         }
         $this->container['description'] = $description;
 
@@ -572,11 +599,45 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets order_id
+     *
+     * @return string|null
+     */
+    public function getOrderId(): ?string
+    {
+        return $this->container['order_id'];
+    }
+
+    /**
+     * Sets order_id
+     *
+     * @param string|null $order_id The order the transaction belongs to, such as its payment or a refund for it; `null`             when it belongs to no order.
+     *
+     * @return $this
+     */
+    public function setOrderId(?string $order_id): static
+    {
+        if (is_null($order_id)) {
+            array_push($this->openAPINullablesSetToNull, 'order_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('order_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['order_id'] = $order_id;
+
+        return $this;
+    }
+
+    /**
      * Gets original_amount
      *
-     * @return float|null
+     * @return float
      */
-    public function getOriginalAmount(): ?float
+    public function getOriginalAmount(): float
     {
         return $this->container['original_amount'];
     }
@@ -584,11 +645,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets original_amount
      *
-     * @param float|null $original_amount The amount before conversion, in `originalCurrency`.
+     * @param float $original_amount The amount before conversion, in `originalCurrency`.
      *
      * @return $this
      */
-    public function setOriginalAmount(?float $original_amount): static
+    public function setOriginalAmount(float $original_amount): static
     {
         if (is_null($original_amount)) {
             throw new InvalidArgumentException('non-nullable original_amount cannot be null');
@@ -601,9 +662,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets original_currency
      *
-     * @return string|null
+     * @return string
      */
-    public function getOriginalCurrency(): ?string
+    public function getOriginalCurrency(): string
     {
         return $this->container['original_currency'];
     }
@@ -611,11 +672,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets original_currency
      *
-     * @param string|null $original_currency The currency the amount was given in.
+     * @param string $original_currency The currency the amount was given in.
      *
      * @return $this
      */
-    public function setOriginalCurrency(?string $original_currency): static
+    public function setOriginalCurrency(string $original_currency): static
     {
         if (is_null($original_currency)) {
             throw new InvalidArgumentException('non-nullable original_currency cannot be null');
@@ -662,9 +723,9 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getDate(): ?\DateTime
+    public function getDate(): \DateTime
     {
         return $this->container['date'];
     }
@@ -672,11 +733,11 @@ class WalletTransaction implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets date
      *
-     * @param \DateTime|null $date When the transaction was made (UTC).
+     * @param \DateTime $date When the transaction was made (UTC).
      *
      * @return $this
      */
-    public function setDate(?\DateTime $date): static
+    public function setDate(\DateTime $date): static
     {
         if (is_null($date)) {
             throw new InvalidArgumentException('non-nullable date cannot be null');

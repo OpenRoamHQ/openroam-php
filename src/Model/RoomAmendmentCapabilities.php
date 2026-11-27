@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * RoomAmendmentCapabilities Class Doc Comment
  *
- * @description What may change about the rooms themselves. Adding or removing rooms is not offered today, so both are false.
+ * @description What may change about the rooms themselves. Adding a room is offered nowhere; removing one only where a single room of a multi-room stay can be cancelled on its own (&#x60;roomRemovalOnly&#x60;).
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -260,6 +260,12 @@ class RoomAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSeri
     {
         $invalidProperties = [];
 
+        if ($this->container['add_more'] === null) {
+            $invalidProperties[] = "'add_more' can't be null";
+        }
+        if ($this->container['remove'] === null) {
+            $invalidProperties[] = "'remove' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class RoomAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Gets add_more
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getAddMore(): ?bool
+    public function getAddMore(): bool
     {
         return $this->container['add_more'];
     }
@@ -285,11 +291,11 @@ class RoomAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Sets add_more
      *
-     * @param bool|null $add_more add_more
+     * @param bool $add_more add_more
      *
      * @return $this
      */
-    public function setAddMore(?bool $add_more): static
+    public function setAddMore(bool $add_more): static
     {
         if (is_null($add_more)) {
             throw new InvalidArgumentException('non-nullable add_more cannot be null');
@@ -302,9 +308,9 @@ class RoomAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Gets remove
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getRemove(): ?bool
+    public function getRemove(): bool
     {
         return $this->container['remove'];
     }
@@ -312,11 +318,11 @@ class RoomAmendmentCapabilities implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Sets remove
      *
-     * @param bool|null $remove remove
+     * @param bool $remove remove
      *
      * @return $this
      */
-    public function setRemove(?bool $remove): static
+    public function setRemove(bool $remove): static
     {
         if (is_null($remove)) {
             throw new InvalidArgumentException('non-nullable remove cannot be null');

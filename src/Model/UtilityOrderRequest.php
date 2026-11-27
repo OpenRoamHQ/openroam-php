@@ -295,7 +295,7 @@ class UtilityOrderRequest implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets currency
      *
-     * @param string|null $currency Order currency, the currency you are charged in, three letters in either case; the API key's currency when omitted. An unsupported code gives 404 / 10004 before any item is checked.
+     * @param string|null $currency Order currency, the currency you are charged in, three letters in either case; the API key's currency when omitted. An unsupported code gives 400 / 10001 at `currency`, reason `NOT_SUPPORTED`, before any item is checked.
      *
      * @return $this
      */

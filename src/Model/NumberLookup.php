@@ -344,6 +344,27 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['phone_number'] === null) {
+            $invalidProperties[] = "'phone_number' can't be null";
+        }
+        if ($this->container['is_valid'] === null) {
+            $invalidProperties[] = "'is_valid' can't be null";
+        }
+        if ($this->container['dial_code'] === null) {
+            $invalidProperties[] = "'dial_code' can't be null";
+        }
+        if ($this->container['national_number'] === null) {
+            $invalidProperties[] = "'national_number' can't be null";
+        }
+        if ($this->container['international_format'] === null) {
+            $invalidProperties[] = "'international_format' can't be null";
+        }
+        if ($this->container['national_format'] === null) {
+            $invalidProperties[] = "'national_format' can't be null";
+        }
+        if ($this->container['line_type'] === null) {
+            $invalidProperties[] = "'line_type' can't be null";
+        }
         $allowedValues = self::getLineTypeAllowableValues();
         if (!is_null($this->container['line_type']) && !in_array($this->container['line_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -368,9 +389,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets phone_number
      *
-     * @return string|null
+     * @return string
      */
-    public function getPhoneNumber(): ?string
+    public function getPhoneNumber(): string
     {
         return $this->container['phone_number'];
     }
@@ -378,11 +399,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets phone_number
      *
-     * @param string|null $phone_number phone_number
+     * @param string $phone_number phone_number
      *
      * @return $this
      */
-    public function setPhoneNumber(?string $phone_number): static
+    public function setPhoneNumber(string $phone_number): static
     {
         if (is_null($phone_number)) {
             throw new InvalidArgumentException('non-nullable phone_number cannot be null');
@@ -395,9 +416,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_valid
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsValid(): ?bool
+    public function getIsValid(): bool
     {
         return $this->container['is_valid'];
     }
@@ -405,11 +426,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_valid
      *
-     * @param bool|null $is_valid is_valid
+     * @param bool $is_valid is_valid
      *
      * @return $this
      */
-    public function setIsValid(?bool $is_valid): static
+    public function setIsValid(bool $is_valid): static
     {
         if (is_null($is_valid)) {
             throw new InvalidArgumentException('non-nullable is_valid cannot be null');
@@ -456,9 +477,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets dial_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getDialCode(): ?string
+    public function getDialCode(): string
     {
         return $this->container['dial_code'];
     }
@@ -466,11 +487,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets dial_code
      *
-     * @param string|null $dial_code dial_code
+     * @param string $dial_code dial_code
      *
      * @return $this
      */
-    public function setDialCode(?string $dial_code): static
+    public function setDialCode(string $dial_code): static
     {
         if (is_null($dial_code)) {
             throw new InvalidArgumentException('non-nullable dial_code cannot be null');
@@ -483,9 +504,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets national_number
      *
-     * @return string|null
+     * @return string
      */
-    public function getNationalNumber(): ?string
+    public function getNationalNumber(): string
     {
         return $this->container['national_number'];
     }
@@ -493,11 +514,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets national_number
      *
-     * @param string|null $national_number national_number
+     * @param string $national_number national_number
      *
      * @return $this
      */
-    public function setNationalNumber(?string $national_number): static
+    public function setNationalNumber(string $national_number): static
     {
         if (is_null($national_number)) {
             throw new InvalidArgumentException('non-nullable national_number cannot be null');
@@ -510,9 +531,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets international_format
      *
-     * @return string|null
+     * @return string
      */
-    public function getInternationalFormat(): ?string
+    public function getInternationalFormat(): string
     {
         return $this->container['international_format'];
     }
@@ -520,11 +541,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets international_format
      *
-     * @param string|null $international_format international_format
+     * @param string $international_format international_format
      *
      * @return $this
      */
-    public function setInternationalFormat(?string $international_format): static
+    public function setInternationalFormat(string $international_format): static
     {
         if (is_null($international_format)) {
             throw new InvalidArgumentException('non-nullable international_format cannot be null');
@@ -537,9 +558,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets national_format
      *
-     * @return string|null
+     * @return string
      */
-    public function getNationalFormat(): ?string
+    public function getNationalFormat(): string
     {
         return $this->container['national_format'];
     }
@@ -547,11 +568,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets national_format
      *
-     * @param string|null $national_format national_format
+     * @param string $national_format national_format
      *
      * @return $this
      */
-    public function setNationalFormat(?string $national_format): static
+    public function setNationalFormat(string $national_format): static
     {
         if (is_null($national_format)) {
             throw new InvalidArgumentException('non-nullable national_format cannot be null');
@@ -564,9 +585,9 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets line_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getLineType(): ?string
+    public function getLineType(): string
     {
         return $this->container['line_type'];
     }
@@ -574,11 +595,11 @@ class NumberLookup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets line_type
      *
-     * @param string|null $line_type line_type
+     * @param string $line_type line_type
      *
      * @return $this
      */
-    public function setLineType(?string $line_type): static
+    public function setLineType(string $line_type): static
     {
         if (is_null($line_type)) {
             throw new InvalidArgumentException('non-nullable line_type cannot be null');

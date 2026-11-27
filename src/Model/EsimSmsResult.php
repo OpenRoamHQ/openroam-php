@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimSmsResult Class Doc Comment
  *
+ * @description The answer to &#x60;POST /esims/{id}/sms&#x60;, given only when the message was sent.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,9 +60,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'iccid' => 'string',
-        'success' => 'bool',
-        'is_supported' => 'bool'
+        'iccid' => 'string'
     ];
 
     /**
@@ -70,9 +69,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'iccid' => null,
-        'success' => null,
-        'is_supported' => null
+        'iccid' => null
     ];
 
     /**
@@ -81,9 +78,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, bool>
      */
     protected static array $openAPINullables = [
-        'iccid' => false,
-        'success' => false,
-        'is_supported' => false
+        'iccid' => false
     ];
 
     /**
@@ -162,9 +157,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $attributeMap = [
-        'iccid' => 'iccid',
-        'success' => 'success',
-        'is_supported' => 'isSupported'
+        'iccid' => 'iccid'
     ];
 
     /**
@@ -173,9 +166,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $setters = [
-        'iccid' => 'setIccid',
-        'success' => 'setSuccess',
-        'is_supported' => 'setIsSupported'
+        'iccid' => 'setIccid'
     ];
 
     /**
@@ -184,9 +175,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string>
      */
     protected static array $getters = [
-        'iccid' => 'getIccid',
-        'success' => 'getSuccess',
-        'is_supported' => 'getIsSupported'
+        'iccid' => 'getIccid'
     ];
 
     /**
@@ -237,8 +226,6 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('iccid', $data ?? [], null);
-        $this->setIfExists('success', $data ?? [], null);
-        $this->setIfExists('is_supported', $data ?? [], null);
     }
 
     /**
@@ -269,9 +256,6 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['iccid'] === null) {
             $invalidProperties[] = "'iccid' can't be null";
         }
-        if ($this->container['success'] === null) {
-            $invalidProperties[] = "'success' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -297,7 +281,7 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets iccid
      *
-     * @param string $iccid iccid
+     * @param string $iccid The ICCID of the eSIM the message was sent to.
      *
      * @return $this
      */
@@ -307,60 +291,6 @@ class EsimSmsResult implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable iccid cannot be null');
         }
         $this->container['iccid'] = $iccid;
-
-        return $this;
-    }
-
-    /**
-     * Gets success
-     *
-     * @return bool
-     */
-    public function getSuccess(): bool
-    {
-        return $this->container['success'];
-    }
-
-    /**
-     * Sets success
-     *
-     * @param bool $success success
-     *
-     * @return $this
-     */
-    public function setSuccess(bool $success): static
-    {
-        if (is_null($success)) {
-            throw new InvalidArgumentException('non-nullable success cannot be null');
-        }
-        $this->container['success'] = $success;
-
-        return $this;
-    }
-
-    /**
-     * Gets is_supported
-     *
-     * @return bool|null
-     */
-    public function getIsSupported(): ?bool
-    {
-        return $this->container['is_supported'];
-    }
-
-    /**
-     * Sets is_supported
-     *
-     * @param bool|null $is_supported is_supported
-     *
-     * @return $this
-     */
-    public function setIsSupported(?bool $is_supported): static
-    {
-        if (is_null($is_supported)) {
-            throw new InvalidArgumentException('non-nullable is_supported cannot be null');
-        }
-        $this->container['is_supported'] = $is_supported;
 
         return $this;
     }

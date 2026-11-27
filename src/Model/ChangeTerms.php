@@ -259,6 +259,9 @@ class ChangeTerms implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['allowed'] === null) {
+            $invalidProperties[] = "'allowed' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -274,9 +277,9 @@ class ChangeTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets allowed
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getAllowed(): ?bool
+    public function getAllowed(): bool
     {
         return $this->container['allowed'];
     }
@@ -284,11 +287,11 @@ class ChangeTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets allowed
      *
-     * @param bool|null $allowed Whether the booking can be changed after purchase.
+     * @param bool $allowed Whether the booking can be changed after purchase.
      *
      * @return $this
      */
-    public function setAllowed(?bool $allowed): static
+    public function setAllowed(bool $allowed): static
     {
         if (is_null($allowed)) {
             throw new InvalidArgumentException('non-nullable allowed cannot be null');

@@ -260,6 +260,9 @@ class AirtimePurchasedInputs implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['phone_number'] === null) {
+            $invalidProperties[] = "'phone_number' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +278,9 @@ class AirtimePurchasedInputs implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets phone_number
      *
-     * @return string|null
+     * @return string
      */
-    public function getPhoneNumber(): ?string
+    public function getPhoneNumber(): string
     {
         return $this->container['phone_number'];
     }
@@ -285,11 +288,11 @@ class AirtimePurchasedInputs implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets phone_number
      *
-     * @param string|null $phone_number phone_number
+     * @param string $phone_number phone_number
      *
      * @return $this
      */
-    public function setPhoneNumber(?string $phone_number): static
+    public function setPhoneNumber(string $phone_number): static
     {
         if (is_null($phone_number)) {
             throw new InvalidArgumentException('non-nullable phone_number cannot be null');

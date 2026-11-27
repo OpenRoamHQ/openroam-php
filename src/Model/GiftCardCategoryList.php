@@ -253,6 +253,9 @@ class GiftCardCategoryList implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class GiftCardCategoryList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\GiftCardCategory[]|null
+     * @return \OpenRoam\Model\GiftCardCategory[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -278,11 +281,11 @@ class GiftCardCategoryList implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\GiftCardCategory[]|null $items items
+     * @param \OpenRoam\Model\GiftCardCategory[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

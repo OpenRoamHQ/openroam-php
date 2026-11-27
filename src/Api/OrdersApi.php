@@ -84,9 +84,6 @@ class OrdersApi
         'ordersGetById' => [
             'application/json',
         ],
-        'ordersGetCancellationPreview' => [
-            'application/json',
-        ],
         'ordersGetFulfillmentStatus' => [
             'application/json',
         ],
@@ -95,11 +92,10 @@ class OrdersApi
             'text/json',
             'application/*+json',
         ],
-        'ordersRetryFulfillment' => [
+        'ordersResendEmail' => [
             'application/json',
-        ],
-        'ordersRetryPayment' => [
-            'application/json',
+            'text/json',
+            'application/*+json',
         ],
     ];
 
@@ -160,13 +156,13 @@ class OrdersApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\Order|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\Order|\OpenRoam\Model\ErrorResponse
      */
     public function ordersCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\MixedOrderRequest $mixed_order_request = null,
         string $contentType = self::contentTypes['ordersCreateOrder'][0]
-    ): \OpenRoam\Model\Order|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\Order|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->ordersCreateOrderWithHttpInfo($idempotency_key, $mixed_order_request, $contentType);
         return $response;
@@ -183,7 +179,7 @@ class OrdersApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\Order|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\Order|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function ordersCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -223,12 +219,6 @@ class OrdersApi
                         $request,
                         $response,
                     );
-                case 202:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
-                        $request,
-                        $response,
-                    );
                 case 400:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
@@ -241,7 +231,19 @@ class OrdersApi
                         $request,
                         $response,
                     );
+                case 402:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 403:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 404:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -301,14 +303,6 @@ class OrdersApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -325,7 +319,23 @@ class OrdersApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 402:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -485,7 +495,7 @@ class OrdersApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/orders';
+        $resourcePath = '/v1/orders';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -580,15 +590,15 @@ class OrdersApi
      *
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). (optional)
+     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  float|null $min_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at least this value. (optional)
      * @param  float|null $max_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at most this value. (optional)
      * @param  string|null $search An order id returns that order only; any other text matches part of the email or full name of the user who placed the order. (optional)
      * @param  string|null $reference_id Only the order with exactly this &#x60;referenceId&#x60;. (optional)
-     * @param  string|null $sales_channel Only orders created through this channel: the dashboard or the API. (optional)
+     * @param  string|null $channel Only orders created through this channel, the same values as &#x60;origin.channel&#x60;: &#x60;api&#x60;,             &#x60;dashboard&#x60; or &#x60;site&#x60;. (optional)
      * @param  string[]|null $product_types Only orders containing at least one item of one of these product types. Repeat the parameter for several types, for example &#x60;productTypes&#x3D;esim&amp;productTypes&#x3D;giftCard&#x60;. (optional)
-     * @param  string[]|null $order_statuses Only orders currently in one of these statuses. Repeat the parameter for several statuses. (optional)
+     * @param  string[]|null $order_statuses Only orders currently in one of these statuses, the same values as &#x60;status&#x60;. Repeat the parameter for several statuses. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetAll'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -604,13 +614,13 @@ class OrdersApi
         ?float $max_amount = null,
         ?string $search = null,
         ?string $reference_id = null,
-        ?string $sales_channel = null,
+        ?string $channel = null,
         ?array $product_types = null,
         ?array $order_statuses = null,
         string $contentType = self::contentTypes['ordersGetAll'][0]
     ): \OpenRoam\Model\OrderList|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->ordersGetAllWithHttpInfo($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $sales_channel, $product_types, $order_statuses, $contentType);
+        list($response) = $this->ordersGetAllWithHttpInfo($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $channel, $product_types, $order_statuses, $contentType);
         return $response;
     }
 
@@ -621,15 +631,15 @@ class OrdersApi
      *
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). (optional)
+     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  float|null $min_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at least this value. (optional)
      * @param  float|null $max_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at most this value. (optional)
      * @param  string|null $search An order id returns that order only; any other text matches part of the email or full name of the user who placed the order. (optional)
      * @param  string|null $reference_id Only the order with exactly this &#x60;referenceId&#x60;. (optional)
-     * @param  string|null $sales_channel Only orders created through this channel: the dashboard or the API. (optional)
+     * @param  string|null $channel Only orders created through this channel, the same values as &#x60;origin.channel&#x60;: &#x60;api&#x60;,             &#x60;dashboard&#x60; or &#x60;site&#x60;. (optional)
      * @param  string[]|null $product_types Only orders containing at least one item of one of these product types. Repeat the parameter for several types, for example &#x60;productTypes&#x3D;esim&amp;productTypes&#x3D;giftCard&#x60;. (optional)
-     * @param  string[]|null $order_statuses Only orders currently in one of these statuses. Repeat the parameter for several statuses. (optional)
+     * @param  string[]|null $order_statuses Only orders currently in one of these statuses, the same values as &#x60;status&#x60;. Repeat the parameter for several statuses. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetAll'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -645,13 +655,13 @@ class OrdersApi
         ?float $max_amount = null,
         ?string $search = null,
         ?string $reference_id = null,
-        ?string $sales_channel = null,
+        ?string $channel = null,
         ?array $product_types = null,
         ?array $order_statuses = null,
         string $contentType = self::contentTypes['ordersGetAll'][0]
     ): array
     {
-        $request = $this->ordersGetAllRequest($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $sales_channel, $product_types, $order_statuses, $contentType);
+        $request = $this->ordersGetAllRequest($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $channel, $product_types, $order_statuses, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -782,15 +792,15 @@ class OrdersApi
      *
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). (optional)
+     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  float|null $min_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at least this value. (optional)
      * @param  float|null $max_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at most this value. (optional)
      * @param  string|null $search An order id returns that order only; any other text matches part of the email or full name of the user who placed the order. (optional)
      * @param  string|null $reference_id Only the order with exactly this &#x60;referenceId&#x60;. (optional)
-     * @param  string|null $sales_channel Only orders created through this channel: the dashboard or the API. (optional)
+     * @param  string|null $channel Only orders created through this channel, the same values as &#x60;origin.channel&#x60;: &#x60;api&#x60;,             &#x60;dashboard&#x60; or &#x60;site&#x60;. (optional)
      * @param  string[]|null $product_types Only orders containing at least one item of one of these product types. Repeat the parameter for several types, for example &#x60;productTypes&#x3D;esim&amp;productTypes&#x3D;giftCard&#x60;. (optional)
-     * @param  string[]|null $order_statuses Only orders currently in one of these statuses. Repeat the parameter for several statuses. (optional)
+     * @param  string[]|null $order_statuses Only orders currently in one of these statuses, the same values as &#x60;status&#x60;. Repeat the parameter for several statuses. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetAll'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -805,13 +815,13 @@ class OrdersApi
         ?float $max_amount = null,
         ?string $search = null,
         ?string $reference_id = null,
-        ?string $sales_channel = null,
+        ?string $channel = null,
         ?array $product_types = null,
         ?array $order_statuses = null,
         string $contentType = self::contentTypes['ordersGetAll'][0]
     ): PromiseInterface
     {
-        return $this->ordersGetAllAsyncWithHttpInfo($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $sales_channel, $product_types, $order_statuses, $contentType)
+        return $this->ordersGetAllAsyncWithHttpInfo($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $channel, $product_types, $order_statuses, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -826,15 +836,15 @@ class OrdersApi
      *
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). (optional)
+     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  float|null $min_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at least this value. (optional)
      * @param  float|null $max_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at most this value. (optional)
      * @param  string|null $search An order id returns that order only; any other text matches part of the email or full name of the user who placed the order. (optional)
      * @param  string|null $reference_id Only the order with exactly this &#x60;referenceId&#x60;. (optional)
-     * @param  string|null $sales_channel Only orders created through this channel: the dashboard or the API. (optional)
+     * @param  string|null $channel Only orders created through this channel, the same values as &#x60;origin.channel&#x60;: &#x60;api&#x60;,             &#x60;dashboard&#x60; or &#x60;site&#x60;. (optional)
      * @param  string[]|null $product_types Only orders containing at least one item of one of these product types. Repeat the parameter for several types, for example &#x60;productTypes&#x3D;esim&amp;productTypes&#x3D;giftCard&#x60;. (optional)
-     * @param  string[]|null $order_statuses Only orders currently in one of these statuses. Repeat the parameter for several statuses. (optional)
+     * @param  string[]|null $order_statuses Only orders currently in one of these statuses, the same values as &#x60;status&#x60;. Repeat the parameter for several statuses. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetAll'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -849,14 +859,14 @@ class OrdersApi
         ?float $max_amount = null,
         ?string $search = null,
         ?string $reference_id = null,
-        ?string $sales_channel = null,
+        ?string $channel = null,
         ?array $product_types = null,
         ?array $order_statuses = null,
         string $contentType = self::contentTypes['ordersGetAll'][0]
     ): PromiseInterface
     {
         $returnType = '\OpenRoam\Model\OrderList';
-        $request = $this->ordersGetAllRequest($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $sales_channel, $product_types, $order_statuses, $contentType);
+        $request = $this->ordersGetAllRequest($page, $limit, $start_date, $end_date, $min_amount, $max_amount, $search, $reference_id, $channel, $product_types, $order_statuses, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -907,15 +917,15 @@ class OrdersApi
      *
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). (optional)
+     * @param  \DateTime|null $start_date Only orders created at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only orders created at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
      * @param  float|null $min_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at least this value. (optional)
      * @param  float|null $max_amount Only orders whose &#x60;total.amount&#x60;, in the order&#39;s currency, is at most this value. (optional)
      * @param  string|null $search An order id returns that order only; any other text matches part of the email or full name of the user who placed the order. (optional)
      * @param  string|null $reference_id Only the order with exactly this &#x60;referenceId&#x60;. (optional)
-     * @param  string|null $sales_channel Only orders created through this channel: the dashboard or the API. (optional)
+     * @param  string|null $channel Only orders created through this channel, the same values as &#x60;origin.channel&#x60;: &#x60;api&#x60;,             &#x60;dashboard&#x60; or &#x60;site&#x60;. (optional)
      * @param  string[]|null $product_types Only orders containing at least one item of one of these product types. Repeat the parameter for several types, for example &#x60;productTypes&#x3D;esim&amp;productTypes&#x3D;giftCard&#x60;. (optional)
-     * @param  string[]|null $order_statuses Only orders currently in one of these statuses. Repeat the parameter for several statuses. (optional)
+     * @param  string[]|null $order_statuses Only orders currently in one of these statuses, the same values as &#x60;status&#x60;. Repeat the parameter for several statuses. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetAll'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -930,14 +940,14 @@ class OrdersApi
         ?float $max_amount = null,
         ?string $search = null,
         ?string $reference_id = null,
-        ?string $sales_channel = null,
+        ?string $channel = null,
         ?array $product_types = null,
         ?array $order_statuses = null,
         string $contentType = self::contentTypes['ordersGetAll'][0]
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/orders';
+        $resourcePath = '/v1/orders';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1025,8 +1035,8 @@ class OrdersApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $sales_channel,
-            'salesChannel', // param base name
+            $channel,
+            'channel', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -1375,357 +1385,7 @@ class OrdersApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/orders/{id}';
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-
-
-        // path params
-        if ($id !== null) {
-            $resourcePath = str_replace(
-                '{id}',
-                ObjectSerializer::toPathValue($id),
-                $resourcePath
-            );
-        }
-
-
-        $headers = $this->headerSelector->selectHeaders(
-            ['text/plain', 'application/json', 'text/json', ],
-            $contentType,
-            $multipart
-        );
-
-
-        // this endpoint requires API key authentication
-        $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
-        if ($apiKey !== null) {
-            $headers['X-Partner-Key'] = $apiKey;
-        }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
-        }
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-
-        $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
-        return new Request(
-            'GET',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
-    }
-
-    /**
-     * Operation ordersGetCancellationPreview
-     *
-     * Preview an order cancellation
-     *
-     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetCancellationPreview'] to see the possible values for this operation
-     *
-     * @throws ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\OrderCancellationPreview|\OpenRoam\Model\ErrorResponse
-     */
-    public function ordersGetCancellationPreview(
-        string $id,
-        string $contentType = self::contentTypes['ordersGetCancellationPreview'][0]
-    ): \OpenRoam\Model\OrderCancellationPreview|\OpenRoam\Model\ErrorResponse
-    {
-        list($response) = $this->ordersGetCancellationPreviewWithHttpInfo($id, $contentType);
-        return $response;
-    }
-
-    /**
-     * Operation ordersGetCancellationPreviewWithHttpInfo
-     *
-     * Preview an order cancellation
-     *
-     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetCancellationPreview'] to see the possible values for this operation
-     *
-     * @throws ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\OrderCancellationPreview|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
-     */
-    public function ordersGetCancellationPreviewWithHttpInfo(
-        string $id,
-        string $contentType = self::contentTypes['ordersGetCancellationPreview'][0]
-    ): array
-    {
-        $request = $this->ordersGetCancellationPreviewRequest($id, $contentType);
-
-        try {
-            $options = $this->createHttpClientOption();
-            try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
-                $eResponse = $this->getExceptionResponse($e);
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $eResponse?->getHeaders(),
-                    $eResponse ? (string) $eResponse->getBody() : null
-                );
-            } catch (NetworkExceptionInterface $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    null,
-                    null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            switch($statusCode) {
-                case 200:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\OrderCancellationPreview',
-                        $request,
-                        $response,
-                    );
-                case 400:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 401:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 403:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 404:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 429:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 503:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-            }
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
-
-            return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\OrderCancellationPreview',
-                $request,
-                $response,
-            );
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\OrderCancellationPreview',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 401:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-            }
-        
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation ordersGetCancellationPreviewAsync
-     *
-     * Preview an order cancellation
-     *
-     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetCancellationPreview'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return PromiseInterface
-     */
-    public function ordersGetCancellationPreviewAsync(
-        string $id,
-        string $contentType = self::contentTypes['ordersGetCancellationPreview'][0]
-    ): PromiseInterface
-    {
-        return $this->ordersGetCancellationPreviewAsyncWithHttpInfo($id, $contentType)
-            ->then(
-                function ($response) {
-                    return $response[0];
-                }
-            );
-    }
-
-    /**
-     * Operation ordersGetCancellationPreviewAsyncWithHttpInfo
-     *
-     * Preview an order cancellation
-     *
-     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetCancellationPreview'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return PromiseInterface
-     */
-    public function ordersGetCancellationPreviewAsyncWithHttpInfo(
-        string $id,
-        string $contentType = self::contentTypes['ordersGetCancellationPreview'][0]
-    ): PromiseInterface
-    {
-        $returnType = '\OpenRoam\Model\OrderCancellationPreview';
-        $request = $this->ordersGetCancellationPreviewRequest($id, $contentType);
-
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
-            ->then(
-                function ($response) use ($returnType) {
-                    if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType, []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                },
-                function ($exception) {
-                    $response = $this->getExceptionResponse($exception);
-                    if ($response === null) {
-                        throw new ApiException(
-                            "[{$exception->getCode()}] {$exception->getMessage()}",
-                            (int) $exception->getCode(),
-                            null,
-                            null
-                        );
-                    }
-                    $statusCode = $response->getStatusCode();
-                    throw new ApiException(
-                        sprintf(
-                            '[%d] Error connecting to the API (%s)',
-                            $statusCode,
-                            $exception->getRequest()->getUri()
-                        ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
-                    );
-                }
-            );
-    }
-
-    /**
-     * Create request for operation 'ordersGetCancellationPreview'
-     *
-     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersGetCancellationPreview'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    public function ordersGetCancellationPreviewRequest(
-        string $id,
-        string $contentType = self::contentTypes['ordersGetCancellationPreview'][0]
-    ): Request
-    {
-        // verify the required parameter 'id' is set
-        if ($id === null || (is_array($id) && count($id) === 0)) {
-            throw new InvalidArgumentException(
-                'Missing the required parameter $id when calling ordersGetCancellationPreview'
-            );
-        }
-
-        $resourcePath = '/api/v1/b2b/orders/{id}/cancellation-preview';
+        $resourcePath = '/v1/orders/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2019,7 +1679,7 @@ class OrdersApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/orders/{orderId}/fulfillment/status';
+        $resourcePath = '/v1/orders/{orderId}/fulfillment/status';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2159,6 +1819,12 @@ class OrdersApi
                         $request,
                         $response,
                     );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 409:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
@@ -2224,6 +1890,14 @@ class OrdersApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -2363,7 +2037,7 @@ class OrdersApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/orders/quote';
+        $resourcePath = '/v1/orders/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -2426,6 +2100,11 @@ class OrdersApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -2448,48 +2127,52 @@ class OrdersApi
     }
 
     /**
-     * Operation ordersRetryFulfillment
+     * Operation ordersResendEmail
      *
-     * Retry an order&#39;s fulfillment
+     * Resend a traveller email
      *
-     * @param  string $order_id Order id. (required)
+     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryFulfillment'] to see the possible values for this operation
+     * @param  \OpenRoam\Model\OrderEmailResendRequest|null $order_email_resend_request The email to send again. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersResendEmail'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\OrderFulfillmentRetryResult|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\OrderEmailResendResult|\OpenRoam\Model\ErrorResponse
      */
-    public function ordersRetryFulfillment(
-        string $order_id,
+    public function ordersResendEmail(
+        string $id,
         string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryFulfillment'][0]
-    ): \OpenRoam\Model\OrderFulfillmentRetryResult|\OpenRoam\Model\ErrorResponse
+        ?\OpenRoam\Model\OrderEmailResendRequest $order_email_resend_request = null,
+        string $contentType = self::contentTypes['ordersResendEmail'][0]
+    ): \OpenRoam\Model\OrderEmailResendResult|\OpenRoam\Model\ErrorResponse
     {
-        list($response) = $this->ordersRetryFulfillmentWithHttpInfo($order_id, $idempotency_key, $contentType);
+        list($response) = $this->ordersResendEmailWithHttpInfo($id, $idempotency_key, $order_email_resend_request, $contentType);
         return $response;
     }
 
     /**
-     * Operation ordersRetryFulfillmentWithHttpInfo
+     * Operation ordersResendEmailWithHttpInfo
      *
-     * Retry an order&#39;s fulfillment
+     * Resend a traveller email
      *
-     * @param  string $order_id Order id. (required)
+     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryFulfillment'] to see the possible values for this operation
+     * @param  \OpenRoam\Model\OrderEmailResendRequest|null $order_email_resend_request The email to send again. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersResendEmail'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\OrderFulfillmentRetryResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\OrderEmailResendResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
-    public function ordersRetryFulfillmentWithHttpInfo(
-        string $order_id,
+    public function ordersResendEmailWithHttpInfo(
+        string $id,
         string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryFulfillment'][0]
+        ?\OpenRoam\Model\OrderEmailResendRequest $order_email_resend_request = null,
+        string $contentType = self::contentTypes['ordersResendEmail'][0]
     ): array
     {
-        $request = $this->ordersRetryFulfillmentRequest($order_id, $idempotency_key, $contentType);
+        $request = $this->ordersResendEmailRequest($id, $idempotency_key, $order_email_resend_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2515,13 +2198,31 @@ class OrdersApi
             $statusCode = $response->getStatusCode();
 
             switch($statusCode) {
-                case 202:
+                case 200:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\OrderFulfillmentRetryResult',
+                        '\OpenRoam\Model\OrderEmailResendResult',
                         $request,
                         $response,
                     );
                 case 400:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 404:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -2533,7 +2234,19 @@ class OrdersApi
                         $request,
                         $response,
                     );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
                 case 429:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 502:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -2561,21 +2274,45 @@ class OrdersApi
             }
 
             return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\OrderFulfillmentRetryResult',
+                '\OpenRoam\Model\OrderEmailResendResult',
                 $request,
                 $response,
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 202:
+                case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\OrderFulfillmentRetryResult',
+                        '\OpenRoam\Model\OrderEmailResendResult',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
                 case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -2591,7 +2328,23 @@ class OrdersApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 502:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -2614,24 +2367,26 @@ class OrdersApi
     }
 
     /**
-     * Operation ordersRetryFulfillmentAsync
+     * Operation ordersResendEmailAsync
      *
-     * Retry an order&#39;s fulfillment
+     * Resend a traveller email
      *
-     * @param  string $order_id Order id. (required)
+     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryFulfillment'] to see the possible values for this operation
+     * @param  \OpenRoam\Model\OrderEmailResendRequest|null $order_email_resend_request The email to send again. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersResendEmail'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function ordersRetryFulfillmentAsync(
-        string $order_id,
+    public function ordersResendEmailAsync(
+        string $id,
         string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryFulfillment'][0]
+        ?\OpenRoam\Model\OrderEmailResendRequest $order_email_resend_request = null,
+        string $contentType = self::contentTypes['ordersResendEmail'][0]
     ): PromiseInterface
     {
-        return $this->ordersRetryFulfillmentAsyncWithHttpInfo($order_id, $idempotency_key, $contentType)
+        return $this->ordersResendEmailAsyncWithHttpInfo($id, $idempotency_key, $order_email_resend_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2640,25 +2395,27 @@ class OrdersApi
     }
 
     /**
-     * Operation ordersRetryFulfillmentAsyncWithHttpInfo
+     * Operation ordersResendEmailAsyncWithHttpInfo
      *
-     * Retry an order&#39;s fulfillment
+     * Resend a traveller email
      *
-     * @param  string $order_id Order id. (required)
+     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryFulfillment'] to see the possible values for this operation
+     * @param  \OpenRoam\Model\OrderEmailResendRequest|null $order_email_resend_request The email to send again. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersResendEmail'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
-    public function ordersRetryFulfillmentAsyncWithHttpInfo(
-        string $order_id,
+    public function ordersResendEmailAsyncWithHttpInfo(
+        string $id,
         string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryFulfillment'][0]
+        ?\OpenRoam\Model\OrderEmailResendRequest $order_email_resend_request = null,
+        string $contentType = self::contentTypes['ordersResendEmail'][0]
     ): PromiseInterface
     {
-        $returnType = '\OpenRoam\Model\OrderFulfillmentRetryResult';
-        $request = $this->ordersRetryFulfillmentRequest($order_id, $idempotency_key, $contentType);
+        $returnType = '\OpenRoam\Model\OrderEmailResendResult';
+        $request = $this->ordersResendEmailRequest($id, $idempotency_key, $order_email_resend_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2705,35 +2462,38 @@ class OrdersApi
     }
 
     /**
-     * Create request for operation 'ordersRetryFulfillment'
+     * Create request for operation 'ordersResendEmail'
      *
-     * @param  string $order_id Order id. (required)
+     * @param  string $id Order id (&#x60;id&#x60; from the order response). (required)
      * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryFulfillment'] to see the possible values for this operation
+     * @param  \OpenRoam\Model\OrderEmailResendRequest|null $order_email_resend_request The email to send again. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersResendEmail'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function ordersRetryFulfillmentRequest(
-        string $order_id,
+    public function ordersResendEmailRequest(
+        string $id,
         string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryFulfillment'][0]
+        ?\OpenRoam\Model\OrderEmailResendRequest $order_email_resend_request = null,
+        string $contentType = self::contentTypes['ordersResendEmail'][0]
     ): Request
     {
-        // verify the required parameter 'order_id' is set
-        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
             throw new InvalidArgumentException(
-                'Missing the required parameter $order_id when calling ordersRetryFulfillment'
+                'Missing the required parameter $id when calling ordersResendEmail'
             );
         }
         // verify the required parameter 'idempotency_key' is set
         if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
             throw new InvalidArgumentException(
-                'Missing the required parameter $idempotency_key when calling ordersRetryFulfillment'
+                'Missing the required parameter $idempotency_key when calling ordersResendEmail'
             );
         }
 
-        $resourcePath = '/api/v1/b2b/orders/{orderId}/fulfillment/retry';
+        $resourcePath = '/v1/orders/{id}/emails/resend';
+        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2746,10 +2506,10 @@ class OrdersApi
         }
 
         // path params
-        if ($order_id !== null) {
+        if ($id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
-                ObjectSerializer::toPathValue($order_id),
+                '{id}',
+                ObjectSerializer::toPathValue($id),
                 $resourcePath
             );
         }
@@ -2761,376 +2521,45 @@ class OrdersApi
             $multipart
         );
 
-
-        // this endpoint requires API key authentication
-        $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
-        if ($apiKey !== null) {
-            $headers['X-Partner-Key'] = $apiKey;
-        }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
-        }
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-
-        $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
-        return new Request(
-            'POST',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
-    }
-
-    /**
-     * Operation ordersRetryPayment
-     *
-     * Retry an order&#39;s payment
-     *
-     * @param  string $order_id Order id. (required)
-     * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryPayment'] to see the possible values for this operation
-     *
-     * @throws ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\OrderPaymentRetryResult|\OpenRoam\Model\ErrorResponse
-     */
-    public function ordersRetryPayment(
-        string $order_id,
-        string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryPayment'][0]
-    ): \OpenRoam\Model\OrderPaymentRetryResult|\OpenRoam\Model\ErrorResponse
-    {
-        list($response) = $this->ordersRetryPaymentWithHttpInfo($order_id, $idempotency_key, $contentType);
-        return $response;
-    }
-
-    /**
-     * Operation ordersRetryPaymentWithHttpInfo
-     *
-     * Retry an order&#39;s payment
-     *
-     * @param  string $order_id Order id. (required)
-     * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryPayment'] to see the possible values for this operation
-     *
-     * @throws ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\OrderPaymentRetryResult|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
-     */
-    public function ordersRetryPaymentWithHttpInfo(
-        string $order_id,
-        string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryPayment'][0]
-    ): array
-    {
-        $request = $this->ordersRetryPaymentRequest($order_id, $idempotency_key, $contentType);
-
-        try {
-            $options = $this->createHttpClientOption();
-            try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
-                $eResponse = $this->getExceptionResponse($e);
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $eResponse?->getHeaders(),
-                    $eResponse ? (string) $eResponse->getBody() : null
-                );
-            } catch (NetworkExceptionInterface $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    null,
-                    null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            switch($statusCode) {
-                case 200:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\OrderPaymentRetryResult',
-                        $request,
-                        $response,
-                    );
-                case 400:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 401:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 409:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 429:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 500:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-                case 503:
-                    return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-            }
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
-
-            return $this->handleResponseWithDataType(
-                '\OpenRoam\Model\OrderPaymentRetryResult',
-                $request,
-                $response,
-            );
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\OrderPaymentRetryResult',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 401:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 409:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\OpenRoam\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-            }
-        
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation ordersRetryPaymentAsync
-     *
-     * Retry an order&#39;s payment
-     *
-     * @param  string $order_id Order id. (required)
-     * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryPayment'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return PromiseInterface
-     */
-    public function ordersRetryPaymentAsync(
-        string $order_id,
-        string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryPayment'][0]
-    ): PromiseInterface
-    {
-        return $this->ordersRetryPaymentAsyncWithHttpInfo($order_id, $idempotency_key, $contentType)
-            ->then(
-                function ($response) {
-                    return $response[0];
+        // for model (json/xml)
+        if (isset($order_email_resend_request)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order_email_resend_request), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
-            );
-    }
-
-    /**
-     * Operation ordersRetryPaymentAsyncWithHttpInfo
-     *
-     * Retry an order&#39;s payment
-     *
-     * @param  string $order_id Order id. (required)
-     * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryPayment'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return PromiseInterface
-     */
-    public function ordersRetryPaymentAsyncWithHttpInfo(
-        string $order_id,
-        string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryPayment'][0]
-    ): PromiseInterface
-    {
-        $returnType = '\OpenRoam\Model\OrderPaymentRetryResult';
-        $request = $this->ordersRetryPaymentRequest($order_id, $idempotency_key, $contentType);
-
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
-            ->then(
-                function ($response) use ($returnType) {
-                    if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
+            } else {
+                $httpBody = $order_email_resend_request;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
                     }
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType, []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                },
-                function ($exception) {
-                    $response = $this->getExceptionResponse($exception);
-                    if ($response === null) {
-                        throw new ApiException(
-                            "[{$exception->getCode()}] {$exception->getMessage()}",
-                            (int) $exception->getCode(),
-                            null,
-                            null
-                        );
-                    }
-                    $statusCode = $response->getStatusCode();
-                    throw new ApiException(
-                        sprintf(
-                            '[%d] Error connecting to the API (%s)',
-                            $statusCode,
-                            $exception->getRequest()->getUri()
-                        ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
-                    );
                 }
-            );
-    }
+                // for HTTP post (form)
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
-    /**
-     * Create request for operation 'ordersRetryPayment'
-     *
-     * @param  string $order_id Order id. (required)
-     * @param  string $idempotency_key UUID idempotency key for safe retries of this operation. (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['ordersRetryPayment'] to see the possible values for this operation
-     *
-     * @throws InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    public function ordersRetryPaymentRequest(
-        string $order_id,
-        string $idempotency_key,
-        string $contentType = self::contentTypes['ordersRetryPayment'][0]
-    ): Request
-    {
-        // verify the required parameter 'order_id' is set
-        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
-            throw new InvalidArgumentException(
-                'Missing the required parameter $order_id when calling ordersRetryPayment'
-            );
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
         }
-        // verify the required parameter 'idempotency_key' is set
-        if ($idempotency_key === null || (is_array($idempotency_key) && count($idempotency_key) === 0)) {
-            throw new InvalidArgumentException(
-                'Missing the required parameter $idempotency_key when calling ordersRetryPayment'
-            );
-        }
-
-        $resourcePath = '/api/v1/b2b/orders/{orderId}/payment/retry';
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-
-        // header params
-        if ($idempotency_key !== null) {
-            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
-        }
-
-        // path params
-        if ($order_id !== null) {
-            $resourcePath = str_replace(
-                '{orderId}',
-                ObjectSerializer::toPathValue($order_id),
-                $resourcePath
-            );
-        }
-
-
-        $headers = $this->headerSelector->selectHeaders(
-            ['text/plain', 'application/json', 'text/json', ],
-            $contentType,
-            $multipart
-        );
-
 
         // this endpoint requires API key authentication
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');

@@ -281,6 +281,12 @@ class Country implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +302,9 @@ class Country implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -306,11 +312,11 @@ class Country implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');
@@ -357,9 +363,9 @@ class Country implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -367,11 +373,11 @@ class Country implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');

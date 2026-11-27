@@ -53,7 +53,13 @@ class RoutesTest extends TestCase
         return array_filter(self::allRoutes(), fn (array $case) => $case[0]->body);
     }
 
-    /** Calls $method (for example "orderItems.manualAmendments.approve") once and returns the one request it made. */
+    /** The routes whose body has a generated model; a body with no member (checkouts.fail) is an array. @return array<string, array{0: object}> */
+    public static function routesWithABodyModel(): array
+    {
+        return array_filter(self::allRoutes(), fn (array $case) => $case[0]->body && $case[0]->bodyModel !== null);
+    }
+
+    /** Calls $method (for example "orderItems.getChange") once and returns the one request it made. */
     private function record(string $method, array $arguments): RequestInterface
     {
         $this->history = [];
@@ -110,11 +116,11 @@ class RoutesTest extends TestCase
         };
     }
 
-    public function testTheRouteTableCoversAll75RoutesEachWithADifferentMethod(): void
+    public function testTheRouteTableCoversAll73RoutesEachWithADifferentMethod(): void
     {
         $methods = array_map(fn (object $route) => $route->method, self::routes());
-        $this->assertCount(75, $methods);
-        $this->assertCount(75, array_unique($methods));
+        $this->assertCount(73, $methods);
+        $this->assertCount(73, array_unique($methods));
     }
 
     /** @dataProvider allRoutes */
@@ -185,7 +191,7 @@ class RoutesTest extends TestCase
         $this->assertSame('my-key-42', $request->getHeaderLine('Idempotency-Key'));
     }
 
-    /** @dataProvider routesWithABody */
+    /** @dataProvider routesWithABodyModel */
     public function testTheMethodAcceptsTheGeneratedModel(object $route): void
     {
         $class = '\\OpenRoam\\Model\\' . $route->bodyModel;

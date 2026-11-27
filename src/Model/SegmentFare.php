@@ -293,6 +293,12 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['slice_index'] === null) {
+            $invalidProperties[] = "'slice_index' can't be null";
+        }
+        if ($this->container['segment_index'] === null) {
+            $invalidProperties[] = "'segment_index' can't be null";
+        }
         $allowedValues = self::getCabinClassAllowableValues();
         if (!is_null($this->container['cabin_class']) && !in_array($this->container['cabin_class'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -302,6 +308,9 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['baggage'] === null) {
+            $invalidProperties[] = "'baggage' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -317,9 +326,9 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets slice_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getSliceIndex(): ?int
+    public function getSliceIndex(): int
     {
         return $this->container['slice_index'];
     }
@@ -327,11 +336,11 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets slice_index
      *
-     * @param int|null $slice_index slice_index
+     * @param int $slice_index slice_index
      *
      * @return $this
      */
-    public function setSliceIndex(?int $slice_index): static
+    public function setSliceIndex(int $slice_index): static
     {
         if (is_null($slice_index)) {
             throw new InvalidArgumentException('non-nullable slice_index cannot be null');
@@ -344,9 +353,9 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets segment_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getSegmentIndex(): ?int
+    public function getSegmentIndex(): int
     {
         return $this->container['segment_index'];
     }
@@ -354,11 +363,11 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets segment_index
      *
-     * @param int|null $segment_index segment_index
+     * @param int $segment_index segment_index
      *
      * @return $this
      */
-    public function setSegmentIndex(?int $segment_index): static
+    public function setSegmentIndex(int $segment_index): static
     {
         if (is_null($segment_index)) {
             throw new InvalidArgumentException('non-nullable segment_index cannot be null');
@@ -415,9 +424,9 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets baggage
      *
-     * @return \OpenRoam\Model\Baggage[]|null
+     * @return \OpenRoam\Model\Baggage[]
      */
-    public function getBaggage(): ?array
+    public function getBaggage(): array
     {
         return $this->container['baggage'];
     }
@@ -425,11 +434,11 @@ class SegmentFare implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets baggage
      *
-     * @param \OpenRoam\Model\Baggage[]|null $baggage baggage
+     * @param \OpenRoam\Model\Baggage[] $baggage baggage
      *
      * @return $this
      */
-    public function setBaggage(?array $baggage): static
+    public function setBaggage(array $baggage): static
     {
         if (is_null($baggage)) {
             throw new InvalidArgumentException('non-nullable baggage cannot be null');

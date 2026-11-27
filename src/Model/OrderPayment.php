@@ -63,8 +63,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => 'string',
         'method' => 'string',
         'amount' => '\OpenRoam\Model\Money',
+        'checkout_tax' => '\OpenRoam\Model\CheckoutTax',
         'wallet' => '\OpenRoam\Model\OrderPaymentWallet',
-        'failure' => '\OpenRoam\Model\PaymentFailure'
+        'failure' => '\OpenRoam\Model\PaymentFailure',
+        'card' => '\OpenRoam\Model\OrderPaymentCard'
     ];
 
     /**
@@ -76,8 +78,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => null,
         'method' => null,
         'amount' => null,
+        'checkout_tax' => null,
         'wallet' => null,
-        'failure' => null
+        'failure' => null,
+        'card' => null
     ];
 
     /**
@@ -89,8 +93,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => false,
         'method' => false,
         'amount' => false,
+        'checkout_tax' => true,
         'wallet' => true,
-        'failure' => true
+        'failure' => true,
+        'card' => true
     ];
 
     /**
@@ -172,8 +178,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => 'status',
         'method' => 'method',
         'amount' => 'amount',
+        'checkout_tax' => 'checkoutTax',
         'wallet' => 'wallet',
-        'failure' => 'failure'
+        'failure' => 'failure',
+        'card' => 'card'
     ];
 
     /**
@@ -185,8 +193,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => 'setStatus',
         'method' => 'setMethod',
         'amount' => 'setAmount',
+        'checkout_tax' => 'setCheckoutTax',
         'wallet' => 'setWallet',
-        'failure' => 'setFailure'
+        'failure' => 'setFailure',
+        'card' => 'setCard'
     ];
 
     /**
@@ -198,8 +208,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         'status' => 'getStatus',
         'method' => 'getMethod',
         'amount' => 'getAmount',
+        'checkout_tax' => 'getCheckoutTax',
         'wallet' => 'getWallet',
-        'failure' => 'getFailure'
+        'failure' => 'getFailure',
+        'card' => 'getCard'
     ];
 
     /**
@@ -237,8 +249,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     public const STATUS_PENDING = 'pending';
     public const STATUS_COMPLETED = 'completed';
     public const STATUS_FAILED = 'failed';
+    public const STATUS_PARTIALLY_REFUNDED = 'partiallyRefunded';
     public const STATUS_REFUNDED = 'refunded';
-    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_AUTHORIZED = 'authorized';
     public const METHOD_BALANCE = 'balance';
     public const METHOD_CARD = 'card';
 
@@ -253,8 +267,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
             self::STATUS_PENDING,
             self::STATUS_COMPLETED,
             self::STATUS_FAILED,
+            self::STATUS_PARTIALLY_REFUNDED,
             self::STATUS_REFUNDED,
-            self::STATUS_CANCELED,
+            self::STATUS_CANCELLED,
+            self::STATUS_AUTHORIZED,
         ];
     }
 
@@ -288,8 +304,10 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('method', $data ?? [], null);
         $this->setIfExists('amount', $data ?? [], null);
+        $this->setIfExists('checkout_tax', $data ?? [], null);
         $this->setIfExists('wallet', $data ?? [], null);
         $this->setIfExists('failure', $data ?? [], null);
+        $this->setIfExists('card', $data ?? [], null);
     }
 
     /**
@@ -317,6 +335,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -326,6 +347,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['method'] === null) {
+            $invalidProperties[] = "'method' can't be null";
+        }
         $allowedValues = self::getMethodAllowableValues();
         if (!is_null($this->container['method']) && !in_array($this->container['method'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -335,6 +359,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['amount'] === null) {
+            $invalidProperties[] = "'amount' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -350,9 +377,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -360,11 +387,11 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status Payment status.
+     * @param string $status `pending`; `authorized` (a traveller's card on your hosted site is held for the order             and is charged for what is delivered); `completed`; `failed`; `partiallyRefunded` (some items were             refunded); `refunded` (every item was refunded); or `cancelled` (the order ended without payment, or a             card hold was released with nothing charged).
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -387,9 +414,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets method
      *
-     * @return string|null
+     * @return string
      */
-    public function getMethod(): ?string
+    public function getMethod(): string
     {
         return $this->container['method'];
     }
@@ -397,11 +424,11 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets method
      *
-     * @param string|null $method How the payment was made; `balance` for wallet payments.
+     * @param string $method How the payment was made; `balance` for wallet payments, `card` for a card, including             a traveller's card on your hosted site.
      *
      * @return $this
      */
-    public function setMethod(?string $method): static
+    public function setMethod(string $method): static
     {
         if (is_null($method)) {
             throw new InvalidArgumentException('non-nullable method cannot be null');
@@ -424,9 +451,9 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmount(): ?\OpenRoam\Model\Money
+    public function getAmount(): \OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -434,16 +461,50 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\Money|null $amount The amount charged, in the order's currency.
+     * @param \OpenRoam\Model\Money $amount The amount charged, in the order's currency. For a traveller's card on your hosted site it             includes any tax added at checkout: the amount held while `authorized`, then the amount charged, which leaves             out what was released from the hold; 0 when the hold was released with nothing charged. Refunds are not taken             off.
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\Money $amount): static
+    public function setAmount(\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');
         }
         $this->container['amount'] = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets checkout_tax
+     *
+     * @return \OpenRoam\Model\CheckoutTax|null
+     */
+    public function getCheckoutTax(): ?\OpenRoam\Model\CheckoutTax
+    {
+        return $this->container['checkout_tax'];
+    }
+
+    /**
+     * Sets checkout_tax
+     *
+     * @param \OpenRoam\Model\CheckoutTax|null $checkout_tax For a traveller's card on your hosted site, the part of `amount` that is the tax             OpenRoam added at checkout: the tax held while `authorized`, then the tax charged. It is already in             `amount`, so never add it. `null` on every other payment, and when the checkout added no tax.
+     *
+     * @return $this
+     */
+    public function setCheckoutTax(?\OpenRoam\Model\CheckoutTax $checkout_tax): static
+    {
+        if (is_null($checkout_tax)) {
+            array_push($this->openAPINullablesSetToNull, 'checkout_tax');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('checkout_tax', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['checkout_tax'] = $checkout_tax;
 
         return $this;
     }
@@ -512,6 +573,40 @@ class OrderPayment implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['failure'] = $failure;
+
+        return $this;
+    }
+
+    /**
+     * Gets card
+     *
+     * @return \OpenRoam\Model\OrderPaymentCard|null
+     */
+    public function getCard(): ?\OpenRoam\Model\OrderPaymentCard
+    {
+        return $this->container['card'];
+    }
+
+    /**
+     * Sets card
+     *
+     * @param \OpenRoam\Model\OrderPaymentCard|null $card Card details for a card payment, including when the last four digits are unavailable.
+     *
+     * @return $this
+     */
+    public function setCard(?\OpenRoam\Model\OrderPaymentCard $card): static
+    {
+        if (is_null($card)) {
+            array_push($this->openAPINullablesSetToNull, 'card');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('card', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['card'] = $card;
 
         return $this;
     }

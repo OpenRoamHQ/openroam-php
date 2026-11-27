@@ -259,6 +259,12 @@ class SeatMapRow implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['number'] === null) {
+            $invalidProperties[] = "'number' can't be null";
+        }
+        if ($this->container['sections'] === null) {
+            $invalidProperties[] = "'sections' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -274,9 +280,9 @@ class SeatMapRow implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets number
      *
-     * @return int|null
+     * @return int
      */
-    public function getNumber(): ?int
+    public function getNumber(): int
     {
         return $this->container['number'];
     }
@@ -284,11 +290,11 @@ class SeatMapRow implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets number
      *
-     * @param int|null $number number
+     * @param int $number number
      *
      * @return $this
      */
-    public function setNumber(?int $number): static
+    public function setNumber(int $number): static
     {
         if (is_null($number)) {
             throw new InvalidArgumentException('non-nullable number cannot be null');
@@ -301,9 +307,9 @@ class SeatMapRow implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets sections
      *
-     * @return \OpenRoam\Model\SeatMapSection[]|null
+     * @return \OpenRoam\Model\SeatMapSection[]
      */
-    public function getSections(): ?array
+    public function getSections(): array
     {
         return $this->container['sections'];
     }
@@ -311,11 +317,11 @@ class SeatMapRow implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sections
      *
-     * @param \OpenRoam\Model\SeatMapSection[]|null $sections sections
+     * @param \OpenRoam\Model\SeatMapSection[] $sections sections
      *
      * @return $this
      */
-    public function setSections(?array $sections): static
+    public function setSections(array $sections): static
     {
         if (is_null($sections)) {
             throw new InvalidArgumentException('non-nullable sections cannot be null');

@@ -78,6 +78,9 @@ class FlightsApi
             'text/json',
             'application/*+json',
         ],
+        'flightsGetPlaces' => [
+            'application/json',
+        ],
         'flightsGetSeatMap' => [
             'application/json',
         ],
@@ -150,13 +153,13 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\FlightOrder|\OpenRoam\Model\ErrorResponse
      */
     public function flightsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\FlightOrderRequest $flight_order_request = null,
         string $contentType = self::contentTypes['flightsCreateOrder'][0]
-    ): \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\FlightOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->flightsCreateOrderWithHttpInfo($idempotency_key, $flight_order_request, $contentType);
         return $response;
@@ -173,7 +176,7 @@ class FlightsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\FlightOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\FlightOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function flightsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -213,13 +216,13 @@ class FlightsApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -273,15 +276,15 @@ class FlightsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -433,7 +436,7 @@ class FlightsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/flights/order';
+        $resourcePath = '/v1/flights/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -515,6 +518,361 @@ class FlightsApi
         $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
         return new Request(
             'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation flightsGetPlaces
+     *
+     * Find flight places
+     *
+     * @param  string $q Required. Free text over city and airport names and codes, for example &#x60;lond&#x60; or &#x60;LHR&#x60;; at most 100 characters, without control characters. (required)
+     * @param  string|null $category Optional: &#x60;city&#x60; or &#x60;airport&#x60; keeps only places of that kind. (optional)
+     * @param  int|null $limit The most places to return, 1 to 100; default 10. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsGetPlaces'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return \OpenRoam\Model\FlightPlaceList|\OpenRoam\Model\ErrorResponse
+     */
+    public function flightsGetPlaces(
+        string $q,
+        ?string $category = null,
+        ?int $limit = null,
+        string $contentType = self::contentTypes['flightsGetPlaces'][0]
+    ): \OpenRoam\Model\FlightPlaceList|\OpenRoam\Model\ErrorResponse
+    {
+        list($response) = $this->flightsGetPlacesWithHttpInfo($q, $category, $limit, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation flightsGetPlacesWithHttpInfo
+     *
+     * Find flight places
+     *
+     * @param  string $q Required. Free text over city and airport names and codes, for example &#x60;lond&#x60; or &#x60;LHR&#x60;; at most 100 characters, without control characters. (required)
+     * @param  string|null $category Optional: &#x60;city&#x60; or &#x60;airport&#x60; keeps only places of that kind. (optional)
+     * @param  int|null $limit The most places to return, 1 to 100; default 10. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsGetPlaces'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return array{0: \OpenRoam\Model\FlightPlaceList|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     */
+    public function flightsGetPlacesWithHttpInfo(
+        string $q,
+        ?string $category = null,
+        ?int $limit = null,
+        string $contentType = self::contentTypes['flightsGetPlaces'][0]
+    ): array
+    {
+        $request = $this->flightsGetPlacesRequest($q, $category, $limit, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                $eResponse = $this->getExceptionResponse($e);
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $eResponse?->getHeaders(),
+                    $eResponse ? (string) $eResponse->getBody() : null
+                );
+            } catch (NetworkExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\FlightPlaceList',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 503:
+                    return $this->handleResponseWithDataType(
+                        '\OpenRoam\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenRoam\Model\FlightPlaceList',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\FlightPlaceList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenRoam\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation flightsGetPlacesAsync
+     *
+     * Find flight places
+     *
+     * @param  string $q Required. Free text over city and airport names and codes, for example &#x60;lond&#x60; or &#x60;LHR&#x60;; at most 100 characters, without control characters. (required)
+     * @param  string|null $category Optional: &#x60;city&#x60; or &#x60;airport&#x60; keeps only places of that kind. (optional)
+     * @param  int|null $limit The most places to return, 1 to 100; default 10. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsGetPlaces'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function flightsGetPlacesAsync(
+        string $q,
+        ?string $category = null,
+        ?int $limit = null,
+        string $contentType = self::contentTypes['flightsGetPlaces'][0]
+    ): PromiseInterface
+    {
+        return $this->flightsGetPlacesAsyncWithHttpInfo($q, $category, $limit, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation flightsGetPlacesAsyncWithHttpInfo
+     *
+     * Find flight places
+     *
+     * @param  string $q Required. Free text over city and airport names and codes, for example &#x60;lond&#x60; or &#x60;LHR&#x60;; at most 100 characters, without control characters. (required)
+     * @param  string|null $category Optional: &#x60;city&#x60; or &#x60;airport&#x60; keeps only places of that kind. (optional)
+     * @param  int|null $limit The most places to return, 1 to 100; default 10. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsGetPlaces'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function flightsGetPlacesAsyncWithHttpInfo(
+        string $q,
+        ?string $category = null,
+        ?int $limit = null,
+        string $contentType = self::contentTypes['flightsGetPlaces'][0]
+    ): PromiseInterface
+    {
+        $returnType = '\OpenRoam\Model\FlightPlaceList';
+        $request = $this->flightsGetPlacesRequest($q, $category, $limit, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $this->getExceptionResponse($exception);
+                    if ($response === null) {
+                        throw new ApiException(
+                            "[{$exception->getCode()}] {$exception->getMessage()}",
+                            (int) $exception->getCode(),
+                            null,
+                            null
+                        );
+                    }
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'flightsGetPlaces'
+     *
+     * @param  string $q Required. Free text over city and airport names and codes, for example &#x60;lond&#x60; or &#x60;LHR&#x60;; at most 100 characters, without control characters. (required)
+     * @param  string|null $category Optional: &#x60;city&#x60; or &#x60;airport&#x60; keeps only places of that kind. (optional)
+     * @param  int|null $limit The most places to return, 1 to 100; default 10. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['flightsGetPlaces'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function flightsGetPlacesRequest(
+        string $q,
+        ?string $category = null,
+        ?int $limit = null,
+        string $contentType = self::contentTypes['flightsGetPlaces'][0]
+    ): Request
+    {
+        // verify the required parameter 'q' is set
+        if ($q === null || (is_array($q) && count($q) === 0)) {
+            throw new InvalidArgumentException(
+                'Missing the required parameter $q when calling flightsGetPlaces'
+            );
+        }
+
+        $resourcePath = '/v1/flights/places';
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $q,
+            'q', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            true, // required
+            $this->config
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $category,
+            'category', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false, // required
+            $this->config
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false, // required
+            $this->config
+        ) ?? []);
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['text/plain', 'application/json', 'text/json', ],
+            $contentType,
+            $multipart
+        );
+
+
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
+        if ($apiKey !== null) {
+            $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);
+        return new Request(
+            'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
@@ -763,7 +1121,7 @@ class FlightsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/flights/offers/{publicId}/seat-map';
+        $resourcePath = '/v1/flights/offers/{publicId}/seat-map';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1065,7 +1423,7 @@ class FlightsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/flights/quote';
+        $resourcePath = '/v1/flights/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -1126,6 +1484,11 @@ class FlightsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1385,7 +1748,7 @@ class FlightsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/flights/search';
+        $resourcePath = '/v1/flights/search';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -1446,6 +1809,11 @@ class FlightsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

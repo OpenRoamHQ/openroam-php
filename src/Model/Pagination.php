@@ -295,6 +295,27 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['current_count'] === null) {
+            $invalidProperties[] = "'current_count' can't be null";
+        }
+        if ($this->container['total_count'] === null) {
+            $invalidProperties[] = "'total_count' can't be null";
+        }
+        if ($this->container['skip'] === null) {
+            $invalidProperties[] = "'skip' can't be null";
+        }
+        if ($this->container['limit'] === null) {
+            $invalidProperties[] = "'limit' can't be null";
+        }
+        if ($this->container['has_more'] === null) {
+            $invalidProperties[] = "'has_more' can't be null";
+        }
+        if ($this->container['page'] === null) {
+            $invalidProperties[] = "'page' can't be null";
+        }
+        if ($this->container['total_pages'] === null) {
+            $invalidProperties[] = "'total_pages' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +331,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets current_count
      *
-     * @return int|null
+     * @return int
      */
-    public function getCurrentCount(): ?int
+    public function getCurrentCount(): int
     {
         return $this->container['current_count'];
     }
@@ -320,11 +341,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets current_count
      *
-     * @param int|null $current_count Number of items on this page.
+     * @param int $current_count Number of items on this page.
      *
      * @return $this
      */
-    public function setCurrentCount(?int $current_count): static
+    public function setCurrentCount(int $current_count): static
     {
         if (is_null($current_count)) {
             throw new InvalidArgumentException('non-nullable current_count cannot be null');
@@ -337,9 +358,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_count
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalCount(): ?int
+    public function getTotalCount(): int
     {
         return $this->container['total_count'];
     }
@@ -347,11 +368,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_count
      *
-     * @param int|null $total_count Number of items matching the filters, across all pages.
+     * @param int $total_count Number of items matching the filters, across all pages.
      *
      * @return $this
      */
-    public function setTotalCount(?int $total_count): static
+    public function setTotalCount(int $total_count): static
     {
         if (is_null($total_count)) {
             throw new InvalidArgumentException('non-nullable total_count cannot be null');
@@ -364,9 +385,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets skip
      *
-     * @return int|null
+     * @return int
      */
-    public function getSkip(): ?int
+    public function getSkip(): int
     {
         return $this->container['skip'];
     }
@@ -374,11 +395,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets skip
      *
-     * @param int|null $skip Number of items before this page.
+     * @param int $skip Number of items before this page.
      *
      * @return $this
      */
-    public function setSkip(?int $skip): static
+    public function setSkip(int $skip): static
     {
         if (is_null($skip)) {
             throw new InvalidArgumentException('non-nullable skip cannot be null');
@@ -391,9 +412,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets limit
      *
-     * @return int|null
+     * @return int
      */
-    public function getLimit(): ?int
+    public function getLimit(): int
     {
         return $this->container['limit'];
     }
@@ -401,11 +422,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets limit
      *
-     * @param int|null $limit Page size.
+     * @param int $limit Page size.
      *
      * @return $this
      */
-    public function setLimit(?int $limit): static
+    public function setLimit(int $limit): static
     {
         if (is_null($limit)) {
             throw new InvalidArgumentException('non-nullable limit cannot be null');
@@ -418,9 +439,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets has_more
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getHasMore(): ?bool
+    public function getHasMore(): bool
     {
         return $this->container['has_more'];
     }
@@ -428,11 +449,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets has_more
      *
-     * @param bool|null $has_more Whether another page follows.
+     * @param bool $has_more Whether another page follows.
      *
      * @return $this
      */
-    public function setHasMore(?bool $has_more): static
+    public function setHasMore(bool $has_more): static
     {
         if (is_null($has_more)) {
             throw new InvalidArgumentException('non-nullable has_more cannot be null');
@@ -445,9 +466,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets page
      *
-     * @return int|null
+     * @return int
      */
-    public function getPage(): ?int
+    public function getPage(): int
     {
         return $this->container['page'];
     }
@@ -455,11 +476,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets page
      *
-     * @param int|null $page One-based page number.
+     * @param int $page One-based page number.
      *
      * @return $this
      */
-    public function setPage(?int $page): static
+    public function setPage(int $page): static
     {
         if (is_null($page)) {
             throw new InvalidArgumentException('non-nullable page cannot be null');
@@ -472,9 +493,9 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_pages
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalPages(): ?int
+    public function getTotalPages(): int
     {
         return $this->container['total_pages'];
     }
@@ -482,11 +503,11 @@ class Pagination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_pages
      *
-     * @param int|null $total_pages Number of pages at this page size.
+     * @param int $total_pages Number of pages at this page size.
      *
      * @return $this
      */
-    public function setTotalPages(?int $total_pages): static
+    public function setTotalPages(int $total_pages): static
     {
         if (is_null($total_pages)) {
             throw new InvalidArgumentException('non-nullable total_pages cannot be null');

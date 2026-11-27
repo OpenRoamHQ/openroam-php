@@ -342,7 +342,7 @@ class WalletsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/wallets';
+        $resourcePath = '/v1/wallets';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -666,7 +666,7 @@ class WalletsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/wallets';
+        $resourcePath = '/v1/wallets';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -980,7 +980,7 @@ class WalletsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/wallets/{id}';
+        $resourcePath = '/v1/wallets/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1040,9 +1040,9 @@ class WalletsApi
      * @param  string $wallet_id Wallet id. (required)
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). (optional)
-     * @param  string|null $type Only this direction: &#x60;debit&#x60; adds funds to the wallet, &#x60;credit&#x60; takes funds from it. (optional)
+     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  string|null $type Only this direction: &#x60;debit&#x60; takes funds from the wallet, &#x60;credit&#x60; adds funds to it. (optional)
      * @param  string|null $source Only transactions with this cause, such as &#x60;order&#x60; or &#x60;exchange&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsGetTransactions'] to see the possible values for this operation
      *
@@ -1073,9 +1073,9 @@ class WalletsApi
      * @param  string $wallet_id Wallet id. (required)
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). (optional)
-     * @param  string|null $type Only this direction: &#x60;debit&#x60; adds funds to the wallet, &#x60;credit&#x60; takes funds from it. (optional)
+     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  string|null $type Only this direction: &#x60;debit&#x60; takes funds from the wallet, &#x60;credit&#x60; adds funds to it. (optional)
      * @param  string|null $source Only transactions with this cause, such as &#x60;order&#x60; or &#x60;exchange&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsGetTransactions'] to see the possible values for this operation
      *
@@ -1226,9 +1226,9 @@ class WalletsApi
      * @param  string $wallet_id Wallet id. (required)
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). (optional)
-     * @param  string|null $type Only this direction: &#x60;debit&#x60; adds funds to the wallet, &#x60;credit&#x60; takes funds from it. (optional)
+     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  string|null $type Only this direction: &#x60;debit&#x60; takes funds from the wallet, &#x60;credit&#x60; adds funds to it. (optional)
      * @param  string|null $source Only transactions with this cause, such as &#x60;order&#x60; or &#x60;exchange&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsGetTransactions'] to see the possible values for this operation
      *
@@ -1262,9 +1262,9 @@ class WalletsApi
      * @param  string $wallet_id Wallet id. (required)
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). (optional)
-     * @param  string|null $type Only this direction: &#x60;debit&#x60; adds funds to the wallet, &#x60;credit&#x60; takes funds from it. (optional)
+     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  string|null $type Only this direction: &#x60;debit&#x60; takes funds from the wallet, &#x60;credit&#x60; adds funds to it. (optional)
      * @param  string|null $source Only transactions with this cause, such as &#x60;order&#x60; or &#x60;exchange&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsGetTransactions'] to see the possible values for this operation
      *
@@ -1335,9 +1335,9 @@ class WalletsApi
      * @param  string $wallet_id Wallet id. (required)
      * @param  int|null $page One-based page number. Default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100. Default 10. (optional)
-     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). (optional)
-     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). (optional)
-     * @param  string|null $type Only this direction: &#x60;debit&#x60; adds funds to the wallet, &#x60;credit&#x60; takes funds from it. (optional)
+     * @param  \DateTime|null $start_date Only transactions made at or after this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  \DateTime|null $end_date Only transactions made at or before this time (UTC). ISO 8601 date-time. A value with Z or an offset is converted to UTC; a value without a zone is read as UTC, and a date alone means 00:00 UTC on that day. (optional)
+     * @param  string|null $type Only this direction: &#x60;debit&#x60; takes funds from the wallet, &#x60;credit&#x60; adds funds to it. (optional)
      * @param  string|null $source Only transactions with this cause, such as &#x60;order&#x60; or &#x60;exchange&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsGetTransactions'] to see the possible values for this operation
      *
@@ -1362,7 +1362,7 @@ class WalletsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/wallets/{walletId}/transactions';
+        $resourcePath = '/v1/wallets/{walletId}/transactions';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1682,7 +1682,7 @@ class WalletsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/wallets/select/{id}';
+        $resourcePath = '/v1/wallets/select/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2056,7 +2056,7 @@ class WalletsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/wallets/transfer';
+        $resourcePath = '/v1/wallets/transfer';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -2150,7 +2150,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2173,7 +2173,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2251,7 +2251,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2277,7 +2277,7 @@ class WalletsApi
      * Update a wallet
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2327,7 +2327,7 @@ class WalletsApi
      * Create request for operation 'walletsUpdate'
      *
      * @param  string $id Wallet id. (required)
-     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The new label and threshold. (optional)
+     * @param  \OpenRoam\Model\WalletUpdateRequest|null $wallet_update_request The members to change. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['walletsUpdate'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -2346,7 +2346,7 @@ class WalletsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/wallets/{id}';
+        $resourcePath = '/v1/wallets/{id}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

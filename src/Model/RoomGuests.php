@@ -260,6 +260,12 @@ class RoomGuests implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['room_index'] === null) {
+            $invalidProperties[] = "'room_index' can't be null";
+        }
+        if ($this->container['guests'] === null) {
+            $invalidProperties[] = "'guests' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class RoomGuests implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets room_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getRoomIndex(): ?int
+    public function getRoomIndex(): int
     {
         return $this->container['room_index'];
     }
@@ -285,11 +291,11 @@ class RoomGuests implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets room_index
      *
-     * @param int|null $room_index 1-based position of the room in the searched rooms.
+     * @param int $room_index 1-based position of the room in the searched rooms.
      *
      * @return $this
      */
-    public function setRoomIndex(?int $room_index): static
+    public function setRoomIndex(int $room_index): static
     {
         if (is_null($room_index)) {
             throw new InvalidArgumentException('non-nullable room_index cannot be null');
@@ -302,9 +308,9 @@ class RoomGuests implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets guests
      *
-     * @return \OpenRoam\Model\Guest[]|null
+     * @return \OpenRoam\Model\Guest[]
      */
-    public function getGuests(): ?array
+    public function getGuests(): array
     {
         return $this->container['guests'];
     }
@@ -312,11 +318,11 @@ class RoomGuests implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets guests
      *
-     * @param \OpenRoam\Model\Guest[]|null $guests Every guest staying in the room, adults and children, in the order they were sent.
+     * @param \OpenRoam\Model\Guest[] $guests Every guest staying in the room, adults and children, in the order they were sent.
      *
      * @return $this
      */
-    public function setGuests(?array $guests): static
+    public function setGuests(array $guests): static
     {
         if (is_null($guests)) {
             throw new InvalidArgumentException('non-nullable guests cannot be null');

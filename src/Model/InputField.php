@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * InputField Class Doc Comment
  *
- * @description One field an order item supplies in &#x60;inputs&#x60;. &#x60;name&#x60; is its key: for a top-level input its path inside &#x60;inputs&#x60;, for example &#x60;phoneNumber&#x60; or &#x60;settings.pin&#x60;; for a nested field its key inside its parent, for example &#x60;email&#x60; inside &#x60;holder&#x60;. An &#x60;object&#x60; input lists its members in &#x60;fields&#x60;, and an &#x60;array&#x60; input lists the members of each element; build both with M:ObjectOf(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{InputField}) and M:ArrayOf(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{InputField}). Every other type has no fields, and the key is left out.
+ * @description One field an order item supplies in &#x60;inputs&#x60;. &#x60;name&#x60; is its key: for a top-level input its path inside &#x60;inputs&#x60;, for example &#x60;phoneNumber&#x60; or &#x60;settings.pin&#x60;; for a nested field its key inside its parent, for example &#x60;email&#x60; inside &#x60;holder&#x60;. An &#x60;object&#x60; input lists its members in &#x60;fields&#x60;, and an &#x60;array&#x60; input lists the members of each element; build both with M:ObjectOf(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{InputField}) and M:ArrayOf(System.String,System.Boolean,System.String,System.Collections.Generic.IReadOnlyList{InputField}). Every other type has no fields, and the key is left out. The optional rules (&#x60;options&#x60;, &#x60;pattern&#x60;, the lengths and the bounds) are published only where the product enforces them, with &#x60;INVALID_VALUE&#x60; at the input&#39;s path; a rule left out adds nothing.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -64,6 +64,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => 'string',
         'required' => 'bool',
         'description' => 'string',
+        'label_key' => 'string',
+        'options' => '\OpenRoam\Model\InputOption[]',
+        'pattern' => 'string',
+        'min_length' => 'int',
+        'max_length' => 'int',
+        'min' => 'int',
+        'max' => 'int',
         'fields' => '\OpenRoam\Model\InputField[]'
     ];
 
@@ -77,6 +84,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => null,
         'required' => null,
         'description' => null,
+        'label_key' => null,
+        'options' => null,
+        'pattern' => null,
+        'min_length' => 'int32',
+        'max_length' => 'int32',
+        'min' => 'int32',
+        'max' => 'int32',
         'fields' => null
     ];
 
@@ -90,6 +104,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => false,
         'required' => false,
         'description' => true,
+        'label_key' => true,
+        'options' => true,
+        'pattern' => true,
+        'min_length' => true,
+        'max_length' => true,
+        'min' => true,
+        'max' => true,
         'fields' => true
     ];
 
@@ -173,6 +194,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => 'type',
         'required' => 'required',
         'description' => 'description',
+        'label_key' => 'labelKey',
+        'options' => 'options',
+        'pattern' => 'pattern',
+        'min_length' => 'minLength',
+        'max_length' => 'maxLength',
+        'min' => 'min',
+        'max' => 'max',
         'fields' => 'fields'
     ];
 
@@ -186,6 +214,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => 'setType',
         'required' => 'setRequired',
         'description' => 'setDescription',
+        'label_key' => 'setLabelKey',
+        'options' => 'setOptions',
+        'pattern' => 'setPattern',
+        'min_length' => 'setMinLength',
+        'max_length' => 'setMaxLength',
+        'min' => 'setMin',
+        'max' => 'setMax',
         'fields' => 'setFields'
     ];
 
@@ -199,6 +234,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         'type' => 'getType',
         'required' => 'getRequired',
         'description' => 'getDescription',
+        'label_key' => 'getLabelKey',
+        'options' => 'getOptions',
+        'pattern' => 'getPattern',
+        'min_length' => 'getMinLength',
+        'max_length' => 'getMaxLength',
+        'min' => 'getMin',
+        'max' => 'getMax',
         'fields' => 'getFields'
     ];
 
@@ -280,6 +322,13 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('required', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
+        $this->setIfExists('label_key', $data ?? [], null);
+        $this->setIfExists('options', $data ?? [], null);
+        $this->setIfExists('pattern', $data ?? [], null);
+        $this->setIfExists('min_length', $data ?? [], null);
+        $this->setIfExists('max_length', $data ?? [], null);
+        $this->setIfExists('min', $data ?? [], null);
+        $this->setIfExists('max', $data ?? [], null);
         $this->setIfExists('fields', $data ?? [], null);
     }
 
@@ -462,6 +511,244 @@ class InputField implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /**
+     * Gets label_key
+     *
+     * @return string|null
+     */
+    public function getLabelKey(): ?string
+    {
+        return $this->container['label_key'];
+    }
+
+    /**
+     * Sets label_key
+     *
+     * @param string|null $label_key A stable key to translate the input's label with, such as `inputs.accountNumber`, documented by the service. Left out when the input is defined by catalogue data and has no fixed key; `description` then names it.
+     *
+     * @return $this
+     */
+    public function setLabelKey(?string $label_key): static
+    {
+        if (is_null($label_key)) {
+            array_push($this->openAPINullablesSetToNull, 'label_key');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('label_key', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['label_key'] = $label_key;
+
+        return $this;
+    }
+
+    /**
+     * Gets options
+     *
+     * @return \OpenRoam\Model\InputOption[]|null
+     */
+    public function getOptions(): ?array
+    {
+        return $this->container['options'];
+    }
+
+    /**
+     * Sets options
+     *
+     * @param \OpenRoam\Model\InputOption[]|null $options The only values a `text` input accepts; left out when any value is allowed.
+     *
+     * @return $this
+     */
+    public function setOptions(?array $options): static
+    {
+        if (is_null($options)) {
+            array_push($this->openAPINullablesSetToNull, 'options');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('options', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['options'] = $options;
+
+        return $this;
+    }
+
+    /**
+     * Gets pattern
+     *
+     * @return string|null
+     */
+    public function getPattern(): ?string
+    {
+        return $this->container['pattern'];
+    }
+
+    /**
+     * Sets pattern
+     *
+     * @param string|null $pattern An anchored regular expression the whole `text` value matches, after surrounding spaces are removed. It uses only constructs that run alike in .NET, JavaScript and Dart: no look-around and no back-references.
+     *
+     * @return $this
+     */
+    public function setPattern(?string $pattern): static
+    {
+        if (is_null($pattern)) {
+            array_push($this->openAPINullablesSetToNull, 'pattern');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pattern', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pattern'] = $pattern;
+
+        return $this;
+    }
+
+    /**
+     * Gets min_length
+     *
+     * @return int|null
+     */
+    public function getMinLength(): ?int
+    {
+        return $this->container['min_length'];
+    }
+
+    /**
+     * Sets min_length
+     *
+     * @param int|null $min_length The fewest characters a `text`, `email` or `phone` value has, after surrounding spaces are removed.
+     *
+     * @return $this
+     */
+    public function setMinLength(?int $min_length): static
+    {
+        if (is_null($min_length)) {
+            array_push($this->openAPINullablesSetToNull, 'min_length');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('min_length', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['min_length'] = $min_length;
+
+        return $this;
+    }
+
+    /**
+     * Gets max_length
+     *
+     * @return int|null
+     */
+    public function getMaxLength(): ?int
+    {
+        return $this->container['max_length'];
+    }
+
+    /**
+     * Sets max_length
+     *
+     * @param int|null $max_length The most characters a `text`, `email` or `phone` value has, after surrounding spaces are removed.
+     *
+     * @return $this
+     */
+    public function setMaxLength(?int $max_length): static
+    {
+        if (is_null($max_length)) {
+            array_push($this->openAPINullablesSetToNull, 'max_length');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('max_length', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['max_length'] = $max_length;
+
+        return $this;
+    }
+
+    /**
+     * Gets min
+     *
+     * @return int|null
+     */
+    public function getMin(): ?int
+    {
+        return $this->container['min'];
+    }
+
+    /**
+     * Sets min
+     *
+     * @param int|null $min The smallest value an `integer` input accepts.
+     *
+     * @return $this
+     */
+    public function setMin(?int $min): static
+    {
+        if (is_null($min)) {
+            array_push($this->openAPINullablesSetToNull, 'min');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('min', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['min'] = $min;
+
+        return $this;
+    }
+
+    /**
+     * Gets max
+     *
+     * @return int|null
+     */
+    public function getMax(): ?int
+    {
+        return $this->container['max'];
+    }
+
+    /**
+     * Sets max
+     *
+     * @param int|null $max The largest value an `integer` input accepts.
+     *
+     * @return $this
+     */
+    public function setMax(?int $max): static
+    {
+        if (is_null($max)) {
+            array_push($this->openAPINullablesSetToNull, 'max');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('max', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['max'] = $max;
 
         return $this;
     }

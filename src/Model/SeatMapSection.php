@@ -252,6 +252,9 @@ class SeatMapSection implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['elements'] === null) {
+            $invalidProperties[] = "'elements' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -267,9 +270,9 @@ class SeatMapSection implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets elements
      *
-     * @return \OpenRoam\Model\SeatMapElement[]|null
+     * @return \OpenRoam\Model\SeatMapElement[]
      */
-    public function getElements(): ?array
+    public function getElements(): array
     {
         return $this->container['elements'];
     }
@@ -277,11 +280,11 @@ class SeatMapSection implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets elements
      *
-     * @param \OpenRoam\Model\SeatMapElement[]|null $elements elements
+     * @param \OpenRoam\Model\SeatMapElement[] $elements elements
      *
      * @return $this
      */
-    public function setElements(?array $elements): static
+    public function setElements(array $elements): static
     {
         if (is_null($elements)) {
             throw new InvalidArgumentException('non-nullable elements cannot be null');

@@ -267,6 +267,15 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['fulfillment_version'] === null) {
+            $invalidProperties[] = "'fulfillment_version' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -292,11 +301,11 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets id
      *
-     * @param string|null $id Order id.
+     * @param string $id Order id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -309,9 +318,9 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets items
      *
-     * @return (\OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem)[]|null
+     * @return (\OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem)[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -319,11 +328,11 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets items
      *
-     * @param (\OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem)[]|null $items The order items with their fulfillment.
+     * @param (\OpenRoam\Model\EsimOrderItem|\OpenRoam\Model\HotelOrderItem|\OpenRoam\Model\FlightOrderItem|\OpenRoam\Model\GiftCardOrderItem|\OpenRoam\Model\AirtimeOrderItem|\OpenRoam\Model\UtilityOrderItem)[] $items The order items with their fulfillment.
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -336,9 +345,9 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets fulfillment_version
      *
-     * @return int|null
+     * @return int
      */
-    public function getFulfillmentVersion(): ?int
+    public function getFulfillmentVersion(): int
     {
         return $this->container['fulfillment_version'];
     }
@@ -346,11 +355,11 @@ class OrderFulfillmentStatus implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets fulfillment_version
      *
-     * @param int|null $fulfillment_version Increases with every fulfillment change; matches the             `order.fulfillment.updated` webhook.
+     * @param int $fulfillment_version Increases with every fulfillment change; matches the             `order.fulfillment.updated` webhook.
      *
      * @return $this
      */
-    public function setFulfillmentVersion(?int $fulfillment_version): static
+    public function setFulfillmentVersion(int $fulfillment_version): static
     {
         if (is_null($fulfillment_version)) {
             throw new InvalidArgumentException('non-nullable fulfillment_version cannot be null');

@@ -350,7 +350,7 @@ class CurrenciesApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/currencies';
+        $resourcePath = '/v1/currencies';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -371,6 +371,11 @@ class CurrenciesApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

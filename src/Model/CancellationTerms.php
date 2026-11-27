@@ -61,6 +61,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'type' => 'string',
         'free_until' => '\DateTime',
+        'free_until_local_time' => 'string',
+        'timezone' => 'string',
         'schedule' => '\OpenRoam\Model\CancellationStep[]',
         'fee' => '\OpenRoam\Model\Money'
     ];
@@ -73,6 +75,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'type' => null,
         'free_until' => 'date-time',
+        'free_until_local_time' => null,
+        'timezone' => null,
         'schedule' => null,
         'fee' => null
     ];
@@ -85,6 +89,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'type' => false,
         'free_until' => true,
+        'free_until_local_time' => true,
+        'timezone' => true,
         'schedule' => false,
         'fee' => true
     ];
@@ -167,6 +173,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'type' => 'type',
         'free_until' => 'freeUntil',
+        'free_until_local_time' => 'freeUntilLocalTime',
+        'timezone' => 'timezone',
         'schedule' => 'schedule',
         'fee' => 'fee'
     ];
@@ -179,6 +187,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'type' => 'setType',
         'free_until' => 'setFreeUntil',
+        'free_until_local_time' => 'setFreeUntilLocalTime',
+        'timezone' => 'setTimezone',
         'schedule' => 'setSchedule',
         'fee' => 'setFee'
     ];
@@ -191,6 +201,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'type' => 'getType',
         'free_until' => 'getFreeUntil',
+        'free_until_local_time' => 'getFreeUntilLocalTime',
+        'timezone' => 'getTimezone',
         'schedule' => 'getSchedule',
         'fee' => 'getFee'
     ];
@@ -261,6 +273,8 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('free_until', $data ?? [], null);
+        $this->setIfExists('free_until_local_time', $data ?? [], null);
+        $this->setIfExists('timezone', $data ?? [], null);
         $this->setIfExists('schedule', $data ?? [], null);
         $this->setIfExists('fee', $data ?? [], null);
     }
@@ -290,6 +304,9 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
         $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -299,6 +316,13 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if (!is_null($this->container['free_until_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['free_until_local_time'])) {
+            $invalidProperties[] = "invalid value for 'free_until_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['schedule'] === null) {
+            $invalidProperties[] = "'schedule' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -314,9 +338,9 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -324,11 +348,11 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type `fullyRefundable` (a full refund until FreeUntil), `partiallyRefundable` or `nonRefundable` (nothing comes back).
+     * @param string $type `fullyRefundable` (a full refund until FreeUntil), `partiallyRefundable` or `nonRefundable` (nothing comes back).
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -383,11 +407,84 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets free_until_local_time
+     *
+     * @return string|null
+     */
+    public function getFreeUntilLocalTime(): ?string
+    {
+        return $this->container['free_until_local_time'];
+    }
+
+    /**
+     * Sets free_until_local_time
+     *
+     * @param string|null $free_until_local_time The clock of `timezone` at `freeUntil`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `freeUntil`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setFreeUntilLocalTime(?string $free_until_local_time): static
+    {
+        if (is_null($free_until_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'free_until_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('free_until_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($free_until_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($free_until_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$free_until_local_time when calling CancellationTerms., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['free_until_local_time'] = $free_until_local_time;
+
+        return $this;
+    }
+
+    /**
+     * Gets timezone
+     *
+     * @return string|null
+     */
+    public function getTimezone(): ?string
+    {
+        return $this->container['timezone'];
+    }
+
+    /**
+     * Sets timezone
+     *
+     * @param string|null $timezone The IANA time zone of the place the booking is bound to, such as `Europe/Paris`: the hotel's for a stay, the first departure airport's for a flight. Each `*LocalTime` member is the clock in it. Null when the place does not tell it.
+     *
+     * @return $this
+     */
+    public function setTimezone(?string $timezone): static
+    {
+        if (is_null($timezone)) {
+            array_push($this->openAPINullablesSetToNull, 'timezone');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('timezone', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['timezone'] = $timezone;
+
+        return $this;
+    }
+
+    /**
      * Gets schedule
      *
-     * @return \OpenRoam\Model\CancellationStep[]|null
+     * @return \OpenRoam\Model\CancellationStep[]
      */
-    public function getSchedule(): ?array
+    public function getSchedule(): array
     {
         return $this->container['schedule'];
     }
@@ -395,11 +492,11 @@ class CancellationTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets schedule
      *
-     * @param \OpenRoam\Model\CancellationStep[]|null $schedule Ordered steps: each is what cancelling from its `from` gives back and keeps. Before the first step, cancelling keeps only Fee (nothing when it is null). Empty for a product that is not refundable.
+     * @param \OpenRoam\Model\CancellationStep[] $schedule Ordered steps: each is what cancelling from its `from` gives back and keeps. Before the first step, cancelling keeps only Fee (nothing when it is null). Empty for a product that is not refundable.
      *
      * @return $this
      */
-    public function setSchedule(?array $schedule): static
+    public function setSchedule(array $schedule): static
     {
         if (is_null($schedule)) {
             throw new InvalidArgumentException('non-nullable schedule cannot be null');

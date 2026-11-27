@@ -281,6 +281,21 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['balance'] === null) {
+            $invalidProperties[] = "'balance' can't be null";
+        }
+        if ($this->container['is_selected'] === null) {
+            $invalidProperties[] = "'is_selected' can't be null";
+        }
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +311,9 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -306,11 +321,11 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Wallet id.
+     * @param string $id Wallet id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -323,9 +338,9 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -333,11 +348,11 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label Display name.
+     * @param string $label Display name.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -350,9 +365,9 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets balance
      *
-     * @return float|null
+     * @return float
      */
-    public function getBalance(): ?float
+    public function getBalance(): float
     {
         return $this->container['balance'];
     }
@@ -360,11 +375,11 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets balance
      *
-     * @param float|null $balance Available balance, in the wallet's currency.
+     * @param float $balance Available balance, in the wallet's currency.
      *
      * @return $this
      */
-    public function setBalance(?float $balance): static
+    public function setBalance(float $balance): static
     {
         if (is_null($balance)) {
             throw new InvalidArgumentException('non-nullable balance cannot be null');
@@ -377,9 +392,9 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_selected
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsSelected(): ?bool
+    public function getIsSelected(): bool
     {
         return $this->container['is_selected'];
     }
@@ -387,11 +402,11 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_selected
      *
-     * @param bool|null $is_selected Whether this is the selected wallet that pays for orders.
+     * @param bool $is_selected Whether this is the selected wallet that pays for orders.
      *
      * @return $this
      */
-    public function setIsSelected(?bool $is_selected): static
+    public function setIsSelected(bool $is_selected): static
     {
         if (is_null($is_selected)) {
             throw new InvalidArgumentException('non-nullable is_selected cannot be null');
@@ -404,9 +419,9 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currency
      *
-     * @return \OpenRoam\Model\Currency|null
+     * @return \OpenRoam\Model\Currency
      */
-    public function getCurrency(): ?\OpenRoam\Model\Currency
+    public function getCurrency(): \OpenRoam\Model\Currency
     {
         return $this->container['currency'];
     }
@@ -414,11 +429,11 @@ class WalletSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param \OpenRoam\Model\Currency|null $currency The wallet's currency.
+     * @param \OpenRoam\Model\Currency $currency The wallet's currency.
      *
      * @return $this
      */
-    public function setCurrency(?\OpenRoam\Model\Currency $currency): static
+    public function setCurrency(\OpenRoam\Model\Currency $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');

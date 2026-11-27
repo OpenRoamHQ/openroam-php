@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimOffer Class Doc Comment
  *
- * @description One orderable eSIM plan of a destination. &#x60;publicId&#x60; is the identifier quote and order take. An eSIM has no monetary value, so the offer has no &#x60;value&#x60;; &#x60;price&#x60; is one indicative amount in the requested price currency.
+ * @description One orderable eSIM plan of a destination. &#x60;publicId&#x60; is the identifier quote and order take. An eSIM has no monetary value, so the offer has no &#x60;value&#x60;; &#x60;price&#x60; is one indicative amount in the requested price currency. &#x60;taxes&#x60; is &#x60;notStated&#x60;: no tax is stated for eSIM prices yet.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -64,6 +64,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'string',
         'description' => 'string',
         'price' => '\OpenRoam\Model\OfferPrice',
+        'taxes' => '\OpenRoam\Model\TaxSummary',
         'required_inputs' => '\OpenRoam\Model\InputField[]',
         'details' => '\OpenRoam\Model\EsimOfferDetails'
     ];
@@ -78,6 +79,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => null,
         'description' => null,
         'price' => null,
+        'taxes' => null,
         'required_inputs' => null,
         'details' => null
     ];
@@ -92,6 +94,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => false,
         'description' => true,
         'price' => false,
+        'taxes' => false,
         'required_inputs' => false,
         'details' => false
     ];
@@ -176,6 +179,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'name',
         'description' => 'description',
         'price' => 'price',
+        'taxes' => 'taxes',
         'required_inputs' => 'requiredInputs',
         'details' => 'details'
     ];
@@ -190,6 +194,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'setName',
         'description' => 'setDescription',
         'price' => 'setPrice',
+        'taxes' => 'setTaxes',
         'required_inputs' => 'setRequiredInputs',
         'details' => 'setDetails'
     ];
@@ -204,6 +209,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'getName',
         'description' => 'getDescription',
         'price' => 'getPrice',
+        'taxes' => 'getTaxes',
         'required_inputs' => 'getRequiredInputs',
         'details' => 'getDetails'
     ];
@@ -259,6 +265,7 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('required_inputs', $data ?? [], null);
         $this->setIfExists('details', $data ?? [], null);
     }
@@ -288,6 +295,24 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['public_id'] === null) {
+            $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['required_inputs'] === null) {
+            $invalidProperties[] = "'required_inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +328,9 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets public_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getPublicId(): ?string
+    public function getPublicId(): string
     {
         return $this->container['public_id'];
     }
@@ -313,11 +338,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets public_id
      *
-     * @param string|null $public_id public_id
+     * @param string $public_id public_id
      *
      * @return $this
      */
-    public function setPublicId(?string $public_id): static
+    public function setPublicId(string $public_id): static
     {
         if (is_null($public_id)) {
             throw new InvalidArgumentException('non-nullable public_id cannot be null');
@@ -330,9 +355,9 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -340,11 +365,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -391,9 +416,9 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
      */
-    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
     {
         return $this->container['price'];
     }
@@ -401,11 +426,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price price
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price price
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -416,11 +441,38 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside one unit of the `price` beside it, in one shape for every service. The server sets every field; a client never derives a treatment, never adds up `lines` and never computes an amount.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
      * Gets required_inputs
      *
-     * @return \OpenRoam\Model\InputField[]|null
+     * @return \OpenRoam\Model\InputField[]
      */
-    public function getRequiredInputs(): ?array
+    public function getRequiredInputs(): array
     {
         return $this->container['required_inputs'];
     }
@@ -428,11 +480,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets required_inputs
      *
-     * @param \OpenRoam\Model\InputField[]|null $required_inputs required_inputs
+     * @param \OpenRoam\Model\InputField[] $required_inputs required_inputs
      *
      * @return $this
      */
-    public function setRequiredInputs(?array $required_inputs): static
+    public function setRequiredInputs(array $required_inputs): static
     {
         if (is_null($required_inputs)) {
             throw new InvalidArgumentException('non-nullable required_inputs cannot be null');
@@ -445,9 +497,9 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\EsimOfferDetails|null
+     * @return \OpenRoam\Model\EsimOfferDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\EsimOfferDetails
+    public function getDetails(): \OpenRoam\Model\EsimOfferDetails
     {
         return $this->container['details'];
     }
@@ -455,11 +507,11 @@ class EsimOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\EsimOfferDetails|null $details eSIM plan facts outside the offer keys every partner service shares.
+     * @param \OpenRoam\Model\EsimOfferDetails $details eSIM plan facts outside the offer keys every partner service shares.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\EsimOfferDetails $details): static
+    public function setDetails(\OpenRoam\Model\EsimOfferDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

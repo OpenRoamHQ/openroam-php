@@ -63,7 +63,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => 'string',
         'amount' => '\OpenRoam\Model\Money',
         'method' => 'string',
-        'status' => 'string'
+        'status' => 'string',
+        'wallet' => '\OpenRoam\Model\OrderRefundWallet'
     ];
 
     /**
@@ -75,7 +76,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => 'uuid',
         'amount' => null,
         'method' => null,
-        'status' => null
+        'status' => null,
+        'wallet' => null
     ];
 
     /**
@@ -87,7 +89,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => false,
         'amount' => false,
         'method' => false,
-        'status' => false
+        'status' => false,
+        'wallet' => true
     ];
 
     /**
@@ -169,7 +172,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => 'orderItemId',
         'amount' => 'amount',
         'method' => 'method',
-        'status' => 'status'
+        'status' => 'status',
+        'wallet' => 'wallet'
     ];
 
     /**
@@ -181,7 +185,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => 'setOrderItemId',
         'amount' => 'setAmount',
         'method' => 'setMethod',
-        'status' => 'setStatus'
+        'status' => 'setStatus',
+        'wallet' => 'setWallet'
     ];
 
     /**
@@ -193,7 +198,8 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         'order_item_id' => 'getOrderItemId',
         'amount' => 'getAmount',
         'method' => 'getMethod',
-        'status' => 'getStatus'
+        'status' => 'getStatus',
+        'wallet' => 'getWallet'
     ];
 
     /**
@@ -281,6 +287,7 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
         $this->setIfExists('amount', $data ?? [], null);
         $this->setIfExists('method', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('wallet', $data ?? [], null);
     }
 
     /**
@@ -308,6 +315,15 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['order_item_id'] === null) {
+            $invalidProperties[] = "'order_item_id' can't be null";
+        }
+        if ($this->container['amount'] === null) {
+            $invalidProperties[] = "'amount' can't be null";
+        }
+        if ($this->container['method'] === null) {
+            $invalidProperties[] = "'method' can't be null";
+        }
         $allowedValues = self::getMethodAllowableValues();
         if (!is_null($this->container['method']) && !in_array($this->container['method'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -317,6 +333,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
             );
         }
 
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -341,9 +360,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets order_item_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderItemId(): ?string
+    public function getOrderItemId(): string
     {
         return $this->container['order_item_id'];
     }
@@ -351,11 +370,11 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets order_item_id
      *
-     * @param string|null $order_item_id The refunded order item.
+     * @param string $order_item_id The refunded order item.
      *
      * @return $this
      */
-    public function setOrderItemId(?string $order_item_id): static
+    public function setOrderItemId(string $order_item_id): static
     {
         if (is_null($order_item_id)) {
             throw new InvalidArgumentException('non-nullable order_item_id cannot be null');
@@ -368,9 +387,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmount(): ?\OpenRoam\Model\Money
+    public function getAmount(): \OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -378,11 +397,11 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\Money|null $amount The amount refunded, in the order's currency.
+     * @param \OpenRoam\Model\Money $amount The amount refunded, in the order's currency.
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\Money $amount): static
+    public function setAmount(\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');
@@ -395,9 +414,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets method
      *
-     * @return string|null
+     * @return string
      */
-    public function getMethod(): ?string
+    public function getMethod(): string
     {
         return $this->container['method'];
     }
@@ -405,11 +424,11 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets method
      *
-     * @param string|null $method How the amount is returned; `balance` returns it to the wallet that paid.
+     * @param string $method How the amount is returned; `balance` returns it to the wallet that paid.
      *
      * @return $this
      */
-    public function setMethod(?string $method): static
+    public function setMethod(string $method): static
     {
         if (is_null($method)) {
             throw new InvalidArgumentException('non-nullable method cannot be null');
@@ -432,9 +451,9 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -442,11 +461,11 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets status
      *
-     * @param string|null $status Refund status: `refunded` when complete; `pending` or `processing` while it             settles; `failed` when it did not complete.
+     * @param string $status Refund status: `refunded` when complete; `pending` or `processing` while it             settles; `failed` when it did not complete.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -462,6 +481,40 @@ class OrderItemCancelResult implements ModelInterface, ArrayAccess, JsonSerializ
             );
         }
         $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets wallet
+     *
+     * @return \OpenRoam\Model\OrderRefundWallet|null
+     */
+    public function getWallet(): ?\OpenRoam\Model\OrderRefundWallet
+    {
+        return $this->container['wallet'];
+    }
+
+    /**
+     * Sets wallet
+     *
+     * @param \OpenRoam\Model\OrderRefundWallet|null $wallet The wallet the refund was returned to and the amount it received, in the wallet's currency;             `null` until money is back in a wallet, and for a refund to a card.
+     *
+     * @return $this
+     */
+    public function setWallet(?\OpenRoam\Model\OrderRefundWallet $wallet): static
+    {
+        if (is_null($wallet)) {
+            array_push($this->openAPINullablesSetToNull, 'wallet');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('wallet', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['wallet'] = $wallet;
 
         return $this;
     }

@@ -295,7 +295,7 @@ class HotelOrderRequest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param string|null $currency Quote and order currency, three letters in either case; the API key's currency when omitted. An order must be in the currency the offers were priced in; a quote prices them in it. An unsupported code gives 404 / 10004 before any item is checked.
+     * @param string|null $currency Quote and order currency, three letters in either case; the API key's currency when omitted. An order must be in the currency the offers were priced in; a quote prices them in it. An unsupported code gives 400 / 10001 at `currency`, reason `NOT_SUPPORTED`, before any item is checked.
      *
      * @return $this
      */

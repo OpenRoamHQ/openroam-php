@@ -303,6 +303,9 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
         $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -312,6 +315,9 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['due_now'] === null) {
+            $invalidProperties[] = "'due_now' can't be null";
+        }
         $allowedValues = self::getDueLaterAtAllowableValues();
         if (!is_null($this->container['due_later_at']) && !in_array($this->container['due_later_at'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -336,9 +342,9 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -346,11 +352,11 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type `payNow`, `payAtProperty` or `deposit`.
+     * @param string $type `payNow`, `payAtProperty` or `deposit`.
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -373,9 +379,9 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets due_now
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getDueNow(): ?\OpenRoam\Model\Money
+    public function getDueNow(): \OpenRoam\Model\Money
     {
         return $this->container['due_now'];
     }
@@ -383,11 +389,11 @@ class PaymentTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets due_now
      *
-     * @param \OpenRoam\Model\Money|null $due_now What the partner's wallet is charged at order.
+     * @param \OpenRoam\Model\Money $due_now What the partner's wallet is charged at order.
      *
      * @return $this
      */
-    public function setDueNow(?\OpenRoam\Model\Money $due_now): static
+    public function setDueNow(\OpenRoam\Model\Money $due_now): static
     {
         if (is_null($due_now)) {
             throw new InvalidArgumentException('non-nullable due_now cannot be null');

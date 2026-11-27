@@ -38,6 +38,9 @@ class WebhooksTest extends TestCase
         return [
             'changed body' => [self::SECRET, self::BODY . ' ', 1770000100],
             'wrong secret' => ['other', self::BODY, 1770000100],
+            'empty secret' => ['', self::BODY, 1770000100],
+            'blank secret' => ['   ', self::BODY, 1770000100],
+            'unicode blank secret' => ["\u{2003}", self::BODY, 1770000100],
             'too old' => [self::SECRET, self::BODY, 1770001000],
         ];
     }

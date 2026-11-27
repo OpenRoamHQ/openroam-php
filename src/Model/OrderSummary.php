@@ -64,11 +64,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => '\OpenRoam\Model\OrderOrigin',
         'status' => 'string',
         'total' => '\OpenRoam\Model\Money',
+        'refunded' => '\OpenRoam\Model\Money',
         'payment' => '\OpenRoam\Model\OrderPayment',
         'item_count' => 'int',
         'created_at' => '\DateTime',
         'updated_at' => '\DateTime',
-        'reference_id' => 'string'
+        'reference_id' => 'string',
+        'checkout' => '\OpenRoam\Model\OrderCheckout'
     ];
 
     /**
@@ -81,11 +83,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => null,
         'status' => null,
         'total' => null,
+        'refunded' => null,
         'payment' => null,
         'item_count' => 'int32',
         'created_at' => 'date-time',
         'updated_at' => 'date-time',
-        'reference_id' => null
+        'reference_id' => null,
+        'checkout' => null
     ];
 
     /**
@@ -98,11 +102,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => false,
         'status' => false,
         'total' => false,
+        'refunded' => false,
         'payment' => true,
         'item_count' => false,
         'created_at' => false,
         'updated_at' => false,
-        'reference_id' => true
+        'reference_id' => true,
+        'checkout' => true
     ];
 
     /**
@@ -185,11 +191,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'origin',
         'status' => 'status',
         'total' => 'total',
+        'refunded' => 'refunded',
         'payment' => 'payment',
         'item_count' => 'itemCount',
         'created_at' => 'createdAt',
         'updated_at' => 'updatedAt',
-        'reference_id' => 'referenceId'
+        'reference_id' => 'referenceId',
+        'checkout' => 'checkout'
     ];
 
     /**
@@ -202,11 +210,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'setOrigin',
         'status' => 'setStatus',
         'total' => 'setTotal',
+        'refunded' => 'setRefunded',
         'payment' => 'setPayment',
         'item_count' => 'setItemCount',
         'created_at' => 'setCreatedAt',
         'updated_at' => 'setUpdatedAt',
-        'reference_id' => 'setReferenceId'
+        'reference_id' => 'setReferenceId',
+        'checkout' => 'setCheckout'
     ];
 
     /**
@@ -219,11 +229,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'getOrigin',
         'status' => 'getStatus',
         'total' => 'getTotal',
+        'refunded' => 'getRefunded',
         'payment' => 'getPayment',
         'item_count' => 'getItemCount',
         'created_at' => 'getCreatedAt',
         'updated_at' => 'getUpdatedAt',
-        'reference_id' => 'getReferenceId'
+        'reference_id' => 'getReferenceId',
+        'checkout' => 'getCheckout'
     ];
 
     /**
@@ -259,12 +271,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     public const STATUS_PAYMENT_PENDING = 'paymentPending';
-    public const STATUS_PAID = 'paid';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
-    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
-    public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PARTIALLY_FULFILLED = 'partiallyFulfilled';
+    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
+    public const STATUS_PARTIALLY_REFUNDED = 'partiallyRefunded';
+    public const STATUS_REFUNDED = 'refunded';
+    public const STATUS_CANCELLED = 'cancelled';
 
     /**
      * Gets allowable values of the enum
@@ -275,12 +288,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     {
         return [
             self::STATUS_PAYMENT_PENDING,
-            self::STATUS_PAID,
             self::STATUS_PROCESSING,
             self::STATUS_COMPLETED,
-            self::STATUS_FULFILLMENT_FAILED,
-            self::STATUS_CANCELLED,
             self::STATUS_PARTIALLY_FULFILLED,
+            self::STATUS_FULFILLMENT_FAILED,
+            self::STATUS_PARTIALLY_REFUNDED,
+            self::STATUS_REFUNDED,
+            self::STATUS_CANCELLED,
         ];
     }
 
@@ -302,11 +316,13 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('origin', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('total', $data ?? [], null);
+        $this->setIfExists('refunded', $data ?? [], null);
         $this->setIfExists('payment', $data ?? [], null);
         $this->setIfExists('item_count', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('reference_id', $data ?? [], null);
+        $this->setIfExists('checkout', $data ?? [], null);
     }
 
     /**
@@ -334,6 +350,15 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['origin'] === null) {
+            $invalidProperties[] = "'origin' can't be null";
+        }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -343,6 +368,21 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['total'] === null) {
+            $invalidProperties[] = "'total' can't be null";
+        }
+        if ($this->container['refunded'] === null) {
+            $invalidProperties[] = "'refunded' can't be null";
+        }
+        if ($this->container['item_count'] === null) {
+            $invalidProperties[] = "'item_count' can't be null";
+        }
+        if ($this->container['created_at'] === null) {
+            $invalidProperties[] = "'created_at' can't be null";
+        }
+        if ($this->container['updated_at'] === null) {
+            $invalidProperties[] = "'updated_at' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -358,9 +398,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -368,11 +408,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Order id.
+     * @param string $id Order id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -385,9 +425,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\OrderOrigin|null
+     * @return \OpenRoam\Model\OrderOrigin
      */
-    public function getOrigin(): ?\OpenRoam\Model\OrderOrigin
+    public function getOrigin(): \OpenRoam\Model\OrderOrigin
     {
         return $this->container['origin'];
     }
@@ -395,11 +435,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\OrderOrigin|null $origin Where the order was created.
+     * @param \OpenRoam\Model\OrderOrigin $origin Where the order was created.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\OrderOrigin $origin): static
+    public function setOrigin(\OpenRoam\Model\OrderOrigin $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -412,9 +452,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -422,11 +462,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status Current order status.
+     * @param string $status Current order status: `paymentPending`, `processing`, `completed`,             `partiallyFulfilled`, `fulfillmentFailed`, `partiallyRefunded`, `refunded` or `cancelled`.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -449,9 +489,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getTotal(): ?\OpenRoam\Model\Money
+    public function getTotal(): \OpenRoam\Model\Money
     {
         return $this->container['total'];
     }
@@ -459,16 +499,43 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total
      *
-     * @param \OpenRoam\Model\Money|null $total What the order costs, in the order's currency.
+     * @param \OpenRoam\Model\Money $total What was charged for the order, in the order's currency, before refunds.
      *
      * @return $this
      */
-    public function setTotal(?\OpenRoam\Model\Money $total): static
+    public function setTotal(\OpenRoam\Model\Money $total): static
     {
         if (is_null($total)) {
             throw new InvalidArgumentException('non-nullable total cannot be null');
         }
         $this->container['total'] = $total;
+
+        return $this;
+    }
+
+    /**
+     * Gets refunded
+     *
+     * @return \OpenRoam\Model\Money
+     */
+    public function getRefunded(): \OpenRoam\Model\Money
+    {
+        return $this->container['refunded'];
+    }
+
+    /**
+     * Sets refunded
+     *
+     * @param \OpenRoam\Model\Money $refunded What completed item refunds returned, in the order's currency; zero when nothing was             returned. You paid `total` minus `refunded`.
+     *
+     * @return $this
+     */
+    public function setRefunded(\OpenRoam\Model\Money $refunded): static
+    {
+        if (is_null($refunded)) {
+            throw new InvalidArgumentException('non-nullable refunded cannot be null');
+        }
+        $this->container['refunded'] = $refunded;
 
         return $this;
     }
@@ -510,9 +577,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets item_count
      *
-     * @return int|null
+     * @return int
      */
-    public function getItemCount(): ?int
+    public function getItemCount(): int
     {
         return $this->container['item_count'];
     }
@@ -520,11 +587,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets item_count
      *
-     * @param int|null $item_count Number of order items.
+     * @param int $item_count Number of order items.
      *
      * @return $this
      */
-    public function setItemCount(?int $item_count): static
+    public function setItemCount(int $item_count): static
     {
         if (is_null($item_count)) {
             throw new InvalidArgumentException('non-nullable item_count cannot be null');
@@ -537,9 +604,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets created_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTime
     {
         return $this->container['created_at'];
     }
@@ -547,11 +614,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets created_at
      *
-     * @param \DateTime|null $created_at When the order was created (UTC).
+     * @param \DateTime $created_at When the order was created (UTC).
      *
      * @return $this
      */
-    public function setCreatedAt(?\DateTime $created_at): static
+    public function setCreatedAt(\DateTime $created_at): static
     {
         if (is_null($created_at)) {
             throw new InvalidArgumentException('non-nullable created_at cannot be null');
@@ -564,9 +631,9 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets updated_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->container['updated_at'];
     }
@@ -574,11 +641,11 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets updated_at
      *
-     * @param \DateTime|null $updated_at When the order last changed (UTC).
+     * @param \DateTime $updated_at When anything in the order last changed (UTC): its status, an item's fulfillment, a refund             or an amendment.
      *
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTime $updated_at): static
     {
         if (is_null($updated_at)) {
             throw new InvalidArgumentException('non-nullable updated_at cannot be null');
@@ -618,6 +685,40 @@ class OrderSummary implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['reference_id'] = $reference_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets checkout
+     *
+     * @return \OpenRoam\Model\OrderCheckout|null
+     */
+    public function getCheckout(): ?\OpenRoam\Model\OrderCheckout
+    {
+        return $this->container['checkout'];
+    }
+
+    /**
+     * Sets checkout
+     *
+     * @param \OpenRoam\Model\OrderCheckout|null $checkout The checkout the order was placed from, with your payment reference; `null` unless a traveller             paid for it on your own page, on one of your sites that takes payment itself.
+     *
+     * @return $this
+     */
+    public function setCheckout(?\OpenRoam\Model\OrderCheckout $checkout): static
+    {
+        if (is_null($checkout)) {
+            array_push($this->openAPINullablesSetToNull, 'checkout');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('checkout', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['checkout'] = $checkout;
 
         return $this;
     }

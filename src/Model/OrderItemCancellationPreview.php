@@ -65,8 +65,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => '\OpenRoam\Model\Money',
         'is_refundable' => 'bool',
         'applied_penalties' => '\OpenRoam\Model\CancellationPenalty[]',
-        'effective_cancellation_date' => '\DateTime',
-        'check_in_date' => '\DateTime'
+        'effective_cancellation_date' => '\DateTime'
     ];
 
     /**
@@ -80,8 +79,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => null,
         'is_refundable' => null,
         'applied_penalties' => null,
-        'effective_cancellation_date' => 'date-time',
-        'check_in_date' => 'date-time'
+        'effective_cancellation_date' => 'date-time'
     ];
 
     /**
@@ -95,8 +93,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => false,
         'is_refundable' => false,
         'applied_penalties' => true,
-        'effective_cancellation_date' => false,
-        'check_in_date' => false
+        'effective_cancellation_date' => false
     ];
 
     /**
@@ -180,8 +177,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => 'refundAmount',
         'is_refundable' => 'isRefundable',
         'applied_penalties' => 'appliedPenalties',
-        'effective_cancellation_date' => 'effectiveCancellationDate',
-        'check_in_date' => 'checkInDate'
+        'effective_cancellation_date' => 'effectiveCancellationDate'
     ];
 
     /**
@@ -195,8 +191,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => 'setRefundAmount',
         'is_refundable' => 'setIsRefundable',
         'applied_penalties' => 'setAppliedPenalties',
-        'effective_cancellation_date' => 'setEffectiveCancellationDate',
-        'check_in_date' => 'setCheckInDate'
+        'effective_cancellation_date' => 'setEffectiveCancellationDate'
     ];
 
     /**
@@ -210,8 +205,7 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         'refund_amount' => 'getRefundAmount',
         'is_refundable' => 'getIsRefundable',
         'applied_penalties' => 'getAppliedPenalties',
-        'effective_cancellation_date' => 'getEffectiveCancellationDate',
-        'check_in_date' => 'getCheckInDate'
+        'effective_cancellation_date' => 'getEffectiveCancellationDate'
     ];
 
     /**
@@ -267,7 +261,6 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         $this->setIfExists('is_refundable', $data ?? [], null);
         $this->setIfExists('applied_penalties', $data ?? [], null);
         $this->setIfExists('effective_cancellation_date', $data ?? [], null);
-        $this->setIfExists('check_in_date', $data ?? [], null);
     }
 
     /**
@@ -303,6 +296,9 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
         }
         if ($this->container['is_refundable'] === null) {
             $invalidProperties[] = "'is_refundable' can't be null";
+        }
+        if ($this->container['effective_cancellation_date'] === null) {
+            $invalidProperties[] = "'effective_cancellation_date' can't be null";
         }
         return $invalidProperties;
     }
@@ -468,9 +464,9 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets effective_cancellation_date
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getEffectiveCancellationDate(): ?\DateTime
+    public function getEffectiveCancellationDate(): \DateTime
     {
         return $this->container['effective_cancellation_date'];
     }
@@ -478,43 +474,16 @@ class OrderItemCancellationPreview implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets effective_cancellation_date
      *
-     * @param \DateTime|null $effective_cancellation_date The cancellation time the preview is calculated for (UTC).
+     * @param \DateTime $effective_cancellation_date The cancellation time the preview is calculated for (UTC).
      *
      * @return $this
      */
-    public function setEffectiveCancellationDate(?\DateTime $effective_cancellation_date): static
+    public function setEffectiveCancellationDate(\DateTime $effective_cancellation_date): static
     {
         if (is_null($effective_cancellation_date)) {
             throw new InvalidArgumentException('non-nullable effective_cancellation_date cannot be null');
         }
         $this->container['effective_cancellation_date'] = $effective_cancellation_date;
-
-        return $this;
-    }
-
-    /**
-     * Gets check_in_date
-     *
-     * @return \DateTime|null
-     */
-    public function getCheckInDate(): ?\DateTime
-    {
-        return $this->container['check_in_date'];
-    }
-
-    /**
-     * Sets check_in_date
-     *
-     * @param \DateTime|null $check_in_date The check-in date of the booked stay.
-     *
-     * @return $this
-     */
-    public function setCheckInDate(?\DateTime $check_in_date): static
-    {
-        if (is_null($check_in_date)) {
-            throw new InvalidArgumentException('non-nullable check_in_date cannot be null');
-        }
-        $this->container['check_in_date'] = $check_in_date;
 
         return $this;
     }

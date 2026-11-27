@@ -286,6 +286,9 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['booking_status'] === null) {
+            $invalidProperties[] = "'booking_status' can't be null";
+        }
         $allowedValues = self::getBookingStatusAllowableValues();
         if (!is_null($this->container['booking_status']) && !in_array($this->container['booking_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -295,6 +298,12 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
             );
         }
 
+        if ($this->container['ticket_documents'] === null) {
+            $invalidProperties[] = "'ticket_documents' can't be null";
+        }
+        if ($this->container['booking'] === null) {
+            $invalidProperties[] = "'booking' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +319,9 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets booking_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getBookingStatus(): ?string
+    public function getBookingStatus(): string
     {
         return $this->container['booking_status'];
     }
@@ -320,11 +329,11 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets booking_status
      *
-     * @param string|null $booking_status The booking's status: `confirmed`, `pending`, `cancelled` or `failed`.
+     * @param string $booking_status The booking's status: `confirmed`, `pending`, `cancelled` or `failed`.
      *
      * @return $this
      */
-    public function setBookingStatus(?string $booking_status): static
+    public function setBookingStatus(string $booking_status): static
     {
         if (is_null($booking_status)) {
             throw new InvalidArgumentException('non-nullable booking_status cannot be null');
@@ -347,9 +356,9 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets ticket_documents
      *
-     * @return \OpenRoam\Model\TicketDocument[]|null
+     * @return \OpenRoam\Model\TicketDocument[]
      */
-    public function getTicketDocuments(): ?array
+    public function getTicketDocuments(): array
     {
         return $this->container['ticket_documents'];
     }
@@ -357,11 +366,11 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets ticket_documents
      *
-     * @param \OpenRoam\Model\TicketDocument[]|null $ticket_documents The documents the airline issued, such as e-tickets.
+     * @param \OpenRoam\Model\TicketDocument[] $ticket_documents The documents the airline issued, such as e-tickets.
      *
      * @return $this
      */
-    public function setTicketDocuments(?array $ticket_documents): static
+    public function setTicketDocuments(array $ticket_documents): static
     {
         if (is_null($ticket_documents)) {
             throw new InvalidArgumentException('non-nullable ticket_documents cannot be null');
@@ -374,9 +383,9 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets booking
      *
-     * @return \OpenRoam\Model\FlightBooking|null
+     * @return \OpenRoam\Model\FlightBooking
      */
-    public function getBooking(): ?\OpenRoam\Model\FlightBooking
+    public function getBooking(): \OpenRoam\Model\FlightBooking
     {
         return $this->container['booking'];
     }
@@ -384,11 +393,11 @@ class FlightFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets booking
      *
-     * @param \OpenRoam\Model\FlightBooking|null $booking What is booked now; the purchased product keeps what was bought.
+     * @param \OpenRoam\Model\FlightBooking $booking What is booked now; the purchased product keeps what was bought.
      *
      * @return $this
      */
-    public function setBooking(?\OpenRoam\Model\FlightBooking $booking): static
+    public function setBooking(\OpenRoam\Model\FlightBooking $booking): static
     {
         if (is_null($booking)) {
             throw new InvalidArgumentException('non-nullable booking cannot be null');

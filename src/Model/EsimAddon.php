@@ -260,6 +260,9 @@ class EsimAddon implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['package_name'] === null) {
+            $invalidProperties[] = "'package_name' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +278,9 @@ class EsimAddon implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets package_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getPackageName(): ?string
+    public function getPackageName(): string
     {
         return $this->container['package_name'];
     }
@@ -285,11 +288,11 @@ class EsimAddon implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets package_name
      *
-     * @param string|null $package_name Display name of the top-up plan.
+     * @param string $package_name Display name of the top-up plan.
      *
      * @return $this
      */
-    public function setPackageName(?string $package_name): static
+    public function setPackageName(string $package_name): static
     {
         if (is_null($package_name)) {
             throw new InvalidArgumentException('non-nullable package_name cannot be null');

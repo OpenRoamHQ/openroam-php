@@ -281,6 +281,18 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['first_name'] === null) {
+            $invalidProperties[] = "'first_name' can't be null";
+        }
+        if ($this->container['last_name'] === null) {
+            $invalidProperties[] = "'last_name' can't be null";
+        }
+        if ($this->container['email'] === null) {
+            $invalidProperties[] = "'email' can't be null";
+        }
+        if ($this->container['phone'] === null) {
+            $invalidProperties[] = "'phone' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -330,9 +342,9 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets first_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->container['first_name'];
     }
@@ -340,11 +352,11 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets first_name
      *
-     * @param string|null $first_name The first name as sent.
+     * @param string $first_name The first name as sent.
      *
      * @return $this
      */
-    public function setFirstName(?string $first_name): static
+    public function setFirstName(string $first_name): static
     {
         if (is_null($first_name)) {
             throw new InvalidArgumentException('non-nullable first_name cannot be null');
@@ -357,9 +369,9 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets last_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->container['last_name'];
     }
@@ -367,11 +379,11 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets last_name
      *
-     * @param string|null $last_name The last name as sent.
+     * @param string $last_name The last name as sent.
      *
      * @return $this
      */
-    public function setLastName(?string $last_name): static
+    public function setLastName(string $last_name): static
     {
         if (is_null($last_name)) {
             throw new InvalidArgumentException('non-nullable last_name cannot be null');
@@ -384,9 +396,9 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets email
      *
-     * @return string|null
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->container['email'];
     }
@@ -394,11 +406,11 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets email
      *
-     * @param string|null $email The email, masked as `a***@example.com`.
+     * @param string $email The email, masked as `a***@example.com`.
      *
      * @return $this
      */
-    public function setEmail(?string $email): static
+    public function setEmail(string $email): static
     {
         if (is_null($email)) {
             throw new InvalidArgumentException('non-nullable email cannot be null');
@@ -411,9 +423,9 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets phone
      *
-     * @return string|null
+     * @return string
      */
-    public function getPhone(): ?string
+    public function getPhone(): string
     {
         return $this->container['phone'];
     }
@@ -421,11 +433,11 @@ class LeadGuest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets phone
      *
-     * @param string|null $phone The phone number, masked as `+34***3456`.
+     * @param string $phone The phone number, masked as `+34***3456`.
      *
      * @return $this
      */
-    public function setPhone(?string $phone): static
+    public function setPhone(string $phone): static
     {
         if (is_null($phone)) {
             throw new InvalidArgumentException('non-nullable phone cannot be null');

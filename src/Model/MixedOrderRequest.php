@@ -329,7 +329,7 @@ class MixedOrderRequest implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param string|null $currency Three-letter currency code the order is priced and charged in, for example `USD`. When omitted or empty, the API key's default currency is used.
+     * @param string|null $currency Three-letter currency code the order is priced and charged in, for example `USD`. When omitted or empty, the API key's default currency is used. An unsupported code gives 400 / 10001 at `currency`, reason `NOT_SUPPORTED`, before any item is checked.
      *
      * @return $this
      */

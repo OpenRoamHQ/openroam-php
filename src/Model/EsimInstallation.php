@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimInstallation Class Doc Comment
  *
- * @description How to install the eSIM. &#x60;lpaCode&#x60; is the activation string &#x60;LPA:1$smdpAddress$activationCode&#x60;, and the quick-install links open it on iOS and Android. An eSIM delivered only as a QR code image fills &#x60;qrCodeUrl&#x60; instead.
+ * @description How to install the eSIM. &#x60;lpaCode&#x60; is the activation string &#x60;LPA:1$smdpAddress$activationCode&#x60;, and the quick-install links open it on iOS and Android. &#x60;qrCodeUrl&#x60; is a PNG QR code of it, or the only way to install an eSIM delivered as a QR code image; the URL does not expire and needs no key.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

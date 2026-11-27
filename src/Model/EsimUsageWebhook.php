@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimUsageWebhook Class Doc Comment
  *
+ * @description The &#x60;esim.usage.updated&#x60; webhook body.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,7 +63,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'string',
         'event_type' => 'string',
         'timestamp' => 'int',
-        'data' => '\OpenRoam\Model\EsimUsageWebhookData'
+        'data' => '\OpenRoam\Model\EsimUsageWebhookData',
+        'is_test' => 'bool'
     ];
 
     /**
@@ -74,7 +76,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'uuid',
         'event_type' => null,
         'timestamp' => 'int64',
-        'data' => null
+        'data' => null,
+        'is_test' => null
     ];
 
     /**
@@ -86,7 +89,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => false,
         'event_type' => false,
         'timestamp' => false,
-        'data' => false
+        'data' => false,
+        'is_test' => false
     ];
 
     /**
@@ -168,7 +172,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'eventId',
         'event_type' => 'eventType',
         'timestamp' => 'timestamp',
-        'data' => 'data'
+        'data' => 'data',
+        'is_test' => 'isTest'
     ];
 
     /**
@@ -180,7 +185,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'setEventId',
         'event_type' => 'setEventType',
         'timestamp' => 'setTimestamp',
-        'data' => 'setData'
+        'data' => 'setData',
+        'is_test' => 'setIsTest'
     ];
 
     /**
@@ -192,7 +198,8 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         'event_id' => 'getEventId',
         'event_type' => 'getEventType',
         'timestamp' => 'getTimestamp',
-        'data' => 'getData'
+        'data' => 'getData',
+        'is_test' => 'getIsTest'
     ];
 
     /**
@@ -246,6 +253,7 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('event_type', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('is_test', $data ?? [], null);
     }
 
     /**
@@ -273,6 +281,18 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['event_id'] === null) {
+            $invalidProperties[] = "'event_id' can't be null";
+        }
+        if ($this->container['event_type'] === null) {
+            $invalidProperties[] = "'event_type' can't be null";
+        }
+        if ($this->container['timestamp'] === null) {
+            $invalidProperties[] = "'timestamp' can't be null";
+        }
+        if ($this->container['data'] === null) {
+            $invalidProperties[] = "'data' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -288,9 +308,9 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets event_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getEventId(): ?string
+    public function getEventId(): string
     {
         return $this->container['event_id'];
     }
@@ -298,11 +318,11 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets event_id
      *
-     * @param string|null $event_id event_id
+     * @param string $event_id The event's unique id, the same as the `X-OpenRoam-Event-Id` header. Deduplicate on it.
      *
      * @return $this
      */
-    public function setEventId(?string $event_id): static
+    public function setEventId(string $event_id): static
     {
         if (is_null($event_id)) {
             throw new InvalidArgumentException('non-nullable event_id cannot be null');
@@ -315,9 +335,9 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets event_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getEventType(): ?string
+    public function getEventType(): string
     {
         return $this->container['event_type'];
     }
@@ -325,11 +345,11 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets event_type
      *
-     * @param string|null $event_type event_type
+     * @param string $event_type Always `esim.usage.updated`.
      *
      * @return $this
      */
-    public function setEventType(?string $event_type): static
+    public function setEventType(string $event_type): static
     {
         if (is_null($event_type)) {
             throw new InvalidArgumentException('non-nullable event_type cannot be null');
@@ -342,9 +362,9 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets timestamp
      *
-     * @return int|null
+     * @return int
      */
-    public function getTimestamp(): ?int
+    public function getTimestamp(): int
     {
         return $this->container['timestamp'];
     }
@@ -352,11 +372,11 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets timestamp
      *
-     * @param int|null $timestamp timestamp
+     * @param int $timestamp When the event was created, in Unix seconds (whole seconds since 1970-01-01T00:00:00Z).
      *
      * @return $this
      */
-    public function setTimestamp(?int $timestamp): static
+    public function setTimestamp(int $timestamp): static
     {
         if (is_null($timestamp)) {
             throw new InvalidArgumentException('non-nullable timestamp cannot be null');
@@ -369,9 +389,9 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\EsimUsageWebhookData|null
+     * @return \OpenRoam\Model\EsimUsageWebhookData
      */
-    public function getData(): ?\OpenRoam\Model\EsimUsageWebhookData
+    public function getData(): \OpenRoam\Model\EsimUsageWebhookData
     {
         return $this->container['data'];
     }
@@ -379,16 +399,43 @@ class EsimUsageWebhook implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimUsageWebhookData|null $data Data of the `esim.usage.updated` webhook. Partners address the eSIM by its order item and ICCID; the offer's public id and internal package ids are not part of it. Allowances and remaining amounts are the base plan's, without top-ups: data in MB (binary 1024), voice in seconds and SMS in messages.
+     * @param \OpenRoam\Model\EsimUsageWebhookData $data The eSIM's usage.
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\EsimUsageWebhookData $data): static
+    public function setData(\OpenRoam\Model\EsimUsageWebhookData $data): static
     {
         if (is_null($data)) {
             throw new InvalidArgumentException('non-nullable data cannot be null');
         }
         $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_test
+     *
+     * @return bool|null
+     */
+    public function getIsTest(): ?bool
+    {
+        return $this->container['is_test'];
+    }
+
+    /**
+     * Sets is_test
+     *
+     * @param bool|null $is_test True for a synthetic test delivery. Omitted on live events.
+     *
+     * @return $this
+     */
+    public function setIsTest(?bool $is_test): static
+    {
+        if (is_null($is_test)) {
+            throw new InvalidArgumentException('non-nullable is_test cannot be null');
+        }
+        $this->container['is_test'] = $is_test;
 
         return $this;
     }

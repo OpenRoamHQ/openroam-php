@@ -67,7 +67,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'string',
         'description' => 'string',
         'offers' => '\OpenRoam\Model\UtilityOffer[]',
-        'details' => '\OpenRoam\Model\BillerDetails'
+        'service_type' => 'string',
+        'delivery_type' => 'string'
     ];
 
     /**
@@ -83,7 +84,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => null,
         'description' => null,
         'offers' => null,
-        'details' => null
+        'service_type' => null,
+        'delivery_type' => null
     ];
 
     /**
@@ -99,7 +101,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => true,
         'description' => true,
         'offers' => false,
-        'details' => false
+        'service_type' => false,
+        'delivery_type' => false
     ];
 
     /**
@@ -185,7 +188,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'logoUrl',
         'description' => 'description',
         'offers' => 'offers',
-        'details' => 'details'
+        'service_type' => 'serviceType',
+        'delivery_type' => 'deliveryType'
     ];
 
     /**
@@ -201,7 +205,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'setLogoUrl',
         'description' => 'setDescription',
         'offers' => 'setOffers',
-        'details' => 'setDetails'
+        'service_type' => 'setServiceType',
+        'delivery_type' => 'setDeliveryType'
     ];
 
     /**
@@ -217,7 +222,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'getLogoUrl',
         'description' => 'getDescription',
         'offers' => 'getOffers',
-        'details' => 'getDetails'
+        'service_type' => 'getServiceType',
+        'delivery_type' => 'getDeliveryType'
     ];
 
     /**
@@ -261,6 +267,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     public const CATEGORY_TOLL = 'toll';
     public const CATEGORY_VOIP = 'voip';
     public const CATEGORY_LANDLINE = 'landline';
+    public const SERVICE_TYPE_PREPAID = 'prepaid';
+    public const SERVICE_TYPE_POSTPAID = 'postpaid';
+    public const DELIVERY_TYPE_UNKNOWN = 'unknown';
+    public const DELIVERY_TYPE_TOKEN = 'token';
+    public const DELIVERY_TYPE_DIRECT_CREDIT = 'directCredit';
 
     /**
      * Gets allowable values of the enum
@@ -279,6 +290,33 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
             self::CATEGORY_TOLL,
             self::CATEGORY_VOIP,
             self::CATEGORY_LANDLINE,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getServiceTypeAllowableValues()
+    {
+        return [
+            self::SERVICE_TYPE_PREPAID,
+            self::SERVICE_TYPE_POSTPAID,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getDeliveryTypeAllowableValues()
+    {
+        return [
+            self::DELIVERY_TYPE_UNKNOWN,
+            self::DELIVERY_TYPE_TOKEN,
+            self::DELIVERY_TYPE_DIRECT_CREDIT,
         ];
     }
 
@@ -303,7 +341,8 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('logo_url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('offers', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('service_type', $data ?? [], null);
+        $this->setIfExists('delivery_type', $data ?? [], null);
     }
 
     /**
@@ -331,11 +370,50 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'category', must be one of '%s'",
                 $this->container['category'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['offers'] === null) {
+            $invalidProperties[] = "'offers' can't be null";
+        }
+        if ($this->container['service_type'] === null) {
+            $invalidProperties[] = "'service_type' can't be null";
+        }
+        $allowedValues = self::getServiceTypeAllowableValues();
+        if (!is_null($this->container['service_type']) && !in_array($this->container['service_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'service_type', must be one of '%s'",
+                $this->container['service_type'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['delivery_type'] === null) {
+            $invalidProperties[] = "'delivery_type' can't be null";
+        }
+        $allowedValues = self::getDeliveryTypeAllowableValues();
+        if (!is_null($this->container['delivery_type']) && !in_array($this->container['delivery_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'delivery_type', must be one of '%s'",
+                $this->container['delivery_type'],
                 implode("', '", $allowedValues)
             );
         }
@@ -355,9 +433,9 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -365,11 +443,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -382,9 +460,9 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -392,11 +470,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -409,9 +487,9 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -419,11 +497,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');
@@ -436,9 +514,9 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -446,11 +524,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category The kind of bill a biller collects.
+     * @param string $category The kind of bill a biller collects.
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');
@@ -541,9 +619,9 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offers
      *
-     * @return \OpenRoam\Model\UtilityOffer[]|null
+     * @return \OpenRoam\Model\UtilityOffer[]
      */
-    public function getOffers(): ?array
+    public function getOffers(): array
     {
         return $this->container['offers'];
     }
@@ -551,11 +629,11 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets offers
      *
-     * @param \OpenRoam\Model\UtilityOffer[]|null $offers offers
+     * @param \OpenRoam\Model\UtilityOffer[] $offers offers
      *
      * @return $this
      */
-    public function setOffers(?array $offers): static
+    public function setOffers(array $offers): static
     {
         if (is_null($offers)) {
             throw new InvalidArgumentException('non-nullable offers cannot be null');
@@ -566,28 +644,75 @@ class Biller implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets service_type
      *
-     * @return \OpenRoam\Model\BillerDetails|null
+     * @return string
      */
-    public function getDetails(): ?\OpenRoam\Model\BillerDetails
+    public function getServiceType(): string
     {
-        return $this->container['details'];
+        return $this->container['service_type'];
     }
 
     /**
-     * Sets details
+     * Sets service_type
      *
-     * @param \OpenRoam\Model\BillerDetails|null $details Biller facts outside the item keys every partner service shares: `serviceType` is `prepaid` or `postpaid`, and `deliveryType` says what a paid bill delivers, a `token` (such as a prepaid meter token or a PIN) or a `directCredit` to the biller.
+     * @param string $service_type Whether the biller sells `prepaid` or `postpaid` service.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\BillerDetails $details): static
+    public function setServiceType(string $service_type): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($service_type)) {
+            throw new InvalidArgumentException('non-nullable service_type cannot be null');
         }
-        $this->container['details'] = $details;
+        $allowedValues = self::getServiceTypeAllowableValues();
+        if (!in_array($service_type, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'service_type', must be one of '%s'",
+                    $service_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['service_type'] = $service_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets delivery_type
+     *
+     * @return string
+     */
+    public function getDeliveryType(): string
+    {
+        return $this->container['delivery_type'];
+    }
+
+    /**
+     * Sets delivery_type
+     *
+     * @param string $delivery_type What a paid bill delivers: a `token` (such as a prepaid meter token or a PIN) or a `directCredit` to the biller.
+     *
+     * @return $this
+     */
+    public function setDeliveryType(string $delivery_type): static
+    {
+        if (is_null($delivery_type)) {
+            throw new InvalidArgumentException('non-nullable delivery_type cannot be null');
+        }
+        $allowedValues = self::getDeliveryTypeAllowableValues();
+        if (!in_array($delivery_type, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'delivery_type', must be one of '%s'",
+                    $delivery_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['delivery_type'] = $delivery_type;
 
         return $this;
     }

@@ -260,6 +260,9 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     {
         $invalidProperties = [];
 
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -309,9 +312,9 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\GiftCardFulfillmentDetails|null
+     * @return \OpenRoam\Model\GiftCardFulfillmentDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\GiftCardFulfillmentDetails
+    public function getDetails(): \OpenRoam\Model\GiftCardFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +322,11 @@ class GiftCardFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeri
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\GiftCardFulfillmentDetails|null $details The issued codes and, for a gift, the email delivery. `codes` is empty while the order item does not release them, for example after a refund. `delivery` is null for a card that is not a gift.
+     * @param \OpenRoam\Model\GiftCardFulfillmentDetails $details The issued codes and, for a gift, the email delivery. `codes` is empty while the order item does not release them, for example after a refund. `delivery` is null for a card that is not a gift.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\GiftCardFulfillmentDetails $details): static
+    public function setDetails(\OpenRoam\Model\GiftCardFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

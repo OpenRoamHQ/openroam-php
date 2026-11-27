@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * BookingTerms Class Doc Comment
  *
- * @description How a booked product is paid, what cancelling it gives back and whether it can be changed, in the same shape on the offer, the quote item and the purchased product. Every amount is in the partner&#39;s currency and in what the partner pays; OpenRoam&#39;s own fees are already included.
+ * @description How a booked product is paid, what cancelling it gives back and whether it can be changed, in the same shape on the offer, the quote item and the purchased product, for a hotel stay and a flight alike. Every amount is in the partner&#39;s currency and in what the partner pays; OpenRoam&#39;s own fees are already included. The cancellation states each instant on the clock of the place the booking is bound to as well.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -267,6 +267,15 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['payment'] === null) {
+            $invalidProperties[] = "'payment' can't be null";
+        }
+        if ($this->container['cancellation'] === null) {
+            $invalidProperties[] = "'cancellation' can't be null";
+        }
+        if ($this->container['changes'] === null) {
+            $invalidProperties[] = "'changes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets payment
      *
-     * @return \OpenRoam\Model\PaymentTerms|null
+     * @return \OpenRoam\Model\PaymentTerms
      */
-    public function getPayment(): ?\OpenRoam\Model\PaymentTerms
+    public function getPayment(): \OpenRoam\Model\PaymentTerms
     {
         return $this->container['payment'];
     }
@@ -292,11 +301,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets payment
      *
-     * @param \OpenRoam\Model\PaymentTerms|null $payment What the partner's wallet is charged at order, and what the guest pays later.
+     * @param \OpenRoam\Model\PaymentTerms $payment What the partner's wallet is charged at order, and what the guest pays later.
      *
      * @return $this
      */
-    public function setPayment(?\OpenRoam\Model\PaymentTerms $payment): static
+    public function setPayment(\OpenRoam\Model\PaymentTerms $payment): static
     {
         if (is_null($payment)) {
             throw new InvalidArgumentException('non-nullable payment cannot be null');
@@ -309,9 +318,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets cancellation
      *
-     * @return \OpenRoam\Model\CancellationTerms|null
+     * @return \OpenRoam\Model\CancellationTerms
      */
-    public function getCancellation(): ?\OpenRoam\Model\CancellationTerms
+    public function getCancellation(): \OpenRoam\Model\CancellationTerms
     {
         return $this->container['cancellation'];
     }
@@ -319,11 +328,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets cancellation
      *
-     * @param \OpenRoam\Model\CancellationTerms|null $cancellation What cancelling gives back, and from when.
+     * @param \OpenRoam\Model\CancellationTerms $cancellation What cancelling gives back, and from when.
      *
      * @return $this
      */
-    public function setCancellation(?\OpenRoam\Model\CancellationTerms $cancellation): static
+    public function setCancellation(\OpenRoam\Model\CancellationTerms $cancellation): static
     {
         if (is_null($cancellation)) {
             throw new InvalidArgumentException('non-nullable cancellation cannot be null');
@@ -336,9 +345,9 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets changes
      *
-     * @return \OpenRoam\Model\ChangeTerms|null
+     * @return \OpenRoam\Model\ChangeTerms
      */
-    public function getChanges(): ?\OpenRoam\Model\ChangeTerms
+    public function getChanges(): \OpenRoam\Model\ChangeTerms
     {
         return $this->container['changes'];
     }
@@ -346,11 +355,11 @@ class BookingTerms implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets changes
      *
-     * @param \OpenRoam\Model\ChangeTerms|null $changes Whether the booking can be changed, and OpenRoam's fee for a change.
+     * @param \OpenRoam\Model\ChangeTerms $changes Whether the booking can be changed, and OpenRoam's fee for a change.
      *
      * @return $this
      */
-    public function setChanges(?\OpenRoam\Model\ChangeTerms $changes): static
+    public function setChanges(\OpenRoam\Model\ChangeTerms $changes): static
     {
         if (is_null($changes)) {
             throw new InvalidArgumentException('non-nullable changes cannot be null');

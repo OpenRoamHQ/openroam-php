@@ -267,6 +267,15 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['is_supported'] === null) {
+            $invalidProperties[] = "'is_supported' can't be null";
+        }
+        if ($this->container['segments'] === null) {
+            $invalidProperties[] = "'segments' can't be null";
+        }
+        if ($this->container['warnings'] === null) {
+            $invalidProperties[] = "'warnings' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_supported
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsSupported(): ?bool
+    public function getIsSupported(): bool
     {
         return $this->container['is_supported'];
     }
@@ -292,11 +301,11 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_supported
      *
-     * @param bool|null $is_supported is_supported
+     * @param bool $is_supported is_supported
      *
      * @return $this
      */
-    public function setIsSupported(?bool $is_supported): static
+    public function setIsSupported(bool $is_supported): static
     {
         if (is_null($is_supported)) {
             throw new InvalidArgumentException('non-nullable is_supported cannot be null');
@@ -309,9 +318,9 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets segments
      *
-     * @return \OpenRoam\Model\SeatMapSegment[]|null
+     * @return \OpenRoam\Model\SeatMapSegment[]
      */
-    public function getSegments(): ?array
+    public function getSegments(): array
     {
         return $this->container['segments'];
     }
@@ -319,11 +328,11 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets segments
      *
-     * @param \OpenRoam\Model\SeatMapSegment[]|null $segments segments
+     * @param \OpenRoam\Model\SeatMapSegment[] $segments segments
      *
      * @return $this
      */
-    public function setSegments(?array $segments): static
+    public function setSegments(array $segments): static
     {
         if (is_null($segments)) {
             throw new InvalidArgumentException('non-nullable segments cannot be null');
@@ -336,9 +345,9 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets warnings
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getWarnings(): ?array
+    public function getWarnings(): array
     {
         return $this->container['warnings'];
     }
@@ -346,11 +355,11 @@ class SeatMap implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets warnings
      *
-     * @param string[]|null $warnings warnings
+     * @param string[] $warnings warnings
      *
      * @return $this
      */
-    public function setWarnings(?array $warnings): static
+    public function setWarnings(array $warnings): static
     {
         if (is_null($warnings)) {
             throw new InvalidArgumentException('non-nullable warnings cannot be null');

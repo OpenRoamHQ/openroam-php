@@ -292,6 +292,9 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
     {
         $invalidProperties = [];
 
+        if ($this->container['service_type'] === null) {
+            $invalidProperties[] = "'service_type' can't be null";
+        }
         $allowedValues = self::getServiceTypeAllowableValues();
         if (!is_null($this->container['service_type']) && !in_array($this->container['service_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -301,6 +304,9 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
             );
         }
 
+        if ($this->container['delivery_type'] === null) {
+            $invalidProperties[] = "'delivery_type' can't be null";
+        }
         $allowedValues = self::getDeliveryTypeAllowableValues();
         if (!is_null($this->container['delivery_type']) && !in_array($this->container['delivery_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -325,9 +331,9 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets service_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getServiceType(): ?string
+    public function getServiceType(): string
     {
         return $this->container['service_type'];
     }
@@ -335,11 +341,11 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets service_type
      *
-     * @param string|null $service_type service_type
+     * @param string $service_type service_type
      *
      * @return $this
      */
-    public function setServiceType(?string $service_type): static
+    public function setServiceType(string $service_type): static
     {
         if (is_null($service_type)) {
             throw new InvalidArgumentException('non-nullable service_type cannot be null');
@@ -362,9 +368,9 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets delivery_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getDeliveryType(): ?string
+    public function getDeliveryType(): string
     {
         return $this->container['delivery_type'];
     }
@@ -372,11 +378,11 @@ class UtilityPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets delivery_type
      *
-     * @param string|null $delivery_type delivery_type
+     * @param string $delivery_type delivery_type
      *
      * @return $this
      */
-    public function setDeliveryType(?string $delivery_type): static
+    public function setDeliveryType(string $delivery_type): static
     {
         if (is_null($delivery_type)) {
             throw new InvalidArgumentException('non-nullable delivery_type cannot be null');

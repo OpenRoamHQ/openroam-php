@@ -61,6 +61,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $openAPITypes = [
         'from' => '\DateTime',
+        'from_local_time' => 'string',
+        'timezone' => 'string',
         'penalty_amount' => '\OpenRoam\Model\Money'
     ];
 
@@ -71,6 +73,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $openAPIFormats = [
         'from' => 'date-time',
+        'from_local_time' => null,
+        'timezone' => null,
         'penalty_amount' => null
     ];
 
@@ -81,6 +85,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $openAPINullables = [
         'from' => false,
+        'from_local_time' => true,
+        'timezone' => true,
         'penalty_amount' => false
     ];
 
@@ -161,6 +167,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $attributeMap = [
         'from' => 'from',
+        'from_local_time' => 'fromLocalTime',
+        'timezone' => 'timezone',
         'penalty_amount' => 'penaltyAmount'
     ];
 
@@ -171,6 +179,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $setters = [
         'from' => 'setFrom',
+        'from_local_time' => 'setFromLocalTime',
+        'timezone' => 'setTimezone',
         'penalty_amount' => 'setPenaltyAmount'
     ];
 
@@ -181,6 +191,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $getters = [
         'from' => 'getFrom',
+        'from_local_time' => 'getFromLocalTime',
+        'timezone' => 'getTimezone',
         'penalty_amount' => 'getPenaltyAmount'
     ];
 
@@ -232,6 +244,8 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     public function __construct(?array $data = null)
     {
         $this->setIfExists('from', $data ?? [], null);
+        $this->setIfExists('from_local_time', $data ?? [], null);
+        $this->setIfExists('timezone', $data ?? [], null);
         $this->setIfExists('penalty_amount', $data ?? [], null);
     }
 
@@ -260,6 +274,16 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['from'] === null) {
+            $invalidProperties[] = "'from' can't be null";
+        }
+        if (!is_null($this->container['from_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['from_local_time'])) {
+            $invalidProperties[] = "invalid value for 'from_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['penalty_amount'] === null) {
+            $invalidProperties[] = "'penalty_amount' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +299,9 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets from
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getFrom(): ?\DateTime
+    public function getFrom(): \DateTime
     {
         return $this->container['from'];
     }
@@ -285,11 +309,11 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets from
      *
-     * @param \DateTime|null $from When the band starts applying (UTC).
+     * @param \DateTime $from When the band starts applying (UTC).
      *
      * @return $this
      */
-    public function setFrom(?\DateTime $from): static
+    public function setFrom(\DateTime $from): static
     {
         if (is_null($from)) {
             throw new InvalidArgumentException('non-nullable from cannot be null');
@@ -300,11 +324,84 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     }
 
     /**
+     * Gets from_local_time
+     *
+     * @return string|null
+     */
+    public function getFromLocalTime(): ?string
+    {
+        return $this->container['from_local_time'];
+    }
+
+    /**
+     * Sets from_local_time
+     *
+     * @param string|null $from_local_time The clock at the booked place (`timezone`) at `from`; null for a band that applies whatever the date. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `from`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setFromLocalTime(?string $from_local_time): static
+    {
+        if (is_null($from_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'from_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('from_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($from_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($from_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$from_local_time when calling CancellationPenalty., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['from_local_time'] = $from_local_time;
+
+        return $this;
+    }
+
+    /**
+     * Gets timezone
+     *
+     * @return string|null
+     */
+    public function getTimezone(): ?string
+    {
+        return $this->container['timezone'];
+    }
+
+    /**
+     * Sets timezone
+     *
+     * @param string|null $timezone The IANA time zone of the booked place, such as `Europe/Paris`; null when its location does not tell it.
+     *
+     * @return $this
+     */
+    public function setTimezone(?string $timezone): static
+    {
+        if (is_null($timezone)) {
+            array_push($this->openAPINullablesSetToNull, 'timezone');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('timezone', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['timezone'] = $timezone;
+
+        return $this;
+    }
+
+    /**
      * Gets penalty_amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPenaltyAmount(): ?\OpenRoam\Model\Money
+    public function getPenaltyAmount(): \OpenRoam\Model\Money
     {
         return $this->container['penalty_amount'];
     }
@@ -312,11 +409,11 @@ class CancellationPenalty implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets penalty_amount
      *
-     * @param \OpenRoam\Model\Money|null $penalty_amount What cancelling in this band costs, in the order currency.
+     * @param \OpenRoam\Model\Money $penalty_amount What cancelling in this band costs, in the order currency.
      *
      * @return $this
      */
-    public function setPenaltyAmount(?\OpenRoam\Model\Money $penalty_amount): static
+    public function setPenaltyAmount(\OpenRoam\Model\Money $penalty_amount): static
     {
         if (is_null($penalty_amount)) {
             throw new InvalidArgumentException('non-nullable penalty_amount cannot be null');

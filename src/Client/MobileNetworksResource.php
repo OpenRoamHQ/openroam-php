@@ -14,7 +14,7 @@ class MobileNetworksResource
     }
 
     /**
-     * List mobile networks. GET /api/v1/b2b/common/mccmnc
+     * List mobile networks. GET /v1/common/mccmnc
      *
      * @param array{countryCode?: string, mcc?: string} $query
      * @param array{timeout?: float|int} $options

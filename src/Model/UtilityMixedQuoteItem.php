@@ -65,7 +65,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'string',
         'value' => '\OpenRoam\Model\Money',
         'price' => '\OpenRoam\Model\Money',
-        'details' => '\OpenRoam\Model\UtilityQuoteItemDetails'
+        'taxes' => '\OpenRoam\Model\TaxSummary',
+        'delivery_type' => 'string'
     ];
 
     /**
@@ -80,7 +81,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => null,
         'value' => null,
         'price' => null,
-        'details' => null
+        'taxes' => null,
+        'delivery_type' => null
     ];
 
     /**
@@ -95,7 +97,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => false,
         'value' => false,
         'price' => false,
-        'details' => false
+        'taxes' => false,
+        'delivery_type' => false
     ];
 
     /**
@@ -180,7 +183,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'name',
         'value' => 'value',
         'price' => 'price',
-        'details' => 'details'
+        'taxes' => 'taxes',
+        'delivery_type' => 'deliveryType'
     ];
 
     /**
@@ -195,7 +199,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'setName',
         'value' => 'setValue',
         'price' => 'setPrice',
-        'details' => 'setDetails'
+        'taxes' => 'setTaxes',
+        'delivery_type' => 'setDeliveryType'
     ];
 
     /**
@@ -210,7 +215,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         'name' => 'getName',
         'value' => 'getValue',
         'price' => 'getPrice',
-        'details' => 'getDetails'
+        'taxes' => 'getTaxes',
+        'delivery_type' => 'getDeliveryType'
     ];
 
     /**
@@ -246,6 +252,9 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     }
 
     public const PRODUCT_TYPE_UTILITY = 'utility';
+    public const DELIVERY_TYPE_UNKNOWN = 'unknown';
+    public const DELIVERY_TYPE_TOKEN = 'token';
+    public const DELIVERY_TYPE_DIRECT_CREDIT = 'directCredit';
 
     /**
      * Gets allowable values of the enum
@@ -256,6 +265,20 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     {
         return [
             self::PRODUCT_TYPE_UTILITY,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getDeliveryTypeAllowableValues()
+    {
+        return [
+            self::DELIVERY_TYPE_UNKNOWN,
+            self::DELIVERY_TYPE_TOKEN,
+            self::DELIVERY_TYPE_DIRECT_CREDIT,
         ];
     }
 
@@ -279,7 +302,8 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
+        $this->setIfExists('delivery_type', $data ?? [], null);
     }
 
     /**
@@ -322,6 +346,33 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
         if ($this->container['public_id'] === null) {
             $invalidProperties[] = "'public_id' can't be null";
         }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['value'] === null) {
+            $invalidProperties[] = "'value' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['delivery_type'] === null) {
+            $invalidProperties[] = "'delivery_type' can't be null";
+        }
+        $allowedValues = self::getDeliveryTypeAllowableValues();
+        if (!is_null($this->container['delivery_type']) && !in_array($this->container['delivery_type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'delivery_type', must be one of '%s'",
+                $this->container['delivery_type'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -401,9 +452,9 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -411,11 +462,11 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -428,9 +479,9 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -438,11 +489,11 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -455,9 +506,9 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getValue(): ?\OpenRoam\Model\Money
+    public function getValue(): \OpenRoam\Model\Money
     {
         return $this->container['value'];
     }
@@ -465,11 +516,11 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\Money|null $value value
+     * @param \OpenRoam\Model\Money $value value
      *
      * @return $this
      */
-    public function setValue(?\OpenRoam\Model\Money $value): static
+    public function setValue(\OpenRoam\Model\Money $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -482,9 +533,9 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -492,11 +543,11 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price price
+     * @param \OpenRoam\Model\Money $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -507,28 +558,65 @@ class UtilityMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializ
     }
 
     /**
-     * Gets details
+     * Gets taxes
      *
-     * @return \OpenRoam\Model\UtilityQuoteItemDetails|null
+     * @return \OpenRoam\Model\TaxSummary
      */
-    public function getDetails(): ?\OpenRoam\Model\UtilityQuoteItemDetails
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
     {
-        return $this->container['details'];
+        return $this->container['taxes'];
     }
 
     /**
-     * Sets details
+     * Sets taxes
      *
-     * @param \OpenRoam\Model\UtilityQuoteItemDetails|null $details Quoted item facts outside the quote item keys every partner service shares.
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside one unit of the `price` beside it, in one shape for every service. The server sets every field; a client never derives a treatment, never adds up `lines` and never computes an amount.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\UtilityQuoteItemDetails $details): static
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets delivery_type
+     *
+     * @return string
+     */
+    public function getDeliveryType(): string
+    {
+        return $this->container['delivery_type'];
+    }
+
+    /**
+     * Sets delivery_type
+     *
+     * @param string $delivery_type delivery_type
+     *
+     * @return $this
+     */
+    public function setDeliveryType(string $delivery_type): static
+    {
+        if (is_null($delivery_type)) {
+            throw new InvalidArgumentException('non-nullable delivery_type cannot be null');
+        }
+        $allowedValues = self::getDeliveryTypeAllowableValues();
+        if (!in_array($delivery_type, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'delivery_type', must be one of '%s'",
+                    $delivery_type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['delivery_type'] = $delivery_type;
 
         return $this;
     }

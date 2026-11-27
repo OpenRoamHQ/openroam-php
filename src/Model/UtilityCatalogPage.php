@@ -260,6 +260,9 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +278,9 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\Biller[]|null
+     * @return \OpenRoam\Model\Biller[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -285,11 +288,11 @@ class UtilityCatalogPage implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\Biller[]|null $items items
+     * @param \OpenRoam\Model\Biller[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

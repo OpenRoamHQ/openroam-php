@@ -151,13 +151,13 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\ErrorResponse
      */
     public function utilityCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\UtilityOrderRequest $utility_order_request = null,
         string $contentType = self::contentTypes['utilityCreateOrder'][0]
-    ): \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->utilityCreateOrderWithHttpInfo($idempotency_key, $utility_order_request, $contentType);
         return $response;
@@ -174,7 +174,7 @@ class UtilityApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\UtilityOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function utilityCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -214,13 +214,13 @@ class UtilityApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -274,15 +274,15 @@ class UtilityApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -434,7 +434,7 @@ class UtilityApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/utility/order';
+        $resourcePath = '/v1/utility/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -527,8 +527,8 @@ class UtilityApi
      *
      * Get a biller
      *
-     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;utility_3jx4…&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;biller_3jx4…&#x60;. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetBiller'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -550,8 +550,8 @@ class UtilityApi
      *
      * Get a biller
      *
-     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;utility_3jx4…&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;biller_3jx4…&#x60;. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetBiller'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -665,8 +665,8 @@ class UtilityApi
      *
      * Get a biller
      *
-     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;utility_3jx4…&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;biller_3jx4…&#x60;. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetBiller'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -691,8 +691,8 @@ class UtilityApi
      *
      * Get a biller
      *
-     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;utility_3jx4…&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;biller_3jx4…&#x60;. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetBiller'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -754,8 +754,8 @@ class UtilityApi
     /**
      * Create request for operation 'utilityGetBiller'
      *
-     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;utility_3jx4…&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The biller&#39;s opaque &#x60;id&#x60; from search or the catalog, for example &#x60;biller_3jx4…&#x60;. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetBiller'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -774,7 +774,7 @@ class UtilityApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/utility/billers/{id}';
+        $resourcePath = '/v1/utility/billers/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -815,6 +815,11 @@ class UtilityApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -844,7 +849,7 @@ class UtilityApi
      * @param  string|null $country_code Optional ISO 3166-1 alpha-2 country filter, in either case; every country when omitted. A blank value is rejected. (optional)
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetCatalog'] to see the possible values for this operation
@@ -875,7 +880,7 @@ class UtilityApi
      * @param  string|null $country_code Optional ISO 3166-1 alpha-2 country filter, in either case; every country when omitted. A blank value is rejected. (optional)
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetCatalog'] to see the possible values for this operation
@@ -998,7 +1003,7 @@ class UtilityApi
      * @param  string|null $country_code Optional ISO 3166-1 alpha-2 country filter, in either case; every country when omitted. A blank value is rejected. (optional)
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetCatalog'] to see the possible values for this operation
@@ -1032,7 +1037,7 @@ class UtilityApi
      * @param  string|null $country_code Optional ISO 3166-1 alpha-2 country filter, in either case; every country when omitted. A blank value is rejected. (optional)
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetCatalog'] to see the possible values for this operation
@@ -1103,7 +1108,7 @@ class UtilityApi
      * @param  string|null $country_code Optional ISO 3166-1 alpha-2 country filter, in either case; every country when omitted. A blank value is rejected. (optional)
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilityGetCatalog'] to see the possible values for this operation
@@ -1122,7 +1127,7 @@ class UtilityApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/utility/catalog';
+        $resourcePath = '/v1/utility/catalog';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1476,7 +1481,7 @@ class UtilityApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/utility/quote';
+        $resourcePath = '/v1/utility/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -1539,6 +1544,11 @@ class UtilityApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -1569,7 +1579,7 @@ class UtilityApi
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
      * @param  string|null $q Text in the biller name, case-insensitive; at most 100 characters, without control characters. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilitySearch'] to see the possible values for this operation
@@ -1602,7 +1612,7 @@ class UtilityApi
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
      * @param  string|null $q Text in the biller name, case-insensitive; at most 100 characters, without control characters. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilitySearch'] to see the possible values for this operation
@@ -1727,7 +1737,7 @@ class UtilityApi
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
      * @param  string|null $q Text in the biller name, case-insensitive; at most 100 characters, without control characters. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilitySearch'] to see the possible values for this operation
@@ -1763,7 +1773,7 @@ class UtilityApi
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
      * @param  string|null $q Text in the biller name, case-insensitive; at most 100 characters, without control characters. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilitySearch'] to see the possible values for this operation
@@ -1836,7 +1846,7 @@ class UtilityApi
      * @param  string|null $category Keep the billers of this category, for example &#x60;electricity&#x60;. (optional)
      * @param  string|null $service_type Keep &#x60;prepaid&#x60; or &#x60;postpaid&#x60; billers. (optional)
      * @param  string|null $q Text in the biller name, case-insensitive; at most 100 characters, without control characters. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['utilitySearch'] to see the possible values for this operation
@@ -1862,7 +1872,7 @@ class UtilityApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/utility/search';
+        $resourcePath = '/v1/utility/search';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1953,6 +1963,11 @@ class UtilityApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

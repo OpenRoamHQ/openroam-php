@@ -64,6 +64,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'string',
         'description' => 'string',
         'price' => '\OpenRoam\Model\OfferPrice',
+        'taxes' => '\OpenRoam\Model\TaxSummary',
         'details' => '\OpenRoam\Model\HotelOfferDetails'
     ];
 
@@ -77,6 +78,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => null,
         'description' => null,
         'price' => null,
+        'taxes' => null,
         'details' => null
     ];
 
@@ -90,6 +92,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => false,
         'description' => true,
         'price' => false,
+        'taxes' => false,
         'details' => false
     ];
 
@@ -173,6 +176,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'name',
         'description' => 'description',
         'price' => 'price',
+        'taxes' => 'taxes',
         'details' => 'details'
     ];
 
@@ -186,6 +190,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'setName',
         'description' => 'setDescription',
         'price' => 'setPrice',
+        'taxes' => 'setTaxes',
         'details' => 'setDetails'
     ];
 
@@ -199,6 +204,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'name' => 'getName',
         'description' => 'getDescription',
         'price' => 'getPrice',
+        'taxes' => 'getTaxes',
         'details' => 'getDetails'
     ];
 
@@ -253,6 +259,7 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('details', $data ?? [], null);
     }
 
@@ -281,6 +288,21 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['public_id'] === null) {
+            $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +318,9 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets public_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getPublicId(): ?string
+    public function getPublicId(): string
     {
         return $this->container['public_id'];
     }
@@ -306,11 +328,11 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets public_id
      *
-     * @param string|null $public_id Opaque offer ID (`hotel_…`) to quote or order, valid until `details.expiresAt`; pass it back unchanged. It identifies this rate, not the hotel.
+     * @param string $public_id Opaque offer ID (`rate_…`) to quote or order, valid until `details.expiresAt`; pass it back unchanged. It identifies this rate, not the hotel.
      *
      * @return $this
      */
-    public function setPublicId(?string $public_id): static
+    public function setPublicId(string $public_id): static
     {
         if (is_null($public_id)) {
             throw new InvalidArgumentException('non-nullable public_id cannot be null');
@@ -323,9 +345,9 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -333,11 +355,11 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name `\"{rooms}, {board}, {terms}\"`, for example `Deluxe King, Breakfast, Free cancellation`. The terms are `Free cancellation` when `details.terms.cancellation.type` is `fullyRefundable` and `Non-refundable` when it is `nonRefundable`; a partially refundable rate has none.
+     * @param string $name `\"{rooms}, {board}, {terms}\"`, for example `Deluxe King, Breakfast, Free cancellation`. The terms are `Free cancellation` when `details.terms.cancellation.type` is `fullyRefundable` and `Non-refundable` when it is `nonRefundable`; a partially refundable rate has none.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -384,9 +406,9 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
      */
-    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
     {
         return $this->container['price'];
     }
@@ -394,11 +416,11 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price Price for the whole stay, all rooms and nights, in the search currency. Indicative: quote and order price the rate again.
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price Price for the whole stay, all rooms and nights, in the search currency. Indicative: quote and order price the rate again.
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -409,11 +431,38 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The rate's taxes: `included` in `price`, with the in-price total when the rate states it complete, and a line per tax it states, in the price (`prepaid`) or paid at the hotel (`onSite`). Indicative, as the price is.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
      * Gets details
      *
-     * @return \OpenRoam\Model\HotelOfferDetails|null
+     * @return \OpenRoam\Model\HotelOfferDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelOfferDetails
+    public function getDetails(): \OpenRoam\Model\HotelOfferDetails
     {
         return $this->container['details'];
     }
@@ -421,11 +470,11 @@ class HotelOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\HotelOfferDetails|null $details The rate's terms.
+     * @param \OpenRoam\Model\HotelOfferDetails $details The rate's terms.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelOfferDetails $details): static
+    public function setDetails(\OpenRoam\Model\HotelOfferDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

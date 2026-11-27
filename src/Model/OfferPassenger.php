@@ -318,6 +318,12 @@ class OfferPassenger implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['included_baggage'] === null) {
+            $invalidProperties[] = "'included_baggage' can't be null";
+        }
+        if ($this->container['available_services'] === null) {
+            $invalidProperties[] = "'available_services' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -472,9 +478,9 @@ class OfferPassenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\Baggage[]|null
+     * @return \OpenRoam\Model\Baggage[]
      */
-    public function getIncludedBaggage(): ?array
+    public function getIncludedBaggage(): array
     {
         return $this->container['included_baggage'];
     }
@@ -482,11 +488,11 @@ class OfferPassenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\Baggage[]|null $included_baggage included_baggage
+     * @param \OpenRoam\Model\Baggage[] $included_baggage included_baggage
      *
      * @return $this
      */
-    public function setIncludedBaggage(?array $included_baggage): static
+    public function setIncludedBaggage(array $included_baggage): static
     {
         if (is_null($included_baggage)) {
             throw new InvalidArgumentException('non-nullable included_baggage cannot be null');
@@ -499,9 +505,9 @@ class OfferPassenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets available_services
      *
-     * @return \OpenRoam\Model\AvailableService[]|null
+     * @return \OpenRoam\Model\AvailableService[]
      */
-    public function getAvailableServices(): ?array
+    public function getAvailableServices(): array
     {
         return $this->container['available_services'];
     }
@@ -509,11 +515,11 @@ class OfferPassenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets available_services
      *
-     * @param \OpenRoam\Model\AvailableService[]|null $available_services available_services
+     * @param \OpenRoam\Model\AvailableService[] $available_services available_services
      *
      * @return $this
      */
-    public function setAvailableServices(?array $available_services): static
+    public function setAvailableServices(array $available_services): static
     {
         if (is_null($available_services)) {
             throw new InvalidArgumentException('non-nullable available_services cannot be null');

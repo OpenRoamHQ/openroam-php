@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * AirtimeOffer Class Doc Comment
  *
- * @description One orderable offer of an operator: a fixed top-up or a range of them. &#x60;publicId&#x60; is the identifier quote and order take. &#x60;value&#x60; is what the subscriber receives; &#x60;price&#x60; is indicative and in the requested price currency.
+ * @description One orderable offer of an operator: a fixed top-up or a range of them. &#x60;publicId&#x60; is the identifier quote and order take. &#x60;value&#x60; is what the subscriber receives; &#x60;price&#x60; is indicative and in the requested price currency. &#x60;taxes&#x60; is &#x60;notStated&#x60;: no tax is stated for airtime prices yet.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -65,6 +65,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => 'string',
         'value' => '\OpenRoam\Model\OfferValue',
         'price' => '\OpenRoam\Model\OfferPrice',
+        'taxes' => '\OpenRoam\Model\TaxSummary',
         'required_inputs' => '\OpenRoam\Model\InputField[]',
         'details' => '\OpenRoam\Model\AirtimeOfferDetails'
     ];
@@ -80,6 +81,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => null,
         'value' => null,
         'price' => null,
+        'taxes' => null,
         'required_inputs' => null,
         'details' => null
     ];
@@ -95,6 +97,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => true,
         'value' => false,
         'price' => false,
+        'taxes' => false,
         'required_inputs' => false,
         'details' => false
     ];
@@ -180,6 +183,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => 'description',
         'value' => 'value',
         'price' => 'price',
+        'taxes' => 'taxes',
         'required_inputs' => 'requiredInputs',
         'details' => 'details'
     ];
@@ -195,6 +199,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => 'setDescription',
         'value' => 'setValue',
         'price' => 'setPrice',
+        'taxes' => 'setTaxes',
         'required_inputs' => 'setRequiredInputs',
         'details' => 'setDetails'
     ];
@@ -210,6 +215,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         'description' => 'getDescription',
         'value' => 'getValue',
         'price' => 'getPrice',
+        'taxes' => 'getTaxes',
         'required_inputs' => 'getRequiredInputs',
         'details' => 'getDetails'
     ];
@@ -266,6 +272,7 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('required_inputs', $data ?? [], null);
         $this->setIfExists('details', $data ?? [], null);
     }
@@ -295,6 +302,27 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['public_id'] === null) {
+            $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['value'] === null) {
+            $invalidProperties[] = "'value' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['required_inputs'] === null) {
+            $invalidProperties[] = "'required_inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +338,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets public_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getPublicId(): ?string
+    public function getPublicId(): string
     {
         return $this->container['public_id'];
     }
@@ -320,11 +348,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets public_id
      *
-     * @param string|null $public_id public_id
+     * @param string $public_id public_id
      *
      * @return $this
      */
-    public function setPublicId(?string $public_id): static
+    public function setPublicId(string $public_id): static
     {
         if (is_null($public_id)) {
             throw new InvalidArgumentException('non-nullable public_id cannot be null');
@@ -337,9 +365,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -347,11 +375,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -398,9 +426,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets value
      *
-     * @return \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null
+     * @return \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange
      */
-    public function getValue(): \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null
+    public function getValue(): \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange
     {
         return $this->container['value'];
     }
@@ -408,11 +436,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets value
      *
-     * @param \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null $value value
+     * @param \OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange $value value
      *
      * @return $this
      */
-    public function setValue(\OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange|null $value): static
+    public function setValue(\OpenRoam\Model\FixedValue|\OpenRoam\Model\ValueRange $value): static
     {
         if (is_null($value)) {
             throw new InvalidArgumentException('non-nullable value cannot be null');
@@ -425,9 +453,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+     * @return \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
      */
-    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null
+    public function getPrice(): \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange
     {
         return $this->container['price'];
     }
@@ -435,11 +463,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price price
+     * @param \OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price price
      *
      * @return $this
      */
-    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange|null $price): static
+    public function setPrice(\OpenRoam\Model\FixedPrice|\OpenRoam\Model\PriceRange $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -450,11 +478,38 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside one unit of the `price` beside it, in one shape for every service. The server sets every field; a client never derives a treatment, never adds up `lines` and never computes an amount.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
      * Gets required_inputs
      *
-     * @return \OpenRoam\Model\InputField[]|null
+     * @return \OpenRoam\Model\InputField[]
      */
-    public function getRequiredInputs(): ?array
+    public function getRequiredInputs(): array
     {
         return $this->container['required_inputs'];
     }
@@ -462,11 +517,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets required_inputs
      *
-     * @param \OpenRoam\Model\InputField[]|null $required_inputs required_inputs
+     * @param \OpenRoam\Model\InputField[] $required_inputs required_inputs
      *
      * @return $this
      */
-    public function setRequiredInputs(?array $required_inputs): static
+    public function setRequiredInputs(array $required_inputs): static
     {
         if (is_null($required_inputs)) {
             throw new InvalidArgumentException('non-nullable required_inputs cannot be null');
@@ -479,9 +534,9 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\AirtimeOfferDetails|null
+     * @return \OpenRoam\Model\AirtimeOfferDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimeOfferDetails
+    public function getDetails(): \OpenRoam\Model\AirtimeOfferDetails
     {
         return $this->container['details'];
     }
@@ -489,11 +544,11 @@ class AirtimeOffer implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\AirtimeOfferDetails|null $details Airtime offer facts outside the offer keys every partner service shares. `redemptionType` is null when the offer's route does not declare how the top-up is delivered; `readMore` is stored Markdown.
+     * @param \OpenRoam\Model\AirtimeOfferDetails $details Airtime offer facts outside the offer keys every partner service shares. `redemptionType` is null when the offer's route does not declare how the top-up is delivered; `readMore` is stored Markdown.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimeOfferDetails $details): static
+    public function setDetails(\OpenRoam\Model\AirtimeOfferDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

@@ -282,6 +282,9 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['order_type'] === null) {
+            $invalidProperties[] = "'order_type' can't be null";
+        }
         $allowedValues = self::getOrderTypeAllowableValues();
         if (!is_null($this->container['order_type']) && !in_array($this->container['order_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -291,6 +294,9 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
             );
         }
 
+        if ($this->container['is_instant'] === null) {
+            $invalidProperties[] = "'is_instant' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -306,9 +312,9 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets order_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderType(): ?string
+    public function getOrderType(): string
     {
         return $this->container['order_type'];
     }
@@ -316,11 +322,11 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets order_type
      *
-     * @param string|null $order_type order_type
+     * @param string $order_type order_type
      *
      * @return $this
      */
-    public function setOrderType(?string $order_type): static
+    public function setOrderType(string $order_type): static
     {
         if (is_null($order_type)) {
             throw new InvalidArgumentException('non-nullable order_type cannot be null');
@@ -343,9 +349,9 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets is_instant
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsInstant(): ?bool
+    public function getIsInstant(): bool
     {
         return $this->container['is_instant'];
     }
@@ -353,11 +359,11 @@ class EsimPurchasedDetails implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets is_instant
      *
-     * @param bool|null $is_instant is_instant
+     * @param bool $is_instant is_instant
      *
      * @return $this
      */
-    public function setIsInstant(?bool $is_instant): static
+    public function setIsInstant(bool $is_instant): static
     {
         if (is_null($is_instant)) {
             throw new InvalidArgumentException('non-nullable is_instant cannot be null');

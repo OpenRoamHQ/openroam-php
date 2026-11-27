@@ -14,7 +14,7 @@ class UtilitiesResource
     }
 
     /**
-     * Search billers. GET /api/v1/b2b/utility/search
+     * Search billers. GET /v1/utility/search
      *
      * @param array{countryCode: string, category?: string, serviceType?: string, q?: string, currency?: string, page?: int, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -31,7 +31,7 @@ class UtilitiesResource
     }
 
     /**
-     * Get a biller. GET /api/v1/b2b/utility/billers/{id}
+     * Get a biller. GET /v1/utility/billers/{id}
      *
      * @param string $id
      * @param array{currency?: string} $query
@@ -50,7 +50,7 @@ class UtilitiesResource
     }
 
     /**
-     * Utility catalog. GET /api/v1/b2b/utility/catalog
+     * Utility catalog. GET /v1/utility/catalog
      *
      * @param array{countryCode?: string, category?: string, serviceType?: string, currency?: string, cursor?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -67,7 +67,7 @@ class UtilitiesResource
     }
 
     /**
-     * Pay utility bills. POST /api/v1/b2b/utility/order
+     * Pay utility bills. POST /v1/utility/order
      *
      * @param \OpenRoam\Model\UtilityOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -86,7 +86,7 @@ class UtilitiesResource
     }
 
     /**
-     * Quote utility payments. POST /api/v1/b2b/utility/quote
+     * Quote utility payments. POST /v1/utility/quote
      *
      * @param \OpenRoam\Model\UtilityOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options

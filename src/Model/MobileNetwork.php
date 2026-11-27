@@ -288,6 +288,18 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['mcc'] === null) {
+            $invalidProperties[] = "'mcc' can't be null";
+        }
+        if ($this->container['mnc'] === null) {
+            $invalidProperties[] = "'mnc' can't be null";
+        }
+        if ($this->container['country_name'] === null) {
+            $invalidProperties[] = "'country_name' can't be null";
+        }
+        if ($this->container['operator'] === null) {
+            $invalidProperties[] = "'operator' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +315,9 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets mcc
      *
-     * @return string|null
+     * @return string
      */
-    public function getMcc(): ?string
+    public function getMcc(): string
     {
         return $this->container['mcc'];
     }
@@ -313,11 +325,11 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets mcc
      *
-     * @param string|null $mcc mcc
+     * @param string $mcc mcc
      *
      * @return $this
      */
-    public function setMcc(?string $mcc): static
+    public function setMcc(string $mcc): static
     {
         if (is_null($mcc)) {
             throw new InvalidArgumentException('non-nullable mcc cannot be null');
@@ -330,9 +342,9 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets mnc
      *
-     * @return string|null
+     * @return string
      */
-    public function getMnc(): ?string
+    public function getMnc(): string
     {
         return $this->container['mnc'];
     }
@@ -340,11 +352,11 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets mnc
      *
-     * @param string|null $mnc mnc
+     * @param string $mnc mnc
      *
      * @return $this
      */
-    public function setMnc(?string $mnc): static
+    public function setMnc(string $mnc): static
     {
         if (is_null($mnc)) {
             throw new InvalidArgumentException('non-nullable mnc cannot be null');
@@ -391,9 +403,9 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets country_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryName(): ?string
+    public function getCountryName(): string
     {
         return $this->container['country_name'];
     }
@@ -401,11 +413,11 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets country_name
      *
-     * @param string|null $country_name country_name
+     * @param string $country_name country_name
      *
      * @return $this
      */
-    public function setCountryName(?string $country_name): static
+    public function setCountryName(string $country_name): static
     {
         if (is_null($country_name)) {
             throw new InvalidArgumentException('non-nullable country_name cannot be null');
@@ -418,9 +430,9 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets operator
      *
-     * @return string|null
+     * @return string
      */
-    public function getOperator(): ?string
+    public function getOperator(): string
     {
         return $this->container['operator'];
     }
@@ -428,11 +440,11 @@ class MobileNetwork implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets operator
      *
-     * @param string|null $operator operator
+     * @param string $operator operator
      *
      * @return $this
      */
-    public function setOperator(?string $operator): static
+    public function setOperator(string $operator): static
     {
         if (is_null($operator)) {
             throw new InvalidArgumentException('non-nullable operator cannot be null');

@@ -267,6 +267,12 @@ class ErrorDetail implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['path'] === null) {
+            $invalidProperties[] = "'path' can't be null";
+        }
+        if ($this->container['reason'] === null) {
+            $invalidProperties[] = "'reason' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +288,9 @@ class ErrorDetail implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets path
      *
-     * @return string|null
+     * @return string
      */
-    public function getPath(): ?string
+    public function getPath(): string
     {
         return $this->container['path'];
     }
@@ -292,11 +298,11 @@ class ErrorDetail implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets path
      *
-     * @param string|null $path Where the error is: the path of a body field, such as items[0].inputs.maxPrice, or the name of a query or route parameter. A JSON body that does not deserialize gives its path rooted at $, such as $.items[0].value. Cart checkout names the failing cart line by its id: items[<cart item id>].
+     * @param string $path Where the error is: the path of a body field, such as items[0].inputs.maxPrice, or the name of a query or route parameter. A JSON body that does not deserialize gives its path rooted at $, such as $.items[0].value. Cart checkout names the failing cart line by its id: items[<cart item id>]. A refused wallet charge (402) names wallet.
      *
      * @return $this
      */
-    public function setPath(?string $path): static
+    public function setPath(string $path): static
     {
         if (is_null($path)) {
             throw new InvalidArgumentException('non-nullable path cannot be null');
@@ -309,9 +315,9 @@ class ErrorDetail implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets reason
      *
-     * @return string|null
+     * @return string
      */
-    public function getReason(): ?string
+    public function getReason(): string
     {
         return $this->container['reason'];
     }
@@ -319,11 +325,11 @@ class ErrorDetail implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets reason
      *
-     * @param string|null $reason reason
+     * @param string $reason reason
      *
      * @return $this
      */
-    public function setReason(?string $reason): static
+    public function setReason(string $reason): static
     {
         if (is_null($reason)) {
             throw new InvalidArgumentException('non-nullable reason cannot be null');

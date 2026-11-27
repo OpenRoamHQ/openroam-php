@@ -402,7 +402,7 @@ class AirtimeApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/airtime/catalog';
+        $resourcePath = '/v1/airtime/catalog';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -487,13 +487,13 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\ErrorResponse
      */
     public function airtimeCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\AirtimeOrderRequest $airtime_order_request = null,
         string $contentType = self::contentTypes['airtimeCreateOrder'][0]
-    ): \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->airtimeCreateOrderWithHttpInfo($idempotency_key, $airtime_order_request, $contentType);
         return $response;
@@ -510,7 +510,7 @@ class AirtimeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\AirtimeOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function airtimeCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -550,13 +550,13 @@ class AirtimeApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -610,15 +610,15 @@ class AirtimeApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -770,7 +770,7 @@ class AirtimeApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/airtime/order';
+        $resourcePath = '/v1/airtime/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -863,7 +863,7 @@ class AirtimeApi
      *
      * Get an airtime operator
      *
-     * @param  string $id The operator ID from the operator list, the catalog or search. (required)
+     * @param  string $id The operator ID (&#x60;operator_…&#x60;) from the operator list, the catalog or search. (required)
      * @param  string $phone_number The recipient&#39;s number in international format, starting with + or 00. It must belong to the operator&#39;s country. (required)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers. (optional)
      * @param  string|null $value_currency Currency of &#x60;minValue&#x60; and &#x60;maxValue&#x60;, three letters; required with either of them. (optional)
@@ -871,7 +871,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperator'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -900,7 +900,7 @@ class AirtimeApi
      *
      * Get an airtime operator
      *
-     * @param  string $id The operator ID from the operator list, the catalog or search. (required)
+     * @param  string $id The operator ID (&#x60;operator_…&#x60;) from the operator list, the catalog or search. (required)
      * @param  string $phone_number The recipient&#39;s number in international format, starting with + or 00. It must belong to the operator&#39;s country. (required)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers. (optional)
      * @param  string|null $value_currency Currency of &#x60;minValue&#x60; and &#x60;maxValue&#x60;, three letters; required with either of them. (optional)
@@ -908,7 +908,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperator'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -1029,7 +1029,7 @@ class AirtimeApi
      *
      * Get an airtime operator
      *
-     * @param  string $id The operator ID from the operator list, the catalog or search. (required)
+     * @param  string $id The operator ID (&#x60;operator_…&#x60;) from the operator list, the catalog or search. (required)
      * @param  string $phone_number The recipient&#39;s number in international format, starting with + or 00. It must belong to the operator&#39;s country. (required)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers. (optional)
      * @param  string|null $value_currency Currency of &#x60;minValue&#x60; and &#x60;maxValue&#x60;, three letters; required with either of them. (optional)
@@ -1037,7 +1037,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperator'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1069,7 +1069,7 @@ class AirtimeApi
      *
      * Get an airtime operator
      *
-     * @param  string $id The operator ID from the operator list, the catalog or search. (required)
+     * @param  string $id The operator ID (&#x60;operator_…&#x60;) from the operator list, the catalog or search. (required)
      * @param  string $phone_number The recipient&#39;s number in international format, starting with + or 00. It must belong to the operator&#39;s country. (required)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers. (optional)
      * @param  string|null $value_currency Currency of &#x60;minValue&#x60; and &#x60;maxValue&#x60;, three letters; required with either of them. (optional)
@@ -1077,7 +1077,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperator'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1146,7 +1146,7 @@ class AirtimeApi
     /**
      * Create request for operation 'airtimeGetOperator'
      *
-     * @param  string $id The operator ID from the operator list, the catalog or search. (required)
+     * @param  string $id The operator ID (&#x60;operator_…&#x60;) from the operator list, the catalog or search. (required)
      * @param  string $phone_number The recipient&#39;s number in international format, starting with + or 00. It must belong to the operator&#39;s country. (required)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers. (optional)
      * @param  string|null $value_currency Currency of &#x60;minValue&#x60; and &#x60;maxValue&#x60;, three letters; required with either of them. (optional)
@@ -1154,7 +1154,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperator'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1186,7 +1186,7 @@ class AirtimeApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/airtime/operators/{id}';
+        $resourcePath = '/v1/airtime/operators/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1297,6 +1297,11 @@ class AirtimeApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -1323,7 +1328,7 @@ class AirtimeApi
      *
      * List airtime operators
      *
-     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;details.phoneLookup.countryCode&#x60; of a search. (required)
+     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;phoneLookup.countryCode&#x60; of a search. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperators'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -1344,7 +1349,7 @@ class AirtimeApi
      *
      * List airtime operators
      *
-     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;details.phoneLookup.countryCode&#x60; of a search. (required)
+     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;phoneLookup.countryCode&#x60; of a search. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperators'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -1457,7 +1462,7 @@ class AirtimeApi
      *
      * List airtime operators
      *
-     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;details.phoneLookup.countryCode&#x60; of a search. (required)
+     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;phoneLookup.countryCode&#x60; of a search. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperators'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1481,7 +1486,7 @@ class AirtimeApi
      *
      * List airtime operators
      *
-     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;details.phoneLookup.countryCode&#x60; of a search. (required)
+     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;phoneLookup.countryCode&#x60; of a search. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperators'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1542,7 +1547,7 @@ class AirtimeApi
     /**
      * Create request for operation 'airtimeGetOperators'
      *
-     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;details.phoneLookup.countryCode&#x60; of a search. (required)
+     * @param  string $country_code Required ISO 3166-1 alpha-2 country code, in either case, for example the &#x60;phoneLookup.countryCode&#x60; of a search. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeGetOperators'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -1560,7 +1565,7 @@ class AirtimeApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/airtime/operators';
+        $resourcePath = '/v1/airtime/operators';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1591,6 +1596,11 @@ class AirtimeApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1870,7 +1880,7 @@ class AirtimeApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/airtime/number-lookup';
+        $resourcePath = '/v1/airtime/number-lookup';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1901,6 +1911,11 @@ class AirtimeApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -2174,7 +2189,7 @@ class AirtimeApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/airtime/quote';
+        $resourcePath = '/v1/airtime/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -2237,6 +2252,11 @@ class AirtimeApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -2270,7 +2290,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Must be 1: search returns at most one operator. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeSearch'] to see the possible values for this operation
@@ -2309,7 +2329,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Must be 1: search returns at most one operator. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeSearch'] to see the possible values for this operation
@@ -2440,7 +2460,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Must be 1: search returns at most one operator. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeSearch'] to see the possible values for this operation
@@ -2482,7 +2502,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Must be 1: search returns at most one operator. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeSearch'] to see the possible values for this operation
@@ -2561,7 +2581,7 @@ class AirtimeApi
      * @param  float|null $max_value Keep the offers whose value starts at or below this amount, in &#x60;valueCurrency&#x60;. (optional)
      * @param  float|null $min_price Keep the offers whose indicative price reaches at least this amount, in the price currency. (optional)
      * @param  float|null $max_price Keep the offers whose indicative price starts at or below this amount, in the price currency. A filter, not the &#x60;inputs.maxPrice&#x60; limit of a purchase. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Must be 1: search returns at most one operator. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['airtimeSearch'] to see the possible values for this operation
@@ -2590,7 +2610,7 @@ class AirtimeApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/airtime/search';
+        $resourcePath = '/v1/airtime/search';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2711,6 +2731,11 @@ class AirtimeApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

@@ -300,6 +300,15 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -324,9 +333,9 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -334,11 +343,11 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id The place's ID (a UUID). Send it as `searchCriteria.location.geoNodeId` in a hotel search; it finds the hotels of every place inside this one. Stable: it can be stored.
+     * @param string $id The place's ID (a UUID). Send it as `searchCriteria.location.geoNodeId` in a hotel search; it finds the hotels of every place inside this one. Stable: it can be stored.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -351,9 +360,9 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -361,11 +370,11 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name The place with its parents, for example `Downtown Dubai, Dubai, United Arab Emirates`.
+     * @param string $name The place with its parents, for example `Downtown Dubai, Dubai, United Arab Emirates`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -412,9 +421,9 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -422,11 +431,11 @@ class HotelDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category The place's level: `country`, `region`, `city` or `area` (a district or neighbourhood).
+     * @param string $category The place's level: `country`, `region`, `city` or `area` (a district or neighbourhood).
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');

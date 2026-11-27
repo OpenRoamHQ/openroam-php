@@ -353,7 +353,7 @@ class FlightSearchPassenger implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets age
      *
-     * @param int|null $age Age on the travel date, 0–17; required for children and infants.
+     * @param int|null $age Age on the departure date of the trip's last flight, 0–17; required for children and infants.
      *
      * @return $this
      */

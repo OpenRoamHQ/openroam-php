@@ -323,6 +323,36 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['balance'] === null) {
+            $invalidProperties[] = "'balance' can't be null";
+        }
+        if ($this->container['is_selected'] === null) {
+            $invalidProperties[] = "'is_selected' can't be null";
+        }
+        if ($this->container['currency'] === null) {
+            $invalidProperties[] = "'currency' can't be null";
+        }
+        if ($this->container['created_at'] === null) {
+            $invalidProperties[] = "'created_at' can't be null";
+        }
+        if ($this->container['updated_at'] === null) {
+            $invalidProperties[] = "'updated_at' can't be null";
+        }
+        if ($this->container['total_debits'] === null) {
+            $invalidProperties[] = "'total_debits' can't be null";
+        }
+        if ($this->container['total_credits'] === null) {
+            $invalidProperties[] = "'total_credits' can't be null";
+        }
+        if ($this->container['percentage_difference'] === null) {
+            $invalidProperties[] = "'percentage_difference' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -338,9 +368,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -348,11 +378,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Wallet id.
+     * @param string $id Wallet id.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -365,9 +395,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -375,11 +405,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label Display name.
+     * @param string $label Display name.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -392,9 +422,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets balance
      *
-     * @return float|null
+     * @return float
      */
-    public function getBalance(): ?float
+    public function getBalance(): float
     {
         return $this->container['balance'];
     }
@@ -402,11 +432,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets balance
      *
-     * @param float|null $balance Available balance, in the wallet's currency.
+     * @param float $balance Available balance, in the wallet's currency.
      *
      * @return $this
      */
-    public function setBalance(?float $balance): static
+    public function setBalance(float $balance): static
     {
         if (is_null($balance)) {
             throw new InvalidArgumentException('non-nullable balance cannot be null');
@@ -453,9 +483,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_selected
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsSelected(): ?bool
+    public function getIsSelected(): bool
     {
         return $this->container['is_selected'];
     }
@@ -463,11 +493,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_selected
      *
-     * @param bool|null $is_selected Whether this is the selected wallet that pays for orders.
+     * @param bool $is_selected Whether this is the selected wallet that pays for orders.
      *
      * @return $this
      */
-    public function setIsSelected(?bool $is_selected): static
+    public function setIsSelected(bool $is_selected): static
     {
         if (is_null($is_selected)) {
             throw new InvalidArgumentException('non-nullable is_selected cannot be null');
@@ -480,9 +510,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currency
      *
-     * @return \OpenRoam\Model\Currency|null
+     * @return \OpenRoam\Model\Currency
      */
-    public function getCurrency(): ?\OpenRoam\Model\Currency
+    public function getCurrency(): \OpenRoam\Model\Currency
     {
         return $this->container['currency'];
     }
@@ -490,11 +520,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currency
      *
-     * @param \OpenRoam\Model\Currency|null $currency The wallet's currency.
+     * @param \OpenRoam\Model\Currency $currency The wallet's currency.
      *
      * @return $this
      */
-    public function setCurrency(?\OpenRoam\Model\Currency $currency): static
+    public function setCurrency(\OpenRoam\Model\Currency $currency): static
     {
         if (is_null($currency)) {
             throw new InvalidArgumentException('non-nullable currency cannot be null');
@@ -507,9 +537,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets created_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTime
     {
         return $this->container['created_at'];
     }
@@ -517,11 +547,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets created_at
      *
-     * @param \DateTime|null $created_at When the wallet was created (UTC).
+     * @param \DateTime $created_at When the wallet was created (UTC).
      *
      * @return $this
      */
-    public function setCreatedAt(?\DateTime $created_at): static
+    public function setCreatedAt(\DateTime $created_at): static
     {
         if (is_null($created_at)) {
             throw new InvalidArgumentException('non-nullable created_at cannot be null');
@@ -534,9 +564,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets updated_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->container['updated_at'];
     }
@@ -544,11 +574,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets updated_at
      *
-     * @param \DateTime|null $updated_at When the wallet last changed (UTC).
+     * @param \DateTime $updated_at When the wallet last changed (UTC).
      *
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTime $updated_at): static
     {
         if (is_null($updated_at)) {
             throw new InvalidArgumentException('non-nullable updated_at cannot be null');
@@ -561,9 +591,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_debits
      *
-     * @return float|null
+     * @return float
      */
-    public function getTotalDebits(): ?float
+    public function getTotalDebits(): float
     {
         return $this->container['total_debits'];
     }
@@ -571,11 +601,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_debits
      *
-     * @param float|null $total_debits Total of completed `debit` transactions: funds added to the wallet.
+     * @param float $total_debits Total of completed `debit` transactions: funds taken from the wallet.
      *
      * @return $this
      */
-    public function setTotalDebits(?float $total_debits): static
+    public function setTotalDebits(float $total_debits): static
     {
         if (is_null($total_debits)) {
             throw new InvalidArgumentException('non-nullable total_debits cannot be null');
@@ -588,9 +618,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_credits
      *
-     * @return float|null
+     * @return float
      */
-    public function getTotalCredits(): ?float
+    public function getTotalCredits(): float
     {
         return $this->container['total_credits'];
     }
@@ -598,11 +628,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_credits
      *
-     * @param float|null $total_credits Total of completed `credit` transactions: funds taken from the wallet.
+     * @param float $total_credits Total of completed `credit` transactions: funds added to the wallet.
      *
      * @return $this
      */
-    public function setTotalCredits(?float $total_credits): static
+    public function setTotalCredits(float $total_credits): static
     {
         if (is_null($total_credits)) {
             throw new InvalidArgumentException('non-nullable total_credits cannot be null');
@@ -615,9 +645,9 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets percentage_difference
      *
-     * @return float|null
+     * @return float
      */
-    public function getPercentageDifference(): ?float
+    public function getPercentageDifference(): float
     {
         return $this->container['percentage_difference'];
     }
@@ -625,11 +655,11 @@ class Wallet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets percentage_difference
      *
-     * @param float|null $percentage_difference `totalCredits` as a percentage of `totalDebits`, or 0 when nothing             was added.
+     * @param float $percentage_difference `totalDebits` as a percentage of `totalCredits`, or 0 when nothing             was added.
      *
      * @return $this
      */
-    public function setPercentageDifference(?float $percentage_difference): static
+    public function setPercentageDifference(float $percentage_difference): static
     {
         if (is_null($percentage_difference)) {
             throw new InvalidArgumentException('non-nullable percentage_difference cannot be null');

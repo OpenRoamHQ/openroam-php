@@ -260,6 +260,12 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['amenities'] === null) {
+            $invalidProperties[] = "'amenities' can't be null";
+        }
+        if ($this->container['amenity_groups'] === null) {
+            $invalidProperties[] = "'amenity_groups' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenities
      *
-     * @return \OpenRoam\Model\AmenityFacet[]|null
+     * @return \OpenRoam\Model\AmenityFacet[]
      */
-    public function getAmenities(): ?array
+    public function getAmenities(): array
     {
         return $this->container['amenities'];
     }
@@ -285,11 +291,11 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenities
      *
-     * @param \OpenRoam\Model\AmenityFacet[]|null $amenities amenities
+     * @param \OpenRoam\Model\AmenityFacet[] $amenities amenities
      *
      * @return $this
      */
-    public function setAmenities(?array $amenities): static
+    public function setAmenities(array $amenities): static
     {
         if (is_null($amenities)) {
             throw new InvalidArgumentException('non-nullable amenities cannot be null');
@@ -302,9 +308,9 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenity_groups
      *
-     * @return \OpenRoam\Model\AmenityGroup[]|null
+     * @return \OpenRoam\Model\AmenityGroup[]
      */
-    public function getAmenityGroups(): ?array
+    public function getAmenityGroups(): array
     {
         return $this->container['amenity_groups'];
     }
@@ -312,11 +318,11 @@ class HotelSearchFacets implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenity_groups
      *
-     * @param \OpenRoam\Model\AmenityGroup[]|null $amenity_groups amenity_groups
+     * @param \OpenRoam\Model\AmenityGroup[] $amenity_groups amenity_groups
      *
      * @return $this
      */
-    public function setAmenityGroups(?array $amenity_groups): static
+    public function setAmenityGroups(array $amenity_groups): static
     {
         if (is_null($amenity_groups)) {
             throw new InvalidArgumentException('non-nullable amenity_groups cannot be null');

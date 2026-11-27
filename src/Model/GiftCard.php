@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * GiftCard Class Doc Comment
  *
- * @description One card (brand and issuing country, plus the face currency when a brand sells several) as search, the one-card route and the catalog return it. &#x60;id&#x60; is the card&#39;s SKU, an opaque ID; an order names one of its &#x60;offers&#x60; by public ID. &#x60;countryCode&#x60; is the issuing country&#39;s ISO 3166-1 alpha-2 code, or null for a card without a country, such as a global card. Prices are indicative; quote recalculates them.
+ * @description One card (brand and issuing country, plus the face currency when a brand sells several) as search, the one-card route and the catalog return it. &#x60;id&#x60; is the card ID &#x60;card_…&#x60;, an opaque ID that is never orderable; an order names one of its &#x60;offers&#x60; by public ID. &#x60;countryCode&#x60; is the issuing country&#39;s ISO 3166-1 alpha-2 code, or null for a card without a country, such as a global card. Prices are indicative; quote recalculates them.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -67,7 +67,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'string',
         'description' => 'string',
         'offers' => '\OpenRoam\Model\GiftCardOffer[]',
-        'details' => '\OpenRoam\Model\GiftCardDetails'
+        'is_redeemable_globally' => 'bool',
+        'redemption_instructions' => 'string'
     ];
 
     /**
@@ -83,7 +84,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => null,
         'description' => null,
         'offers' => null,
-        'details' => null
+        'is_redeemable_globally' => null,
+        'redemption_instructions' => null
     ];
 
     /**
@@ -99,7 +101,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => true,
         'description' => true,
         'offers' => false,
-        'details' => false
+        'is_redeemable_globally' => false,
+        'redemption_instructions' => true
     ];
 
     /**
@@ -185,7 +188,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'logoUrl',
         'description' => 'description',
         'offers' => 'offers',
-        'details' => 'details'
+        'is_redeemable_globally' => 'isRedeemableGlobally',
+        'redemption_instructions' => 'redemptionInstructions'
     ];
 
     /**
@@ -201,7 +205,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'setLogoUrl',
         'description' => 'setDescription',
         'offers' => 'setOffers',
-        'details' => 'setDetails'
+        'is_redeemable_globally' => 'setIsRedeemableGlobally',
+        'redemption_instructions' => 'setRedemptionInstructions'
     ];
 
     /**
@@ -217,7 +222,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'getLogoUrl',
         'description' => 'getDescription',
         'offers' => 'getOffers',
-        'details' => 'getDetails'
+        'is_redeemable_globally' => 'getIsRedeemableGlobally',
+        'redemption_instructions' => 'getRedemptionInstructions'
     ];
 
     /**
@@ -301,7 +307,8 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('logo_url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('offers', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('is_redeemable_globally', $data ?? [], null);
+        $this->setIfExists('redemption_instructions', $data ?? [], null);
     }
 
     /**
@@ -329,6 +336,15 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -338,6 +354,12 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['offers'] === null) {
+            $invalidProperties[] = "'offers' can't be null";
+        }
+        if ($this->container['is_redeemable_globally'] === null) {
+            $invalidProperties[] = "'is_redeemable_globally' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -353,9 +375,9 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -363,11 +385,11 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -380,9 +402,9 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -390,11 +412,11 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -441,9 +463,9 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -451,11 +473,11 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');
@@ -546,9 +568,9 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offers
      *
-     * @return \OpenRoam\Model\GiftCardOffer[]|null
+     * @return \OpenRoam\Model\GiftCardOffer[]
      */
-    public function getOffers(): ?array
+    public function getOffers(): array
     {
         return $this->container['offers'];
     }
@@ -556,11 +578,11 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets offers
      *
-     * @param \OpenRoam\Model\GiftCardOffer[]|null $offers offers
+     * @param \OpenRoam\Model\GiftCardOffer[] $offers offers
      *
      * @return $this
      */
-    public function setOffers(?array $offers): static
+    public function setOffers(array $offers): static
     {
         if (is_null($offers)) {
             throw new InvalidArgumentException('non-nullable offers cannot be null');
@@ -571,28 +593,62 @@ class GiftCard implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets is_redeemable_globally
      *
-     * @return \OpenRoam\Model\GiftCardDetails|null
+     * @return bool
      */
-    public function getDetails(): ?\OpenRoam\Model\GiftCardDetails
+    public function getIsRedeemableGlobally(): bool
     {
-        return $this->container['details'];
+        return $this->container['is_redeemable_globally'];
     }
 
     /**
-     * Sets details
+     * Sets is_redeemable_globally
      *
-     * @param \OpenRoam\Model\GiftCardDetails|null $details Gift card facts outside the item keys every partner service shares. `isRedeemableGlobally` is true when the card can be redeemed outside its issuing country; `redemptionInstructions` is the detailed redemption text, or null.
+     * @param bool $is_redeemable_globally Whether the card can be redeemed outside its issuing country.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\GiftCardDetails $details): static
+    public function setIsRedeemableGlobally(bool $is_redeemable_globally): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($is_redeemable_globally)) {
+            throw new InvalidArgumentException('non-nullable is_redeemable_globally cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['is_redeemable_globally'] = $is_redeemable_globally;
+
+        return $this;
+    }
+
+    /**
+     * Gets redemption_instructions
+     *
+     * @return string|null
+     */
+    public function getRedemptionInstructions(): ?string
+    {
+        return $this->container['redemption_instructions'];
+    }
+
+    /**
+     * Sets redemption_instructions
+     *
+     * @param string|null $redemption_instructions The detailed redemption text, or null.
+     *
+     * @return $this
+     */
+    public function setRedemptionInstructions(?string $redemption_instructions): static
+    {
+        if (is_null($redemption_instructions)) {
+            array_push($this->openAPINullablesSetToNull, 'redemption_instructions');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('redemption_instructions', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['redemption_instructions'] = $redemption_instructions;
 
         return $this;
     }

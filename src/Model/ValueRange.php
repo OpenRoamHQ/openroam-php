@@ -404,7 +404,7 @@ class ValueRange implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets step
      *
-     * @param float $step step
+     * @param float $step The product's own increment, or, when it sets none, the smallest unit of `Currency` (`CurrencyMinorUnitHelper.SmallestUnit`): 0.01 in most currencies, 1 in yen, 0.001 in dinars.
      *
      * @return $this
      */

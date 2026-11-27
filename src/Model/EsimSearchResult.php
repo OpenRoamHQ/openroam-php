@@ -260,6 +260,12 @@ class EsimSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['pagination'] === null) {
+            $invalidProperties[] = "'pagination' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class EsimSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\EsimDestination[]|null
+     * @return \OpenRoam\Model\EsimDestination[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -285,11 +291,11 @@ class EsimSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\EsimDestination[]|null $items items
+     * @param \OpenRoam\Model\EsimDestination[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -302,9 +308,9 @@ class EsimSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets pagination
      *
-     * @return \OpenRoam\Model\Pagination|null
+     * @return \OpenRoam\Model\Pagination
      */
-    public function getPagination(): ?\OpenRoam\Model\Pagination
+    public function getPagination(): \OpenRoam\Model\Pagination
     {
         return $this->container['pagination'];
     }
@@ -312,11 +318,11 @@ class EsimSearchResult implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets pagination
      *
-     * @param \OpenRoam\Model\Pagination|null $pagination Paging of a list response.
+     * @param \OpenRoam\Model\Pagination $pagination Paging of a list response.
      *
      * @return $this
      */
-    public function setPagination(?\OpenRoam\Model\Pagination $pagination): static
+    public function setPagination(\OpenRoam\Model\Pagination $pagination): static
     {
         if (is_null($pagination)) {
             throw new InvalidArgumentException('non-nullable pagination cannot be null');

@@ -37,6 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * BookedSegment Class Doc Comment
  *
+ * @description One flight of a slice.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,7 +63,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => '\OpenRoam\Model\BookedAirport',
         'destination' => '\OpenRoam\Model\BookedAirport',
         'departure_at' => '\DateTime',
+        'departure_local_time' => 'string',
         'arrival_at' => '\DateTime',
+        'arrival_local_time' => 'string',
         'duration_minutes' => 'int',
         'marketing_carrier' => '\OpenRoam\Model\BookedAirline',
         'marketing_flight_number' => 'string',
@@ -84,7 +87,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => null,
         'destination' => null,
         'departure_at' => 'date-time',
+        'departure_local_time' => null,
         'arrival_at' => 'date-time',
+        'arrival_local_time' => null,
         'duration_minutes' => 'int32',
         'marketing_carrier' => null,
         'marketing_flight_number' => null,
@@ -106,7 +111,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => false,
         'destination' => false,
         'departure_at' => false,
+        'departure_local_time' => true,
         'arrival_at' => false,
+        'arrival_local_time' => true,
         'duration_minutes' => false,
         'marketing_carrier' => false,
         'marketing_flight_number' => false,
@@ -198,7 +205,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'origin',
         'destination' => 'destination',
         'departure_at' => 'departureAt',
+        'departure_local_time' => 'departureLocalTime',
         'arrival_at' => 'arrivalAt',
+        'arrival_local_time' => 'arrivalLocalTime',
         'duration_minutes' => 'durationMinutes',
         'marketing_carrier' => 'marketingCarrier',
         'marketing_flight_number' => 'marketingFlightNumber',
@@ -220,7 +229,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'setOrigin',
         'destination' => 'setDestination',
         'departure_at' => 'setDepartureAt',
+        'departure_local_time' => 'setDepartureLocalTime',
         'arrival_at' => 'setArrivalAt',
+        'arrival_local_time' => 'setArrivalLocalTime',
         'duration_minutes' => 'setDurationMinutes',
         'marketing_carrier' => 'setMarketingCarrier',
         'marketing_flight_number' => 'setMarketingFlightNumber',
@@ -242,7 +253,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'getOrigin',
         'destination' => 'getDestination',
         'departure_at' => 'getDepartureAt',
+        'departure_local_time' => 'getDepartureLocalTime',
         'arrival_at' => 'getArrivalAt',
+        'arrival_local_time' => 'getArrivalLocalTime',
         'duration_minutes' => 'getDurationMinutes',
         'marketing_carrier' => 'getMarketingCarrier',
         'marketing_flight_number' => 'getMarketingFlightNumber',
@@ -324,7 +337,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('origin', $data ?? [], null);
         $this->setIfExists('destination', $data ?? [], null);
         $this->setIfExists('departure_at', $data ?? [], null);
+        $this->setIfExists('departure_local_time', $data ?? [], null);
         $this->setIfExists('arrival_at', $data ?? [], null);
+        $this->setIfExists('arrival_local_time', $data ?? [], null);
         $this->setIfExists('duration_minutes', $data ?? [], null);
         $this->setIfExists('marketing_carrier', $data ?? [], null);
         $this->setIfExists('marketing_flight_number', $data ?? [], null);
@@ -362,6 +377,35 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['origin'] === null) {
+            $invalidProperties[] = "'origin' can't be null";
+        }
+        if ($this->container['destination'] === null) {
+            $invalidProperties[] = "'destination' can't be null";
+        }
+        if ($this->container['departure_at'] === null) {
+            $invalidProperties[] = "'departure_at' can't be null";
+        }
+        if (!is_null($this->container['departure_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['departure_local_time'])) {
+            $invalidProperties[] = "invalid value for 'departure_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['arrival_at'] === null) {
+            $invalidProperties[] = "'arrival_at' can't be null";
+        }
+        if (!is_null($this->container['arrival_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['arrival_local_time'])) {
+            $invalidProperties[] = "invalid value for 'arrival_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['duration_minutes'] === null) {
+            $invalidProperties[] = "'duration_minutes' can't be null";
+        }
+        if ($this->container['marketing_carrier'] === null) {
+            $invalidProperties[] = "'marketing_carrier' can't be null";
+        }
+        if ($this->container['marketing_flight_number'] === null) {
+            $invalidProperties[] = "'marketing_flight_number' can't be null";
+        }
         $allowedValues = self::getCabinClassAllowableValues();
         if (!is_null($this->container['cabin_class']) && !in_array($this->container['cabin_class'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -371,6 +415,15 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['stops'] === null) {
+            $invalidProperties[] = "'stops' can't be null";
+        }
+        if ($this->container['baggage'] === null) {
+            $invalidProperties[] = "'baggage' can't be null";
+        }
+        if ($this->container['is_codeshare'] === null) {
+            $invalidProperties[] = "'is_codeshare' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -386,9 +439,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\BookedAirport|null
+     * @return \OpenRoam\Model\BookedAirport
      */
-    public function getOrigin(): ?\OpenRoam\Model\BookedAirport
+    public function getOrigin(): \OpenRoam\Model\BookedAirport
     {
         return $this->container['origin'];
     }
@@ -396,11 +449,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\BookedAirport|null $origin origin
+     * @param \OpenRoam\Model\BookedAirport $origin The airport the flight departs from.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\BookedAirport $origin): static
+    public function setOrigin(\OpenRoam\Model\BookedAirport $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -413,9 +466,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets destination
      *
-     * @return \OpenRoam\Model\BookedAirport|null
+     * @return \OpenRoam\Model\BookedAirport
      */
-    public function getDestination(): ?\OpenRoam\Model\BookedAirport
+    public function getDestination(): \OpenRoam\Model\BookedAirport
     {
         return $this->container['destination'];
     }
@@ -423,11 +476,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets destination
      *
-     * @param \OpenRoam\Model\BookedAirport|null $destination destination
+     * @param \OpenRoam\Model\BookedAirport $destination The airport the flight lands at.
      *
      * @return $this
      */
-    public function setDestination(?\OpenRoam\Model\BookedAirport $destination): static
+    public function setDestination(\OpenRoam\Model\BookedAirport $destination): static
     {
         if (is_null($destination)) {
             throw new InvalidArgumentException('non-nullable destination cannot be null');
@@ -440,9 +493,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets departure_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getDepartureAt(): ?\DateTime
+    public function getDepartureAt(): \DateTime
     {
         return $this->container['departure_at'];
     }
@@ -450,11 +503,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets departure_at
      *
-     * @param \DateTime|null $departure_at departure_at
+     * @param \DateTime $departure_at When the flight departs, a UTC instant; `origin.timezone` gives the airport's clock.
      *
      * @return $this
      */
-    public function setDepartureAt(?\DateTime $departure_at): static
+    public function setDepartureAt(\DateTime $departure_at): static
     {
         if (is_null($departure_at)) {
             throw new InvalidArgumentException('non-nullable departure_at cannot be null');
@@ -465,11 +518,50 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets departure_local_time
+     *
+     * @return string|null
+     */
+    public function getDepartureLocalTime(): ?string
+    {
+        return $this->container['departure_local_time'];
+    }
+
+    /**
+     * Sets departure_local_time
+     *
+     * @param string|null $departure_local_time The clock at the departure airport (`origin.timezone`) at `departureAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `departureAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setDepartureLocalTime(?string $departure_local_time): static
+    {
+        if (is_null($departure_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'departure_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('departure_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($departure_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($departure_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$departure_local_time when calling BookedSegment., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['departure_local_time'] = $departure_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets arrival_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getArrivalAt(): ?\DateTime
+    public function getArrivalAt(): \DateTime
     {
         return $this->container['arrival_at'];
     }
@@ -477,11 +569,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets arrival_at
      *
-     * @param \DateTime|null $arrival_at arrival_at
+     * @param \DateTime $arrival_at When the flight lands, a UTC instant; `destination.timezone` gives the airport's clock.
      *
      * @return $this
      */
-    public function setArrivalAt(?\DateTime $arrival_at): static
+    public function setArrivalAt(\DateTime $arrival_at): static
     {
         if (is_null($arrival_at)) {
             throw new InvalidArgumentException('non-nullable arrival_at cannot be null');
@@ -492,11 +584,50 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets arrival_local_time
+     *
+     * @return string|null
+     */
+    public function getArrivalLocalTime(): ?string
+    {
+        return $this->container['arrival_local_time'];
+    }
+
+    /**
+     * Sets arrival_local_time
+     *
+     * @param string|null $arrival_local_time The clock at the arrival airport (`destination.timezone`) at `arrivalAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `arrivalAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setArrivalLocalTime(?string $arrival_local_time): static
+    {
+        if (is_null($arrival_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'arrival_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('arrival_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($arrival_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($arrival_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$arrival_local_time when calling BookedSegment., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['arrival_local_time'] = $arrival_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets duration_minutes
      *
-     * @return int|null
+     * @return int
      */
-    public function getDurationMinutes(): ?int
+    public function getDurationMinutes(): int
     {
         return $this->container['duration_minutes'];
     }
@@ -504,11 +635,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets duration_minutes
      *
-     * @param int|null $duration_minutes duration_minutes
+     * @param int $duration_minutes Flying time of the flight.
      *
      * @return $this
      */
-    public function setDurationMinutes(?int $duration_minutes): static
+    public function setDurationMinutes(int $duration_minutes): static
     {
         if (is_null($duration_minutes)) {
             throw new InvalidArgumentException('non-nullable duration_minutes cannot be null');
@@ -521,9 +652,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets marketing_carrier
      *
-     * @return \OpenRoam\Model\BookedAirline|null
+     * @return \OpenRoam\Model\BookedAirline
      */
-    public function getMarketingCarrier(): ?\OpenRoam\Model\BookedAirline
+    public function getMarketingCarrier(): \OpenRoam\Model\BookedAirline
     {
         return $this->container['marketing_carrier'];
     }
@@ -531,11 +662,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets marketing_carrier
      *
-     * @param \OpenRoam\Model\BookedAirline|null $marketing_carrier marketing_carrier
+     * @param \OpenRoam\Model\BookedAirline $marketing_carrier The airline that sells the flight under its code.
      *
      * @return $this
      */
-    public function setMarketingCarrier(?\OpenRoam\Model\BookedAirline $marketing_carrier): static
+    public function setMarketingCarrier(\OpenRoam\Model\BookedAirline $marketing_carrier): static
     {
         if (is_null($marketing_carrier)) {
             throw new InvalidArgumentException('non-nullable marketing_carrier cannot be null');
@@ -548,9 +679,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets marketing_flight_number
      *
-     * @return string|null
+     * @return string
      */
-    public function getMarketingFlightNumber(): ?string
+    public function getMarketingFlightNumber(): string
     {
         return $this->container['marketing_flight_number'];
     }
@@ -558,11 +689,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets marketing_flight_number
      *
-     * @param string|null $marketing_flight_number marketing_flight_number
+     * @param string $marketing_flight_number The flight number under the selling airline's code.
      *
      * @return $this
      */
-    public function setMarketingFlightNumber(?string $marketing_flight_number): static
+    public function setMarketingFlightNumber(string $marketing_flight_number): static
     {
         if (is_null($marketing_flight_number)) {
             throw new InvalidArgumentException('non-nullable marketing_flight_number cannot be null');
@@ -585,7 +716,7 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets operating_carrier
      *
-     * @param \OpenRoam\Model\BookedAirline|null $operating_carrier operating_carrier
+     * @param \OpenRoam\Model\BookedAirline|null $operating_carrier The airline that flies the aircraft; null when not stated.
      *
      * @return $this
      */
@@ -619,7 +750,7 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets operating_flight_number
      *
-     * @param string|null $operating_flight_number operating_flight_number
+     * @param string|null $operating_flight_number The flight number under the operating airline's code; null when not stated.
      *
      * @return $this
      */
@@ -653,7 +784,7 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets aircraft
      *
-     * @param \OpenRoam\Model\Aircraft|null $aircraft aircraft
+     * @param \OpenRoam\Model\Aircraft|null $aircraft The aircraft; null when not stated.
      *
      * @return $this
      */
@@ -687,7 +818,7 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets cabin_class
      *
-     * @param string|null $cabin_class cabin_class
+     * @param string|null $cabin_class The cabin booked on the flight; null when not stated.
      *
      * @return $this
      */
@@ -721,9 +852,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets stops
      *
-     * @return \OpenRoam\Model\BookedStop[]|null
+     * @return \OpenRoam\Model\BookedStop[]
      */
-    public function getStops(): ?array
+    public function getStops(): array
     {
         return $this->container['stops'];
     }
@@ -731,11 +862,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets stops
      *
-     * @param \OpenRoam\Model\BookedStop[]|null $stops stops
+     * @param \OpenRoam\Model\BookedStop[] $stops Stops within the flight, where the aircraft lands and leaves again without a change of flight.
      *
      * @return $this
      */
-    public function setStops(?array $stops): static
+    public function setStops(array $stops): static
     {
         if (is_null($stops)) {
             throw new InvalidArgumentException('non-nullable stops cannot be null');
@@ -748,9 +879,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets baggage
      *
-     * @return \OpenRoam\Model\BookedBaggage[]|null
+     * @return \OpenRoam\Model\BookedBaggage[]
      */
-    public function getBaggage(): ?array
+    public function getBaggage(): array
     {
         return $this->container['baggage'];
     }
@@ -758,11 +889,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets baggage
      *
-     * @param \OpenRoam\Model\BookedBaggage[]|null $baggage baggage
+     * @param \OpenRoam\Model\BookedBaggage[] $baggage Baggage included on the flight.
      *
      * @return $this
      */
-    public function setBaggage(?array $baggage): static
+    public function setBaggage(array $baggage): static
     {
         if (is_null($baggage)) {
             throw new InvalidArgumentException('non-nullable baggage cannot be null');
@@ -775,9 +906,9 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets is_codeshare
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsCodeshare(): ?bool
+    public function getIsCodeshare(): bool
     {
         return $this->container['is_codeshare'];
     }
@@ -785,11 +916,11 @@ class BookedSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_codeshare
      *
-     * @param bool|null $is_codeshare is_codeshare
+     * @param bool $is_codeshare Whether the selling and the operating airline differ.
      *
      * @return $this
      */
-    public function setIsCodeshare(?bool $is_codeshare): static
+    public function setIsCodeshare(bool $is_codeshare): static
     {
         if (is_null($is_codeshare)) {
             throw new InvalidArgumentException('non-nullable is_codeshare cannot be null');

@@ -260,6 +260,12 @@ class WalletTransactionList implements ModelInterface, ArrayAccess, JsonSerializ
     {
         $invalidProperties = [];
 
+        if ($this->container['transactions'] === null) {
+            $invalidProperties[] = "'transactions' can't be null";
+        }
+        if ($this->container['pagination'] === null) {
+            $invalidProperties[] = "'pagination' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class WalletTransactionList implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets transactions
      *
-     * @return \OpenRoam\Model\WalletTransaction[]|null
+     * @return \OpenRoam\Model\WalletTransaction[]
      */
-    public function getTransactions(): ?array
+    public function getTransactions(): array
     {
         return $this->container['transactions'];
     }
@@ -285,11 +291,11 @@ class WalletTransactionList implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets transactions
      *
-     * @param \OpenRoam\Model\WalletTransaction[]|null $transactions The transactions on this page.
+     * @param \OpenRoam\Model\WalletTransaction[] $transactions The transactions on this page.
      *
      * @return $this
      */
-    public function setTransactions(?array $transactions): static
+    public function setTransactions(array $transactions): static
     {
         if (is_null($transactions)) {
             throw new InvalidArgumentException('non-nullable transactions cannot be null');
@@ -302,9 +308,9 @@ class WalletTransactionList implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Gets pagination
      *
-     * @return \OpenRoam\Model\Pagination|null
+     * @return \OpenRoam\Model\Pagination
      */
-    public function getPagination(): ?\OpenRoam\Model\Pagination
+    public function getPagination(): \OpenRoam\Model\Pagination
     {
         return $this->container['pagination'];
     }
@@ -312,11 +318,11 @@ class WalletTransactionList implements ModelInterface, ArrayAccess, JsonSerializ
     /**
      * Sets pagination
      *
-     * @param \OpenRoam\Model\Pagination|null $pagination Paging of the list.
+     * @param \OpenRoam\Model\Pagination $pagination Paging of the list.
      *
      * @return $this
      */
-    public function setPagination(?\OpenRoam\Model\Pagination $pagination): static
+    public function setPagination(\OpenRoam\Model\Pagination $pagination): static
     {
         if (is_null($pagination)) {
             throw new InvalidArgumentException('non-nullable pagination cannot be null');

@@ -267,6 +267,15 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['slice_index'] === null) {
+            $invalidProperties[] = "'slice_index' can't be null";
+        }
+        if ($this->container['segment_index'] === null) {
+            $invalidProperties[] = "'segment_index' can't be null";
+        }
+        if ($this->container['seat_designator'] === null) {
+            $invalidProperties[] = "'seat_designator' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets slice_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getSliceIndex(): ?int
+    public function getSliceIndex(): int
     {
         return $this->container['slice_index'];
     }
@@ -292,11 +301,11 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets slice_index
      *
-     * @param int|null $slice_index The slice's position in `details.slices`.
+     * @param int $slice_index The slice's position in `details.slices`.
      *
      * @return $this
      */
-    public function setSliceIndex(?int $slice_index): static
+    public function setSliceIndex(int $slice_index): static
     {
         if (is_null($slice_index)) {
             throw new InvalidArgumentException('non-nullable slice_index cannot be null');
@@ -309,9 +318,9 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets segment_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getSegmentIndex(): ?int
+    public function getSegmentIndex(): int
     {
         return $this->container['segment_index'];
     }
@@ -319,11 +328,11 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets segment_index
      *
-     * @param int|null $segment_index The segment's position within the slice.
+     * @param int $segment_index The segment's position within the slice.
      *
      * @return $this
      */
-    public function setSegmentIndex(?int $segment_index): static
+    public function setSegmentIndex(int $segment_index): static
     {
         if (is_null($segment_index)) {
             throw new InvalidArgumentException('non-nullable segment_index cannot be null');
@@ -336,9 +345,9 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets seat_designator
      *
-     * @return string|null
+     * @return string
      */
-    public function getSeatDesignator(): ?string
+    public function getSeatDesignator(): string
     {
         return $this->container['seat_designator'];
     }
@@ -346,11 +355,11 @@ class SelectedSeat implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets seat_designator
      *
-     * @param string|null $seat_designator The seat, for example `32A`.
+     * @param string $seat_designator The seat, for example `32A`.
      *
      * @return $this
      */
-    public function setSeatDesignator(?string $seat_designator): static
+    public function setSeatDesignator(string $seat_designator): static
     {
         if (is_null($seat_designator)) {
             throw new InvalidArgumentException('non-nullable seat_designator cannot be null');

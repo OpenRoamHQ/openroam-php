@@ -267,6 +267,15 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     {
         $invalidProperties = [];
 
+        if ($this->container['url'] === null) {
+            $invalidProperties[] = "'url' can't be null";
+        }
+        if ($this->container['size_bytes'] === null) {
+            $invalidProperties[] = "'size_bytes' can't be null";
+        }
+        if ($this->container['count'] === null) {
+            $invalidProperties[] = "'count' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets url
      *
-     * @return string|null
+     * @return string
      */
-    public function getUrl(): ?string
+    public function getUrl(): string
     {
         return $this->container['url'];
     }
@@ -292,11 +301,11 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets url
      *
-     * @param string|null $url url
+     * @param string $url A download link for this file, sure to work until `linksExpireAt`; not to be stored.
      *
      * @return $this
      */
-    public function setUrl(?string $url): static
+    public function setUrl(string $url): static
     {
         if (is_null($url)) {
             throw new InvalidArgumentException('non-nullable url cannot be null');
@@ -309,9 +318,9 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets size_bytes
      *
-     * @return int|null
+     * @return int
      */
-    public function getSizeBytes(): ?int
+    public function getSizeBytes(): int
     {
         return $this->container['size_bytes'];
     }
@@ -319,11 +328,11 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets size_bytes
      *
-     * @param int|null $size_bytes size_bytes
+     * @param int $size_bytes size_bytes
      *
      * @return $this
      */
-    public function setSizeBytes(?int $size_bytes): static
+    public function setSizeBytes(int $size_bytes): static
     {
         if (is_null($size_bytes)) {
             throw new InvalidArgumentException('non-nullable size_bytes cannot be null');
@@ -336,9 +345,9 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets count
      *
-     * @return int|null
+     * @return int
      */
-    public function getCount(): ?int
+    public function getCount(): int
     {
         return $this->container['count'];
     }
@@ -346,11 +355,11 @@ class HotelCatalogReplacementFile implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets count
      *
-     * @param int|null $count count
+     * @param int $count count
      *
      * @return $this
      */
-    public function setCount(?int $count): static
+    public function setCount(int $count): static
     {
         if (is_null($count)) {
             throw new InvalidArgumentException('non-nullable count cannot be null');

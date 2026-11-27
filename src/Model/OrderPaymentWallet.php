@@ -61,7 +61,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $openAPITypes = [
         'label' => 'string',
-        'debited' => '\OpenRoam\Model\Money'
+        'debited' => '\OpenRoam\Model\Money',
+        'wallet_id' => 'string'
     ];
 
     /**
@@ -71,7 +72,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $openAPIFormats = [
         'label' => null,
-        'debited' => null
+        'debited' => null,
+        'wallet_id' => 'uuid'
     ];
 
     /**
@@ -81,7 +83,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $openAPINullables = [
         'label' => false,
-        'debited' => false
+        'debited' => false,
+        'wallet_id' => false
     ];
 
     /**
@@ -161,7 +164,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $attributeMap = [
         'label' => 'label',
-        'debited' => 'debited'
+        'debited' => 'debited',
+        'wallet_id' => 'walletId'
     ];
 
     /**
@@ -171,7 +175,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $setters = [
         'label' => 'setLabel',
-        'debited' => 'setDebited'
+        'debited' => 'setDebited',
+        'wallet_id' => 'setWalletId'
     ];
 
     /**
@@ -181,7 +186,8 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     protected static array $getters = [
         'label' => 'getLabel',
-        'debited' => 'getDebited'
+        'debited' => 'getDebited',
+        'wallet_id' => 'getWalletId'
     ];
 
     /**
@@ -233,6 +239,7 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $this->setIfExists('label', $data ?? [], null);
         $this->setIfExists('debited', $data ?? [], null);
+        $this->setIfExists('wallet_id', $data ?? [], null);
     }
 
     /**
@@ -260,6 +267,15 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['debited'] === null) {
+            $invalidProperties[] = "'debited' can't be null";
+        }
+        if ($this->container['wallet_id'] === null) {
+            $invalidProperties[] = "'wallet_id' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +291,9 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -285,11 +301,11 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets label
      *
-     * @param string|null $label The wallet's label.
+     * @param string $label The wallet's label.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -302,9 +318,9 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets debited
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getDebited(): ?\OpenRoam\Model\Money
+    public function getDebited(): \OpenRoam\Model\Money
     {
         return $this->container['debited'];
     }
@@ -312,16 +328,43 @@ class OrderPaymentWallet implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets debited
      *
-     * @param \OpenRoam\Model\Money|null $debited The amount taken, in the wallet's currency.
+     * @param \OpenRoam\Model\Money $debited The amount taken, in the wallet's currency.
      *
      * @return $this
      */
-    public function setDebited(?\OpenRoam\Model\Money $debited): static
+    public function setDebited(\OpenRoam\Model\Money $debited): static
     {
         if (is_null($debited)) {
             throw new InvalidArgumentException('non-nullable debited cannot be null');
         }
         $this->container['debited'] = $debited;
+
+        return $this;
+    }
+
+    /**
+     * Gets wallet_id
+     *
+     * @return string
+     */
+    public function getWalletId(): string
+    {
+        return $this->container['wallet_id'];
+    }
+
+    /**
+     * Sets wallet_id
+     *
+     * @param string $wallet_id The wallet's id on the wallet endpoints.
+     *
+     * @return $this
+     */
+    public function setWalletId(string $wallet_id): static
+    {
+        if (is_null($wallet_id)) {
+            throw new InvalidArgumentException('non-nullable wallet_id cannot be null');
+        }
+        $this->container['wallet_id'] = $wallet_id;
 
         return $this;
     }

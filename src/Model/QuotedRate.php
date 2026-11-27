@@ -61,7 +61,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'rooms' => '\OpenRoam\Model\Room[]',
         'board' => '\OpenRoam\Model\MealPlan',
-        'taxes' => '\OpenRoam\Model\TaxBreakdown',
         'price_is_binding' => 'bool',
         'nightly_prices' => '\OpenRoam\Model\NightlyPrice[]',
         'rate_tags' => 'string[]',
@@ -84,7 +83,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'rooms' => null,
         'board' => null,
-        'taxes' => null,
         'price_is_binding' => null,
         'nightly_prices' => null,
         'rate_tags' => null,
@@ -107,7 +105,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'rooms' => false,
         'board' => false,
-        'taxes' => true,
         'price_is_binding' => true,
         'nightly_prices' => false,
         'rate_tags' => false,
@@ -200,7 +197,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'rooms' => 'rooms',
         'board' => 'board',
-        'taxes' => 'taxes',
         'price_is_binding' => 'priceIsBinding',
         'nightly_prices' => 'nightlyPrices',
         'rate_tags' => 'rateTags',
@@ -223,7 +219,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'rooms' => 'setRooms',
         'board' => 'setBoard',
-        'taxes' => 'setTaxes',
         'price_is_binding' => 'setPriceIsBinding',
         'nightly_prices' => 'setNightlyPrices',
         'rate_tags' => 'setRateTags',
@@ -246,7 +241,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'rooms' => 'getRooms',
         'board' => 'getBoard',
-        'taxes' => 'getTaxes',
         'price_is_binding' => 'getPriceIsBinding',
         'nightly_prices' => 'getNightlyPrices',
         'rate_tags' => 'getRateTags',
@@ -344,7 +338,6 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $this->setIfExists('rooms', $data ?? [], null);
         $this->setIfExists('board', $data ?? [], null);
-        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('price_is_binding', $data ?? [], null);
         $this->setIfExists('nightly_prices', $data ?? [], null);
         $this->setIfExists('rate_tags', $data ?? [], null);
@@ -384,6 +377,33 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['rooms'] === null) {
+            $invalidProperties[] = "'rooms' can't be null";
+        }
+        if ($this->container['board'] === null) {
+            $invalidProperties[] = "'board' can't be null";
+        }
+        if ($this->container['nightly_prices'] === null) {
+            $invalidProperties[] = "'nightly_prices' can't be null";
+        }
+        if ($this->container['rate_tags'] === null) {
+            $invalidProperties[] = "'rate_tags' can't be null";
+        }
+        if ($this->container['remarks'] === null) {
+            $invalidProperties[] = "'remarks' can't be null";
+        }
+        if ($this->container['rate_conditions'] === null) {
+            $invalidProperties[] = "'rate_conditions' can't be null";
+        }
+        if ($this->container['with_transfers'] === null) {
+            $invalidProperties[] = "'with_transfers' can't be null";
+        }
+        if ($this->container['rate_rules'] === null) {
+            $invalidProperties[] = "'rate_rules' can't be null";
+        }
+        if ($this->container['amendability_status'] === null) {
+            $invalidProperties[] = "'amendability_status' can't be null";
+        }
         $allowedValues = self::getAmendabilityStatusAllowableValues();
         if (!is_null($this->container['amendability_status']) && !in_array($this->container['amendability_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -393,6 +413,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['surcharges'] === null) {
+            $invalidProperties[] = "'surcharges' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -408,9 +431,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rooms
      *
-     * @return \OpenRoam\Model\Room[]|null
+     * @return \OpenRoam\Model\Room[]
      */
-    public function getRooms(): ?array
+    public function getRooms(): array
     {
         return $this->container['rooms'];
     }
@@ -418,11 +441,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rooms
      *
-     * @param \OpenRoam\Model\Room[]|null $rooms rooms
+     * @param \OpenRoam\Model\Room[] $rooms rooms
      *
      * @return $this
      */
-    public function setRooms(?array $rooms): static
+    public function setRooms(array $rooms): static
     {
         if (is_null($rooms)) {
             throw new InvalidArgumentException('non-nullable rooms cannot be null');
@@ -435,9 +458,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets board
      *
-     * @return \OpenRoam\Model\MealPlan|null
+     * @return \OpenRoam\Model\MealPlan
      */
-    public function getBoard(): ?\OpenRoam\Model\MealPlan
+    public function getBoard(): \OpenRoam\Model\MealPlan
     {
         return $this->container['board'];
     }
@@ -445,50 +468,16 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets board
      *
-     * @param \OpenRoam\Model\MealPlan|null $board The meal plan a rate is sold with. `boardType` is the value to branch or filter on; `code` is its short form (`RO`, `BB`, `HB`, `FB`, `AI`, or `OTHER` when the plan has no standard equivalent) and `name` the text to show.
+     * @param \OpenRoam\Model\MealPlan $board The meal plan a rate is sold with. `boardType` is the value to branch or filter on; `code` is its short form (`RO`, `BB`, `HB`, `FB`, `AI`, or `OTHER` when the plan has no standard equivalent) and `name` the text to show.
      *
      * @return $this
      */
-    public function setBoard(?\OpenRoam\Model\MealPlan $board): static
+    public function setBoard(\OpenRoam\Model\MealPlan $board): static
     {
         if (is_null($board)) {
             throw new InvalidArgumentException('non-nullable board cannot be null');
         }
         $this->container['board'] = $board;
-
-        return $this;
-    }
-
-    /**
-     * Gets taxes
-     *
-     * @return \OpenRoam\Model\TaxBreakdown|null
-     */
-    public function getTaxes(): ?\OpenRoam\Model\TaxBreakdown
-    {
-        return $this->container['taxes'];
-    }
-
-    /**
-     * Sets taxes
-     *
-     * @param \OpenRoam\Model\TaxBreakdown|null $taxes taxes
-     *
-     * @return $this
-     */
-    public function setTaxes(?\OpenRoam\Model\TaxBreakdown $taxes): static
-    {
-        if (is_null($taxes)) {
-            array_push($this->openAPINullablesSetToNull, 'taxes');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('taxes', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['taxes'] = $taxes;
 
         return $this;
     }
@@ -530,9 +519,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets nightly_prices
      *
-     * @return \OpenRoam\Model\NightlyPrice[]|null
+     * @return \OpenRoam\Model\NightlyPrice[]
      */
-    public function getNightlyPrices(): ?array
+    public function getNightlyPrices(): array
     {
         return $this->container['nightly_prices'];
     }
@@ -540,11 +529,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets nightly_prices
      *
-     * @param \OpenRoam\Model\NightlyPrice[]|null $nightly_prices nightly_prices
+     * @param \OpenRoam\Model\NightlyPrice[] $nightly_prices nightly_prices
      *
      * @return $this
      */
-    public function setNightlyPrices(?array $nightly_prices): static
+    public function setNightlyPrices(array $nightly_prices): static
     {
         if (is_null($nightly_prices)) {
             throw new InvalidArgumentException('non-nullable nightly_prices cannot be null');
@@ -557,9 +546,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_tags
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRateTags(): ?array
+    public function getRateTags(): array
     {
         return $this->container['rate_tags'];
     }
@@ -567,11 +556,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_tags
      *
-     * @param string[]|null $rate_tags rate_tags
+     * @param string[] $rate_tags rate_tags
      *
      * @return $this
      */
-    public function setRateTags(?array $rate_tags): static
+    public function setRateTags(array $rate_tags): static
     {
         if (is_null($rate_tags)) {
             throw new InvalidArgumentException('non-nullable rate_tags cannot be null');
@@ -584,9 +573,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets remarks
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRemarks(): ?array
+    public function getRemarks(): array
     {
         return $this->container['remarks'];
     }
@@ -594,11 +583,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets remarks
      *
-     * @param string[]|null $remarks remarks
+     * @param string[] $remarks remarks
      *
      * @return $this
      */
-    public function setRemarks(?array $remarks): static
+    public function setRemarks(array $remarks): static
     {
         if (is_null($remarks)) {
             throw new InvalidArgumentException('non-nullable remarks cannot be null');
@@ -611,9 +600,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_conditions
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRateConditions(): ?array
+    public function getRateConditions(): array
     {
         return $this->container['rate_conditions'];
     }
@@ -621,11 +610,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_conditions
      *
-     * @param string[]|null $rate_conditions rate_conditions
+     * @param string[] $rate_conditions rate_conditions
      *
      * @return $this
      */
-    public function setRateConditions(?array $rate_conditions): static
+    public function setRateConditions(array $rate_conditions): static
     {
         if (is_null($rate_conditions)) {
             throw new InvalidArgumentException('non-nullable rate_conditions cannot be null');
@@ -638,9 +627,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_transfers
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithTransfers(): ?bool
+    public function getWithTransfers(): bool
     {
         return $this->container['with_transfers'];
     }
@@ -648,11 +637,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_transfers
      *
-     * @param bool|null $with_transfers with_transfers
+     * @param bool $with_transfers with_transfers
      *
      * @return $this
      */
-    public function setWithTransfers(?bool $with_transfers): static
+    public function setWithTransfers(bool $with_transfers): static
     {
         if (is_null($with_transfers)) {
             throw new InvalidArgumentException('non-nullable with_transfers cannot be null');
@@ -665,9 +654,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rate_rules
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRateRules(): ?array
+    public function getRateRules(): array
     {
         return $this->container['rate_rules'];
     }
@@ -675,11 +664,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rate_rules
      *
-     * @param string[]|null $rate_rules rate_rules
+     * @param string[] $rate_rules rate_rules
      *
      * @return $this
      */
-    public function setRateRules(?array $rate_rules): static
+    public function setRateRules(array $rate_rules): static
     {
         if (is_null($rate_rules)) {
             throw new InvalidArgumentException('non-nullable rate_rules cannot be null');
@@ -701,9 +690,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amendability_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getAmendabilityStatus(): ?string
+    public function getAmendabilityStatus(): string
     {
         return $this->container['amendability_status'];
     }
@@ -711,11 +700,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amendability_status
      *
-     * @param string|null $amendability_status amendability_status
+     * @param string $amendability_status amendability_status
      *
      * @return $this
      */
-    public function setAmendabilityStatus(?string $amendability_status): static
+    public function setAmendabilityStatus(string $amendability_status): static
     {
         if (is_null($amendability_status)) {
             throw new InvalidArgumentException('non-nullable amendability_status cannot be null');
@@ -738,9 +727,9 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets surcharges
      *
-     * @return \OpenRoam\Model\Surcharge[]|null
+     * @return \OpenRoam\Model\Surcharge[]
      */
-    public function getSurcharges(): ?array
+    public function getSurcharges(): array
     {
         return $this->container['surcharges'];
     }
@@ -748,11 +737,11 @@ class QuotedRate implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets surcharges
      *
-     * @param \OpenRoam\Model\Surcharge[]|null $surcharges surcharges
+     * @param \OpenRoam\Model\Surcharge[] $surcharges surcharges
      *
      * @return $this
      */
-    public function setSurcharges(?array $surcharges): static
+    public function setSurcharges(array $surcharges): static
     {
         if (is_null($surcharges)) {
             throw new InvalidArgumentException('non-nullable surcharges cannot be null');

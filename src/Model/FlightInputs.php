@@ -321,7 +321,7 @@ class FlightInputs implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\SelectedServiceInput[]|null $selected_services Paid services such as extra baggage, from the quote item's `details.availableServices`. Seats are chosen in `passengers[].selectedSeats`, not here.
+     * @param \OpenRoam\Model\SelectedServiceInput[]|null $selected_services Paid services such as extra baggage, from the quote item's `availableServices`. Seats are chosen in `passengers[].selectedSeats`, not here.
      *
      * @return $this
      */

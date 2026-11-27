@@ -295,6 +295,9 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     {
         $invalidProperties = [];
 
+        if ($this->container['booking_status'] === null) {
+            $invalidProperties[] = "'booking_status' can't be null";
+        }
         $allowedValues = self::getBookingStatusAllowableValues();
         if (!is_null($this->container['booking_status']) && !in_array($this->container['booking_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -304,6 +307,12 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
             );
         }
 
+        if ($this->container['amendment_composition'] === null) {
+            $invalidProperties[] = "'amendment_composition' can't be null";
+        }
+        if ($this->container['booking'] === null) {
+            $invalidProperties[] = "'booking' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -319,9 +328,9 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets booking_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getBookingStatus(): ?string
+    public function getBookingStatus(): string
     {
         return $this->container['booking_status'];
     }
@@ -329,11 +338,11 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets booking_status
      *
-     * @param string|null $booking_status The booking's status at the hotel.
+     * @param string $booking_status The booking's status at the hotel.
      *
      * @return $this
      */
-    public function setBookingStatus(?string $booking_status): static
+    public function setBookingStatus(string $booking_status): static
     {
         if (is_null($booking_status)) {
             throw new InvalidArgumentException('non-nullable booking_status cannot be null');
@@ -390,9 +399,9 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets amendment_composition
      *
-     * @return \OpenRoam\Model\HotelAmendmentCapabilities|null
+     * @return \OpenRoam\Model\HotelAmendmentCapabilities
      */
-    public function getAmendmentComposition(): ?\OpenRoam\Model\HotelAmendmentCapabilities
+    public function getAmendmentComposition(): \OpenRoam\Model\HotelAmendmentCapabilities
     {
         return $this->container['amendment_composition'];
     }
@@ -400,11 +409,11 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets amendment_composition
      *
-     * @param \OpenRoam\Model\HotelAmendmentCapabilities|null $amendment_composition What an amendment may change about the booked rooms and guests. Dates and the holder are always amendable.
+     * @param \OpenRoam\Model\HotelAmendmentCapabilities $amendment_composition What an amendment may change about the booked rooms and guests. Dates and the holder are always amendable.
      *
      * @return $this
      */
-    public function setAmendmentComposition(?\OpenRoam\Model\HotelAmendmentCapabilities $amendment_composition): static
+    public function setAmendmentComposition(\OpenRoam\Model\HotelAmendmentCapabilities $amendment_composition): static
     {
         if (is_null($amendment_composition)) {
             throw new InvalidArgumentException('non-nullable amendment_composition cannot be null');
@@ -417,9 +426,9 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets booking
      *
-     * @return \OpenRoam\Model\HotelBooking|null
+     * @return \OpenRoam\Model\HotelBooking
      */
-    public function getBooking(): ?\OpenRoam\Model\HotelBooking
+    public function getBooking(): \OpenRoam\Model\HotelBooking
     {
         return $this->container['booking'];
     }
@@ -427,11 +436,11 @@ class HotelFulfillmentDetails implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets booking
      *
-     * @param \OpenRoam\Model\HotelBooking|null $booking The dates, holder and guests as booked now.
+     * @param \OpenRoam\Model\HotelBooking $booking The dates, holder and guests as booked now.
      *
      * @return $this
      */
-    public function setBooking(?\OpenRoam\Model\HotelBooking $booking): static
+    public function setBooking(\OpenRoam\Model\HotelBooking $booking): static
     {
         if (is_null($booking)) {
             throw new InvalidArgumentException('non-nullable booking cannot be null');

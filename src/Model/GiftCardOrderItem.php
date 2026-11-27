@@ -63,12 +63,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => 'string',
         'product_type' => 'string',
         'price' => '\OpenRoam\Model\Money',
+        'taxes' => '\OpenRoam\Model\TaxSummary',
         'purchased_product' => '\OpenRoam\Model\GiftCardPurchasedProduct',
         'fulfillment' => '\OpenRoam\Model\GiftCardFulfillment',
         'actions' => '\OpenRoam\Model\OrderItemActions',
         'created_at' => '\DateTime',
         'effective_paid_amount' => '\OpenRoam\Model\Money',
-        'refund' => '\OpenRoam\Model\OrderItemRefund'
+        'refund' => '\OpenRoam\Model\OrderItemRefund',
+        'selling_price' => '\OpenRoam\Model\Money'
     ];
 
     /**
@@ -81,12 +83,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => 'uuid',
         'product_type' => null,
         'price' => null,
+        'taxes' => null,
         'purchased_product' => null,
         'fulfillment' => null,
         'actions' => null,
         'created_at' => 'date-time',
         'effective_paid_amount' => null,
-        'refund' => null
+        'refund' => null,
+        'selling_price' => null
     ];
 
     /**
@@ -99,12 +103,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => false,
         'product_type' => false,
         'price' => false,
+        'taxes' => false,
         'purchased_product' => false,
         'fulfillment' => false,
         'actions' => false,
         'created_at' => false,
         'effective_paid_amount' => false,
-        'refund' => true
+        'refund' => true,
+        'selling_price' => true
     ];
 
     /**
@@ -187,12 +193,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => 'orderId',
         'product_type' => 'productType',
         'price' => 'price',
+        'taxes' => 'taxes',
         'purchased_product' => 'purchasedProduct',
         'fulfillment' => 'fulfillment',
         'actions' => 'actions',
         'created_at' => 'createdAt',
         'effective_paid_amount' => 'effectivePaidAmount',
-        'refund' => 'refund'
+        'refund' => 'refund',
+        'selling_price' => 'sellingPrice'
     ];
 
     /**
@@ -205,12 +213,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => 'setOrderId',
         'product_type' => 'setProductType',
         'price' => 'setPrice',
+        'taxes' => 'setTaxes',
         'purchased_product' => 'setPurchasedProduct',
         'fulfillment' => 'setFulfillment',
         'actions' => 'setActions',
         'created_at' => 'setCreatedAt',
         'effective_paid_amount' => 'setEffectivePaidAmount',
-        'refund' => 'setRefund'
+        'refund' => 'setRefund',
+        'selling_price' => 'setSellingPrice'
     ];
 
     /**
@@ -223,12 +233,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         'order_id' => 'getOrderId',
         'product_type' => 'getProductType',
         'price' => 'getPrice',
+        'taxes' => 'getTaxes',
         'purchased_product' => 'getPurchasedProduct',
         'fulfillment' => 'getFulfillment',
         'actions' => 'getActions',
         'created_at' => 'getCreatedAt',
         'effective_paid_amount' => 'getEffectivePaidAmount',
-        'refund' => 'getRefund'
+        'refund' => 'getRefund',
+        'selling_price' => 'getSellingPrice'
     ];
 
     /**
@@ -295,12 +307,14 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('order_id', $data ?? [], null);
         $this->setIfExists('product_type', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('purchased_product', $data ?? [], null);
         $this->setIfExists('fulfillment', $data ?? [], null);
         $this->setIfExists('actions', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('effective_paid_amount', $data ?? [], null);
         $this->setIfExists('refund', $data ?? [], null);
+        $this->setIfExists('selling_price', $data ?? [], null);
     }
 
     /**
@@ -328,6 +342,12 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['order_id'] === null) {
+            $invalidProperties[] = "'order_id' can't be null";
+        }
         if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
@@ -340,6 +360,27 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['purchased_product'] === null) {
+            $invalidProperties[] = "'purchased_product' can't be null";
+        }
+        if ($this->container['fulfillment'] === null) {
+            $invalidProperties[] = "'fulfillment' can't be null";
+        }
+        if ($this->container['actions'] === null) {
+            $invalidProperties[] = "'actions' can't be null";
+        }
+        if ($this->container['created_at'] === null) {
+            $invalidProperties[] = "'created_at' can't be null";
+        }
+        if ($this->container['effective_paid_amount'] === null) {
+            $invalidProperties[] = "'effective_paid_amount' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -355,9 +396,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -365,11 +406,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Order item id, used by the order-item endpoints. It is not the offer's `publicId`.
+     * @param string $id Order item id, used by the order-item endpoints. It is not the offer's `publicId`.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -382,9 +423,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets order_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->container['order_id'];
     }
@@ -392,11 +433,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets order_id
      *
-     * @param string|null $order_id The order the item belongs to.
+     * @param string $order_id The order the item belongs to.
      *
      * @return $this
      */
-    public function setOrderId(?string $order_id): static
+    public function setOrderId(string $order_id): static
     {
         if (is_null($order_id)) {
             throw new InvalidArgumentException('non-nullable order_id cannot be null');
@@ -446,9 +487,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -456,11 +497,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price The price paid for the item at purchase, in the order's currency.
+     * @param \OpenRoam\Model\Money $price The price paid for the item at purchase, in the order's currency.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -471,11 +512,38 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside `price`, as stated when the item was bought.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
      * Gets purchased_product
      *
-     * @return \OpenRoam\Model\GiftCardPurchasedProduct|null
+     * @return \OpenRoam\Model\GiftCardPurchasedProduct
      */
-    public function getPurchasedProduct(): ?\OpenRoam\Model\GiftCardPurchasedProduct
+    public function getPurchasedProduct(): \OpenRoam\Model\GiftCardPurchasedProduct
     {
         return $this->container['purchased_product'];
     }
@@ -483,11 +551,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets purchased_product
      *
-     * @param \OpenRoam\Model\GiftCardPurchasedProduct|null $purchased_product purchased_product
+     * @param \OpenRoam\Model\GiftCardPurchasedProduct $purchased_product purchased_product
      *
      * @return $this
      */
-    public function setPurchasedProduct(?\OpenRoam\Model\GiftCardPurchasedProduct $purchased_product): static
+    public function setPurchasedProduct(\OpenRoam\Model\GiftCardPurchasedProduct $purchased_product): static
     {
         if (is_null($purchased_product)) {
             throw new InvalidArgumentException('non-nullable purchased_product cannot be null');
@@ -500,9 +568,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets fulfillment
      *
-     * @return \OpenRoam\Model\GiftCardFulfillment|null
+     * @return \OpenRoam\Model\GiftCardFulfillment
      */
-    public function getFulfillment(): ?\OpenRoam\Model\GiftCardFulfillment
+    public function getFulfillment(): \OpenRoam\Model\GiftCardFulfillment
     {
         return $this->container['fulfillment'];
     }
@@ -510,11 +578,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets fulfillment
      *
-     * @param \OpenRoam\Model\GiftCardFulfillment|null $fulfillment fulfillment
+     * @param \OpenRoam\Model\GiftCardFulfillment $fulfillment fulfillment
      *
      * @return $this
      */
-    public function setFulfillment(?\OpenRoam\Model\GiftCardFulfillment $fulfillment): static
+    public function setFulfillment(\OpenRoam\Model\GiftCardFulfillment $fulfillment): static
     {
         if (is_null($fulfillment)) {
             throw new InvalidArgumentException('non-nullable fulfillment cannot be null');
@@ -527,9 +595,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets actions
      *
-     * @return \OpenRoam\Model\OrderItemActions|null
+     * @return \OpenRoam\Model\OrderItemActions
      */
-    public function getActions(): ?\OpenRoam\Model\OrderItemActions
+    public function getActions(): \OpenRoam\Model\OrderItemActions
     {
         return $this->container['actions'];
     }
@@ -537,11 +605,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets actions
      *
-     * @param \OpenRoam\Model\OrderItemActions|null $actions Whether the item can be amended or cancelled now.
+     * @param \OpenRoam\Model\OrderItemActions $actions Whether the item can be amended or cancelled now.
      *
      * @return $this
      */
-    public function setActions(?\OpenRoam\Model\OrderItemActions $actions): static
+    public function setActions(\OpenRoam\Model\OrderItemActions $actions): static
     {
         if (is_null($actions)) {
             throw new InvalidArgumentException('non-nullable actions cannot be null');
@@ -554,9 +622,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets created_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTime
     {
         return $this->container['created_at'];
     }
@@ -564,11 +632,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets created_at
      *
-     * @param \DateTime|null $created_at When the item was created (UTC).
+     * @param \DateTime $created_at When the item was created (UTC).
      *
      * @return $this
      */
-    public function setCreatedAt(?\DateTime $created_at): static
+    public function setCreatedAt(\DateTime $created_at): static
     {
         if (is_null($created_at)) {
             throw new InvalidArgumentException('non-nullable created_at cannot be null');
@@ -581,9 +649,9 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets effective_paid_amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getEffectivePaidAmount(): ?\OpenRoam\Model\Money
+    public function getEffectivePaidAmount(): \OpenRoam\Model\Money
     {
         return $this->container['effective_paid_amount'];
     }
@@ -591,11 +659,11 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets effective_paid_amount
      *
-     * @param \OpenRoam\Model\Money|null $effective_paid_amount What has been paid for the item so far: `price` plus completed amendment             charges, less completed amendment credits.
+     * @param \OpenRoam\Model\Money $effective_paid_amount What you have paid for the item, net of every amount returned: `price` plus             completed amendment charges, less completed amendment credits and less the completed `refund`.
      *
      * @return $this
      */
-    public function setEffectivePaidAmount(?\OpenRoam\Model\Money $effective_paid_amount): static
+    public function setEffectivePaidAmount(\OpenRoam\Model\Money $effective_paid_amount): static
     {
         if (is_null($effective_paid_amount)) {
             throw new InvalidArgumentException('non-nullable effective_paid_amount cannot be null');
@@ -635,6 +703,40 @@ class GiftCardOrderItem implements ModelInterface, ArrayAccess, JsonSerializable
             }
         }
         $this->container['refund'] = $refund;
+
+        return $this;
+    }
+
+    /**
+     * Gets selling_price
+     *
+     * @return \OpenRoam\Model\Money|null
+     */
+    public function getSellingPrice(): ?\OpenRoam\Model\Money
+    {
+        return $this->container['selling_price'];
+    }
+
+    /**
+     * Sets selling_price
+     *
+     * @param \OpenRoam\Model\Money|null $selling_price On an order placed from a checkout of your site that takes payment on your own page, what the traveller             paid you for this unit, in the checkout's currency: the checkout item's `sellingPrice`. Refund this part to             the traveller when the item is refunded. `null` on every other order.
+     *
+     * @return $this
+     */
+    public function setSellingPrice(?\OpenRoam\Model\Money $selling_price): static
+    {
+        if (is_null($selling_price)) {
+            array_push($this->openAPINullablesSetToNull, 'selling_price');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('selling_price', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['selling_price'] = $selling_price;
 
         return $this;
     }

@@ -62,7 +62,7 @@ final class Transport
         }
         $baseUrl = $settings['baseUrl'] ?? self::ENVIRONMENTS[$environment];
         if (!is_string($baseUrl) || $baseUrl === '') {
-            throw new OpenRoamException('baseUrl must be a URL, for example https://b2b-api-sandbox.openroam.com.');
+            throw new OpenRoamException('baseUrl must be a URL, for example https://api.sandbox.openroam.com.');
         }
 
         $maxRetries = $settings['maxRetries'] ?? 0;

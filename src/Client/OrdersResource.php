@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace OpenRoam\Client;
 
-/** orders: 8 methods. Reach it through the OpenRoam client. */
+/** orders: 6 methods. Reach it through the OpenRoam client. */
 class OrdersResource
 {
     /** @internal Made by the OpenRoam client. */
@@ -14,9 +14,9 @@ class OrdersResource
     }
 
     /**
-     * List orders. GET /api/v1/b2b/orders
+     * List orders. GET /v1/orders
      *
-     * @param array{page?: int, limit?: int, startDate?: \DateTimeInterface|string, endDate?: \DateTimeInterface|string, minAmount?: float|int, maxAmount?: float|int, search?: string, referenceId?: string, salesChannel?: string, productTypes?: array<int, string>, orderStatuses?: array<int, string>} $query
+     * @param array{page?: int, limit?: int, startDate?: \DateTimeInterface|string, endDate?: \DateTimeInterface|string, minAmount?: float|int, maxAmount?: float|int, search?: string, referenceId?: string, channel?: string, productTypes?: array<int, string>, orderStatuses?: array<int, string>} $query
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
      */
@@ -25,13 +25,13 @@ class OrdersResource
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
             'operation' => 'ordersGetAll',
-            'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'startDate' => ['start_date', '\DateTime'], 'endDate' => ['end_date', '\DateTime'], 'minAmount' => ['min_amount', 'float'], 'maxAmount' => ['max_amount', 'float'], 'search' => ['search', 'string'], 'referenceId' => ['reference_id', 'string'], 'salesChannel' => ['sales_channel', 'string'], 'productTypes' => ['product_types', 'array'], 'orderStatuses' => ['order_statuses', 'array']],
+            'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'startDate' => ['start_date', '\DateTime'], 'endDate' => ['end_date', '\DateTime'], 'minAmount' => ['min_amount', 'float'], 'maxAmount' => ['max_amount', 'float'], 'search' => ['search', 'string'], 'referenceId' => ['reference_id', 'string'], 'channel' => ['channel', 'string'], 'productTypes' => ['product_types', 'array'], 'orderStatuses' => ['order_statuses', 'array']],
             'returns' => '\OpenRoam\Model\OrderList',
         ], options: $options, query: $query);
     }
 
     /**
-     * Create an order. POST /api/v1/b2b/orders
+     * Create an order. POST /v1/orders
      *
      * @param \OpenRoam\Model\MixedOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -50,7 +50,7 @@ class OrdersResource
     }
 
     /**
-     * Get an order. GET /api/v1/b2b/orders/{id}
+     * Get an order. GET /v1/orders/{id}
      *
      * @param string $id
      * @param array{timeout?: float|int} $options
@@ -67,7 +67,7 @@ class OrdersResource
     }
 
     /**
-     * Quote an order. POST /api/v1/b2b/orders/quote
+     * Quote an order. POST /v1/orders/quote
      *
      * @param \OpenRoam\Model\MixedOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -85,43 +85,7 @@ class OrdersResource
     }
 
     /**
-     * Retry an order's payment. POST /api/v1/b2b/orders/{orderId}/payment/retry
-     *
-     * @param string $orderId
-     * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function retryPayment(string $orderId, array $options = []): \OpenRoam\Model\OrderPaymentRetryResult
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrdersApi::class,
-            'operation' => 'ordersRetryPayment',
-            'path' => ['order_id' => $orderId],
-            'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\OrderPaymentRetryResult',
-        ], options: $options);
-    }
-
-    /**
-     * Retry an order's fulfillment. POST /api/v1/b2b/orders/{orderId}/fulfillment/retry
-     *
-     * @param string $orderId
-     * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function retryFulfillment(string $orderId, array $options = []): \OpenRoam\Model\OrderFulfillmentRetryResult
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrdersApi::class,
-            'operation' => 'ordersRetryFulfillment',
-            'path' => ['order_id' => $orderId],
-            'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\OrderFulfillmentRetryResult',
-        ], options: $options);
-    }
-
-    /**
-     * Get fulfillment status. GET /api/v1/b2b/orders/{orderId}/fulfillment/status
+     * Get fulfillment status. GET /v1/orders/{orderId}/fulfillment/status
      *
      * @param string $orderId
      * @param array{timeout?: float|int} $options
@@ -138,19 +102,23 @@ class OrdersResource
     }
 
     /**
-     * Preview an order cancellation. GET /api/v1/b2b/orders/{id}/cancellation-preview
+     * Resend a traveller email. POST /v1/orders/{id}/emails/resend
      *
      * @param string $id
-     * @param array{timeout?: float|int} $options
+     * @param \OpenRoam\Model\OrderEmailResendRequest|array $body the model, or an array of the same fields
+     * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function getCancellationPreview(string $id, array $options = []): \OpenRoam\Model\OrderCancellationPreview
+    public function resendEmail(string $id, \OpenRoam\Model\OrderEmailResendRequest|array $body, array $options = []): \OpenRoam\Model\OrderEmailResendResult
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrdersApi::class,
-            'operation' => 'ordersGetCancellationPreview',
+            'operation' => 'ordersResendEmail',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\OrderCancellationPreview',
-        ], options: $options);
+            'body' => 'order_email_resend_request',
+            'bodyType' => '\OpenRoam\Model\OrderEmailResendRequest',
+            'idempotencyKey' => 'idempotency_key',
+            'returns' => '\OpenRoam\Model\OrderEmailResendResult',
+        ], options: $options, body: $body);
     }
 }

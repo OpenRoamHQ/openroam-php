@@ -288,6 +288,15 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -303,9 +312,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -313,11 +322,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -432,9 +441,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\GiftCardPurchasedInputs|null
+     * @return \OpenRoam\Model\GiftCardPurchasedInputs
      */
-    public function getInputs(): ?\OpenRoam\Model\GiftCardPurchasedInputs
+    public function getInputs(): \OpenRoam\Model\GiftCardPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -442,11 +451,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\GiftCardPurchasedInputs|null $inputs The item's `inputs` under the request's keys. `recipientIdentifier` and `recipientEmail` are masked; `giftMessage` is returned as given. The identifier is echoed only when the card required it.
+     * @param \OpenRoam\Model\GiftCardPurchasedInputs $inputs The item's `inputs` under the request's keys. `recipientIdentifier` and `recipientEmail` are masked; `giftMessage` is returned as given. The identifier is echoed only when the card required it.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\GiftCardPurchasedInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\GiftCardPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -459,9 +468,9 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\GiftCardPurchasedDetails|null
+     * @return \OpenRoam\Model\GiftCardPurchasedDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\GiftCardPurchasedDetails
+    public function getDetails(): \OpenRoam\Model\GiftCardPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -469,11 +478,11 @@ class GiftCardPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\GiftCardPurchasedDetails|null $details Gift card facts outside the purchased-product keys every partner service shares, as captured when the card was added. `redemptionInstructions` is the detailed text, or the summary when the card has only that.
+     * @param \OpenRoam\Model\GiftCardPurchasedDetails $details Gift card facts outside the purchased-product keys every partner service shares, as captured when the card was added. `redemptionInstructions` is the detailed text, or the summary when the card has only that.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\GiftCardPurchasedDetails $details): static
+    public function setDetails(\OpenRoam\Model\GiftCardPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

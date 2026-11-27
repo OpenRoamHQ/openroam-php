@@ -281,6 +281,15 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['inputs'] === null) {
+            $invalidProperties[] = "'inputs' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +305,9 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -306,11 +315,11 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets name
      *
-     * @param string|null $name The name the quote gave the fare, `\"{route} · {dates} · {fare}\"`.
+     * @param string $name The name the quote gave the fare, `\"{route} · {dates} · {fare}\"`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -391,9 +400,9 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets inputs
      *
-     * @return \OpenRoam\Model\FlightPurchasedInputs|null
+     * @return \OpenRoam\Model\FlightPurchasedInputs
      */
-    public function getInputs(): ?\OpenRoam\Model\FlightPurchasedInputs
+    public function getInputs(): \OpenRoam\Model\FlightPurchasedInputs
     {
         return $this->container['inputs'];
     }
@@ -401,11 +410,11 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets inputs
      *
-     * @param \OpenRoam\Model\FlightPurchasedInputs|null $inputs The item's inputs as applied, with contacts and document numbers masked.
+     * @param \OpenRoam\Model\FlightPurchasedInputs $inputs The item's inputs as applied, with contacts and document numbers masked.
      *
      * @return $this
      */
-    public function setInputs(?\OpenRoam\Model\FlightPurchasedInputs $inputs): static
+    public function setInputs(\OpenRoam\Model\FlightPurchasedInputs $inputs): static
     {
         if (is_null($inputs)) {
             throw new InvalidArgumentException('non-nullable inputs cannot be null');
@@ -418,9 +427,9 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\FlightPurchasedDetails|null
+     * @return \OpenRoam\Model\FlightPurchasedDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\FlightPurchasedDetails
+    public function getDetails(): \OpenRoam\Model\FlightPurchasedDetails
     {
         return $this->container['details'];
     }
@@ -428,11 +437,11 @@ class FlightPurchasedProduct implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\FlightPurchasedDetails|null $details The flights, the fare's terms, the paid extras and what the item cost.
+     * @param \OpenRoam\Model\FlightPurchasedDetails $details The flights, the fare's terms, the paid extras and what the item cost.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\FlightPurchasedDetails $details): static
+    public function setDetails(\OpenRoam\Model\FlightPurchasedDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

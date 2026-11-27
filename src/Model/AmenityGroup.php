@@ -267,6 +267,15 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['key'] === null) {
+            $invalidProperties[] = "'key' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['codes'] === null) {
+            $invalidProperties[] = "'codes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets key
      *
-     * @return string|null
+     * @return string
      */
-    public function getKey(): ?string
+    public function getKey(): string
     {
         return $this->container['key'];
     }
@@ -292,11 +301,11 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets key
      *
-     * @param string|null $key Stable group key, as listed by `hotels/amenities/catalog`.
+     * @param string $key Stable group key, as listed by `hotels/amenities/catalog`.
      *
      * @return $this
      */
-    public function setKey(?string $key): static
+    public function setKey(string $key): static
     {
         if (is_null($key)) {
             throw new InvalidArgumentException('non-nullable key cannot be null');
@@ -309,9 +318,9 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -319,11 +328,11 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label Display text in the request's language.
+     * @param string $label Display text in the request's language.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -336,9 +345,9 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets codes
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getCodes(): ?array
+    public function getCodes(): array
     {
         return $this->container['codes'];
     }
@@ -346,11 +355,11 @@ class AmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets codes
      *
-     * @param string[]|null $codes Canonical amenity codes in this group that have positive candidate counts.
+     * @param string[] $codes Canonical amenity codes in this group that have positive candidate counts.
      *
      * @return $this
      */
-    public function setCodes(?array $codes): static
+    public function setCodes(array $codes): static
     {
         if (is_null($codes)) {
             throw new InvalidArgumentException('non-nullable codes cannot be null');

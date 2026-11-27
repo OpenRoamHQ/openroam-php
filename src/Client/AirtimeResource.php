@@ -14,7 +14,7 @@ class AirtimeResource
     }
 
     /**
-     * Airtime catalog. GET /api/v1/b2b/airtime/catalog
+     * Airtime catalog. GET /v1/airtime/catalog
      *
      * @param array{countryCode?: string, cursor?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -31,7 +31,7 @@ class AirtimeResource
     }
 
     /**
-     * Search airtime by phone number. GET /api/v1/b2b/airtime/search
+     * Search airtime by phone number. GET /v1/airtime/search
      *
      * @param array{phoneNumber: string, valueType?: string, valueCurrency?: string, minValue?: float|int, maxValue?: float|int, minPrice?: float|int, maxPrice?: float|int, currency?: string, page?: int, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -48,7 +48,7 @@ class AirtimeResource
     }
 
     /**
-     * Look up a phone number. GET /api/v1/b2b/airtime/number-lookup
+     * Look up a phone number. GET /v1/airtime/number-lookup
      *
      * @param array{phoneNumber: string} $query
      * @param array{timeout?: float|int} $options
@@ -65,7 +65,7 @@ class AirtimeResource
     }
 
     /**
-     * List airtime operators. GET /api/v1/b2b/airtime/operators
+     * List airtime operators. GET /v1/airtime/operators
      *
      * @param array{countryCode: string} $query
      * @param array{timeout?: float|int} $options
@@ -82,7 +82,7 @@ class AirtimeResource
     }
 
     /**
-     * Get an airtime operator. GET /api/v1/b2b/airtime/operators/{id}
+     * Get an airtime operator. GET /v1/airtime/operators/{id}
      *
      * @param string $id
      * @param array{phoneNumber: string, valueType?: string, valueCurrency?: string, minValue?: float|int, maxValue?: float|int, minPrice?: float|int, maxPrice?: float|int, currency?: string} $query
@@ -101,7 +101,7 @@ class AirtimeResource
     }
 
     /**
-     * Quote airtime. POST /api/v1/b2b/airtime/quote
+     * Quote airtime. POST /v1/airtime/quote
      *
      * @param \OpenRoam\Model\AirtimeOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -119,7 +119,7 @@ class AirtimeResource
     }
 
     /**
-     * Order airtime. POST /api/v1/b2b/airtime/order
+     * Order airtime. POST /v1/airtime/order
      *
      * @param \OpenRoam\Model\AirtimeOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call

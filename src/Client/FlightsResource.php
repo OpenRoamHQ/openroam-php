@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace OpenRoam\Client;
 
-/** flights: 4 methods. Reach it through the OpenRoam client. */
+/** flights: 5 methods. Reach it through the OpenRoam client. */
 class FlightsResource
 {
     /** @internal Made by the OpenRoam client. */
@@ -14,7 +14,24 @@ class FlightsResource
     }
 
     /**
-     * Search flights. POST /api/v1/b2b/flights/search
+     * Find flight places. GET /v1/flights/places
+     *
+     * @param array{q: string, category?: string, limit?: int} $query
+     * @param array{timeout?: float|int} $options
+     * @throws \OpenRoam\OpenRoamException
+     */
+    public function listPlaces(array $query, array $options = []): \OpenRoam\Model\FlightPlaceList
+    {
+        return $this->transport->call([
+            'api' => \OpenRoam\Api\FlightsApi::class,
+            'operation' => 'flightsGetPlaces',
+            'query' => ['q' => ['q', 'string'], 'category' => ['category', 'string'], 'limit' => ['limit', 'int']],
+            'returns' => '\OpenRoam\Model\FlightPlaceList',
+        ], options: $options, query: $query);
+    }
+
+    /**
+     * Search flights. POST /v1/flights/search
      *
      * @param \OpenRoam\Model\FlightSearchRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -32,7 +49,7 @@ class FlightsResource
     }
 
     /**
-     * Quote flights. POST /api/v1/b2b/flights/quote
+     * Quote flights. POST /v1/flights/quote
      *
      * @param \OpenRoam\Model\FlightOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -50,7 +67,7 @@ class FlightsResource
     }
 
     /**
-     * Order flights. POST /api/v1/b2b/flights/order
+     * Order flights. POST /v1/flights/order
      *
      * @param \OpenRoam\Model\FlightOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -69,7 +86,7 @@ class FlightsResource
     }
 
     /**
-     * Get a flight seat map. GET /api/v1/b2b/flights/offers/{publicId}/seat-map
+     * Get a flight seat map. GET /v1/flights/offers/{publicId}/seat-map
      *
      * @param string $publicId
      * @param array{timeout?: float|int} $options

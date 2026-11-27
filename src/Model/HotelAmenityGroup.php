@@ -260,6 +260,12 @@ class HotelAmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['key'] === null) {
+            $invalidProperties[] = "'key' can't be null";
+        }
+        if ($this->container['codes'] === null) {
+            $invalidProperties[] = "'codes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class HotelAmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets key
      *
-     * @return string|null
+     * @return string
      */
-    public function getKey(): ?string
+    public function getKey(): string
     {
         return $this->container['key'];
     }
@@ -285,11 +291,11 @@ class HotelAmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets key
      *
-     * @param string|null $key Stable group key, matching an amenity group enum member.
+     * @param string $key Stable group key, matching an amenity group enum member.
      *
      * @return $this
      */
-    public function setKey(?string $key): static
+    public function setKey(string $key): static
     {
         if (is_null($key)) {
             throw new InvalidArgumentException('non-nullable key cannot be null');
@@ -302,9 +308,9 @@ class HotelAmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets codes
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getCodes(): ?array
+    public function getCodes(): array
     {
         return $this->container['codes'];
     }
@@ -312,11 +318,11 @@ class HotelAmenityGroup implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets codes
      *
-     * @param string[]|null $codes Canonical codes in this group, in enum declaration order.
+     * @param string[] $codes Canonical codes in this group, in enum declaration order.
      *
      * @return $this
      */
-    public function setCodes(?array $codes): static
+    public function setCodes(array $codes): static
     {
         if (is_null($codes)) {
             throw new InvalidArgumentException('non-nullable codes cannot be null');

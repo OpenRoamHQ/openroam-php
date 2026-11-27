@@ -279,6 +279,9 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
         if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
@@ -291,6 +294,9 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
             );
         }
 
+        if ($this->container['fulfillment'] === null) {
+            $invalidProperties[] = "'fulfillment' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -306,9 +312,9 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -316,11 +322,11 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -370,9 +376,9 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Gets fulfillment
      *
-     * @return \OpenRoam\Model\FlightFulfillment|null
+     * @return \OpenRoam\Model\FlightFulfillment
      */
-    public function getFulfillment(): ?\OpenRoam\Model\FlightFulfillment
+    public function getFulfillment(): \OpenRoam\Model\FlightFulfillment
     {
         return $this->container['fulfillment'];
     }
@@ -380,11 +386,11 @@ class FlightFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSerial
     /**
      * Sets fulfillment
      *
-     * @param \OpenRoam\Model\FlightFulfillment|null $fulfillment fulfillment
+     * @param \OpenRoam\Model\FlightFulfillment $fulfillment fulfillment
      *
      * @return $this
      */
-    public function setFulfillment(?\OpenRoam\Model\FlightFulfillment $fulfillment): static
+    public function setFulfillment(\OpenRoam\Model\FlightFulfillment $fulfillment): static
     {
         if (is_null($fulfillment)) {
             throw new InvalidArgumentException('non-nullable fulfillment cannot be null');

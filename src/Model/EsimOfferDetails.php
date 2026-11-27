@@ -62,7 +62,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'validity_days' => 'int',
         'data' => '\OpenRoam\Model\EsimDataAllowance',
-        'is_unlimited' => 'bool',
         'voice' => '\OpenRoam\Model\EsimVoiceAllowance',
         'sms' => '\OpenRoam\Model\EsimSmsAllowance',
         'apn' => '\OpenRoam\Model\EsimApn',
@@ -80,7 +79,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'validity_days' => 'int32',
         'data' => null,
-        'is_unlimited' => null,
         'voice' => null,
         'sms' => null,
         'apn' => null,
@@ -98,7 +96,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'validity_days' => false,
         'data' => false,
-        'is_unlimited' => false,
         'voice' => true,
         'sms' => true,
         'apn' => false,
@@ -186,7 +183,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'validity_days' => 'validityDays',
         'data' => 'data',
-        'is_unlimited' => 'isUnlimited',
         'voice' => 'voice',
         'sms' => 'sms',
         'apn' => 'apn',
@@ -204,7 +200,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'validity_days' => 'setValidityDays',
         'data' => 'setData',
-        'is_unlimited' => 'setIsUnlimited',
         'voice' => 'setVoice',
         'sms' => 'setSms',
         'apn' => 'setApn',
@@ -222,7 +217,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'validity_days' => 'getValidityDays',
         'data' => 'getData',
-        'is_unlimited' => 'getIsUnlimited',
         'voice' => 'getVoice',
         'sms' => 'getSms',
         'apn' => 'getApn',
@@ -281,7 +275,6 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $this->setIfExists('validity_days', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
-        $this->setIfExists('is_unlimited', $data ?? [], null);
         $this->setIfExists('voice', $data ?? [], null);
         $this->setIfExists('sms', $data ?? [], null);
         $this->setIfExists('apn', $data ?? [], null);
@@ -316,6 +309,24 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['validity_days'] === null) {
+            $invalidProperties[] = "'validity_days' can't be null";
+        }
+        if ($this->container['data'] === null) {
+            $invalidProperties[] = "'data' can't be null";
+        }
+        if ($this->container['apn'] === null) {
+            $invalidProperties[] = "'apn' can't be null";
+        }
+        if ($this->container['properties'] === null) {
+            $invalidProperties[] = "'properties' can't be null";
+        }
+        if ($this->container['restrictions'] === null) {
+            $invalidProperties[] = "'restrictions' can't be null";
+        }
+        if ($this->container['notes'] === null) {
+            $invalidProperties[] = "'notes' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -331,9 +342,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets validity_days
      *
-     * @return int|null
+     * @return int
      */
-    public function getValidityDays(): ?int
+    public function getValidityDays(): int
     {
         return $this->container['validity_days'];
     }
@@ -341,11 +352,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets validity_days
      *
-     * @param int|null $validity_days validity_days
+     * @param int $validity_days How many days the plan is valid, counted from activation.
      *
      * @return $this
      */
-    public function setValidityDays(?int $validity_days): static
+    public function setValidityDays(int $validity_days): static
     {
         if (is_null($validity_days)) {
             throw new InvalidArgumentException('non-nullable validity_days cannot be null');
@@ -358,9 +369,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\EsimDataAllowance|null
+     * @return \OpenRoam\Model\EsimDataAllowance
      */
-    public function getData(): ?\OpenRoam\Model\EsimDataAllowance
+    public function getData(): \OpenRoam\Model\EsimDataAllowance
     {
         return $this->container['data'];
     }
@@ -368,43 +379,16 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimDataAllowance|null $data The plan's data allowance as the catalogue stores it: amount, unit and display label.
+     * @param \OpenRoam\Model\EsimDataAllowance $data The plan's data allowance; `data.isUnlimited` says whether the data is unlimited.
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\EsimDataAllowance $data): static
+    public function setData(\OpenRoam\Model\EsimDataAllowance $data): static
     {
         if (is_null($data)) {
             throw new InvalidArgumentException('non-nullable data cannot be null');
         }
         $this->container['data'] = $data;
-
-        return $this;
-    }
-
-    /**
-     * Gets is_unlimited
-     *
-     * @return bool|null
-     */
-    public function getIsUnlimited(): ?bool
-    {
-        return $this->container['is_unlimited'];
-    }
-
-    /**
-     * Sets is_unlimited
-     *
-     * @param bool|null $is_unlimited is_unlimited
-     *
-     * @return $this
-     */
-    public function setIsUnlimited(?bool $is_unlimited): static
-    {
-        if (is_null($is_unlimited)) {
-            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
-        }
-        $this->container['is_unlimited'] = $is_unlimited;
 
         return $this;
     }
@@ -480,9 +464,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets apn
      *
-     * @return \OpenRoam\Model\EsimApn|null
+     * @return \OpenRoam\Model\EsimApn
      */
-    public function getApn(): ?\OpenRoam\Model\EsimApn
+    public function getApn(): \OpenRoam\Model\EsimApn
     {
         return $this->container['apn'];
     }
@@ -490,11 +474,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets apn
      *
-     * @param \OpenRoam\Model\EsimApn|null $apn apn
+     * @param \OpenRoam\Model\EsimApn $apn apn
      *
      * @return $this
      */
-    public function setApn(?\OpenRoam\Model\EsimApn $apn): static
+    public function setApn(\OpenRoam\Model\EsimApn $apn): static
     {
         if (is_null($apn)) {
             throw new InvalidArgumentException('non-nullable apn cannot be null');
@@ -507,9 +491,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets properties
      *
-     * @return \OpenRoam\Model\EsimFeatures|null
+     * @return \OpenRoam\Model\EsimFeatures
      */
-    public function getProperties(): ?\OpenRoam\Model\EsimFeatures
+    public function getProperties(): \OpenRoam\Model\EsimFeatures
     {
         return $this->container['properties'];
     }
@@ -517,11 +501,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets properties
      *
-     * @param \OpenRoam\Model\EsimFeatures|null $properties properties
+     * @param \OpenRoam\Model\EsimFeatures $properties properties
      *
      * @return $this
      */
-    public function setProperties(?\OpenRoam\Model\EsimFeatures $properties): static
+    public function setProperties(\OpenRoam\Model\EsimFeatures $properties): static
     {
         if (is_null($properties)) {
             throw new InvalidArgumentException('non-nullable properties cannot be null');
@@ -534,9 +518,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets restrictions
      *
-     * @return \OpenRoam\Model\EsimRestrictions|null
+     * @return \OpenRoam\Model\EsimRestrictions
      */
-    public function getRestrictions(): ?\OpenRoam\Model\EsimRestrictions
+    public function getRestrictions(): \OpenRoam\Model\EsimRestrictions
     {
         return $this->container['restrictions'];
     }
@@ -544,11 +528,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets restrictions
      *
-     * @param \OpenRoam\Model\EsimRestrictions|null $restrictions restrictions
+     * @param \OpenRoam\Model\EsimRestrictions $restrictions A plan's throttling and expiry. Every throttle field is null when the plan does not throttle.
      *
      * @return $this
      */
-    public function setRestrictions(?\OpenRoam\Model\EsimRestrictions $restrictions): static
+    public function setRestrictions(\OpenRoam\Model\EsimRestrictions $restrictions): static
     {
         if (is_null($restrictions)) {
             throw new InvalidArgumentException('non-nullable restrictions cannot be null');
@@ -561,9 +545,9 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets notes
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getNotes(): ?array
+    public function getNotes(): array
     {
         return $this->container['notes'];
     }
@@ -571,11 +555,11 @@ class EsimOfferDetails implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets notes
      *
-     * @param string[]|null $notes Stored notes about the plan, shown verbatim.
+     * @param string[] $notes Stored notes about the plan, shown verbatim.
      *
      * @return $this
      */
-    public function setNotes(?array $notes): static
+    public function setNotes(array $notes): static
     {
         if (is_null($notes)) {
             throw new InvalidArgumentException('non-nullable notes cannot be null');

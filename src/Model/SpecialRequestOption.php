@@ -260,6 +260,12 @@ class SpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializa
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class SpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->container['code'];
     }
@@ -285,11 +291,11 @@ class SpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets code
      *
-     * @param string|null $code Opaque option code; pass back unchanged in inputs.specialRequestCodes.
+     * @param string $code Opaque option code; pass back unchanged in inputs.specialRequestCodes.
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setCode(string $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -302,9 +308,9 @@ class SpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -312,11 +318,11 @@ class SpecialRequestOption implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets name
      *
-     * @param string|null $name The request's display name.
+     * @param string $name The request's display name.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');

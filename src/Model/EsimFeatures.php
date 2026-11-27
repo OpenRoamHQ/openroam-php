@@ -315,6 +315,36 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['with_kyc'] === null) {
+            $invalidProperties[] = "'with_kyc' can't be null";
+        }
+        if ($this->container['with_top_up'] === null) {
+            $invalidProperties[] = "'with_top_up' can't be null";
+        }
+        if ($this->container['with_hotspot'] === null) {
+            $invalidProperties[] = "'with_hotspot' can't be null";
+        }
+        if ($this->container['with_data_roaming'] === null) {
+            $invalidProperties[] = "'with_data_roaming' can't be null";
+        }
+        if ($this->container['with_subscription'] === null) {
+            $invalidProperties[] = "'with_subscription' can't be null";
+        }
+        if ($this->container['with_destination_install'] === null) {
+            $invalidProperties[] = "'with_destination_install' can't be null";
+        }
+        if ($this->container['with_usage_check'] === null) {
+            $invalidProperties[] = "'with_usage_check' can't be null";
+        }
+        if ($this->container['technology'] === null) {
+            $invalidProperties[] = "'technology' can't be null";
+        }
+        if ($this->container['activation'] === null) {
+            $invalidProperties[] = "'activation' can't be null";
+        }
+        if ($this->container['charge'] === null) {
+            $invalidProperties[] = "'charge' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -330,9 +360,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_kyc
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithKyc(): ?bool
+    public function getWithKyc(): bool
     {
         return $this->container['with_kyc'];
     }
@@ -340,11 +370,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_kyc
      *
-     * @param bool|null $with_kyc with_kyc
+     * @param bool $with_kyc with_kyc
      *
      * @return $this
      */
-    public function setWithKyc(?bool $with_kyc): static
+    public function setWithKyc(bool $with_kyc): static
     {
         if (is_null($with_kyc)) {
             throw new InvalidArgumentException('non-nullable with_kyc cannot be null');
@@ -357,9 +387,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_top_up
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithTopUp(): ?bool
+    public function getWithTopUp(): bool
     {
         return $this->container['with_top_up'];
     }
@@ -367,11 +397,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_top_up
      *
-     * @param bool|null $with_top_up with_top_up
+     * @param bool $with_top_up with_top_up
      *
      * @return $this
      */
-    public function setWithTopUp(?bool $with_top_up): static
+    public function setWithTopUp(bool $with_top_up): static
     {
         if (is_null($with_top_up)) {
             throw new InvalidArgumentException('non-nullable with_top_up cannot be null');
@@ -384,9 +414,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_hotspot
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithHotspot(): ?bool
+    public function getWithHotspot(): bool
     {
         return $this->container['with_hotspot'];
     }
@@ -394,11 +424,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_hotspot
      *
-     * @param bool|null $with_hotspot with_hotspot
+     * @param bool $with_hotspot with_hotspot
      *
      * @return $this
      */
-    public function setWithHotspot(?bool $with_hotspot): static
+    public function setWithHotspot(bool $with_hotspot): static
     {
         if (is_null($with_hotspot)) {
             throw new InvalidArgumentException('non-nullable with_hotspot cannot be null');
@@ -411,9 +441,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_data_roaming
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithDataRoaming(): ?bool
+    public function getWithDataRoaming(): bool
     {
         return $this->container['with_data_roaming'];
     }
@@ -421,11 +451,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_data_roaming
      *
-     * @param bool|null $with_data_roaming with_data_roaming
+     * @param bool $with_data_roaming with_data_roaming
      *
      * @return $this
      */
-    public function setWithDataRoaming(?bool $with_data_roaming): static
+    public function setWithDataRoaming(bool $with_data_roaming): static
     {
         if (is_null($with_data_roaming)) {
             throw new InvalidArgumentException('non-nullable with_data_roaming cannot be null');
@@ -438,9 +468,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_subscription
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithSubscription(): ?bool
+    public function getWithSubscription(): bool
     {
         return $this->container['with_subscription'];
     }
@@ -448,11 +478,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_subscription
      *
-     * @param bool|null $with_subscription with_subscription
+     * @param bool $with_subscription with_subscription
      *
      * @return $this
      */
-    public function setWithSubscription(?bool $with_subscription): static
+    public function setWithSubscription(bool $with_subscription): static
     {
         if (is_null($with_subscription)) {
             throw new InvalidArgumentException('non-nullable with_subscription cannot be null');
@@ -465,9 +495,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_destination_install
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithDestinationInstall(): ?bool
+    public function getWithDestinationInstall(): bool
     {
         return $this->container['with_destination_install'];
     }
@@ -475,11 +505,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_destination_install
      *
-     * @param bool|null $with_destination_install with_destination_install
+     * @param bool $with_destination_install with_destination_install
      *
      * @return $this
      */
-    public function setWithDestinationInstall(?bool $with_destination_install): static
+    public function setWithDestinationInstall(bool $with_destination_install): static
     {
         if (is_null($with_destination_install)) {
             throw new InvalidArgumentException('non-nullable with_destination_install cannot be null');
@@ -492,9 +522,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_usage_check
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithUsageCheck(): ?bool
+    public function getWithUsageCheck(): bool
     {
         return $this->container['with_usage_check'];
     }
@@ -502,11 +532,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_usage_check
      *
-     * @param bool|null $with_usage_check with_usage_check
+     * @param bool $with_usage_check with_usage_check
      *
      * @return $this
      */
-    public function setWithUsageCheck(?bool $with_usage_check): static
+    public function setWithUsageCheck(bool $with_usage_check): static
     {
         if (is_null($with_usage_check)) {
             throw new InvalidArgumentException('non-nullable with_usage_check cannot be null');
@@ -519,9 +549,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets technology
      *
-     * @return string|null
+     * @return string
      */
-    public function getTechnology(): ?string
+    public function getTechnology(): string
     {
         return $this->container['technology'];
     }
@@ -529,11 +559,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets technology
      *
-     * @param string|null $technology technology
+     * @param string $technology technology
      *
      * @return $this
      */
-    public function setTechnology(?string $technology): static
+    public function setTechnology(string $technology): static
     {
         if (is_null($technology)) {
             throw new InvalidArgumentException('non-nullable technology cannot be null');
@@ -546,9 +576,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets activation
      *
-     * @return string|null
+     * @return string
      */
-    public function getActivation(): ?string
+    public function getActivation(): string
     {
         return $this->container['activation'];
     }
@@ -556,11 +586,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets activation
      *
-     * @param string|null $activation activation
+     * @param string $activation activation
      *
      * @return $this
      */
-    public function setActivation(?string $activation): static
+    public function setActivation(string $activation): static
     {
         if (is_null($activation)) {
             throw new InvalidArgumentException('non-nullable activation cannot be null');
@@ -573,9 +603,9 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets charge
      *
-     * @return string|null
+     * @return string
      */
-    public function getCharge(): ?string
+    public function getCharge(): string
     {
         return $this->container['charge'];
     }
@@ -583,11 +613,11 @@ class EsimFeatures implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets charge
      *
-     * @param string|null $charge charge
+     * @param string $charge charge
      *
      * @return $this
      */
-    public function setCharge(?string $charge): static
+    public function setCharge(string $charge): static
     {
         if (is_null($charge)) {
             throw new InvalidArgumentException('non-nullable charge cannot be null');

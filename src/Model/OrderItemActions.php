@@ -62,7 +62,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPITypes = [
         'amendment' => '\OpenRoam\Model\ActionAvailability',
         'cancellation' => '\OpenRoam\Model\ActionAvailability',
-        'update' => '\OpenRoam\Model\ActionAvailability'
+        'update' => '\OpenRoam\Model\ActionAvailability',
+        'change' => '\OpenRoam\Model\OrderItemChangeAction'
     ];
 
     /**
@@ -73,7 +74,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPIFormats = [
         'amendment' => null,
         'cancellation' => null,
-        'update' => null
+        'update' => null,
+        'change' => null
     ];
 
     /**
@@ -84,7 +86,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'amendment' => false,
         'cancellation' => false,
-        'update' => false
+        'update' => false,
+        'change' => true
     ];
 
     /**
@@ -165,7 +168,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $attributeMap = [
         'amendment' => 'amendment',
         'cancellation' => 'cancellation',
-        'update' => 'update'
+        'update' => 'update',
+        'change' => 'change'
     ];
 
     /**
@@ -176,7 +180,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $setters = [
         'amendment' => 'setAmendment',
         'cancellation' => 'setCancellation',
-        'update' => 'setUpdate'
+        'update' => 'setUpdate',
+        'change' => 'setChange'
     ];
 
     /**
@@ -187,7 +192,8 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $getters = [
         'amendment' => 'getAmendment',
         'cancellation' => 'getCancellation',
-        'update' => 'getUpdate'
+        'update' => 'getUpdate',
+        'change' => 'getChange'
     ];
 
     /**
@@ -240,6 +246,7 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('amendment', $data ?? [], null);
         $this->setIfExists('cancellation', $data ?? [], null);
         $this->setIfExists('update', $data ?? [], null);
+        $this->setIfExists('change', $data ?? [], null);
     }
 
     /**
@@ -267,6 +274,15 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['amendment'] === null) {
+            $invalidProperties[] = "'amendment' can't be null";
+        }
+        if ($this->container['cancellation'] === null) {
+            $invalidProperties[] = "'cancellation' can't be null";
+        }
+        if ($this->container['update'] === null) {
+            $invalidProperties[] = "'update' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +298,9 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amendment
      *
-     * @return \OpenRoam\Model\ActionAvailability|null
+     * @return \OpenRoam\Model\ActionAvailability
      */
-    public function getAmendment(): ?\OpenRoam\Model\ActionAvailability
+    public function getAmendment(): \OpenRoam\Model\ActionAvailability
     {
         return $this->container['amendment'];
     }
@@ -292,11 +308,11 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amendment
      *
-     * @param \OpenRoam\Model\ActionAvailability|null $amendment Whether the item can be changed through a priced amendment (hotels and flights).
+     * @param \OpenRoam\Model\ActionAvailability $amendment Whether the item can be changed through a priced amendment (hotels and flights).
      *
      * @return $this
      */
-    public function setAmendment(?\OpenRoam\Model\ActionAvailability $amendment): static
+    public function setAmendment(\OpenRoam\Model\ActionAvailability $amendment): static
     {
         if (is_null($amendment)) {
             throw new InvalidArgumentException('non-nullable amendment cannot be null');
@@ -309,9 +325,9 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets cancellation
      *
-     * @return \OpenRoam\Model\ActionAvailability|null
+     * @return \OpenRoam\Model\ActionAvailability
      */
-    public function getCancellation(): ?\OpenRoam\Model\ActionAvailability
+    public function getCancellation(): \OpenRoam\Model\ActionAvailability
     {
         return $this->container['cancellation'];
     }
@@ -319,11 +335,11 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets cancellation
      *
-     * @param \OpenRoam\Model\ActionAvailability|null $cancellation Whether the item can be cancelled now.
+     * @param \OpenRoam\Model\ActionAvailability $cancellation Whether the item can be cancelled now.
      *
      * @return $this
      */
-    public function setCancellation(?\OpenRoam\Model\ActionAvailability $cancellation): static
+    public function setCancellation(\OpenRoam\Model\ActionAvailability $cancellation): static
     {
         if (is_null($cancellation)) {
             throw new InvalidArgumentException('non-nullable cancellation cannot be null');
@@ -336,9 +352,9 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets update
      *
-     * @return \OpenRoam\Model\ActionAvailability|null
+     * @return \OpenRoam\Model\ActionAvailability
      */
-    public function getUpdate(): ?\OpenRoam\Model\ActionAvailability
+    public function getUpdate(): \OpenRoam\Model\ActionAvailability
     {
         return $this->container['update'];
     }
@@ -346,16 +362,50 @@ class OrderItemActions implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets update
      *
-     * @param \OpenRoam\Model\ActionAvailability|null $update Whether the item can be updated now with `POST /order-items/{id}/update`, a change that             never charges. `notAvailable` for every product that cannot be updated.
+     * @param \OpenRoam\Model\ActionAvailability $update Whether the item can take a direct change without a charge. `notAvailable` for products             that do not support direct changes.
      *
      * @return $this
      */
-    public function setUpdate(?\OpenRoam\Model\ActionAvailability $update): static
+    public function setUpdate(\OpenRoam\Model\ActionAvailability $update): static
     {
         if (is_null($update)) {
             throw new InvalidArgumentException('non-nullable update cannot be null');
         }
         $this->container['update'] = $update;
+
+        return $this;
+    }
+
+    /**
+     * Gets change
+     *
+     * @return \OpenRoam\Model\OrderItemChangeAction|null
+     */
+    public function getChange(): ?\OpenRoam\Model\OrderItemChangeAction
+    {
+        return $this->container['change'];
+    }
+
+    /**
+     * Sets change
+     *
+     * @param \OpenRoam\Model\OrderItemChangeAction|null $change Whether the change command can start for this item.
+     *
+     * @return $this
+     */
+    public function setChange(?\OpenRoam\Model\OrderItemChangeAction $change): static
+    {
+        if (is_null($change)) {
+            array_push($this->openAPINullablesSetToNull, 'change');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('change', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['change'] = $change;
 
         return $this;
     }

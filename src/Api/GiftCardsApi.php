@@ -154,13 +154,13 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+     * @return \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\ErrorResponse
      */
     public function giftCardsCreateOrder(
         string $idempotency_key,
         ?\OpenRoam\Model\GiftCardOrderRequest $gift_card_order_request = null,
         string $contentType = self::contentTypes['giftCardsCreateOrder'][0]
-    ): \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse
+    ): \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\ErrorResponse
     {
         list($response) = $this->giftCardsCreateOrderWithHttpInfo($idempotency_key, $gift_card_order_request, $contentType);
         return $response;
@@ -177,7 +177,7 @@ class GiftCardsApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\IdempotencyPendingError|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenRoam\Model\GiftCardOrder|\OpenRoam\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function giftCardsCreateOrderWithHttpInfo(
         string $idempotency_key,
@@ -217,13 +217,13 @@ class GiftCardsApi
                         $request,
                         $response,
                     );
-                case 202:
+                case 400:
                     return $this->handleResponseWithDataType(
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $request,
                         $response,
                     );
-                case 400:
+                case 402:
                     return $this->handleResponseWithDataType(
                         '\OpenRoam\Model\ErrorResponse',
                         $request,
@@ -277,15 +277,15 @@ class GiftCardsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 202:
+                case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\OpenRoam\Model\IdempotencyPendingError',
+                        '\OpenRoam\Model\ErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
                     throw $e;
-                case 400:
+                case 402:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\OpenRoam\Model\ErrorResponse',
@@ -437,7 +437,7 @@ class GiftCardsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/giftcards/order';
+        $resourcePath = '/v1/giftcards/order';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -530,8 +530,8 @@ class GiftCardsApi
      *
      * Get a gift card
      *
-     * @param  string $id The card&#39;s &#x60;id&#x60; (its SKU) from search or the catalog, for example &#x60;amazon-us&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The card&#39;s &#x60;id&#x60; (&#x60;card_…&#x60;) from search or the catalog. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCard'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -553,8 +553,8 @@ class GiftCardsApi
      *
      * Get a gift card
      *
-     * @param  string $id The card&#39;s &#x60;id&#x60; (its SKU) from search or the catalog, for example &#x60;amazon-us&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The card&#39;s &#x60;id&#x60; (&#x60;card_…&#x60;) from search or the catalog. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCard'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -668,8 +668,8 @@ class GiftCardsApi
      *
      * Get a gift card
      *
-     * @param  string $id The card&#39;s &#x60;id&#x60; (its SKU) from search or the catalog, for example &#x60;amazon-us&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The card&#39;s &#x60;id&#x60; (&#x60;card_…&#x60;) from search or the catalog. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCard'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -694,8 +694,8 @@ class GiftCardsApi
      *
      * Get a gift card
      *
-     * @param  string $id The card&#39;s &#x60;id&#x60; (its SKU) from search or the catalog, for example &#x60;amazon-us&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The card&#39;s &#x60;id&#x60; (&#x60;card_…&#x60;) from search or the catalog. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCard'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -757,8 +757,8 @@ class GiftCardsApi
     /**
      * Create request for operation 'giftCardsGetCard'
      *
-     * @param  string $id The card&#39;s &#x60;id&#x60; (its SKU) from search or the catalog, for example &#x60;amazon-us&#x60;. (required)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string $id The card&#39;s &#x60;id&#x60; (&#x60;card_…&#x60;) from search or the catalog. (required)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCard'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -777,7 +777,7 @@ class GiftCardsApi
             );
         }
 
-        $resourcePath = '/api/v1/b2b/giftcards/cards/{id}';
+        $resourcePath = '/v1/giftcards/cards/{id}';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -818,6 +818,11 @@ class GiftCardsApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -848,7 +853,7 @@ class GiftCardsApi
      * @param  string|null $category Keep the cards of this category; &#x60;categories&#x60; lists the values. (optional)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCatalog'] to see the possible values for this operation
@@ -881,7 +886,7 @@ class GiftCardsApi
      * @param  string|null $category Keep the cards of this category; &#x60;categories&#x60; lists the values. (optional)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCatalog'] to see the possible values for this operation
@@ -1006,7 +1011,7 @@ class GiftCardsApi
      * @param  string|null $category Keep the cards of this category; &#x60;categories&#x60; lists the values. (optional)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCatalog'] to see the possible values for this operation
@@ -1042,7 +1047,7 @@ class GiftCardsApi
      * @param  string|null $category Keep the cards of this category; &#x60;categories&#x60; lists the values. (optional)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCatalog'] to see the possible values for this operation
@@ -1115,7 +1120,7 @@ class GiftCardsApi
      * @param  string|null $category Keep the cards of this category; &#x60;categories&#x60; lists the values. (optional)
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  string|null $cursor The &#x60;nextCursor&#x60; of the previous page; omit it for the first page. Reuse it only with the same filters and currency. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 100. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsGetCatalog'] to see the possible values for this operation
@@ -1135,7 +1140,7 @@ class GiftCardsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/giftcards/catalog';
+        $resourcePath = '/v1/giftcards/catalog';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1475,7 +1480,7 @@ class GiftCardsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/giftcards/categories';
+        $resourcePath = '/v1/giftcards/categories';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1496,6 +1501,11 @@ class GiftCardsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];
@@ -1769,7 +1779,7 @@ class GiftCardsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/giftcards/quote';
+        $resourcePath = '/v1/giftcards/quote';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -1832,6 +1842,11 @@ class GiftCardsApi
             $headers['X-Partner-Key'] = $apiKey;
         }
 
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -1863,7 +1878,7 @@ class GiftCardsApi
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  string|null $q Brand name or card ID, case-insensitive; at most 100 characters, without control characters. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsSearch'] to see the possible values for this operation
@@ -1898,7 +1913,7 @@ class GiftCardsApi
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  string|null $q Brand name or card ID, case-insensitive; at most 100 characters, without control characters. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsSearch'] to see the possible values for this operation
@@ -2025,7 +2040,7 @@ class GiftCardsApi
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  string|null $q Brand name or card ID, case-insensitive; at most 100 characters, without control characters. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsSearch'] to see the possible values for this operation
@@ -2063,7 +2078,7 @@ class GiftCardsApi
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  string|null $q Brand name or card ID, case-insensitive; at most 100 characters, without control characters. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsSearch'] to see the possible values for this operation
@@ -2138,7 +2153,7 @@ class GiftCardsApi
      * @param  string|null $value_type Keep only &#x60;fixed&#x60; or only &#x60;range&#x60; offers; a card left without an offer is dropped. (optional)
      * @param  string|null $q Brand name or card ID, case-insensitive; at most 100 characters, without control characters. (optional)
      * @param  bool|null $is_redeemable_globally &#x60;true&#x60; keeps only cards that can be redeemed in any country. (optional)
-     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 404 / 10004. (optional)
+     * @param  string|null $currency Price currency, three letters in either case; the API key&#39;s currency when omitted. An unsupported code gives 400 / 10001 at &#x60;currency&#x60;, reason &#x60;NOT_SUPPORTED&#x60;. (optional)
      * @param  int|null $page Page number, from 1; default 1. (optional)
      * @param  int|null $limit Page size, 1 to 100; default 10. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['giftCardsSearch'] to see the possible values for this operation
@@ -2159,7 +2174,7 @@ class GiftCardsApi
     ): Request
     {
 
-        $resourcePath = '/api/v1/b2b/giftcards/search';
+        $resourcePath = '/v1/giftcards/search';
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2260,6 +2275,11 @@ class GiftCardsApi
         $apiKey = $this->config->getApiKeyWithPrefix('X-Partner-Key');
         if ($apiKey !== null) {
             $headers['X-Partner-Key'] = $apiKey;
+        }
+
+        // this endpoint requires Bearer (opaque) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 
         $defaultHeaders = [];

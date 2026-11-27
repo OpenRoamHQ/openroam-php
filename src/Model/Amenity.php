@@ -260,6 +260,12 @@ class Amenity implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -275,9 +281,9 @@ class Amenity implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->container['code'];
     }
@@ -285,11 +291,11 @@ class Amenity implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code code
+     * @param string $code code
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setCode(string $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -302,9 +308,9 @@ class Amenity implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -312,11 +318,11 @@ class Amenity implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label label
+     * @param string $label label
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');

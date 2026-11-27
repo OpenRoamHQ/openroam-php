@@ -387,7 +387,7 @@ class HotelSearchRequest implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets check_in
      *
-     * @param \DateTime $check_in Check-in date (`yyyy-MM-dd`); today or later.
+     * @param \DateTime $check_in Check-in date (`yyyy-MM-dd`), the hotel's local date: today or later there. Only a date that             has ended everywhere is refused; availability decides the rest.
      *
      * @return $this
      */

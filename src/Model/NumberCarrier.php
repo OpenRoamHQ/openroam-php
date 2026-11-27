@@ -309,6 +309,9 @@ class NumberCarrier implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['line_type'] === null) {
+            $invalidProperties[] = "'line_type' can't be null";
+        }
         $allowedValues = self::getLineTypeAllowableValues();
         if (!is_null($this->container['line_type']) && !in_array($this->container['line_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -401,9 +404,9 @@ class NumberCarrier implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets line_type
      *
-     * @return string|null
+     * @return string
      */
-    public function getLineType(): ?string
+    public function getLineType(): string
     {
         return $this->container['line_type'];
     }
@@ -411,11 +414,11 @@ class NumberCarrier implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets line_type
      *
-     * @param string|null $line_type line_type
+     * @param string $line_type line_type
      *
      * @return $this
      */
-    public function setLineType(?string $line_type): static
+    public function setLineType(string $line_type): static
     {
         if (is_null($line_type)) {
             throw new InvalidArgumentException('non-nullable line_type cannot be null');

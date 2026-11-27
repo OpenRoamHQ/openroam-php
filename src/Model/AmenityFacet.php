@@ -267,6 +267,15 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['count'] === null) {
+            $invalidProperties[] = "'count' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->container['code'];
     }
@@ -292,11 +301,11 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code The canonical code to send back in `filters.amenityCodes`.
+     * @param string $code The canonical code to send back in `filters.amenityCodes`.
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setCode(string $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -309,9 +318,9 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -319,11 +328,11 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label Display text in the request's language.
+     * @param string $label Display text in the request's language.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -336,9 +345,9 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets count
      *
-     * @return int|null
+     * @return int
      */
-    public function getCount(): ?int
+    public function getCount(): int
     {
         return $this->container['count'];
     }
@@ -346,11 +355,11 @@ class AmenityFacet implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets count
      *
-     * @param int|null $count Candidate hotels carrying this code. Never zero — absent codes are omitted.
+     * @param int $count Candidate hotels carrying this code. Never zero — absent codes are omitted.
      *
      * @return $this
      */
-    public function setCount(?int $count): static
+    public function setCount(int $count): static
     {
         if (is_null($count)) {
             throw new InvalidArgumentException('non-nullable count cannot be null');

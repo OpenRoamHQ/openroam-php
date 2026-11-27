@@ -5,8 +5,8 @@ namespace OpenRoam;
 
 class Webhooks
 {
-    public const PRODUCTION_URL = 'https://b2b-api.openroam.com';
-    public const SANDBOX_URL = 'https://b2b-api-sandbox.openroam.com';
+    public const PRODUCTION_URL = 'https://api.openroam.com';
+    public const SANDBOX_URL = 'https://api.sandbox.openroam.com';
 
     /**
      * Throws WebhookSignatureException unless the request is validly signed and recent.
@@ -22,6 +22,10 @@ class Webhooks
         int $toleranceSeconds = 300,
         ?int $now = null
     ): void {
+        // Unicode whitespace (e.g. U+2003), not only ASCII trim().
+        if ($secret === '' || preg_match('/^\s*$/u', $secret) === 1) {
+            throw new WebhookSignatureException('The webhook secret must not be empty.');
+        }
         if (!is_numeric($timestamp)) {
             throw new WebhookSignatureException('Invalid X-OpenRoam-Timestamp.');
         }

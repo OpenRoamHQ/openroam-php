@@ -14,7 +14,7 @@ class HotelsResource
     }
 
     /**
-     * Search hotels. POST /api/v1/b2b/hotels/search
+     * Search hotels. POST /v1/hotels/search
      *
      * @param \OpenRoam\Model\HotelSearchRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -32,7 +32,7 @@ class HotelsResource
     }
 
     /**
-     * Get a hotel. GET /api/v1/b2b/hotels/properties/{id}
+     * Get a hotel. GET /v1/hotels/properties/{id}
      *
      * @param string $id
      * @param array{timeout?: float|int} $options
@@ -49,7 +49,7 @@ class HotelsResource
     }
 
     /**
-     * Search hotel destinations. GET /api/v1/b2b/hotels/destinations
+     * Search hotel destinations. GET /v1/hotels/destinations
      *
      * @param array{q: string, countryCode?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -66,7 +66,7 @@ class HotelsResource
     }
 
     /**
-     * List hotel amenities. GET /api/v1/b2b/hotels/amenities/catalog
+     * List hotel amenities. GET /v1/hotels/amenities/catalog
      *
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
@@ -81,7 +81,7 @@ class HotelsResource
     }
 
     /**
-     * Get hotel catalog files. GET /api/v1/b2b/hotels/catalog/files
+     * Get hotel catalog files. GET /v1/hotels/catalog/files
      *
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
@@ -96,7 +96,7 @@ class HotelsResource
     }
 
     /**
-     * Quote hotel rates. POST /api/v1/b2b/hotels/quote
+     * Quote hotel rates. POST /v1/hotels/quote
      *
      * @param \OpenRoam\Model\HotelOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -114,7 +114,7 @@ class HotelsResource
     }
 
     /**
-     * Book hotels. POST /api/v1/b2b/hotels/order
+     * Book hotels. POST /v1/hotels/order
      *
      * @param \OpenRoam\Model\HotelOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call

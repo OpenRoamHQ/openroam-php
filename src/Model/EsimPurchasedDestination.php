@@ -267,6 +267,9 @@ class EsimPurchasedDestination implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +285,9 @@ class EsimPurchasedDestination implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -292,11 +295,11 @@ class EsimPurchasedDestination implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -353,7 +356,7 @@ class EsimPurchasedDestination implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets code
      *
-     * @param string|null $code The destination's eSIM code, such as `JP`, `EU` or `GLOBAL`, as browse returns it in `details.destinationCode`; null when none is stored.
+     * @param string|null $code The destination's eSIM code, such as `JP`, `EU` or `GLOBAL`, as browse returns it in `destinationCode`; null when none is stored.
      *
      * @return $this
      */

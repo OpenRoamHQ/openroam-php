@@ -63,7 +63,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => '\OpenRoam\Model\Airport',
         'destination' => '\OpenRoam\Model\Airport',
         'departure_at' => '\DateTime',
+        'departure_local_time' => 'string',
         'arrival_at' => '\DateTime',
+        'arrival_local_time' => 'string',
         'duration_minutes' => 'int',
         'stops' => 'int',
         'segments' => '\OpenRoam\Model\Segment[]'
@@ -78,7 +80,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => null,
         'destination' => null,
         'departure_at' => 'date-time',
+        'departure_local_time' => null,
         'arrival_at' => 'date-time',
+        'arrival_local_time' => null,
         'duration_minutes' => 'int32',
         'stops' => 'int32',
         'segments' => null
@@ -93,7 +97,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => false,
         'destination' => false,
         'departure_at' => false,
+        'departure_local_time' => true,
         'arrival_at' => false,
+        'arrival_local_time' => true,
         'duration_minutes' => false,
         'stops' => false,
         'segments' => false
@@ -178,7 +184,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'origin',
         'destination' => 'destination',
         'departure_at' => 'departureAt',
+        'departure_local_time' => 'departureLocalTime',
         'arrival_at' => 'arrivalAt',
+        'arrival_local_time' => 'arrivalLocalTime',
         'duration_minutes' => 'durationMinutes',
         'stops' => 'stops',
         'segments' => 'segments'
@@ -193,7 +201,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'setOrigin',
         'destination' => 'setDestination',
         'departure_at' => 'setDepartureAt',
+        'departure_local_time' => 'setDepartureLocalTime',
         'arrival_at' => 'setArrivalAt',
+        'arrival_local_time' => 'setArrivalLocalTime',
         'duration_minutes' => 'setDurationMinutes',
         'stops' => 'setStops',
         'segments' => 'setSegments'
@@ -208,7 +218,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         'origin' => 'getOrigin',
         'destination' => 'getDestination',
         'departure_at' => 'getDepartureAt',
+        'departure_local_time' => 'getDepartureLocalTime',
         'arrival_at' => 'getArrivalAt',
+        'arrival_local_time' => 'getArrivalLocalTime',
         'duration_minutes' => 'getDurationMinutes',
         'stops' => 'getStops',
         'segments' => 'getSegments'
@@ -264,7 +276,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('origin', $data ?? [], null);
         $this->setIfExists('destination', $data ?? [], null);
         $this->setIfExists('departure_at', $data ?? [], null);
+        $this->setIfExists('departure_local_time', $data ?? [], null);
         $this->setIfExists('arrival_at', $data ?? [], null);
+        $this->setIfExists('arrival_local_time', $data ?? [], null);
         $this->setIfExists('duration_minutes', $data ?? [], null);
         $this->setIfExists('stops', $data ?? [], null);
         $this->setIfExists('segments', $data ?? [], null);
@@ -295,6 +309,35 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['origin'] === null) {
+            $invalidProperties[] = "'origin' can't be null";
+        }
+        if ($this->container['destination'] === null) {
+            $invalidProperties[] = "'destination' can't be null";
+        }
+        if ($this->container['departure_at'] === null) {
+            $invalidProperties[] = "'departure_at' can't be null";
+        }
+        if (!is_null($this->container['departure_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['departure_local_time'])) {
+            $invalidProperties[] = "invalid value for 'departure_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['arrival_at'] === null) {
+            $invalidProperties[] = "'arrival_at' can't be null";
+        }
+        if (!is_null($this->container['arrival_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['arrival_local_time'])) {
+            $invalidProperties[] = "invalid value for 'arrival_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['duration_minutes'] === null) {
+            $invalidProperties[] = "'duration_minutes' can't be null";
+        }
+        if ($this->container['stops'] === null) {
+            $invalidProperties[] = "'stops' can't be null";
+        }
+        if ($this->container['segments'] === null) {
+            $invalidProperties[] = "'segments' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +353,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\Airport|null
+     * @return \OpenRoam\Model\Airport
      */
-    public function getOrigin(): ?\OpenRoam\Model\Airport
+    public function getOrigin(): \OpenRoam\Model\Airport
     {
         return $this->container['origin'];
     }
@@ -320,11 +363,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\Airport|null $origin Where the slice departs.
+     * @param \OpenRoam\Model\Airport $origin Where the slice departs.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\Airport $origin): static
+    public function setOrigin(\OpenRoam\Model\Airport $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -337,9 +380,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets destination
      *
-     * @return \OpenRoam\Model\Airport|null
+     * @return \OpenRoam\Model\Airport
      */
-    public function getDestination(): ?\OpenRoam\Model\Airport
+    public function getDestination(): \OpenRoam\Model\Airport
     {
         return $this->container['destination'];
     }
@@ -347,11 +390,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets destination
      *
-     * @param \OpenRoam\Model\Airport|null $destination Where the slice arrives.
+     * @param \OpenRoam\Model\Airport $destination Where the slice arrives.
      *
      * @return $this
      */
-    public function setDestination(?\OpenRoam\Model\Airport $destination): static
+    public function setDestination(\OpenRoam\Model\Airport $destination): static
     {
         if (is_null($destination)) {
             throw new InvalidArgumentException('non-nullable destination cannot be null');
@@ -364,9 +407,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets departure_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getDepartureAt(): ?\DateTime
+    public function getDepartureAt(): \DateTime
     {
         return $this->container['departure_at'];
     }
@@ -374,11 +417,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets departure_at
      *
-     * @param \DateTime|null $departure_at Local departure time at the origin.
+     * @param \DateTime $departure_at When the slice departs, a UTC instant; `origin.timezone` gives the airport's clock.
      *
      * @return $this
      */
-    public function setDepartureAt(?\DateTime $departure_at): static
+    public function setDepartureAt(\DateTime $departure_at): static
     {
         if (is_null($departure_at)) {
             throw new InvalidArgumentException('non-nullable departure_at cannot be null');
@@ -389,11 +432,50 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets departure_local_time
+     *
+     * @return string|null
+     */
+    public function getDepartureLocalTime(): ?string
+    {
+        return $this->container['departure_local_time'];
+    }
+
+    /**
+     * Sets departure_local_time
+     *
+     * @param string|null $departure_local_time The clock at the departure airport (`origin.timezone`) at `departureAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `departureAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setDepartureLocalTime(?string $departure_local_time): static
+    {
+        if (is_null($departure_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'departure_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('departure_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($departure_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($departure_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$departure_local_time when calling Slice., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['departure_local_time'] = $departure_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets arrival_at
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getArrivalAt(): ?\DateTime
+    public function getArrivalAt(): \DateTime
     {
         return $this->container['arrival_at'];
     }
@@ -401,11 +483,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets arrival_at
      *
-     * @param \DateTime|null $arrival_at Local arrival time at the destination.
+     * @param \DateTime $arrival_at When the slice lands, a UTC instant; `destination.timezone` gives the airport's clock.
      *
      * @return $this
      */
-    public function setArrivalAt(?\DateTime $arrival_at): static
+    public function setArrivalAt(\DateTime $arrival_at): static
     {
         if (is_null($arrival_at)) {
             throw new InvalidArgumentException('non-nullable arrival_at cannot be null');
@@ -416,11 +498,50 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets arrival_local_time
+     *
+     * @return string|null
+     */
+    public function getArrivalLocalTime(): ?string
+    {
+        return $this->container['arrival_local_time'];
+    }
+
+    /**
+     * Sets arrival_local_time
+     *
+     * @param string|null $arrival_local_time The clock at the arrival airport (`destination.timezone`) at `arrivalAt`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `arrivalAt`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setArrivalLocalTime(?string $arrival_local_time): static
+    {
+        if (is_null($arrival_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'arrival_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('arrival_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($arrival_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($arrival_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$arrival_local_time when calling Slice., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['arrival_local_time'] = $arrival_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets duration_minutes
      *
-     * @return int|null
+     * @return int
      */
-    public function getDurationMinutes(): ?int
+    public function getDurationMinutes(): int
     {
         return $this->container['duration_minutes'];
     }
@@ -428,11 +549,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets duration_minutes
      *
-     * @param int|null $duration_minutes Flying and connection time of the slice.
+     * @param int $duration_minutes Flying and connection time of the slice.
      *
      * @return $this
      */
-    public function setDurationMinutes(?int $duration_minutes): static
+    public function setDurationMinutes(int $duration_minutes): static
     {
         if (is_null($duration_minutes)) {
             throw new InvalidArgumentException('non-nullable duration_minutes cannot be null');
@@ -445,9 +566,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets stops
      *
-     * @return int|null
+     * @return int
      */
-    public function getStops(): ?int
+    public function getStops(): int
     {
         return $this->container['stops'];
     }
@@ -455,11 +576,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets stops
      *
-     * @param int|null $stops Connections on this slice.
+     * @param int $stops Connections on this slice.
      *
      * @return $this
      */
-    public function setStops(?int $stops): static
+    public function setStops(int $stops): static
     {
         if (is_null($stops)) {
             throw new InvalidArgumentException('non-nullable stops cannot be null');
@@ -472,9 +593,9 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets segments
      *
-     * @return \OpenRoam\Model\Segment[]|null
+     * @return \OpenRoam\Model\Segment[]
      */
-    public function getSegments(): ?array
+    public function getSegments(): array
     {
         return $this->container['segments'];
     }
@@ -482,11 +603,11 @@ class Slice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets segments
      *
-     * @param \OpenRoam\Model\Segment[]|null $segments The legs flown, in order.
+     * @param \OpenRoam\Model\Segment[] $segments The legs flown, in order.
      *
      * @return $this
      */
-    public function setSegments(?array $segments): static
+    public function setSegments(array $segments): static
     {
         if (is_null($segments)) {
             throw new InvalidArgumentException('non-nullable segments cannot be null');

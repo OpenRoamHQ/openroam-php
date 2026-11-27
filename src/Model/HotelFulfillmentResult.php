@@ -253,6 +253,9 @@ class HotelFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class HotelFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\HotelFulfillmentDetails|null
+     * @return \OpenRoam\Model\HotelFulfillmentDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelFulfillmentDetails
+    public function getDetails(): \OpenRoam\Model\HotelFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -278,11 +281,11 @@ class HotelFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\HotelFulfillmentDetails|null $details The booking's status, confirmation number, amendable composition and current stay.
+     * @param \OpenRoam\Model\HotelFulfillmentDetails $details The booking's status, confirmation number, amendable composition and current stay.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelFulfillmentDetails $details): static
+    public function setDetails(\OpenRoam\Model\HotelFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

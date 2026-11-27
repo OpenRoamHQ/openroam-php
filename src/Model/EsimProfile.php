@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimProfile Class Doc Comment
  *
- * @description One of your eSIMs: its order, plan, installation details, allowances and top-ups.
+ * @description One of your eSIMs: its order, statuses, plan, installation details, allowances and top-ups.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -65,20 +65,20 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => 'string',
         'package_name' => 'string',
         'country_image' => 'string',
-        'status' => 'string',
+        'esim_status' => 'string',
+        'profile_status' => 'string',
         'day' => 'int',
-        'is_unlimited' => 'bool',
         'is_apn_automatic' => 'bool',
         'with_sms' => 'bool',
         'with_call' => 'bool',
         'properties' => '\OpenRoam\Model\EsimFeatures',
         'esim' => '\OpenRoam\Model\SimCard',
         'addon' => '\OpenRoam\Model\EsimAddon[]',
-        'data' => '\OpenRoam\Model\EsimProfileData',
+        'data' => '\OpenRoam\Model\EsimDataAllowance',
         'sms' => '\OpenRoam\Model\EsimSmsAllowance',
         'voice' => '\OpenRoam\Model\EsimVoiceAllowance',
         'apn' => '\OpenRoam\Model\EsimApn',
-        'expired_at' => '\DateTime'
+        'expires_at' => '\DateTime'
     ];
 
     /**
@@ -92,9 +92,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => null,
         'package_name' => null,
         'country_image' => null,
-        'status' => null,
+        'esim_status' => null,
+        'profile_status' => null,
         'day' => 'int32',
-        'is_unlimited' => null,
         'is_apn_automatic' => null,
         'with_sms' => null,
         'with_call' => null,
@@ -105,7 +105,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'sms' => null,
         'voice' => null,
         'apn' => null,
-        'expired_at' => 'date-time'
+        'expires_at' => 'date-time'
     ];
 
     /**
@@ -119,9 +119,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => true,
         'package_name' => false,
         'country_image' => true,
-        'status' => false,
+        'esim_status' => false,
+        'profile_status' => false,
         'day' => false,
-        'is_unlimited' => false,
         'is_apn_automatic' => false,
         'with_sms' => false,
         'with_call' => false,
@@ -132,7 +132,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'sms' => true,
         'voice' => true,
         'apn' => true,
-        'expired_at' => true
+        'expires_at' => true
     ];
 
     /**
@@ -216,9 +216,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => 'iccid',
         'package_name' => 'packageName',
         'country_image' => 'countryImage',
-        'status' => 'status',
+        'esim_status' => 'esimStatus',
+        'profile_status' => 'profileStatus',
         'day' => 'day',
-        'is_unlimited' => 'isUnlimited',
         'is_apn_automatic' => 'isApnAutomatic',
         'with_sms' => 'withSMS',
         'with_call' => 'withCall',
@@ -229,7 +229,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'sms' => 'sms',
         'voice' => 'voice',
         'apn' => 'apn',
-        'expired_at' => 'expiredAt'
+        'expires_at' => 'expiresAt'
     ];
 
     /**
@@ -243,9 +243,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => 'setIccid',
         'package_name' => 'setPackageName',
         'country_image' => 'setCountryImage',
-        'status' => 'setStatus',
+        'esim_status' => 'setEsimStatus',
+        'profile_status' => 'setProfileStatus',
         'day' => 'setDay',
-        'is_unlimited' => 'setIsUnlimited',
         'is_apn_automatic' => 'setIsApnAutomatic',
         'with_sms' => 'setWithSms',
         'with_call' => 'setWithCall',
@@ -256,7 +256,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'sms' => 'setSms',
         'voice' => 'setVoice',
         'apn' => 'setApn',
-        'expired_at' => 'setExpiredAt'
+        'expires_at' => 'setExpiresAt'
     ];
 
     /**
@@ -270,9 +270,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'iccid' => 'getIccid',
         'package_name' => 'getPackageName',
         'country_image' => 'getCountryImage',
-        'status' => 'getStatus',
+        'esim_status' => 'getEsimStatus',
+        'profile_status' => 'getProfileStatus',
         'day' => 'getDay',
-        'is_unlimited' => 'getIsUnlimited',
         'is_apn_automatic' => 'getIsApnAutomatic',
         'with_sms' => 'getWithSms',
         'with_call' => 'getWithCall',
@@ -283,7 +283,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         'sms' => 'getSms',
         'voice' => 'getVoice',
         'apn' => 'getApn',
-        'expired_at' => 'getExpiredAt'
+        'expires_at' => 'getExpiresAt'
     ];
 
     /**
@@ -318,35 +318,64 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const STATUS__NEW = 'new';
-    public const STATUS_PROCURING = 'procuring';
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_FAILED = 'failed';
-    public const STATUS_READY = 'ready';
-    public const STATUS_REQUIRE_ACTION = 'requireAction';
-    public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_REVOKED = 'revoked';
-    public const STATUS_EXPIRED = 'expired';
-    public const STATUS_UNKNOWN = 'unknown';
+    public const ESIM_STATUS__NEW = 'new';
+    public const ESIM_STATUS_PROCURING = 'procuring';
+    public const ESIM_STATUS_PENDING = 'pending';
+    public const ESIM_STATUS_FAILED = 'failed';
+    public const ESIM_STATUS_READY = 'ready';
+    public const ESIM_STATUS_CANCELLED = 'cancelled';
+    public const ESIM_STATUS_REVOKED = 'revoked';
+    public const ESIM_STATUS_EXPIRED = 'expired';
+    public const ESIM_STATUS_UNKNOWN = 'unknown';
+    public const PROFILE_STATUS__EMPTY = 'empty';
+    public const PROFILE_STATUS__NEW = 'new';
+    public const PROFILE_STATUS_DOWNLOADED = 'downloaded';
+    public const PROFILE_STATUS_INSTALLED = 'installed';
+    public const PROFILE_STATUS_ACTIVATED = 'activated';
+    public const PROFILE_STATUS_INACTIVE = 'inactive';
+    public const PROFILE_STATUS_DELETED = 'deleted';
+    public const PROFILE_STATUS_REVOKED = 'revoked';
+    public const PROFILE_STATUS_EXPIRED = 'expired';
+    public const PROFILE_STATUS_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public static function getStatusAllowableValues()
+    public static function getEsimStatusAllowableValues()
     {
         return [
-            self::STATUS__NEW,
-            self::STATUS_PROCURING,
-            self::STATUS_PENDING,
-            self::STATUS_FAILED,
-            self::STATUS_READY,
-            self::STATUS_REQUIRE_ACTION,
-            self::STATUS_CANCELLED,
-            self::STATUS_REVOKED,
-            self::STATUS_EXPIRED,
-            self::STATUS_UNKNOWN,
+            self::ESIM_STATUS__NEW,
+            self::ESIM_STATUS_PROCURING,
+            self::ESIM_STATUS_PENDING,
+            self::ESIM_STATUS_FAILED,
+            self::ESIM_STATUS_READY,
+            self::ESIM_STATUS_CANCELLED,
+            self::ESIM_STATUS_REVOKED,
+            self::ESIM_STATUS_EXPIRED,
+            self::ESIM_STATUS_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getProfileStatusAllowableValues()
+    {
+        return [
+            self::PROFILE_STATUS__EMPTY,
+            self::PROFILE_STATUS__NEW,
+            self::PROFILE_STATUS_DOWNLOADED,
+            self::PROFILE_STATUS_INSTALLED,
+            self::PROFILE_STATUS_ACTIVATED,
+            self::PROFILE_STATUS_INACTIVE,
+            self::PROFILE_STATUS_DELETED,
+            self::PROFILE_STATUS_REVOKED,
+            self::PROFILE_STATUS_EXPIRED,
+            self::PROFILE_STATUS_UNKNOWN,
         ];
     }
 
@@ -369,9 +398,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('iccid', $data ?? [], null);
         $this->setIfExists('package_name', $data ?? [], null);
         $this->setIfExists('country_image', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('esim_status', $data ?? [], null);
+        $this->setIfExists('profile_status', $data ?? [], null);
         $this->setIfExists('day', $data ?? [], null);
-        $this->setIfExists('is_unlimited', $data ?? [], null);
         $this->setIfExists('is_apn_automatic', $data ?? [], null);
         $this->setIfExists('with_sms', $data ?? [], null);
         $this->setIfExists('with_call', $data ?? [], null);
@@ -382,7 +411,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('sms', $data ?? [], null);
         $this->setIfExists('voice', $data ?? [], null);
         $this->setIfExists('apn', $data ?? [], null);
-        $this->setIfExists('expired_at', $data ?? [], null);
+        $this->setIfExists('expires_at', $data ?? [], null);
     }
 
     /**
@@ -419,18 +448,45 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['package_name'] === null) {
             $invalidProperties[] = "'package_name' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
+        if ($this->container['esim_status'] === null) {
+            $invalidProperties[] = "'esim_status' can't be null";
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!is_null($this->container['esim_status']) && !in_array($this->container['esim_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
+                "invalid value '%s' for 'esim_status', must be one of '%s'",
+                $this->container['esim_status'],
                 implode("', '", $allowedValues)
             );
         }
 
+        if ($this->container['profile_status'] === null) {
+            $invalidProperties[] = "'profile_status' can't be null";
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!is_null($this->container['profile_status']) && !in_array($this->container['profile_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'profile_status', must be one of '%s'",
+                $this->container['profile_status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['day'] === null) {
+            $invalidProperties[] = "'day' can't be null";
+        }
+        if ($this->container['is_apn_automatic'] === null) {
+            $invalidProperties[] = "'is_apn_automatic' can't be null";
+        }
+        if ($this->container['with_sms'] === null) {
+            $invalidProperties[] = "'with_sms' can't be null";
+        }
+        if ($this->container['with_call'] === null) {
+            $invalidProperties[] = "'with_call' can't be null";
+        }
+        if ($this->container['addon'] === null) {
+            $invalidProperties[] = "'addon' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -593,38 +649,75 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets status
+     * Gets esim_status
      *
      * @return string
      */
-    public function getStatus(): string
+    public function getEsimStatus(): string
     {
-        return $this->container['status'];
+        return $this->container['esim_status'];
     }
 
     /**
-     * Sets status
+     * Sets esim_status
      *
-     * @param string $status The eSIM's lifecycle status.
+     * @param string $esim_status The eSIM's lifecycle status, as the order item's `esimStatus`. An eSIM under review reads as pending.
      *
      * @return $this
      */
-    public function setStatus(string $status): static
+    public function setEsimStatus(string $esim_status): static
     {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($esim_status)) {
+            throw new InvalidArgumentException('non-nullable esim_status cannot be null');
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!in_array($esim_status, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
+                    "Invalid value '%s' for 'esim_status', must be one of '%s'",
+                    $esim_status,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['status'] = $status;
+        $this->container['esim_status'] = $esim_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets profile_status
+     *
+     * @return string
+     */
+    public function getProfileStatus(): string
+    {
+        return $this->container['profile_status'];
+    }
+
+    /**
+     * Sets profile_status
+     *
+     * @param string $profile_status The installed profile's status, as last recorded: the order item's `profileStatus`.
+     *
+     * @return $this
+     */
+    public function setProfileStatus(string $profile_status): static
+    {
+        if (is_null($profile_status)) {
+            throw new InvalidArgumentException('non-nullable profile_status cannot be null');
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!in_array($profile_status, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'profile_status', must be one of '%s'",
+                    $profile_status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['profile_status'] = $profile_status;
 
         return $this;
     }
@@ -632,9 +725,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets day
      *
-     * @return int|null
+     * @return int
      */
-    public function getDay(): ?int
+    public function getDay(): int
     {
         return $this->container['day'];
     }
@@ -642,11 +735,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets day
      *
-     * @param int|null $day How many days the plan is valid.
+     * @param int $day How many days the plan is valid, counted from activation.
      *
      * @return $this
      */
-    public function setDay(?int $day): static
+    public function setDay(int $day): static
     {
         if (is_null($day)) {
             throw new InvalidArgumentException('non-nullable day cannot be null');
@@ -657,38 +750,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets is_unlimited
-     *
-     * @return bool|null
-     */
-    public function getIsUnlimited(): ?bool
-    {
-        return $this->container['is_unlimited'];
-    }
-
-    /**
-     * Sets is_unlimited
-     *
-     * @param bool|null $is_unlimited Whether the plan has unlimited data.
-     *
-     * @return $this
-     */
-    public function setIsUnlimited(?bool $is_unlimited): static
-    {
-        if (is_null($is_unlimited)) {
-            throw new InvalidArgumentException('non-nullable is_unlimited cannot be null');
-        }
-        $this->container['is_unlimited'] = $is_unlimited;
-
-        return $this;
-    }
-
-    /**
      * Gets is_apn_automatic
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getIsApnAutomatic(): ?bool
+    public function getIsApnAutomatic(): bool
     {
         return $this->container['is_apn_automatic'];
     }
@@ -696,11 +762,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets is_apn_automatic
      *
-     * @param bool|null $is_apn_automatic Whether the device sets the APN automatically; otherwise use `apn`.
+     * @param bool $is_apn_automatic Whether the device sets the APN automatically; otherwise use `apn`.
      *
      * @return $this
      */
-    public function setIsApnAutomatic(?bool $is_apn_automatic): static
+    public function setIsApnAutomatic(bool $is_apn_automatic): static
     {
         if (is_null($is_apn_automatic)) {
             throw new InvalidArgumentException('non-nullable is_apn_automatic cannot be null');
@@ -713,9 +779,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_sms
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithSms(): ?bool
+    public function getWithSms(): bool
     {
         return $this->container['with_sms'];
     }
@@ -723,11 +789,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_sms
      *
-     * @param bool|null $with_sms Whether the plan includes SMS.
+     * @param bool $with_sms Whether the plan includes SMS.
      *
      * @return $this
      */
-    public function setWithSms(?bool $with_sms): static
+    public function setWithSms(bool $with_sms): static
     {
         if (is_null($with_sms)) {
             throw new InvalidArgumentException('non-nullable with_sms cannot be null');
@@ -740,9 +806,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets with_call
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getWithCall(): ?bool
+    public function getWithCall(): bool
     {
         return $this->container['with_call'];
     }
@@ -750,11 +816,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets with_call
      *
-     * @param bool|null $with_call Whether the plan includes calls.
+     * @param bool $with_call Whether the plan includes calls.
      *
      * @return $this
      */
-    public function setWithCall(?bool $with_call): static
+    public function setWithCall(bool $with_call): static
     {
         if (is_null($with_call)) {
             throw new InvalidArgumentException('non-nullable with_call cannot be null');
@@ -835,9 +901,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets addon
      *
-     * @return \OpenRoam\Model\EsimAddon[]|null
+     * @return \OpenRoam\Model\EsimAddon[]
      */
-    public function getAddon(): ?array
+    public function getAddon(): array
     {
         return $this->container['addon'];
     }
@@ -845,11 +911,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets addon
      *
-     * @param \OpenRoam\Model\EsimAddon[]|null $addon The top-ups applied to the eSIM.
+     * @param \OpenRoam\Model\EsimAddon[] $addon The top-ups applied to the eSIM.
      *
      * @return $this
      */
-    public function setAddon(?array $addon): static
+    public function setAddon(array $addon): static
     {
         if (is_null($addon)) {
             throw new InvalidArgumentException('non-nullable addon cannot be null');
@@ -862,9 +928,9 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets data
      *
-     * @return \OpenRoam\Model\EsimProfileData|null
+     * @return \OpenRoam\Model\EsimDataAllowance|null
      */
-    public function getData(): ?\OpenRoam\Model\EsimProfileData
+    public function getData(): ?\OpenRoam\Model\EsimDataAllowance
     {
         return $this->container['data'];
     }
@@ -872,11 +938,11 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets data
      *
-     * @param \OpenRoam\Model\EsimProfileData|null $data The plan's data allowance.
+     * @param \OpenRoam\Model\EsimDataAllowance|null $data The plan's data allowance, as the offer shows it.
      *
      * @return $this
      */
-    public function setData(?\OpenRoam\Model\EsimProfileData $data): static
+    public function setData(?\OpenRoam\Model\EsimDataAllowance $data): static
     {
         if (is_null($data)) {
             array_push($this->openAPINullablesSetToNull, 'data');
@@ -906,7 +972,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets sms
      *
-     * @param \OpenRoam\Model\EsimSmsAllowance|null $sms The plan's SMS allowance, when it includes SMS.
+     * @param \OpenRoam\Model\EsimSmsAllowance|null $sms The plan's SMS allowance; null when the plan includes no SMS.
      *
      * @return $this
      */
@@ -940,7 +1006,7 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets voice
      *
-     * @param \OpenRoam\Model\EsimVoiceAllowance|null $voice The plan's calling allowance, when it includes calls.
+     * @param \OpenRoam\Model\EsimVoiceAllowance|null $voice The plan's calling allowance; null when the plan includes no calls.
      *
      * @return $this
      */
@@ -996,35 +1062,35 @@ class EsimProfile implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets expired_at
+     * Gets expires_at
      *
      * @return \DateTime|null
      */
-    public function getExpiredAt(): ?\DateTime
+    public function getExpiresAt(): ?\DateTime
     {
-        return $this->container['expired_at'];
+        return $this->container['expires_at'];
     }
 
     /**
-     * Sets expired_at
+     * Sets expires_at
      *
-     * @param \DateTime|null $expired_at When the eSIM's validity ends, in UTC; null until it is activated.
+     * @param \DateTime|null $expires_at When the plan ends, in UTC, as reported once the plan has started: its activation plus `day`, extended by top-ups. Null until the eSIM is activated.
      *
      * @return $this
      */
-    public function setExpiredAt(?\DateTime $expired_at): static
+    public function setExpiresAt(?\DateTime $expires_at): static
     {
-        if (is_null($expired_at)) {
-            array_push($this->openAPINullablesSetToNull, 'expired_at');
+        if (is_null($expires_at)) {
+            array_push($this->openAPINullablesSetToNull, 'expires_at');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('expired_at', $nullablesSetToNull);
+            $index = array_search('expires_at', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['expired_at'] = $expired_at;
+        $this->container['expires_at'] = $expires_at;
 
         return $this;
     }

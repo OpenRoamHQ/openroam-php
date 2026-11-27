@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * AirtimeSearchResult Class Doc Comment
  *
- * @description The detected flow: at most one item, the operator the phone lookup detected, with its offers. &#x60;items&#x60; is empty unless &#x60;details.phoneLookup.status&#x60; is &#x60;detected&#x60; and an offer is left after filtering; the partner then falls back to the operator list.
+ * @description The detected flow: at most one item, the operator the phone lookup detected, with its offers. &#x60;items&#x60; is empty unless &#x60;phoneLookup.status&#x60; is &#x60;detected&#x60; and an offer is left after filtering; the partner then falls back to the operator list.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,7 +62,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $openAPITypes = [
         'items' => '\OpenRoam\Model\AirtimeOperator[]',
         'pagination' => '\OpenRoam\Model\Pagination',
-        'details' => '\OpenRoam\Model\AirtimeSearchDetails'
+        'phone_lookup' => '\OpenRoam\Model\CarrierDetection'
     ];
 
     /**
@@ -73,7 +73,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $openAPIFormats = [
         'items' => null,
         'pagination' => null,
-        'details' => null
+        'phone_lookup' => null
     ];
 
     /**
@@ -84,7 +84,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $openAPINullables = [
         'items' => false,
         'pagination' => false,
-        'details' => false
+        'phone_lookup' => false
     ];
 
     /**
@@ -165,7 +165,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $attributeMap = [
         'items' => 'items',
         'pagination' => 'pagination',
-        'details' => 'details'
+        'phone_lookup' => 'phoneLookup'
     ];
 
     /**
@@ -176,7 +176,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $setters = [
         'items' => 'setItems',
         'pagination' => 'setPagination',
-        'details' => 'setDetails'
+        'phone_lookup' => 'setPhoneLookup'
     ];
 
     /**
@@ -187,7 +187,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     protected static array $getters = [
         'items' => 'getItems',
         'pagination' => 'getPagination',
-        'details' => 'getDetails'
+        'phone_lookup' => 'getPhoneLookup'
     ];
 
     /**
@@ -239,7 +239,7 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $this->setIfExists('items', $data ?? [], null);
         $this->setIfExists('pagination', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('phone_lookup', $data ?? [], null);
     }
 
     /**
@@ -267,6 +267,15 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
+        if ($this->container['pagination'] === null) {
+            $invalidProperties[] = "'pagination' can't be null";
+        }
+        if ($this->container['phone_lookup'] === null) {
+            $invalidProperties[] = "'phone_lookup' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets items
      *
-     * @return \OpenRoam\Model\AirtimeOperator[]|null
+     * @return \OpenRoam\Model\AirtimeOperator[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -292,11 +301,11 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets items
      *
-     * @param \OpenRoam\Model\AirtimeOperator[]|null $items items
+     * @param \OpenRoam\Model\AirtimeOperator[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');
@@ -309,9 +318,9 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets pagination
      *
-     * @return \OpenRoam\Model\Pagination|null
+     * @return \OpenRoam\Model\Pagination
      */
-    public function getPagination(): ?\OpenRoam\Model\Pagination
+    public function getPagination(): \OpenRoam\Model\Pagination
     {
         return $this->container['pagination'];
     }
@@ -319,11 +328,11 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets pagination
      *
-     * @param \OpenRoam\Model\Pagination|null $pagination Paging of a list response.
+     * @param \OpenRoam\Model\Pagination $pagination Paging of a list response.
      *
      * @return $this
      */
-    public function setPagination(?\OpenRoam\Model\Pagination $pagination): static
+    public function setPagination(\OpenRoam\Model\Pagination $pagination): static
     {
         if (is_null($pagination)) {
             throw new InvalidArgumentException('non-nullable pagination cannot be null');
@@ -334,28 +343,28 @@ class AirtimeSearchResult implements ModelInterface, ArrayAccess, JsonSerializab
     }
 
     /**
-     * Gets details
+     * Gets phone_lookup
      *
-     * @return \OpenRoam\Model\AirtimeSearchDetails|null
+     * @return \OpenRoam\Model\CarrierDetection
      */
-    public function getDetails(): ?\OpenRoam\Model\AirtimeSearchDetails
+    public function getPhoneLookup(): \OpenRoam\Model\CarrierDetection
     {
-        return $this->container['details'];
+        return $this->container['phone_lookup'];
     }
 
     /**
-     * Sets details
+     * Sets phone_lookup
      *
-     * @param \OpenRoam\Model\AirtimeSearchDetails|null $details Airtime search facts outside the root keys every partner service shares.
+     * @param \OpenRoam\Model\CarrierDetection $phone_lookup The outcome of the phone number's carrier lookup.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\AirtimeSearchDetails $details): static
+    public function setPhoneLookup(\OpenRoam\Model\CarrierDetection $phone_lookup): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($phone_lookup)) {
+            throw new InvalidArgumentException('non-nullable phone_lookup cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['phone_lookup'] = $phone_lookup;
 
         return $this;
     }

@@ -266,6 +266,9 @@ class BookedAirline implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['iata_code'] === null) {
+            $invalidProperties[] = "'iata_code' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -281,9 +284,9 @@ class BookedAirline implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets iata_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getIataCode(): ?string
+    public function getIataCode(): string
     {
         return $this->container['iata_code'];
     }
@@ -291,11 +294,11 @@ class BookedAirline implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets iata_code
      *
-     * @param string|null $iata_code iata_code
+     * @param string $iata_code iata_code
      *
      * @return $this
      */
-    public function setIataCode(?string $iata_code): static
+    public function setIataCode(string $iata_code): static
     {
         if (is_null($iata_code)) {
             throw new InvalidArgumentException('non-nullable iata_code cannot be null');

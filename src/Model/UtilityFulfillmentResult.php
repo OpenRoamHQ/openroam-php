@@ -260,6 +260,9 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -309,9 +312,9 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets details
      *
-     * @return \OpenRoam\Model\UtilityFulfillmentDetails|null
+     * @return \OpenRoam\Model\UtilityFulfillmentDetails
      */
-    public function getDetails(): ?\OpenRoam\Model\UtilityFulfillmentDetails
+    public function getDetails(): \OpenRoam\Model\UtilityFulfillmentDetails
     {
         return $this->container['details'];
     }
@@ -319,11 +322,11 @@ class UtilityFulfillmentResult implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets details
      *
-     * @param \OpenRoam\Model\UtilityFulfillmentDetails|null $details The prepaid token a token biller delivered, once the payment is ready. Null for direct-credit billers.
+     * @param \OpenRoam\Model\UtilityFulfillmentDetails $details The prepaid token a token biller delivered, once the payment is ready. Null for direct-credit billers.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\UtilityFulfillmentDetails $details): static
+    public function setDetails(\OpenRoam\Model\UtilityFulfillmentDetails $details): static
     {
         if (is_null($details)) {
             throw new InvalidArgumentException('non-nullable details cannot be null');

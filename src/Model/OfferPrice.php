@@ -31,7 +31,7 @@ namespace OpenRoam\Model;
 /**
  * OfferPrice Class Doc Comment
  *
- * @description Price OpenRoam charges the partner for an offer: one amount, or bounds for a range offer. The variants carry no discriminator, so this type is written to responses and never bound.
+ * @description Price OpenRoam charges the partner for an offer: one amount, or bounds for a range offer. With a browser session, it is the traveller&#39;s price on the session&#39;s site. The variants carry no discriminator, so this type is written to responses and never bound.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

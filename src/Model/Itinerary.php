@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * Itinerary Class Doc Comment
  *
- * @description One itinerary: the same flights sold by the same airline, with the fares bookable on it as offers, cheapest first. &#x60;id&#x60; names the itinerary within this response only and is never orderable: quote and order an offer&#39;s &#x60;publicId&#x60;. Prices are indicative; quote recalculates them.
+ * @description One itinerary: the same flights sold by the same airline, with the fares bookable on it as offers, cheapest first. &#x60;id&#x60; names the itinerary within this response only and is never orderable: quote and order an offer&#39;s &#x60;publicId&#x60;. Prices are indicative; quote recalculates them. The flights and the airlines are shared by every fare.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -67,7 +67,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'string',
         'description' => 'string',
         'offers' => '\OpenRoam\Model\FlightOffer[]',
-        'details' => '\OpenRoam\Model\ItineraryDetails'
+        'owner' => '\OpenRoam\Model\Airline',
+        'slices' => '\OpenRoam\Model\Slice[]',
+        'marketing_carriers' => '\OpenRoam\Model\Airline[]',
+        'operating_carriers' => '\OpenRoam\Model\Airline[]',
+        'total_duration_minutes' => 'int',
+        'total_stops' => 'int',
+        'total_emissions_kg' => 'float'
     ];
 
     /**
@@ -83,7 +89,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => null,
         'description' => null,
         'offers' => null,
-        'details' => null
+        'owner' => null,
+        'slices' => null,
+        'marketing_carriers' => null,
+        'operating_carriers' => null,
+        'total_duration_minutes' => 'int32',
+        'total_stops' => 'int32',
+        'total_emissions_kg' => 'decimal'
     ];
 
     /**
@@ -99,7 +111,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => true,
         'description' => true,
         'offers' => false,
-        'details' => false
+        'owner' => false,
+        'slices' => false,
+        'marketing_carriers' => false,
+        'operating_carriers' => false,
+        'total_duration_minutes' => false,
+        'total_stops' => false,
+        'total_emissions_kg' => true
     ];
 
     /**
@@ -185,7 +203,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'logoUrl',
         'description' => 'description',
         'offers' => 'offers',
-        'details' => 'details'
+        'owner' => 'owner',
+        'slices' => 'slices',
+        'marketing_carriers' => 'marketingCarriers',
+        'operating_carriers' => 'operatingCarriers',
+        'total_duration_minutes' => 'totalDurationMinutes',
+        'total_stops' => 'totalStops',
+        'total_emissions_kg' => 'totalEmissionsKg'
     ];
 
     /**
@@ -201,7 +225,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'setLogoUrl',
         'description' => 'setDescription',
         'offers' => 'setOffers',
-        'details' => 'setDetails'
+        'owner' => 'setOwner',
+        'slices' => 'setSlices',
+        'marketing_carriers' => 'setMarketingCarriers',
+        'operating_carriers' => 'setOperatingCarriers',
+        'total_duration_minutes' => 'setTotalDurationMinutes',
+        'total_stops' => 'setTotalStops',
+        'total_emissions_kg' => 'setTotalEmissionsKg'
     ];
 
     /**
@@ -217,7 +247,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'getLogoUrl',
         'description' => 'getDescription',
         'offers' => 'getOffers',
-        'details' => 'getDetails'
+        'owner' => 'getOwner',
+        'slices' => 'getSlices',
+        'marketing_carriers' => 'getMarketingCarriers',
+        'operating_carriers' => 'getOperatingCarriers',
+        'total_duration_minutes' => 'getTotalDurationMinutes',
+        'total_stops' => 'getTotalStops',
+        'total_emissions_kg' => 'getTotalEmissionsKg'
     ];
 
     /**
@@ -274,7 +310,13 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('logo_url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('offers', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('owner', $data ?? [], null);
+        $this->setIfExists('slices', $data ?? [], null);
+        $this->setIfExists('marketing_carriers', $data ?? [], null);
+        $this->setIfExists('operating_carriers', $data ?? [], null);
+        $this->setIfExists('total_duration_minutes', $data ?? [], null);
+        $this->setIfExists('total_stops', $data ?? [], null);
+        $this->setIfExists('total_emissions_kg', $data ?? [], null);
     }
 
     /**
@@ -302,6 +344,33 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['offers'] === null) {
+            $invalidProperties[] = "'offers' can't be null";
+        }
+        if ($this->container['owner'] === null) {
+            $invalidProperties[] = "'owner' can't be null";
+        }
+        if ($this->container['slices'] === null) {
+            $invalidProperties[] = "'slices' can't be null";
+        }
+        if ($this->container['marketing_carriers'] === null) {
+            $invalidProperties[] = "'marketing_carriers' can't be null";
+        }
+        if ($this->container['operating_carriers'] === null) {
+            $invalidProperties[] = "'operating_carriers' can't be null";
+        }
+        if ($this->container['total_duration_minutes'] === null) {
+            $invalidProperties[] = "'total_duration_minutes' can't be null";
+        }
+        if ($this->container['total_stops'] === null) {
+            $invalidProperties[] = "'total_stops' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -317,9 +386,9 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -327,11 +396,11 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id Search-scoped itinerary id (`flight_it_…`), new in every response; quote, order and the seat map reject it with 400 / 11004.
+     * @param string $id Search-scoped itinerary id (`itin_…`), new in every response; quote, order and the seat map reject it with 400 / 11004.
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -344,9 +413,9 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -354,11 +423,11 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name \"{route} · {dates} · {airline}\", for example \"LHR ⇄ JFK · 12–19 Dec · British Airways\".
+     * @param string $name \"{route} · {dates} · {airline}\", for example \"LHR ⇄ JFK · 12–19 Dec · British Airways\".
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -507,9 +576,9 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offers
      *
-     * @return \OpenRoam\Model\FlightOffer[]|null
+     * @return \OpenRoam\Model\FlightOffer[]
      */
-    public function getOffers(): ?array
+    public function getOffers(): array
     {
         return $this->container['offers'];
     }
@@ -517,11 +586,11 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets offers
      *
-     * @param \OpenRoam\Model\FlightOffer[]|null $offers The fares bookable on this itinerary, cheapest first.
+     * @param \OpenRoam\Model\FlightOffer[] $offers The fares bookable on this itinerary, cheapest first.
      *
      * @return $this
      */
-    public function setOffers(?array $offers): static
+    public function setOffers(array $offers): static
     {
         if (is_null($offers)) {
             throw new InvalidArgumentException('non-nullable offers cannot be null');
@@ -532,28 +601,197 @@ class Itinerary implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets owner
      *
-     * @return \OpenRoam\Model\ItineraryDetails|null
+     * @return \OpenRoam\Model\Airline
      */
-    public function getDetails(): ?\OpenRoam\Model\ItineraryDetails
+    public function getOwner(): \OpenRoam\Model\Airline
     {
-        return $this->container['details'];
+        return $this->container['owner'];
     }
 
     /**
-     * Sets details
+     * Sets owner
      *
-     * @param \OpenRoam\Model\ItineraryDetails|null $details The flights and the airlines, shared by every fare.
+     * @param \OpenRoam\Model\Airline $owner The airline that sells the itinerary.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\ItineraryDetails $details): static
+    public function setOwner(\OpenRoam\Model\Airline $owner): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($owner)) {
+            throw new InvalidArgumentException('non-nullable owner cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['owner'] = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Gets slices
+     *
+     * @return \OpenRoam\Model\Slice[]
+     */
+    public function getSlices(): array
+    {
+        return $this->container['slices'];
+    }
+
+    /**
+     * Sets slices
+     *
+     * @param \OpenRoam\Model\Slice[] $slices The flights of the trip, in order. Fare facts (cabin and baggage per segment, fare basis) are on each offer.
+     *
+     * @return $this
+     */
+    public function setSlices(array $slices): static
+    {
+        if (is_null($slices)) {
+            throw new InvalidArgumentException('non-nullable slices cannot be null');
+        }
+        $this->container['slices'] = $slices;
+
+        return $this;
+    }
+
+    /**
+     * Gets marketing_carriers
+     *
+     * @return \OpenRoam\Model\Airline[]
+     */
+    public function getMarketingCarriers(): array
+    {
+        return $this->container['marketing_carriers'];
+    }
+
+    /**
+     * Sets marketing_carriers
+     *
+     * @param \OpenRoam\Model\Airline[] $marketing_carriers Airlines that market a segment.
+     *
+     * @return $this
+     */
+    public function setMarketingCarriers(array $marketing_carriers): static
+    {
+        if (is_null($marketing_carriers)) {
+            throw new InvalidArgumentException('non-nullable marketing_carriers cannot be null');
+        }
+        $this->container['marketing_carriers'] = $marketing_carriers;
+
+        return $this;
+    }
+
+    /**
+     * Gets operating_carriers
+     *
+     * @return \OpenRoam\Model\Airline[]
+     */
+    public function getOperatingCarriers(): array
+    {
+        return $this->container['operating_carriers'];
+    }
+
+    /**
+     * Sets operating_carriers
+     *
+     * @param \OpenRoam\Model\Airline[] $operating_carriers Airlines that fly a segment.
+     *
+     * @return $this
+     */
+    public function setOperatingCarriers(array $operating_carriers): static
+    {
+        if (is_null($operating_carriers)) {
+            throw new InvalidArgumentException('non-nullable operating_carriers cannot be null');
+        }
+        $this->container['operating_carriers'] = $operating_carriers;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_duration_minutes
+     *
+     * @return int
+     */
+    public function getTotalDurationMinutes(): int
+    {
+        return $this->container['total_duration_minutes'];
+    }
+
+    /**
+     * Sets total_duration_minutes
+     *
+     * @param int $total_duration_minutes Flying and connection time across all slices.
+     *
+     * @return $this
+     */
+    public function setTotalDurationMinutes(int $total_duration_minutes): static
+    {
+        if (is_null($total_duration_minutes)) {
+            throw new InvalidArgumentException('non-nullable total_duration_minutes cannot be null');
+        }
+        $this->container['total_duration_minutes'] = $total_duration_minutes;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_stops
+     *
+     * @return int
+     */
+    public function getTotalStops(): int
+    {
+        return $this->container['total_stops'];
+    }
+
+    /**
+     * Sets total_stops
+     *
+     * @param int $total_stops Connections across all slices.
+     *
+     * @return $this
+     */
+    public function setTotalStops(int $total_stops): static
+    {
+        if (is_null($total_stops)) {
+            throw new InvalidArgumentException('non-nullable total_stops cannot be null');
+        }
+        $this->container['total_stops'] = $total_stops;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_emissions_kg
+     *
+     * @return float|null
+     */
+    public function getTotalEmissionsKg(): ?float
+    {
+        return $this->container['total_emissions_kg'];
+    }
+
+    /**
+     * Sets total_emissions_kg
+     *
+     * @param float|null $total_emissions_kg The CO₂ estimate for all passengers on this itinerary, as given with its cheapest fare; null when not given.
+     *
+     * @return $this
+     */
+    public function setTotalEmissionsKg(?float $total_emissions_kg): static
+    {
+        if (is_null($total_emissions_kg)) {
+            array_push($this->openAPINullablesSetToNull, 'total_emissions_kg');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('total_emissions_kg', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['total_emissions_kg'] = $total_emissions_kg;
 
         return $this;
     }

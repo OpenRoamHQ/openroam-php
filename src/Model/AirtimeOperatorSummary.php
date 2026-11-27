@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * AirtimeOperatorSummary Class Doc Comment
  *
- * @description One operator as the operator list and the catalog return it, without offers. &#x60;id&#x60; is the stable canonical operator ID that &#x60;operators/{id}&#x60; takes. Airtime has no categories, so &#x60;category&#x60; is always null.
+ * @description One operator as the operator list and the catalog return it, without offers. &#x60;id&#x60; is the stable operator id &#x60;operator_…&#x60; that &#x60;operators/{id}&#x60; takes. Airtime has no categories, so &#x60;category&#x60; is always null.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -73,7 +73,7 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'id' => 'uuid',
+        'id' => null,
         'name' => null,
         'country_code' => null,
         'category' => null,
@@ -281,6 +281,15 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +305,9 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -306,11 +315,11 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -323,9 +332,9 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -333,11 +342,11 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -350,9 +359,9 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -360,11 +369,11 @@ class AirtimeOperatorSummary implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');

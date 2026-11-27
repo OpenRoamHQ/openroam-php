@@ -234,12 +234,13 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     }
 
     public const STATUS_PAYMENT_PENDING = 'paymentPending';
-    public const STATUS_PAID = 'paid';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
-    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
-    public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_PARTIALLY_FULFILLED = 'partiallyFulfilled';
+    public const STATUS_FULFILLMENT_FAILED = 'fulfillmentFailed';
+    public const STATUS_PARTIALLY_REFUNDED = 'partiallyRefunded';
+    public const STATUS_REFUNDED = 'refunded';
+    public const STATUS_CANCELLED = 'cancelled';
 
     /**
      * Gets allowable values of the enum
@@ -250,12 +251,13 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     {
         return [
             self::STATUS_PAYMENT_PENDING,
-            self::STATUS_PAID,
             self::STATUS_PROCESSING,
             self::STATUS_COMPLETED,
-            self::STATUS_FULFILLMENT_FAILED,
-            self::STATUS_CANCELLED,
             self::STATUS_PARTIALLY_FULFILLED,
+            self::STATUS_FULFILLMENT_FAILED,
+            self::STATUS_PARTIALLY_REFUNDED,
+            self::STATUS_REFUNDED,
+            self::STATUS_CANCELLED,
         ];
     }
 
@@ -305,6 +307,15 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     {
         $invalidProperties = [];
 
+        if ($this->container['order_id'] === null) {
+            $invalidProperties[] = "'order_id' can't be null";
+        }
+        if ($this->container['origin'] === null) {
+            $invalidProperties[] = "'origin' can't be null";
+        }
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
+        }
         $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -314,6 +325,12 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
             );
         }
 
+        if ($this->container['fulfillment_version'] === null) {
+            $invalidProperties[] = "'fulfillment_version' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -329,9 +346,9 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets order_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->container['order_id'];
     }
@@ -339,11 +356,11 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets order_id
      *
-     * @param string|null $order_id order_id
+     * @param string $order_id order_id
      *
      * @return $this
      */
-    public function setOrderId(?string $order_id): static
+    public function setOrderId(string $order_id): static
     {
         if (is_null($order_id)) {
             throw new InvalidArgumentException('non-nullable order_id cannot be null');
@@ -356,9 +373,9 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets origin
      *
-     * @return \OpenRoam\Model\OrderOrigin|null
+     * @return \OpenRoam\Model\OrderOrigin
      */
-    public function getOrigin(): ?\OpenRoam\Model\OrderOrigin
+    public function getOrigin(): \OpenRoam\Model\OrderOrigin
     {
         return $this->container['origin'];
     }
@@ -366,11 +383,11 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets origin
      *
-     * @param \OpenRoam\Model\OrderOrigin|null $origin Where an order was created.
+     * @param \OpenRoam\Model\OrderOrigin $origin Where an order was created.
      *
      * @return $this
      */
-    public function setOrigin(?\OpenRoam\Model\OrderOrigin $origin): static
+    public function setOrigin(\OpenRoam\Model\OrderOrigin $origin): static
     {
         if (is_null($origin)) {
             throw new InvalidArgumentException('non-nullable origin cannot be null');
@@ -383,9 +400,9 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets status
      *
-     * @return string|null
+     * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->container['status'];
     }
@@ -393,11 +410,11 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets status
      *
-     * @param string|null $status status
+     * @param string $status The order's status, including the refunds of its delivered items.
      *
      * @return $this
      */
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
@@ -420,9 +437,9 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets fulfillment_version
      *
-     * @return int|null
+     * @return int
      */
-    public function getFulfillmentVersion(): ?int
+    public function getFulfillmentVersion(): int
     {
         return $this->container['fulfillment_version'];
     }
@@ -430,11 +447,11 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets fulfillment_version
      *
-     * @param int|null $fulfillment_version fulfillment_version
+     * @param int $fulfillment_version fulfillment_version
      *
      * @return $this
      */
-    public function setFulfillmentVersion(?int $fulfillment_version): static
+    public function setFulfillmentVersion(int $fulfillment_version): static
     {
         if (is_null($fulfillment_version)) {
             throw new InvalidArgumentException('non-nullable fulfillment_version cannot be null');
@@ -447,9 +464,9 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Gets items
      *
-     * @return (\OpenRoam\Model\EsimFulfillmentUpdate|\OpenRoam\Model\HotelFulfillmentUpdate|\OpenRoam\Model\FlightFulfillmentUpdate|\OpenRoam\Model\GiftCardFulfillmentUpdate|\OpenRoam\Model\AirtimeFulfillmentUpdate|\OpenRoam\Model\UtilityFulfillmentUpdate)[]|null
+     * @return (\OpenRoam\Model\EsimFulfillmentUpdate|\OpenRoam\Model\HotelFulfillmentUpdate|\OpenRoam\Model\FlightFulfillmentUpdate|\OpenRoam\Model\GiftCardFulfillmentUpdate|\OpenRoam\Model\AirtimeFulfillmentUpdate|\OpenRoam\Model\UtilityFulfillmentUpdate)[]
      */
-    public function getItems(): ?array
+    public function getItems(): array
     {
         return $this->container['items'];
     }
@@ -457,11 +474,11 @@ class OrderFulfillmentWebhookData implements ModelInterface, ArrayAccess, JsonSe
     /**
      * Sets items
      *
-     * @param (\OpenRoam\Model\EsimFulfillmentUpdate|\OpenRoam\Model\HotelFulfillmentUpdate|\OpenRoam\Model\FlightFulfillmentUpdate|\OpenRoam\Model\GiftCardFulfillmentUpdate|\OpenRoam\Model\AirtimeFulfillmentUpdate|\OpenRoam\Model\UtilityFulfillmentUpdate)[]|null $items items
+     * @param (\OpenRoam\Model\EsimFulfillmentUpdate|\OpenRoam\Model\HotelFulfillmentUpdate|\OpenRoam\Model\FlightFulfillmentUpdate|\OpenRoam\Model\GiftCardFulfillmentUpdate|\OpenRoam\Model\AirtimeFulfillmentUpdate|\OpenRoam\Model\UtilityFulfillmentUpdate)[] $items items
      *
      * @return $this
      */
-    public function setItems(?array $items): static
+    public function setItems(array $items): static
     {
         if (is_null($items)) {
             throw new InvalidArgumentException('non-nullable items cannot be null');

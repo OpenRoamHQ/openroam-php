@@ -14,7 +14,7 @@ class EsimsResource
     }
 
     /**
-     * Search eSIM plans. GET /api/v1/b2b/esims/search
+     * Search eSIM plans. GET /v1/esims/search
      *
      * @param array{countryCode?: string, category?: string, region?: string, validityDays?: int, isUnlimited?: bool, iccid?: string, currency?: string, page?: int, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -31,7 +31,7 @@ class EsimsResource
     }
 
     /**
-     * List eSIM destinations. GET /api/v1/b2b/esims/destinations
+     * List eSIM destinations. GET /v1/esims/destinations
      *
      * @param array{category?: string, region?: string} $query
      * @param array{timeout?: float|int} $options
@@ -48,7 +48,7 @@ class EsimsResource
     }
 
     /**
-     * Get an eSIM destination. GET /api/v1/b2b/esims/destinations/{id}
+     * Get an eSIM destination. GET /v1/esims/destinations/{id}
      *
      * @param string $id
      * @param array{currency?: string} $query
@@ -67,7 +67,7 @@ class EsimsResource
     }
 
     /**
-     * eSIM catalog. GET /api/v1/b2b/esims/catalog
+     * eSIM catalog. GET /v1/esims/catalog
      *
      * @param array{countryCode?: string, category?: string, region?: string, validityDays?: int, isUnlimited?: bool, currency?: string, cursor?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -84,7 +84,7 @@ class EsimsResource
     }
 
     /**
-     * List compatible devices. GET /api/v1/b2b/esims/compatible-devices
+     * List compatible devices. GET /v1/esims/compatible-devices
      *
      * @param array{timeout?: float|int} $options
      * @return \OpenRoam\Model\EsimCompatibleDevice[]
@@ -100,7 +100,7 @@ class EsimsResource
     }
 
     /**
-     * Order eSIMs. POST /api/v1/b2b/esims/order
+     * Order eSIMs. POST /v1/esims/order
      *
      * @param \OpenRoam\Model\EsimOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -119,7 +119,7 @@ class EsimsResource
     }
 
     /**
-     * Quote eSIMs. POST /api/v1/b2b/esims/quote
+     * Quote eSIMs. POST /v1/esims/quote
      *
      * @param \OpenRoam\Model\EsimOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options
@@ -137,7 +137,7 @@ class EsimsResource
     }
 
     /**
-     * Get an eSIM. GET /api/v1/b2b/esims/{iccid}/profile
+     * Get an eSIM. GET /v1/esims/{iccid}/profile
      *
      * @param string $iccid
      * @param array{timeout?: float|int} $options
@@ -154,7 +154,7 @@ class EsimsResource
     }
 
     /**
-     * Get eSIM usage. GET /api/v1/b2b/esims/{iccid}/usage
+     * Get eSIM usage. GET /v1/esims/{iccid}/usage
      *
      * @param string $iccid
      * @param array{timeout?: float|int} $options
@@ -171,7 +171,7 @@ class EsimsResource
     }
 
     /**
-     * Get eSIM usage by day. GET /api/v1/b2b/esims/{iccid}/usage/details
+     * Get eSIM usage by day. GET /v1/esims/{iccid}/usage/details
      *
      * @param string $iccid
      * @param array{timeout?: float|int} $options
@@ -188,7 +188,7 @@ class EsimsResource
     }
 
     /**
-     * List eSIM usage history. GET /api/v1/b2b/esims/{iccid}/usage/history
+     * List eSIM usage history. GET /v1/esims/{iccid}/usage/history
      *
      * @param string $iccid
      * @param array{page?: int, limit?: int, from?: \DateTimeInterface|string, to?: \DateTimeInterface|string} $query
@@ -207,7 +207,7 @@ class EsimsResource
     }
 
     /**
-     * List eSIM status events. GET /api/v1/b2b/esims/{iccid}/status-events
+     * List eSIM status events. GET /v1/esims/{iccid}/status-events
      *
      * @param string $iccid
      * @param array{page?: int, limit?: int, from?: \DateTimeInterface|string, to?: \DateTimeInterface|string} $query
@@ -226,7 +226,7 @@ class EsimsResource
     }
 
     /**
-     * List eSIM location events. GET /api/v1/b2b/esims/{iccid}/location-events
+     * List eSIM location events. GET /v1/esims/{iccid}/location-events
      *
      * @param string $iccid
      * @param array{page?: int, limit?: int, from?: \DateTimeInterface|string, to?: \DateTimeInterface|string} $query
@@ -245,7 +245,7 @@ class EsimsResource
     }
 
     /**
-     * Provision a deferred eSIM. POST /api/v1/b2b/esims/{id}/provisioning
+     * Provision a deferred eSIM. POST /v1/esims/{id}/provisioning
      *
      * @param string $id
      * @param \OpenRoam\Model\EsimProvisioningRequest|array|null $body the model, or an array of the same fields
@@ -266,7 +266,7 @@ class EsimsResource
     }
 
     /**
-     * Send an SMS to an eSIM. POST /api/v1/b2b/esims/{iccid}/sms
+     * Send an SMS to an eSIM. POST /v1/esims/{iccid}/sms
      *
      * @param string $iccid
      * @param \OpenRoam\Model\EsimSmsRequest|array $body the model, or an array of the same fields

@@ -253,6 +253,9 @@ class CurrencyList implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['currencies'] === null) {
+            $invalidProperties[] = "'currencies' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -268,9 +271,9 @@ class CurrencyList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets currencies
      *
-     * @return \OpenRoam\Model\Currency[]|null
+     * @return \OpenRoam\Model\Currency[]
      */
-    public function getCurrencies(): ?array
+    public function getCurrencies(): array
     {
         return $this->container['currencies'];
     }
@@ -278,11 +281,11 @@ class CurrencyList implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets currencies
      *
-     * @param \OpenRoam\Model\Currency[]|null $currencies The currencies.
+     * @param \OpenRoam\Model\Currency[] $currencies The currencies.
      *
      * @return $this
      */
-    public function setCurrencies(?array $currencies): static
+    public function setCurrencies(array $currencies): static
     {
         if (is_null($currencies)) {
             throw new InvalidArgumentException('non-nullable currencies cannot be null');

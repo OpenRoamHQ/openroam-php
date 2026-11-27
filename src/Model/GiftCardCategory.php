@@ -287,6 +287,9 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -296,6 +299,9 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -311,9 +317,9 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -321,11 +327,11 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');
@@ -348,9 +354,9 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -358,11 +364,11 @@ class GiftCardCategory implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');

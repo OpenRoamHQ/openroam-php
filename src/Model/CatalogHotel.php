@@ -66,7 +66,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => 'string',
         'logo_url' => 'string',
         'description' => 'string',
-        'details' => '\OpenRoam\Model\HotelDetails'
+        'star_rating' => 'float',
+        'address' => '\OpenRoam\Model\Address',
+        'coordinates' => '\OpenRoam\Model\Coordinates',
+        'image_urls' => 'string[]',
+        'amenity_groups' => '\OpenRoam\Model\HotelAmenityGroup[]',
+        'contact' => '\OpenRoam\Model\HotelContact',
+        'display_group' => '\OpenRoam\Model\UnitAvailability'
     ];
 
     /**
@@ -81,7 +87,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => null,
         'logo_url' => null,
         'description' => null,
-        'details' => null
+        'star_rating' => 'decimal',
+        'address' => null,
+        'coordinates' => null,
+        'image_urls' => null,
+        'amenity_groups' => null,
+        'contact' => null,
+        'display_group' => null
     ];
 
     /**
@@ -96,7 +108,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => true,
         'logo_url' => true,
         'description' => true,
-        'details' => false
+        'star_rating' => true,
+        'address' => true,
+        'coordinates' => true,
+        'image_urls' => false,
+        'amenity_groups' => false,
+        'contact' => true,
+        'display_group' => true
     ];
 
     /**
@@ -181,7 +199,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => 'category',
         'logo_url' => 'logoUrl',
         'description' => 'description',
-        'details' => 'details'
+        'star_rating' => 'starRating',
+        'address' => 'address',
+        'coordinates' => 'coordinates',
+        'image_urls' => 'imageUrls',
+        'amenity_groups' => 'amenityGroups',
+        'contact' => 'contact',
+        'display_group' => 'displayGroup'
     ];
 
     /**
@@ -196,7 +220,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => 'setCategory',
         'logo_url' => 'setLogoUrl',
         'description' => 'setDescription',
-        'details' => 'setDetails'
+        'star_rating' => 'setStarRating',
+        'address' => 'setAddress',
+        'coordinates' => 'setCoordinates',
+        'image_urls' => 'setImageUrls',
+        'amenity_groups' => 'setAmenityGroups',
+        'contact' => 'setContact',
+        'display_group' => 'setDisplayGroup'
     ];
 
     /**
@@ -211,7 +241,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         'category' => 'getCategory',
         'logo_url' => 'getLogoUrl',
         'description' => 'getDescription',
-        'details' => 'getDetails'
+        'star_rating' => 'getStarRating',
+        'address' => 'getAddress',
+        'coordinates' => 'getCoordinates',
+        'image_urls' => 'getImageUrls',
+        'amenity_groups' => 'getAmenityGroups',
+        'contact' => 'getContact',
+        'display_group' => 'getDisplayGroup'
     ];
 
     /**
@@ -267,7 +303,13 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('category', $data ?? [], null);
         $this->setIfExists('logo_url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('star_rating', $data ?? [], null);
+        $this->setIfExists('address', $data ?? [], null);
+        $this->setIfExists('coordinates', $data ?? [], null);
+        $this->setIfExists('image_urls', $data ?? [], null);
+        $this->setIfExists('amenity_groups', $data ?? [], null);
+        $this->setIfExists('contact', $data ?? [], null);
+        $this->setIfExists('display_group', $data ?? [], null);
     }
 
     /**
@@ -295,6 +337,18 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['image_urls'] === null) {
+            $invalidProperties[] = "'image_urls' can't be null";
+        }
+        if ($this->container['amenity_groups'] === null) {
+            $invalidProperties[] = "'amenity_groups' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +364,9 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -320,11 +374,11 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id The hotel's stable catalog ID (`hotel_…`).
+     * @param string $id The hotel's stable catalog ID (`hotel_…`).
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -337,9 +391,9 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -347,11 +401,11 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name The hotel's name.
+     * @param string $name The hotel's name.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -498,28 +552,225 @@ class CatalogHotel implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets star_rating
      *
-     * @return \OpenRoam\Model\HotelDetails|null
+     * @return float|null
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelDetails
+    public function getStarRating(): ?float
     {
-        return $this->container['details'];
+        return $this->container['star_rating'];
     }
 
     /**
-     * Sets details
+     * Sets star_rating
      *
-     * @param \OpenRoam\Model\HotelDetails|null $details Hotel facts outside the item keys every partner service shares.
+     * @param float|null $star_rating Star rating, for example 4 or 4.5; null when not known.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelDetails $details): static
+    public function setStarRating(?float $star_rating): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($star_rating)) {
+            array_push($this->openAPINullablesSetToNull, 'star_rating');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('star_rating', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['details'] = $details;
+        $this->container['star_rating'] = $star_rating;
+
+        return $this;
+    }
+
+    /**
+     * Gets address
+     *
+     * @return \OpenRoam\Model\Address|null
+     */
+    public function getAddress(): ?\OpenRoam\Model\Address
+    {
+        return $this->container['address'];
+    }
+
+    /**
+     * Sets address
+     *
+     * @param \OpenRoam\Model\Address|null $address The hotel's address; null when not known.
+     *
+     * @return $this
+     */
+    public function setAddress(?\OpenRoam\Model\Address $address): static
+    {
+        if (is_null($address)) {
+            array_push($this->openAPINullablesSetToNull, 'address');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('address', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['address'] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Gets coordinates
+     *
+     * @return \OpenRoam\Model\Coordinates|null
+     */
+    public function getCoordinates(): ?\OpenRoam\Model\Coordinates
+    {
+        return $this->container['coordinates'];
+    }
+
+    /**
+     * Sets coordinates
+     *
+     * @param \OpenRoam\Model\Coordinates|null $coordinates The hotel's position; null when not known.
+     *
+     * @return $this
+     */
+    public function setCoordinates(?\OpenRoam\Model\Coordinates $coordinates): static
+    {
+        if (is_null($coordinates)) {
+            array_push($this->openAPINullablesSetToNull, 'coordinates');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('coordinates', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['coordinates'] = $coordinates;
+
+        return $this;
+    }
+
+    /**
+     * Gets image_urls
+     *
+     * @return string[]
+     */
+    public function getImageUrls(): array
+    {
+        return $this->container['image_urls'];
+    }
+
+    /**
+     * Sets image_urls
+     *
+     * @param string[] $image_urls Gallery images hosted by OpenRoam.
+     *
+     * @return $this
+     */
+    public function setImageUrls(array $image_urls): static
+    {
+        if (is_null($image_urls)) {
+            throw new InvalidArgumentException('non-nullable image_urls cannot be null');
+        }
+        $this->container['image_urls'] = $image_urls;
+
+        return $this;
+    }
+
+    /**
+     * Gets amenity_groups
+     *
+     * @return \OpenRoam\Model\HotelAmenityGroup[]
+     */
+    public function getAmenityGroups(): array
+    {
+        return $this->container['amenity_groups'];
+    }
+
+    /**
+     * Sets amenity_groups
+     *
+     * @param \OpenRoam\Model\HotelAmenityGroup[] $amenity_groups The hotel's amenities as codes in display groups; label them from `hotels/amenities/catalog`.
+     *
+     * @return $this
+     */
+    public function setAmenityGroups(array $amenity_groups): static
+    {
+        if (is_null($amenity_groups)) {
+            throw new InvalidArgumentException('non-nullable amenity_groups cannot be null');
+        }
+        $this->container['amenity_groups'] = $amenity_groups;
+
+        return $this;
+    }
+
+    /**
+     * Gets contact
+     *
+     * @return \OpenRoam\Model\HotelContact|null
+     */
+    public function getContact(): ?\OpenRoam\Model\HotelContact
+    {
+        return $this->container['contact'];
+    }
+
+    /**
+     * Sets contact
+     *
+     * @param \OpenRoam\Model\HotelContact|null $contact The hotel's phone, email and website; null when none is known.
+     *
+     * @return $this
+     */
+    public function setContact(?\OpenRoam\Model\HotelContact $contact): static
+    {
+        if (is_null($contact)) {
+            array_push($this->openAPINullablesSetToNull, 'contact');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('contact', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['contact'] = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Gets display_group
+     *
+     * @return \OpenRoam\Model\UnitAvailability|null
+     */
+    public function getDisplayGroup(): ?\OpenRoam\Model\UnitAvailability
+    {
+        return $this->container['display_group'];
+    }
+
+    /**
+     * Sets display_group
+     *
+     * @param \OpenRoam\Model\UnitAvailability|null $display_group Always null here: only a dashboard search card stands for several bookable units.
+     *
+     * @return $this
+     */
+    public function setDisplayGroup(?\OpenRoam\Model\UnitAvailability $display_group): static
+    {
+        if (is_null($display_group)) {
+            array_push($this->openAPINullablesSetToNull, 'display_group');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('display_group', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['display_group'] = $display_group;
 
         return $this;
     }

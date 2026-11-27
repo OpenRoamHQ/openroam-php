@@ -61,7 +61,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'iccid' => 'string',
-        'status' => 'string',
+        'esim_status' => 'string',
         'profile_status' => 'string',
         'occurred_at' => '\DateTime'
     ];
@@ -73,7 +73,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPIFormats = [
         'iccid' => null,
-        'status' => null,
+        'esim_status' => null,
         'profile_status' => null,
         'occurred_at' => 'date-time'
     ];
@@ -85,7 +85,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPINullables = [
         'iccid' => false,
-        'status' => false,
+        'esim_status' => false,
         'profile_status' => false,
         'occurred_at' => false
     ];
@@ -167,7 +167,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $attributeMap = [
         'iccid' => 'iccid',
-        'status' => 'status',
+        'esim_status' => 'esimStatus',
         'profile_status' => 'profileStatus',
         'occurred_at' => 'occurredAt'
     ];
@@ -179,7 +179,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $setters = [
         'iccid' => 'setIccid',
-        'status' => 'setStatus',
+        'esim_status' => 'setEsimStatus',
         'profile_status' => 'setProfileStatus',
         'occurred_at' => 'setOccurredAt'
     ];
@@ -191,7 +191,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $getters = [
         'iccid' => 'getIccid',
-        'status' => 'getStatus',
+        'esim_status' => 'getEsimStatus',
         'profile_status' => 'getProfileStatus',
         'occurred_at' => 'getOccurredAt'
     ];
@@ -228,16 +228,15 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const STATUS__NEW = 'new';
-    public const STATUS_PROCURING = 'procuring';
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_FAILED = 'failed';
-    public const STATUS_READY = 'ready';
-    public const STATUS_REQUIRE_ACTION = 'requireAction';
-    public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_REVOKED = 'revoked';
-    public const STATUS_EXPIRED = 'expired';
-    public const STATUS_UNKNOWN = 'unknown';
+    public const ESIM_STATUS__NEW = 'new';
+    public const ESIM_STATUS_PROCURING = 'procuring';
+    public const ESIM_STATUS_PENDING = 'pending';
+    public const ESIM_STATUS_FAILED = 'failed';
+    public const ESIM_STATUS_READY = 'ready';
+    public const ESIM_STATUS_CANCELLED = 'cancelled';
+    public const ESIM_STATUS_REVOKED = 'revoked';
+    public const ESIM_STATUS_EXPIRED = 'expired';
+    public const ESIM_STATUS_UNKNOWN = 'unknown';
     public const PROFILE_STATUS__EMPTY = 'empty';
     public const PROFILE_STATUS__NEW = 'new';
     public const PROFILE_STATUS_DOWNLOADED = 'downloaded';
@@ -254,19 +253,18 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public static function getStatusAllowableValues()
+    public static function getEsimStatusAllowableValues()
     {
         return [
-            self::STATUS__NEW,
-            self::STATUS_PROCURING,
-            self::STATUS_PENDING,
-            self::STATUS_FAILED,
-            self::STATUS_READY,
-            self::STATUS_REQUIRE_ACTION,
-            self::STATUS_CANCELLED,
-            self::STATUS_REVOKED,
-            self::STATUS_EXPIRED,
-            self::STATUS_UNKNOWN,
+            self::ESIM_STATUS__NEW,
+            self::ESIM_STATUS_PROCURING,
+            self::ESIM_STATUS_PENDING,
+            self::ESIM_STATUS_FAILED,
+            self::ESIM_STATUS_READY,
+            self::ESIM_STATUS_CANCELLED,
+            self::ESIM_STATUS_REVOKED,
+            self::ESIM_STATUS_EXPIRED,
+            self::ESIM_STATUS_UNKNOWN,
         ];
     }
 
@@ -306,7 +304,7 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('iccid', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('esim_status', $data ?? [], null);
         $this->setIfExists('profile_status', $data ?? [], null);
         $this->setIfExists('occurred_at', $data ?? [], null);
     }
@@ -339,14 +337,14 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['iccid'] === null) {
             $invalidProperties[] = "'iccid' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
+        if ($this->container['esim_status'] === null) {
+            $invalidProperties[] = "'esim_status' can't be null";
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!is_null($this->container['esim_status']) && !in_array($this->container['esim_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
+                "invalid value '%s' for 'esim_status', must be one of '%s'",
+                $this->container['esim_status'],
                 implode("', '", $allowedValues)
             );
         }
@@ -406,38 +404,38 @@ class EsimStatusEvent implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets status
+     * Gets esim_status
      *
      * @return string
      */
-    public function getStatus(): string
+    public function getEsimStatus(): string
     {
-        return $this->container['status'];
+        return $this->container['esim_status'];
     }
 
     /**
-     * Sets status
+     * Sets esim_status
      *
-     * @param string $status The eSIM's lifecycle status after the change.
+     * @param string $esim_status The eSIM's lifecycle status after the change, with the values of `esimStatus`.
      *
      * @return $this
      */
-    public function setStatus(string $status): static
+    public function setEsimStatus(string $esim_status): static
     {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($esim_status)) {
+            throw new InvalidArgumentException('non-nullable esim_status cannot be null');
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!in_array($esim_status, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
+                    "Invalid value '%s' for 'esim_status', must be one of '%s'",
+                    $esim_status,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['status'] = $status;
+        $this->container['esim_status'] = $esim_status;
 
         return $this;
     }

@@ -355,7 +355,7 @@ class FlightSearchSlice implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets departure_date
      *
-     * @param \DateTime $departure_date Local departure date (`yyyy-MM-dd`); today or later.
+     * @param \DateTime $departure_date Local departure date (`yyyy-MM-dd`): today or later at the departure airport. Only a date that             has ended everywhere is refused; availability decides the rest.
      *
      * @return $this
      */

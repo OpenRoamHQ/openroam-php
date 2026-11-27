@@ -328,6 +328,15 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     {
         $invalidProperties = [];
 
+        if ($this->container['owner'] === null) {
+            $invalidProperties[] = "'owner' can't be null";
+        }
+        if ($this->container['slices'] === null) {
+            $invalidProperties[] = "'slices' can't be null";
+        }
+        if ($this->container['cabin_class'] === null) {
+            $invalidProperties[] = "'cabin_class' can't be null";
+        }
         $allowedValues = self::getCabinClassAllowableValues();
         if (!is_null($this->container['cabin_class']) && !in_array($this->container['cabin_class'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -337,6 +346,24 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
             );
         }
 
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['included_baggage'] === null) {
+            $invalidProperties[] = "'included_baggage' can't be null";
+        }
+        if ($this->container['selected_services'] === null) {
+            $invalidProperties[] = "'selected_services' can't be null";
+        }
+        if ($this->container['price_lines'] === null) {
+            $invalidProperties[] = "'price_lines' can't be null";
+        }
+        if ($this->container['total_duration_minutes'] === null) {
+            $invalidProperties[] = "'total_duration_minutes' can't be null";
+        }
+        if ($this->container['total_stops'] === null) {
+            $invalidProperties[] = "'total_stops' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -352,9 +379,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets owner
      *
-     * @return \OpenRoam\Model\BookedAirline|null
+     * @return \OpenRoam\Model\BookedAirline
      */
-    public function getOwner(): ?\OpenRoam\Model\BookedAirline
+    public function getOwner(): \OpenRoam\Model\BookedAirline
     {
         return $this->container['owner'];
     }
@@ -362,11 +389,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets owner
      *
-     * @param \OpenRoam\Model\BookedAirline|null $owner The airline that sold the fare.
+     * @param \OpenRoam\Model\BookedAirline $owner The airline that sold the fare.
      *
      * @return $this
      */
-    public function setOwner(?\OpenRoam\Model\BookedAirline $owner): static
+    public function setOwner(\OpenRoam\Model\BookedAirline $owner): static
     {
         if (is_null($owner)) {
             throw new InvalidArgumentException('non-nullable owner cannot be null');
@@ -379,9 +406,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets slices
      *
-     * @return \OpenRoam\Model\BookedSlice[]|null
+     * @return \OpenRoam\Model\BookedSlice[]
      */
-    public function getSlices(): ?array
+    public function getSlices(): array
     {
         return $this->container['slices'];
     }
@@ -389,11 +416,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets slices
      *
-     * @param \OpenRoam\Model\BookedSlice[]|null $slices The flights bought, in order. They stay as bought; the result's `booking` has the flights booked now.
+     * @param \OpenRoam\Model\BookedSlice[] $slices The flights bought, in order. They stay as bought; the result's `booking` has the flights booked now. Empty for an item bought before flight times were UTC at an airport whose time zone is unknown: it has no instant to state.
      *
      * @return $this
      */
-    public function setSlices(?array $slices): static
+    public function setSlices(array $slices): static
     {
         if (is_null($slices)) {
             throw new InvalidArgumentException('non-nullable slices cannot be null');
@@ -406,9 +433,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets cabin_class
      *
-     * @return string|null
+     * @return string
      */
-    public function getCabinClass(): ?string
+    public function getCabinClass(): string
     {
         return $this->container['cabin_class'];
     }
@@ -416,11 +443,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets cabin_class
      *
-     * @param string|null $cabin_class The fare's cabin.
+     * @param string $cabin_class The fare's cabin.
      *
      * @return $this
      */
-    public function setCabinClass(?string $cabin_class): static
+    public function setCabinClass(string $cabin_class): static
     {
         if (is_null($cabin_class)) {
             throw new InvalidArgumentException('non-nullable cabin_class cannot be null');
@@ -443,9 +470,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets terms
      *
-     * @return \OpenRoam\Model\BookingTerms|null
+     * @return \OpenRoam\Model\BookingTerms
      */
-    public function getTerms(): ?\OpenRoam\Model\BookingTerms
+    public function getTerms(): \OpenRoam\Model\BookingTerms
     {
         return $this->container['terms'];
     }
@@ -453,11 +480,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets terms
      *
-     * @param \OpenRoam\Model\BookingTerms|null $terms The terms the item was bought on, as quoted: always `payNow`, what cancelling gives back and whether it can be changed, in the order currency, OpenRoam's fees included.
+     * @param \OpenRoam\Model\BookingTerms $terms The terms the item was bought on, as quoted: always `payNow`, what cancelling gives back and whether it can be changed, in the order currency, OpenRoam's fees included. Each cancellation instant is also stated on the clock of the first departure airport.
      *
      * @return $this
      */
-    public function setTerms(?\OpenRoam\Model\BookingTerms $terms): static
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
     {
         if (is_null($terms)) {
             throw new InvalidArgumentException('non-nullable terms cannot be null');
@@ -470,9 +497,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\BookedBaggage[]|null
+     * @return \OpenRoam\Model\BookedBaggage[]
      */
-    public function getIncludedBaggage(): ?array
+    public function getIncludedBaggage(): array
     {
         return $this->container['included_baggage'];
     }
@@ -480,11 +507,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\BookedBaggage[]|null $included_baggage Baggage included for every passenger.
+     * @param \OpenRoam\Model\BookedBaggage[] $included_baggage Baggage included for every passenger.
      *
      * @return $this
      */
-    public function setIncludedBaggage(?array $included_baggage): static
+    public function setIncludedBaggage(array $included_baggage): static
     {
         if (is_null($included_baggage)) {
             throw new InvalidArgumentException('non-nullable included_baggage cannot be null');
@@ -497,9 +524,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\SelectedService[]|null
+     * @return \OpenRoam\Model\SelectedService[]
      */
-    public function getSelectedServices(): ?array
+    public function getSelectedServices(): array
     {
         return $this->container['selected_services'];
     }
@@ -507,11 +534,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\SelectedService[]|null $selected_services The paid extras bought, in the order of `inputs.selectedServices`, each with a label such as `1 × 23 kg`.
+     * @param \OpenRoam\Model\SelectedService[] $selected_services The paid extras bought, in the order of `inputs.selectedServices`, each with a label such as `1 × 23 kg`.
      *
      * @return $this
      */
-    public function setSelectedServices(?array $selected_services): static
+    public function setSelectedServices(array $selected_services): static
     {
         if (is_null($selected_services)) {
             throw new InvalidArgumentException('non-nullable selected_services cannot be null');
@@ -524,9 +551,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets price_lines
      *
-     * @return \OpenRoam\Model\PriceLine[]|null
+     * @return \OpenRoam\Model\PriceLine[]
      */
-    public function getPriceLines(): ?array
+    public function getPriceLines(): array
     {
         return $this->container['price_lines'];
     }
@@ -534,11 +561,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets price_lines
      *
-     * @param \OpenRoam\Model\PriceLine[]|null $price_lines What the item cost, line by line, in the order currency; the amounts add up to its price.
+     * @param \OpenRoam\Model\PriceLine[] $price_lines What the item cost, line by line, in the order currency; the amounts add up to its price. The fare line includes the fare's taxes, which the item's `taxes` state.
      *
      * @return $this
      */
-    public function setPriceLines(?array $price_lines): static
+    public function setPriceLines(array $price_lines): static
     {
         if (is_null($price_lines)) {
             throw new InvalidArgumentException('non-nullable price_lines cannot be null');
@@ -551,9 +578,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets total_duration_minutes
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalDurationMinutes(): ?int
+    public function getTotalDurationMinutes(): int
     {
         return $this->container['total_duration_minutes'];
     }
@@ -561,11 +588,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets total_duration_minutes
      *
-     * @param int|null $total_duration_minutes Flying and connection time across all slices.
+     * @param int $total_duration_minutes Flying and connection time across all slices.
      *
      * @return $this
      */
-    public function setTotalDurationMinutes(?int $total_duration_minutes): static
+    public function setTotalDurationMinutes(int $total_duration_minutes): static
     {
         if (is_null($total_duration_minutes)) {
             throw new InvalidArgumentException('non-nullable total_duration_minutes cannot be null');
@@ -578,9 +605,9 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Gets total_stops
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalStops(): ?int
+    public function getTotalStops(): int
     {
         return $this->container['total_stops'];
     }
@@ -588,11 +615,11 @@ class FlightPurchasedDetails implements ModelInterface, ArrayAccess, JsonSeriali
     /**
      * Sets total_stops
      *
-     * @param int|null $total_stops Connections across all slices.
+     * @param int $total_stops Connections across all slices.
      *
      * @return $this
      */
-    public function setTotalStops(?int $total_stops): static
+    public function setTotalStops(int $total_stops): static
     {
         if (is_null($total_stops)) {
             throw new InvalidArgumentException('non-nullable total_stops cannot be null');

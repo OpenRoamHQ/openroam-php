@@ -321,6 +321,12 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['slices'] === null) {
+            $invalidProperties[] = "'slices' can't be null";
+        }
+        if ($this->container['cabin_class'] === null) {
+            $invalidProperties[] = "'cabin_class' can't be null";
+        }
         $allowedValues = self::getCabinClassAllowableValues();
         if (!is_null($this->container['cabin_class']) && !in_array($this->container['cabin_class'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -330,6 +336,24 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['passengers'] === null) {
+            $invalidProperties[] = "'passengers' can't be null";
+        }
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['included_baggage'] === null) {
+            $invalidProperties[] = "'included_baggage' can't be null";
+        }
+        if ($this->container['selected_services'] === null) {
+            $invalidProperties[] = "'selected_services' can't be null";
+        }
+        if ($this->container['total_duration_minutes'] === null) {
+            $invalidProperties[] = "'total_duration_minutes' can't be null";
+        }
+        if ($this->container['total_stops'] === null) {
+            $invalidProperties[] = "'total_stops' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -345,9 +369,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets slices
      *
-     * @return \OpenRoam\Model\BookedSlice[]|null
+     * @return \OpenRoam\Model\BookedSlice[]
      */
-    public function getSlices(): ?array
+    public function getSlices(): array
     {
         return $this->container['slices'];
     }
@@ -355,11 +379,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets slices
      *
-     * @param \OpenRoam\Model\BookedSlice[]|null $slices The flights booked now, in the shape of `purchasedProduct.details.slices`.
+     * @param \OpenRoam\Model\BookedSlice[] $slices The flights booked now, in the shape of `purchasedProduct.details.slices`.
      *
      * @return $this
      */
-    public function setSlices(?array $slices): static
+    public function setSlices(array $slices): static
     {
         if (is_null($slices)) {
             throw new InvalidArgumentException('non-nullable slices cannot be null');
@@ -372,9 +396,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets cabin_class
      *
-     * @return string|null
+     * @return string
      */
-    public function getCabinClass(): ?string
+    public function getCabinClass(): string
     {
         return $this->container['cabin_class'];
     }
@@ -382,11 +406,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets cabin_class
      *
-     * @param string|null $cabin_class The cabin booked now.
+     * @param string $cabin_class The cabin booked now.
      *
      * @return $this
      */
-    public function setCabinClass(?string $cabin_class): static
+    public function setCabinClass(string $cabin_class): static
     {
         if (is_null($cabin_class)) {
             throw new InvalidArgumentException('non-nullable cabin_class cannot be null');
@@ -409,9 +433,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets passengers
      *
-     * @return \OpenRoam\Model\Passenger[]|null
+     * @return \OpenRoam\Model\Passenger[]
      */
-    public function getPassengers(): ?array
+    public function getPassengers(): array
     {
         return $this->container['passengers'];
     }
@@ -419,11 +443,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets passengers
      *
-     * @param \OpenRoam\Model\Passenger[]|null $passengers The passengers booked now, in `passengerIndex` order, contacts masked.
+     * @param \OpenRoam\Model\Passenger[] $passengers The passengers booked now, in `passengerIndex` order, contacts masked.
      *
      * @return $this
      */
-    public function setPassengers(?array $passengers): static
+    public function setPassengers(array $passengers): static
     {
         if (is_null($passengers)) {
             throw new InvalidArgumentException('non-nullable passengers cannot be null');
@@ -436,9 +460,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets terms
      *
-     * @return \OpenRoam\Model\BookingTerms|null
+     * @return \OpenRoam\Model\BookingTerms
      */
-    public function getTerms(): ?\OpenRoam\Model\BookingTerms
+    public function getTerms(): \OpenRoam\Model\BookingTerms
     {
         return $this->container['terms'];
     }
@@ -446,11 +470,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets terms
      *
-     * @param \OpenRoam\Model\BookingTerms|null $terms The terms the item was bought on, as `purchasedProduct.details.terms` states them; they never change after the purchase.
+     * @param \OpenRoam\Model\BookingTerms $terms The terms the item was bought on, as `purchasedProduct.details.terms` states them; they never change after the purchase.
      *
      * @return $this
      */
-    public function setTerms(?\OpenRoam\Model\BookingTerms $terms): static
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
     {
         if (is_null($terms)) {
             throw new InvalidArgumentException('non-nullable terms cannot be null');
@@ -463,9 +487,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets included_baggage
      *
-     * @return \OpenRoam\Model\BookedBaggage[]|null
+     * @return \OpenRoam\Model\BookedBaggage[]
      */
-    public function getIncludedBaggage(): ?array
+    public function getIncludedBaggage(): array
     {
         return $this->container['included_baggage'];
     }
@@ -473,11 +497,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets included_baggage
      *
-     * @param \OpenRoam\Model\BookedBaggage[]|null $included_baggage Baggage included for every passenger now.
+     * @param \OpenRoam\Model\BookedBaggage[] $included_baggage Baggage included for every passenger now.
      *
      * @return $this
      */
-    public function setIncludedBaggage(?array $included_baggage): static
+    public function setIncludedBaggage(array $included_baggage): static
     {
         if (is_null($included_baggage)) {
             throw new InvalidArgumentException('non-nullable included_baggage cannot be null');
@@ -490,9 +514,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets selected_services
      *
-     * @return \OpenRoam\Model\SelectedService[]|null
+     * @return \OpenRoam\Model\SelectedService[]
      */
-    public function getSelectedServices(): ?array
+    public function getSelectedServices(): array
     {
         return $this->container['selected_services'];
     }
@@ -500,11 +524,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets selected_services
      *
-     * @param \OpenRoam\Model\SelectedService[]|null $selected_services The paid extras booked now; positions refer to `slices`.
+     * @param \OpenRoam\Model\SelectedService[] $selected_services The paid extras booked now; positions refer to `slices`.
      *
      * @return $this
      */
-    public function setSelectedServices(?array $selected_services): static
+    public function setSelectedServices(array $selected_services): static
     {
         if (is_null($selected_services)) {
             throw new InvalidArgumentException('non-nullable selected_services cannot be null');
@@ -517,9 +541,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_duration_minutes
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalDurationMinutes(): ?int
+    public function getTotalDurationMinutes(): int
     {
         return $this->container['total_duration_minutes'];
     }
@@ -527,11 +551,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_duration_minutes
      *
-     * @param int|null $total_duration_minutes Flying and connection time across all slices booked now.
+     * @param int $total_duration_minutes Flying and connection time across all slices booked now.
      *
      * @return $this
      */
-    public function setTotalDurationMinutes(?int $total_duration_minutes): static
+    public function setTotalDurationMinutes(int $total_duration_minutes): static
     {
         if (is_null($total_duration_minutes)) {
             throw new InvalidArgumentException('non-nullable total_duration_minutes cannot be null');
@@ -544,9 +568,9 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets total_stops
      *
-     * @return int|null
+     * @return int
      */
-    public function getTotalStops(): ?int
+    public function getTotalStops(): int
     {
         return $this->container['total_stops'];
     }
@@ -554,11 +578,11 @@ class FlightBooking implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets total_stops
      *
-     * @param int|null $total_stops Connections across all slices booked now.
+     * @param int $total_stops Connections across all slices booked now.
      *
      * @return $this
      */
-    public function setTotalStops(?int $total_stops): static
+    public function setTotalStops(int $total_stops): static
     {
         if (is_null($total_stops)) {
             throw new InvalidArgumentException('non-nullable total_stops cannot be null');

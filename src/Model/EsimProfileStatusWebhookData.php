@@ -63,8 +63,8 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
         'order_id' => 'string',
         'order_item_id' => 'string',
         'iccid' => 'string',
-        'start' => 'int',
-        'end' => 'int',
+        'start' => '\DateTime',
+        'end' => '\DateTime',
         'profile_status' => 'string'
     ];
 
@@ -77,8 +77,8 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
         'order_id' => 'uuid',
         'order_item_id' => 'uuid',
         'iccid' => null,
-        'start' => 'int64',
-        'end' => 'int64',
+        'start' => 'date-time',
+        'end' => 'date-time',
         'profile_status' => null
     ];
 
@@ -240,6 +240,37 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
         return self::$openAPIModelName;
     }
 
+    public const PROFILE_STATUS__EMPTY = 'empty';
+    public const PROFILE_STATUS__NEW = 'new';
+    public const PROFILE_STATUS_DOWNLOADED = 'downloaded';
+    public const PROFILE_STATUS_INSTALLED = 'installed';
+    public const PROFILE_STATUS_ACTIVATED = 'activated';
+    public const PROFILE_STATUS_INACTIVE = 'inactive';
+    public const PROFILE_STATUS_DELETED = 'deleted';
+    public const PROFILE_STATUS_REVOKED = 'revoked';
+    public const PROFILE_STATUS_EXPIRED = 'expired';
+    public const PROFILE_STATUS_UNKNOWN = 'unknown';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getProfileStatusAllowableValues()
+    {
+        return [
+            self::PROFILE_STATUS__EMPTY,
+            self::PROFILE_STATUS__NEW,
+            self::PROFILE_STATUS_DOWNLOADED,
+            self::PROFILE_STATUS_INSTALLED,
+            self::PROFILE_STATUS_ACTIVATED,
+            self::PROFILE_STATUS_INACTIVE,
+            self::PROFILE_STATUS_DELETED,
+            self::PROFILE_STATUS_REVOKED,
+            self::PROFILE_STATUS_EXPIRED,
+            self::PROFILE_STATUS_UNKNOWN,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -288,6 +319,24 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     {
         $invalidProperties = [];
 
+        if ($this->container['order_id'] === null) {
+            $invalidProperties[] = "'order_id' can't be null";
+        }
+        if ($this->container['order_item_id'] === null) {
+            $invalidProperties[] = "'order_item_id' can't be null";
+        }
+        if ($this->container['profile_status'] === null) {
+            $invalidProperties[] = "'profile_status' can't be null";
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!is_null($this->container['profile_status']) && !in_array($this->container['profile_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'profile_status', must be one of '%s'",
+                $this->container['profile_status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -303,9 +352,9 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets order_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderId(): ?string
+    public function getOrderId(): string
     {
         return $this->container['order_id'];
     }
@@ -313,11 +362,11 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets order_id
      *
-     * @param string|null $order_id order_id
+     * @param string $order_id order_id
      *
      * @return $this
      */
-    public function setOrderId(?string $order_id): static
+    public function setOrderId(string $order_id): static
     {
         if (is_null($order_id)) {
             throw new InvalidArgumentException('non-nullable order_id cannot be null');
@@ -330,9 +379,9 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets order_item_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getOrderItemId(): ?string
+    public function getOrderItemId(): string
     {
         return $this->container['order_item_id'];
     }
@@ -340,11 +389,11 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets order_item_id
      *
-     * @param string|null $order_item_id order_item_id
+     * @param string $order_item_id order_item_id
      *
      * @return $this
      */
-    public function setOrderItemId(?string $order_item_id): static
+    public function setOrderItemId(string $order_item_id): static
     {
         if (is_null($order_item_id)) {
             throw new InvalidArgumentException('non-nullable order_item_id cannot be null');
@@ -367,7 +416,7 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets iccid
      *
-     * @param string|null $iccid iccid
+     * @param string|null $iccid The eSIM's ICCID; null until the eSIM is provisioned.
      *
      * @return $this
      */
@@ -391,9 +440,9 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets start
      *
-     * @return int|null
+     * @return \DateTime|null
      */
-    public function getStart(): ?int
+    public function getStart(): ?\DateTime
     {
         return $this->container['start'];
     }
@@ -401,11 +450,11 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets start
      *
-     * @param int|null $start start
+     * @param \DateTime|null $start When the plan started, in UTC (ISO 8601), as `start` on usage reads; null until it is activated.
      *
      * @return $this
      */
-    public function setStart(?int $start): static
+    public function setStart(?\DateTime $start): static
     {
         if (is_null($start)) {
             array_push($this->openAPINullablesSetToNull, 'start');
@@ -425,9 +474,9 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets end
      *
-     * @return int|null
+     * @return \DateTime|null
      */
-    public function getEnd(): ?int
+    public function getEnd(): ?\DateTime
     {
         return $this->container['end'];
     }
@@ -435,11 +484,11 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets end
      *
-     * @param int|null $end end
+     * @param \DateTime|null $end When the plan ends, in UTC (ISO 8601), as `end` on usage reads; null while no end is reported.
      *
      * @return $this
      */
-    public function setEnd(?int $end): static
+    public function setEnd(?\DateTime $end): static
     {
         if (is_null($end)) {
             array_push($this->openAPINullablesSetToNull, 'end');
@@ -459,9 +508,9 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets profile_status
      *
-     * @return string|null
+     * @return string
      */
-    public function getProfileStatus(): ?string
+    public function getProfileStatus(): string
     {
         return $this->container['profile_status'];
     }
@@ -469,14 +518,24 @@ class EsimProfileStatusWebhookData implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets profile_status
      *
-     * @param string|null $profile_status profile_status
+     * @param string $profile_status The installed profile's new status, as `profileStatus` on the order item.
      *
      * @return $this
      */
-    public function setProfileStatus(?string $profile_status): static
+    public function setProfileStatus(string $profile_status): static
     {
         if (is_null($profile_status)) {
             throw new InvalidArgumentException('non-nullable profile_status cannot be null');
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!in_array($profile_status, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'profile_status', must be one of '%s'",
+                    $profile_status,
+                    implode("', '", $allowedValues)
+                )
+            );
         }
         $this->container['profile_status'] = $profile_status;
 

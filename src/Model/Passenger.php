@@ -316,6 +316,21 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['passenger_index'] === null) {
+            $invalidProperties[] = "'passenger_index' can't be null";
+        }
+        if ($this->container['given_name'] === null) {
+            $invalidProperties[] = "'given_name' can't be null";
+        }
+        if ($this->container['family_name'] === null) {
+            $invalidProperties[] = "'family_name' can't be null";
+        }
+        if ($this->container['identity_documents'] === null) {
+            $invalidProperties[] = "'identity_documents' can't be null";
+        }
+        if ($this->container['selected_seats'] === null) {
+            $invalidProperties[] = "'selected_seats' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -331,9 +346,9 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets passenger_index
      *
-     * @return int|null
+     * @return int
      */
-    public function getPassengerIndex(): ?int
+    public function getPassengerIndex(): int
     {
         return $this->container['passenger_index'];
     }
@@ -341,11 +356,11 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets passenger_index
      *
-     * @param int|null $passenger_index The passenger's 1-based position in the fare's `offerPassengers`.
+     * @param int $passenger_index The passenger's 1-based position in the fare's `offerPassengers`.
      *
      * @return $this
      */
-    public function setPassengerIndex(?int $passenger_index): static
+    public function setPassengerIndex(int $passenger_index): static
     {
         if (is_null($passenger_index)) {
             throw new InvalidArgumentException('non-nullable passenger_index cannot be null');
@@ -392,9 +407,9 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets given_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getGivenName(): ?string
+    public function getGivenName(): string
     {
         return $this->container['given_name'];
     }
@@ -402,11 +417,11 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets given_name
      *
-     * @param string|null $given_name As sent.
+     * @param string $given_name As sent.
      *
      * @return $this
      */
-    public function setGivenName(?string $given_name): static
+    public function setGivenName(string $given_name): static
     {
         if (is_null($given_name)) {
             throw new InvalidArgumentException('non-nullable given_name cannot be null');
@@ -419,9 +434,9 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets family_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getFamilyName(): ?string
+    public function getFamilyName(): string
     {
         return $this->container['family_name'];
     }
@@ -429,11 +444,11 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets family_name
      *
-     * @param string|null $family_name As sent.
+     * @param string $family_name As sent.
      *
      * @return $this
      */
-    public function setFamilyName(?string $family_name): static
+    public function setFamilyName(string $family_name): static
     {
         if (is_null($family_name)) {
             throw new InvalidArgumentException('non-nullable family_name cannot be null');
@@ -582,9 +597,9 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets identity_documents
      *
-     * @return \OpenRoam\Model\IdentityDocument[]|null
+     * @return \OpenRoam\Model\IdentityDocument[]
      */
-    public function getIdentityDocuments(): ?array
+    public function getIdentityDocuments(): array
     {
         return $this->container['identity_documents'];
     }
@@ -592,11 +607,11 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets identity_documents
      *
-     * @param \OpenRoam\Model\IdentityDocument[]|null $identity_documents The passenger's travel document, at most one; empty when none was given.
+     * @param \OpenRoam\Model\IdentityDocument[] $identity_documents The passenger's travel document, at most one; empty when none was given.
      *
      * @return $this
      */
-    public function setIdentityDocuments(?array $identity_documents): static
+    public function setIdentityDocuments(array $identity_documents): static
     {
         if (is_null($identity_documents)) {
             throw new InvalidArgumentException('non-nullable identity_documents cannot be null');
@@ -609,9 +624,9 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets selected_seats
      *
-     * @return \OpenRoam\Model\SelectedSeat[]|null
+     * @return \OpenRoam\Model\SelectedSeat[]
      */
-    public function getSelectedSeats(): ?array
+    public function getSelectedSeats(): array
     {
         return $this->container['selected_seats'];
     }
@@ -619,11 +634,11 @@ class Passenger implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets selected_seats
      *
-     * @param \OpenRoam\Model\SelectedSeat[]|null $selected_seats The seats chosen for the passenger; empty when none was chosen.
+     * @param \OpenRoam\Model\SelectedSeat[] $selected_seats The seats chosen for the passenger; empty when none was chosen.
      *
      * @return $this
      */
-    public function setSelectedSeats(?array $selected_seats): static
+    public function setSelectedSeats(array $selected_seats): static
     {
         if (is_null($selected_seats)) {
             throw new InvalidArgumentException('non-nullable selected_seats cannot be null');

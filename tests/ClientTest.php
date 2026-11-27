@@ -84,7 +84,7 @@ class ClientTest extends TestCase
         $found = $openroam->esims->search(['countryCode' => 'JP']);
         $this->assertSame([], $found->getItems());
         $this->assertSame('GET', $this->request()->getMethod());
-        $this->assertSame('/api/v1/b2b/esims/search?countryCode=JP', $this->target());
+        $this->assertSame('/v1/esims/search?countryCode=JP', $this->target());
         $this->assertSame('secret', $this->request()->getHeaderLine('X-Partner-Key'));
     }
 
@@ -104,9 +104,9 @@ class ClientTest extends TestCase
     public function testTheEnvironmentPicksTheUrlAndAnUnknownOneIsRefused(): void
     {
         (new OpenRoam(['apiKey' => 'k', 'handler' => $this->handler([self::ok()])]))->esims->search();
-        $this->assertSame('https://b2b-api.openroam.com/api/v1/b2b/esims/search', (string) $this->request()->getUri());
+        $this->assertSame('https://api.openroam.com/v1/esims/search', (string) $this->request()->getUri());
         (new OpenRoam(['apiKey' => 'k', 'environment' => 'sandbox', 'handler' => $this->handler([self::ok()])]))->esims->search();
-        $this->assertSame('https://b2b-api-sandbox.openroam.com/api/v1/b2b/esims/search', (string) $this->request()->getUri());
+        $this->assertSame('https://api.sandbox.openroam.com/v1/esims/search', (string) $this->request()->getUri());
 
         $this->assertStringContainsString('Unknown environment', $this->failure(fn () => new OpenRoam(['apiKey' => 'k', 'environment' => 'staging']))->getMessage());
         $this->assertStringContainsString('Unknown option', $this->failure(fn () => new OpenRoam(['apiKey' => 'k', 'retries' => 3]))->getMessage());
@@ -116,14 +116,14 @@ class ClientTest extends TestCase
     public function testATrailingSlashOnBaseUrlIsIgnored(): void
     {
         $this->client([self::ok()], ['baseUrl' => self::BASE . '///'])->esims->search();
-        $this->assertSame(self::BASE . '/api/v1/b2b/esims/search', (string) $this->request()->getUri());
+        $this->assertSame(self::BASE . '/v1/esims/search', (string) $this->request()->getUri());
     }
 
     public function testAQuoteSendsTheBodyAsGivenNotWrappedInAnObject(): void
     {
         $this->client([self::json(200, ['currency' => 'USD'])])->esims->quote(self::BODY);
         $this->assertSame('POST', $this->request()->getMethod());
-        $this->assertSame('/api/v1/b2b/esims/quote', $this->target());
+        $this->assertSame('/v1/esims/quote', $this->target());
         $this->assertSame(self::BODY, json_decode((string) $this->request()->getBody(), true));
         $this->assertStringContainsString('application/json', $this->request()->getHeaderLine('Content-Type'));
         $this->assertFalse($this->request()->hasHeader('Idempotency-Key'));
@@ -205,23 +205,23 @@ class ClientTest extends TestCase
     {
         $openroam = $this->client([self::ok(), self::ok(), self::ok()]);
         $openroam->esims->getUsage('8988-1');
-        $openroam->orderItems->getAmendment('item-1', 'amend-2');
+        $openroam->orderItems->getChange('item-1', 'change-2');
         $openroam->esims->listUsageHistory('8988-1', ['limit' => 5]);
-        $this->assertSame('/api/v1/b2b/esims/8988-1/usage', $this->target(0));
-        $this->assertSame('/api/v1/b2b/order-items/item-1/amendments/amend-2', $this->target(1));
-        $this->assertSame('/api/v1/b2b/esims/8988-1/usage/history?limit=5', $this->target(2));
+        $this->assertSame('/v1/esims/8988-1/usage', $this->target(0));
+        $this->assertSame('/v1/order-items/item-1/changes/change-2', $this->target(1));
+        $this->assertSame('/v1/esims/8988-1/usage/history?limit=5', $this->target(2));
     }
 
     public function testAStrayEntryInTheQueryArrayCannotReplaceAPositionalId(): void
     {
         $this->client([self::ok()])->esims->getDestination('A', ['id' => 'B', 'currency' => 'USD']);
-        $this->assertSame('/api/v1/b2b/esims/destinations/A?currency=USD', $this->target());
+        $this->assertSame('/v1/esims/destinations/A?currency=USD', $this->target());
     }
 
     public function testAPathIdIsEncoded(): void
     {
         $this->client([self::ok()])->esims->getUsage('a/b c');
-        $this->assertSame('/api/v1/b2b/esims/a%2Fb%20c/usage', $this->target());
+        $this->assertSame('/v1/esims/a%2Fb%20c/usage', $this->target());
     }
 
     public function testADateQueryParameterAcceptsADateOrAString(): void
@@ -235,13 +235,14 @@ class ClientTest extends TestCase
         }
     }
 
-    public function testTheNestedOrderItemsManualAmendmentsResourcePostsWithAKey(): void
+    public function testAnOrderItemChangePostsWithAKey(): void
     {
-        $this->client([self::ok()])->orderItems->manualAmendments->create('item-1', ['reason' => 'x']);
+        $answer = self::json(200, ['changeId' => '1b4e28ba-2fa1-4d2a-883f-0016d3cca427', 'status' => 'pendingReview']);
+        $this->client([$answer])->orderItems->change('item-1', ['operation' => 'request']);
         $this->assertSame('POST', $this->request()->getMethod());
-        $this->assertSame('/api/v1/b2b/order-items/item-1/manual-amendments', $this->target());
+        $this->assertSame('/v1/order-items/item-1/changes', $this->target());
         $this->assertMatchesRegularExpression(self::UUID_V4, $this->request()->getHeaderLine('Idempotency-Key'));
-        $this->assertSame(['reason' => 'x'], json_decode((string) $this->request()->getBody(), true));
+        $this->assertSame(['operation' => 'request'], json_decode((string) $this->request()->getBody(), true));
     }
 
     public function testAFailedCallThrowsAnOpenRoamExceptionCarryingTheErrorBody(): void
@@ -342,7 +343,7 @@ class ClientTest extends TestCase
     {
         $this->client([new Response(204)])->wallets->setDefault('wallet-1');
         $this->assertSame('PATCH', $this->request()->getMethod());
-        $this->assertSame('/api/v1/b2b/wallets/select/wallet-1', $this->target());
+        $this->assertSame('/v1/wallets/select/wallet-1', $this->target());
     }
 
     public function testEveryApiRouteHasItsMethodWithTheAgreedNames(): void
@@ -360,12 +361,14 @@ class ClientTest extends TestCase
             }
         };
         $walk(new OpenRoam('k'), '');
-        $this->assertCount(75, $methods);
-        $this->assertCount(75, array_unique($methods));
-        foreach (['esims.search', 'esims.quote', 'esims.order', 'esims.listDailyUsage', 'esims.listCatalog', 'esims.listCompatibleDevices', 'esims.getProfile', 'orderItems.get', 'orderItems.update', 'orderItems.cancel',
+        $this->assertCount(73, $methods);
+        $this->assertCount(73, array_unique($methods));
+        foreach (['esims.search', 'esims.quote', 'esims.order', 'esims.listDailyUsage', 'esims.listCatalog', 'esims.listCompatibleDevices', 'esims.getProfile', 'orderItems.get', 'orderItems.cancel',
             'airtime.lookupNumber', 'utilities.getBiller', 'giftCards.getGiftCard', 'hotels.getHotel', 'hotels.exportCatalog',
-            'orderItems.manualAmendments.cancel', 'orderItems.manualAmendments.approve', 'flights.getSeatMap', 'orders.order', 'orders.getCancellationPreview',
-            'orderItems.getCancellationPreview', 'wallets.setDefault', 'countries.list', 'mobileNetworks.list', 'currencies.list'] as $name) {
+            'flights.getSeatMap', 'flights.listPlaces', 'orders.order',
+            'orderItems.change', 'orderItems.listChanges', 'orderItems.listPartnerChanges', 'orderItems.getChange',
+            'wallets.setDefault', 'countries.list', 'mobileNetworks.list', 'currencies.list',
+            'orders.resendEmail', 'account.listServices', 'browserSessions.create', 'browserSessions.revoke', 'checkouts.get', 'checkouts.confirm', 'checkouts.fail'] as $name) {
             $this->assertContains($name, $methods, "{$name} is missing");
         }
     }

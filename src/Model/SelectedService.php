@@ -316,6 +316,12 @@ class SelectedService implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['label'] === null) {
+            $invalidProperties[] = "'label' can't be null";
+        }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -375,9 +381,9 @@ class SelectedService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets label
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->container['label'];
     }
@@ -385,11 +391,11 @@ class SelectedService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets label
      *
-     * @param string|null $label What was bought, for example `1 × 23 kg`.
+     * @param string $label What was bought, for example `1 × 23 kg`.
      *
      * @return $this
      */
-    public function setLabel(?string $label): static
+    public function setLabel(string $label): static
     {
         if (is_null($label)) {
             throw new InvalidArgumentException('non-nullable label cannot be null');
@@ -504,9 +510,9 @@ class SelectedService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -514,11 +520,11 @@ class SelectedService implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets quantity
      *
-     * @param int|null $quantity Units bought.
+     * @param int $quantity Units bought.
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');

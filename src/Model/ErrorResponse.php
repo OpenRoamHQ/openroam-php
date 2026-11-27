@@ -281,6 +281,18 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
+        }
+        if ($this->container['request_id'] === null) {
+            $invalidProperties[] = "'request_id' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +308,9 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets code
      *
-     * @return int|null
+     * @return int
      */
-    public function getCode(): ?int
+    public function getCode(): int
     {
         return $this->container['code'];
     }
@@ -306,11 +318,11 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets code
      *
-     * @param int|null $code Numeric error code, for example `10001`. It is not the HTTP status.
+     * @param int $code Numeric error code, for example `10001`. It is not the HTTP status.
      *
      * @return $this
      */
-    public function setCode(?int $code): static
+    public function setCode(int $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -323,9 +335,9 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -333,11 +345,11 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name Machine name of the code, for example `INVALID_REQUEST`. Not localized.
+     * @param string $name Machine name of the code, for example `INVALID_REQUEST`. Not localized.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -350,9 +362,9 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets message
      *
-     * @return string|null
+     * @return string
      */
-    public function getMessage(): ?string
+    public function getMessage(): string
     {
         return $this->container['message'];
     }
@@ -360,11 +372,11 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets message
      *
-     * @param string|null $message Safe human-readable message. It may be localized.
+     * @param string $message Safe human-readable message. It may be localized.
      *
      * @return $this
      */
-    public function setMessage(?string $message): static
+    public function setMessage(string $message): static
     {
         if (is_null($message)) {
             throw new InvalidArgumentException('non-nullable message cannot be null');
@@ -377,9 +389,9 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets request_id
      *
-     * @return string|null
+     * @return string
      */
-    public function getRequestId(): ?string
+    public function getRequestId(): string
     {
         return $this->container['request_id'];
     }
@@ -387,11 +399,11 @@ class ErrorResponse implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets request_id
      *
-     * @param string|null $request_id Identifier of the request, for support. It is not an order id or an idempotency             key.
+     * @param string $request_id Identifier of the request, for support. It is not an order id or an idempotency             key.
      *
      * @return $this
      */
-    public function setRequestId(?string $request_id): static
+    public function setRequestId(string $request_id): static
     {
         if (is_null($request_id)) {
             throw new InvalidArgumentException('non-nullable request_id cannot be null');

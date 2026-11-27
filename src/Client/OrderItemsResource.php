@@ -5,36 +5,16 @@ declare(strict_types=1);
 
 namespace OpenRoam\Client;
 
-/** orderItems: 9 methods. Reach it through the OpenRoam client. */
+/** orderItems: 6 methods. Reach it through the OpenRoam client. */
 class OrderItemsResource
 {
-    public readonly OrderItemsManualAmendmentsResource $manualAmendments;
-
     /** @internal Made by the OpenRoam client. */
     public function __construct(private readonly Transport $transport)
     {
-        $this->manualAmendments = new OrderItemsManualAmendmentsResource($transport);
     }
 
     /**
-     * List partner amendments. GET /api/v1/b2b/amendments
-     *
-     * @param array{page?: int, limit?: int, statuses?: array<int, string>, productType?: string, amendmentMode?: string, orderId?: string, orderItemId?: string, from?: \DateTimeInterface|string, to?: \DateTimeInterface|string} $query
-     * @param array{timeout?: float|int} $options
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function listPartnerAmendments(array $query = [], array $options = []): \OpenRoam\Model\AmendmentList
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsListPartnerAmendments',
-            'query' => ['page' => ['page', 'int'], 'limit' => ['limit', 'int'], 'statuses' => ['statuses', 'array'], 'productType' => ['product_type', 'string'], 'amendmentMode' => ['amendment_mode', 'string'], 'orderId' => ['order_id', 'string'], 'orderItemId' => ['order_item_id', 'string'], 'from' => ['from', '\DateTime'], 'to' => ['to', '\DateTime']],
-            'returns' => '\OpenRoam\Model\AmendmentList',
-        ], options: $options, query: $query);
-    }
-
-    /**
-     * Get an order item. GET /api/v1/b2b/order-items/{id}
+     * Get an order item. GET /v1/order-items/{id}
      *
      * @param string $id
      * @param array{timeout?: float|int} $options
@@ -52,140 +32,98 @@ class OrderItemsResource
     }
 
     /**
-     * Preview an item cancellation. GET /api/v1/b2b/order-items/{id}/cancellation-preview
+     * Change an order item. POST /v1/order-items/{id}/changes
      *
      * @param string $id
-     * @param array{timeout?: float|int} $options
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function getCancellationPreview(string $id, array $options = []): \OpenRoam\Model\OrderItemCancellationPreview
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsGetCancellationPreview',
-            'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\OrderItemCancellationPreview',
-        ], options: $options);
-    }
-
-    /**
-     * Quote an amendment. POST /api/v1/b2b/order-items/{id}/amendments/quote
-     *
-     * @param string $id
-     * @param \OpenRoam\Model\AmendmentQuoteRequest|array|null $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\OrderItemChangeRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function quoteAmendment(string $id, \OpenRoam\Model\AmendmentQuoteRequest|array|null $body = null, array $options = []): \OpenRoam\Model\AmendmentQuote
+    public function change(string $id, \OpenRoam\Model\OrderItemChangeRequest|array $body, array $options = []): \OpenRoam\Model\OrderItemChange
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsQuoteAmendment',
+            'operation' => 'orderItemsChange',
             'path' => ['id' => $id],
-            'body' => 'amendment_quote_request',
-            'bodyType' => '\OpenRoam\Model\AmendmentQuoteRequest',
+            'body' => 'order_item_change_request',
+            'bodyType' => '\OpenRoam\Model\OrderItemChangeRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\AmendmentQuote',
+            'returns' => '\OpenRoam\Model\OrderItemChange',
         ], options: $options, body: $body);
     }
 
     /**
-     * List item amendments. GET /api/v1/b2b/order-items/{id}/amendments
+     * List changes to an order item. GET /v1/order-items/{id}/changes
      *
      * @param string $id
+     * @param array{updatedSince?: \DateTimeInterface|string, cursor?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
-     * @return \OpenRoam\Model\OrderItemAmendment[]
      * @throws \OpenRoam\OpenRoamException
      */
-    public function listAmendments(string $id, array $options = []): array
+    public function listChanges(string $id, array $query = [], array $options = []): \OpenRoam\Model\OrderItemChangeList
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsGetAmendments',
+            'operation' => 'orderItemsListItemChanges',
             'path' => ['id' => $id],
-            'returns' => '\OpenRoam\Model\OrderItemAmendment[]',
+            'query' => ['updatedSince' => ['updated_since', '\DateTime'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
+            'returns' => '\OpenRoam\Model\OrderItemChangeList',
+        ], options: $options, query: $query);
+    }
+
+    /**
+     * List changes across the partner's orders. GET /v1/changes
+     *
+     * @param array{updatedSince?: \DateTimeInterface|string, cursor?: string, limit?: int} $query
+     * @param array{timeout?: float|int} $options
+     * @throws \OpenRoam\OpenRoamException
+     */
+    public function listPartnerChanges(array $query = [], array $options = []): \OpenRoam\Model\OrderItemChangeList
+    {
+        return $this->transport->call([
+            'api' => \OpenRoam\Api\OrderItemsApi::class,
+            'operation' => 'orderItemsListPartnerChanges',
+            'query' => ['updatedSince' => ['updated_since', '\DateTime'], 'cursor' => ['cursor', 'string'], 'limit' => ['limit', 'int']],
+            'returns' => '\OpenRoam\Model\OrderItemChangeList',
+        ], options: $options, query: $query);
+    }
+
+    /**
+     * Get an order item change. GET /v1/order-items/{id}/changes/{changeId}
+     *
+     * @param string $id
+     * @param string $changeId
+     * @param array{timeout?: float|int} $options
+     * @throws \OpenRoam\OpenRoamException
+     */
+    public function getChange(string $id, string $changeId, array $options = []): \OpenRoam\Model\OrderItemChange
+    {
+        return $this->transport->call([
+            'api' => \OpenRoam\Api\OrderItemsApi::class,
+            'operation' => 'orderItemsGetChange',
+            'path' => ['id' => $id, 'change_id' => $changeId],
+            'returns' => '\OpenRoam\Model\OrderItemChange',
         ], options: $options);
     }
 
     /**
-     * Get an amendment. GET /api/v1/b2b/order-items/{id}/amendments/{amendmentId}
+     * Quote or confirm an item cancellation. POST /v1/order-items/{id}/cancellation
      *
      * @param string $id
-     * @param string $amendmentId
-     * @param array{timeout?: float|int} $options
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function getAmendment(string $id, string $amendmentId, array $options = []): \OpenRoam\Model\OrderItemAmendment
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsGetAmendmentById',
-            'path' => ['id' => $id, 'amendment_id' => $amendmentId],
-            'returns' => '\OpenRoam\Model\OrderItemAmendment',
-        ], options: $options);
-    }
-
-    /**
-     * Cancel an item. POST /api/v1/b2b/order-items/{id}/cancel
-     *
-     * @param string $id
-     * @param \OpenRoam\Model\OrderItemCancelRequest|array $body the model, or an array of the same fields
+     * @param \OpenRoam\Model\OrderItemCancellationRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
      * @throws \OpenRoam\OpenRoamException
      */
-    public function cancel(string $id, \OpenRoam\Model\OrderItemCancelRequest|array $body, array $options = []): \OpenRoam\Model\OrderItemCancelResult
+    public function cancel(string $id, \OpenRoam\Model\OrderItemCancellationRequest|array $body, array $options = []): \OpenRoam\Model\OrderItemCancellation
     {
         return $this->transport->call([
             'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsCancel',
+            'operation' => 'orderItemsCancellation',
             'path' => ['id' => $id],
-            'body' => 'order_item_cancel_request',
-            'bodyType' => '\OpenRoam\Model\OrderItemCancelRequest',
+            'body' => 'order_item_cancellation_request',
+            'bodyType' => '\OpenRoam\Model\OrderItemCancellationRequest',
             'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\OrderItemCancelResult',
-        ], options: $options, body: $body);
-    }
-
-    /**
-     * Update an item. POST /api/v1/b2b/order-items/{id}/update
-     *
-     * @param string $id
-     * @param \OpenRoam\Model\OrderItemUpdateRequest|array $body the model, or an array of the same fields
-     * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
-     * @return \OpenRoam\Model\OrderItem
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function update(string $id, \OpenRoam\Model\OrderItemUpdateRequest|array $body, array $options = []): mixed
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsUpdate',
-            'path' => ['id' => $id],
-            'body' => 'order_item_update_request',
-            'bodyType' => '\OpenRoam\Model\OrderItemUpdateRequest',
-            'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\OrderItem',
-        ], options: $options, body: $body);
-    }
-
-    /**
-     * Confirm an amendment. POST /api/v1/b2b/order-items/{id}/amendments/confirm
-     *
-     * @param string $id
-     * @param \OpenRoam\Model\AmendmentConfirmRequest|array $body the model, or an array of the same fields
-     * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
-     * @throws \OpenRoam\OpenRoamException
-     */
-    public function confirmAmendment(string $id, \OpenRoam\Model\AmendmentConfirmRequest|array $body, array $options = []): \OpenRoam\Model\AmendmentConfirmResult
-    {
-        return $this->transport->call([
-            'api' => \OpenRoam\Api\OrderItemsApi::class,
-            'operation' => 'orderItemsConfirmAmendment',
-            'path' => ['id' => $id],
-            'body' => 'amendment_confirm_request',
-            'bodyType' => '\OpenRoam\Model\AmendmentConfirmRequest',
-            'idempotencyKey' => 'idempotency_key',
-            'returns' => '\OpenRoam\Model\AmendmentConfirmResult',
+            'returns' => '\OpenRoam\Model\OrderItemCancellation',
         ], options: $options, body: $body);
     }
 }

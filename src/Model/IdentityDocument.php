@@ -293,6 +293,9 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
+        }
         $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -302,6 +305,15 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['unique_identifier'] === null) {
+            $invalidProperties[] = "'unique_identifier' can't be null";
+        }
+        if ($this->container['issuing_country_code'] === null) {
+            $invalidProperties[] = "'issuing_country_code' can't be null";
+        }
+        if ($this->container['expires_on'] === null) {
+            $invalidProperties[] = "'expires_on' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -317,9 +329,9 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets type
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->container['type'];
     }
@@ -327,11 +339,11 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type type
+     * @param string $type type
      *
      * @return $this
      */
-    public function setType(?string $type): static
+    public function setType(string $type): static
     {
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
@@ -354,9 +366,9 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets unique_identifier
      *
-     * @return string|null
+     * @return string
      */
-    public function getUniqueIdentifier(): ?string
+    public function getUniqueIdentifier(): string
     {
         return $this->container['unique_identifier'];
     }
@@ -364,11 +376,11 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets unique_identifier
      *
-     * @param string|null $unique_identifier unique_identifier
+     * @param string $unique_identifier unique_identifier
      *
      * @return $this
      */
-    public function setUniqueIdentifier(?string $unique_identifier): static
+    public function setUniqueIdentifier(string $unique_identifier): static
     {
         if (is_null($unique_identifier)) {
             throw new InvalidArgumentException('non-nullable unique_identifier cannot be null');
@@ -381,9 +393,9 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets issuing_country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getIssuingCountryCode(): ?string
+    public function getIssuingCountryCode(): string
     {
         return $this->container['issuing_country_code'];
     }
@@ -391,11 +403,11 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets issuing_country_code
      *
-     * @param string|null $issuing_country_code issuing_country_code
+     * @param string $issuing_country_code issuing_country_code
      *
      * @return $this
      */
-    public function setIssuingCountryCode(?string $issuing_country_code): static
+    public function setIssuingCountryCode(string $issuing_country_code): static
     {
         if (is_null($issuing_country_code)) {
             throw new InvalidArgumentException('non-nullable issuing_country_code cannot be null');
@@ -408,9 +420,9 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets expires_on
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getExpiresOn(): ?\DateTime
+    public function getExpiresOn(): \DateTime
     {
         return $this->container['expires_on'];
     }
@@ -418,11 +430,11 @@ class IdentityDocument implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets expires_on
      *
-     * @param \DateTime|null $expires_on expires_on
+     * @param \DateTime $expires_on expires_on
      *
      * @return $this
      */
-    public function setExpiresOn(?\DateTime $expires_on): static
+    public function setExpiresOn(\DateTime $expires_on): static
     {
         if (is_null($expires_on)) {
             throw new InvalidArgumentException('non-nullable expires_on cannot be null');

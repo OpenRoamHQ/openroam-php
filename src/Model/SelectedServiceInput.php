@@ -340,7 +340,7 @@ class SelectedServiceInput implements ModelInterface, ArrayAccess, JsonSerializa
     /**
      * Sets id
      *
-     * @param string|null $id The service's `id` from the quote item's `details.availableServices`, valid until the offer expires; null when the service is chosen by `type`.
+     * @param string|null $id The service's `id` from the quote item's `availableServices`, valid until the offer expires; null when the service is chosen by `type`.
      *
      * @return $this
      */

@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * AirtimeOperator Class Doc Comment
  *
- * @description One operator with its offers, as search and &#x60;operators/{id}&#x60; return it. &#x60;id&#x60; is the stable canonical operator ID; an order names one of its &#x60;offers&#x60; by public ID. Airtime has no categories or operator descriptions, so &#x60;category&#x60; and &#x60;description&#x60; are always null. Prices are indicative; quote recalculates them.
+ * @description One operator with its offers, as search and &#x60;operators/{id}&#x60; return it. &#x60;id&#x60; is the stable operator id &#x60;operator_…&#x60;, which is never orderable; an order names one of its &#x60;offers&#x60; by public ID. Airtime has no categories or operator descriptions, so &#x60;category&#x60; and &#x60;description&#x60; are always null. Prices are indicative; quote recalculates them.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -75,7 +75,7 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'id' => 'uuid',
+        'id' => null,
         'name' => null,
         'country_code' => null,
         'category' => null,
@@ -295,6 +295,18 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['country_code'] === null) {
+            $invalidProperties[] = "'country_code' can't be null";
+        }
+        if ($this->container['offers'] === null) {
+            $invalidProperties[] = "'offers' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -310,9 +322,9 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -320,11 +332,11 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -337,9 +349,9 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -347,11 +359,11 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -364,9 +376,9 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets country_code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCountryCode(): ?string
+    public function getCountryCode(): string
     {
         return $this->container['country_code'];
     }
@@ -374,11 +386,11 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets country_code
      *
-     * @param string|null $country_code country_code
+     * @param string $country_code country_code
      *
      * @return $this
      */
-    public function setCountryCode(?string $country_code): static
+    public function setCountryCode(string $country_code): static
     {
         if (is_null($country_code)) {
             throw new InvalidArgumentException('non-nullable country_code cannot be null');
@@ -493,9 +505,9 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offers
      *
-     * @return \OpenRoam\Model\AirtimeOffer[]|null
+     * @return \OpenRoam\Model\AirtimeOffer[]
      */
-    public function getOffers(): ?array
+    public function getOffers(): array
     {
         return $this->container['offers'];
     }
@@ -503,11 +515,11 @@ class AirtimeOperator implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets offers
      *
-     * @param \OpenRoam\Model\AirtimeOffer[]|null $offers offers
+     * @param \OpenRoam\Model\AirtimeOffer[] $offers offers
      *
      * @return $this
      */
-    public function setOffers(?array $offers): static
+    public function setOffers(array $offers): static
     {
         if (is_null($offers)) {
             throw new InvalidArgumentException('non-nullable offers cannot be null');

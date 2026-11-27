@@ -62,7 +62,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         'passenger_type' => 'string',
         'count' => 'int',
         'price_per_passenger' => '\OpenRoam\Model\Money',
-        'price_breakdown' => '\OpenRoam\Model\PriceBreakdown',
         'fare_basis_code' => 'string',
         'booking_class' => 'string'
     ];
@@ -76,7 +75,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         'passenger_type' => null,
         'count' => 'int32',
         'price_per_passenger' => null,
-        'price_breakdown' => null,
         'fare_basis_code' => null,
         'booking_class' => null
     ];
@@ -89,8 +87,7 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
     protected static array $openAPINullables = [
         'passenger_type' => false,
         'count' => false,
-        'price_per_passenger' => false,
-        'price_breakdown' => true,
+        'price_per_passenger' => true,
         'fare_basis_code' => true,
         'booking_class' => true
     ];
@@ -174,7 +171,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         'passenger_type' => 'passengerType',
         'count' => 'count',
         'price_per_passenger' => 'pricePerPassenger',
-        'price_breakdown' => 'priceBreakdown',
         'fare_basis_code' => 'fareBasisCode',
         'booking_class' => 'bookingClass'
     ];
@@ -188,7 +184,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         'passenger_type' => 'setPassengerType',
         'count' => 'setCount',
         'price_per_passenger' => 'setPricePerPassenger',
-        'price_breakdown' => 'setPriceBreakdown',
         'fare_basis_code' => 'setFareBasisCode',
         'booking_class' => 'setBookingClass'
     ];
@@ -202,7 +197,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         'passenger_type' => 'getPassengerType',
         'count' => 'getCount',
         'price_per_passenger' => 'getPricePerPassenger',
-        'price_breakdown' => 'getPriceBreakdown',
         'fare_basis_code' => 'getFareBasisCode',
         'booking_class' => 'getBookingClass'
     ];
@@ -276,7 +270,6 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('passenger_type', $data ?? [], null);
         $this->setIfExists('count', $data ?? [], null);
         $this->setIfExists('price_per_passenger', $data ?? [], null);
-        $this->setIfExists('price_breakdown', $data ?? [], null);
         $this->setIfExists('fare_basis_code', $data ?? [], null);
         $this->setIfExists('booking_class', $data ?? [], null);
     }
@@ -321,8 +314,8 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['count'] === null) {
             $invalidProperties[] = "'count' can't be null";
         }
-        if ($this->container['price_per_passenger'] === null) {
-            $invalidProperties[] = "'price_per_passenger' can't be null";
+        if ($this->container['price_per_passenger'] === null && !$this->isNullableSetToNull('price_per_passenger')) {
+            $invalidProperties[] = "'price_per_passenger' is required";
         }
         return $invalidProperties;
     }
@@ -403,9 +396,9 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets price_per_passenger
      *
-     * @return \OpenRoam\Model\Money
+     * @return \OpenRoam\Model\Money|null
      */
-    public function getPricePerPassenger(): \OpenRoam\Model\Money
+    public function getPricePerPassenger(): ?\OpenRoam\Model\Money
     {
         return $this->container['price_per_passenger'];
     }
@@ -413,50 +406,23 @@ class PassengerPricing implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets price_per_passenger
      *
-     * @param \OpenRoam\Model\Money $price_per_passenger price_per_passenger
+     * @param \OpenRoam\Model\Money|null $price_per_passenger The price of one passenger of this type, when the fare states it; otherwise, and for a browser session,             null. Never an even share of the total: use the fare's `price` for what the passengers cost together.
      *
      * @return $this
      */
-    public function setPricePerPassenger(\OpenRoam\Model\Money $price_per_passenger): static
+    public function setPricePerPassenger(?\OpenRoam\Model\Money $price_per_passenger): static
     {
         if (is_null($price_per_passenger)) {
-            throw new InvalidArgumentException('non-nullable price_per_passenger cannot be null');
-        }
-        $this->container['price_per_passenger'] = $price_per_passenger;
-
-        return $this;
-    }
-
-    /**
-     * Gets price_breakdown
-     *
-     * @return \OpenRoam\Model\PriceBreakdown|null
-     */
-    public function getPriceBreakdown(): ?\OpenRoam\Model\PriceBreakdown
-    {
-        return $this->container['price_breakdown'];
-    }
-
-    /**
-     * Sets price_breakdown
-     *
-     * @param \OpenRoam\Model\PriceBreakdown|null $price_breakdown price_breakdown
-     *
-     * @return $this
-     */
-    public function setPriceBreakdown(?\OpenRoam\Model\PriceBreakdown $price_breakdown): static
-    {
-        if (is_null($price_breakdown)) {
-            array_push($this->openAPINullablesSetToNull, 'price_breakdown');
+            array_push($this->openAPINullablesSetToNull, 'price_per_passenger');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('price_breakdown', $nullablesSetToNull);
+            $index = array_search('price_per_passenger', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['price_breakdown'] = $price_breakdown;
+        $this->container['price_per_passenger'] = $price_per_passenger;
 
         return $this;
     }

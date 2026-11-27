@@ -67,7 +67,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'string',
         'description' => 'string',
         'offers' => '\OpenRoam\Model\EsimOffer[]',
-        'details' => '\OpenRoam\Model\EsimDestinationDetails'
+        'destination_code' => 'string',
+        'region' => 'string',
+        'coverage' => '\OpenRoam\Model\EsimCoverageCountry[]'
     ];
 
     /**
@@ -83,7 +85,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => null,
         'description' => null,
         'offers' => null,
-        'details' => null
+        'destination_code' => null,
+        'region' => null,
+        'coverage' => null
     ];
 
     /**
@@ -99,7 +103,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => true,
         'description' => true,
         'offers' => false,
-        'details' => false
+        'destination_code' => true,
+        'region' => true,
+        'coverage' => false
     ];
 
     /**
@@ -185,7 +191,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'logoUrl',
         'description' => 'description',
         'offers' => 'offers',
-        'details' => 'details'
+        'destination_code' => 'destinationCode',
+        'region' => 'region',
+        'coverage' => 'coverage'
     ];
 
     /**
@@ -201,7 +209,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'setLogoUrl',
         'description' => 'setDescription',
         'offers' => 'setOffers',
-        'details' => 'setDetails'
+        'destination_code' => 'setDestinationCode',
+        'region' => 'setRegion',
+        'coverage' => 'setCoverage'
     ];
 
     /**
@@ -217,7 +227,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         'logo_url' => 'getLogoUrl',
         'description' => 'getDescription',
         'offers' => 'getOffers',
-        'details' => 'getDetails'
+        'destination_code' => 'getDestinationCode',
+        'region' => 'getRegion',
+        'coverage' => 'getCoverage'
     ];
 
     /**
@@ -291,7 +303,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('logo_url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('offers', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('destination_code', $data ?? [], null);
+        $this->setIfExists('region', $data ?? [], null);
+        $this->setIfExists('coverage', $data ?? [], null);
     }
 
     /**
@@ -319,6 +333,15 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -328,6 +351,12 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['offers'] === null) {
+            $invalidProperties[] = "'offers' can't be null";
+        }
+        if ($this->container['coverage'] === null) {
+            $invalidProperties[] = "'coverage' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -343,9 +372,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -353,11 +382,11 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -370,9 +399,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -380,11 +409,11 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -431,9 +460,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -441,11 +470,11 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');
@@ -536,9 +565,9 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offers
      *
-     * @return \OpenRoam\Model\EsimOffer[]|null
+     * @return \OpenRoam\Model\EsimOffer[]
      */
-    public function getOffers(): ?array
+    public function getOffers(): array
     {
         return $this->container['offers'];
     }
@@ -546,11 +575,11 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets offers
      *
-     * @param \OpenRoam\Model\EsimOffer[]|null $offers offers
+     * @param \OpenRoam\Model\EsimOffer[] $offers offers
      *
      * @return $this
      */
-    public function setOffers(?array $offers): static
+    public function setOffers(array $offers): static
     {
         if (is_null($offers)) {
             throw new InvalidArgumentException('non-nullable offers cannot be null');
@@ -561,28 +590,96 @@ class EsimDestination implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets details
+     * Gets destination_code
      *
-     * @return \OpenRoam\Model\EsimDestinationDetails|null
+     * @return string|null
      */
-    public function getDetails(): ?\OpenRoam\Model\EsimDestinationDetails
+    public function getDestinationCode(): ?string
     {
-        return $this->container['details'];
+        return $this->container['destination_code'];
     }
 
     /**
-     * Sets details
+     * Sets destination_code
      *
-     * @param \OpenRoam\Model\EsimDestinationDetails|null $details Destination facts outside the item keys every partner service shares.
+     * @param string|null $destination_code The destination's stored eSIM code, such as `JP`, `EU`, `NAM` or `GLOBAL`; null when none is stored. It names the destination, not a country: `countryCode` is the ISO code of a local destination only. An order item's `purchasedProduct.details.destination.code` carries the same code.
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\EsimDestinationDetails $details): static
+    public function setDestinationCode(?string $destination_code): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($destination_code)) {
+            array_push($this->openAPINullablesSetToNull, 'destination_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('destination_code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['details'] = $details;
+        $this->container['destination_code'] = $destination_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets region
+     *
+     * @return string|null
+     */
+    public function getRegion(): ?string
+    {
+        return $this->container['region'];
+    }
+
+    /**
+     * Sets region
+     *
+     * @param string|null $region The destination's region, or null.
+     *
+     * @return $this
+     */
+    public function setRegion(?string $region): static
+    {
+        if (is_null($region)) {
+            array_push($this->openAPINullablesSetToNull, 'region');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('region', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['region'] = $region;
+
+        return $this;
+    }
+
+    /**
+     * Gets coverage
+     *
+     * @return \OpenRoam\Model\EsimCoverageCountry[]
+     */
+    public function getCoverage(): array
+    {
+        return $this->container['coverage'];
+    }
+
+    /**
+     * Sets coverage
+     *
+     * @param \OpenRoam\Model\EsimCoverageCountry[] $coverage The countries the destination's plans work in, with their networks and carriers.
+     *
+     * @return $this
+     */
+    public function setCoverage(array $coverage): static
+    {
+        if (is_null($coverage)) {
+            throw new InvalidArgumentException('non-nullable coverage cannot be null');
+        }
+        $this->container['coverage'] = $coverage;
 
         return $this;
     }

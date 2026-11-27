@@ -321,6 +321,12 @@ class SeatMapSegment implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['aisles'] === null) {
+            $invalidProperties[] = "'aisles' can't be null";
+        }
+        if ($this->container['rows'] === null) {
+            $invalidProperties[] = "'rows' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -468,9 +474,9 @@ class SeatMapSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets aisles
      *
-     * @return int[]|null
+     * @return int[]
      */
-    public function getAisles(): ?array
+    public function getAisles(): array
     {
         return $this->container['aisles'];
     }
@@ -478,11 +484,11 @@ class SeatMapSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets aisles
      *
-     * @param int[]|null $aisles aisles
+     * @param int[] $aisles aisles
      *
      * @return $this
      */
-    public function setAisles(?array $aisles): static
+    public function setAisles(array $aisles): static
     {
         if (is_null($aisles)) {
             throw new InvalidArgumentException('non-nullable aisles cannot be null');
@@ -495,9 +501,9 @@ class SeatMapSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets rows
      *
-     * @return \OpenRoam\Model\SeatMapRow[]|null
+     * @return \OpenRoam\Model\SeatMapRow[]
      */
-    public function getRows(): ?array
+    public function getRows(): array
     {
         return $this->container['rows'];
     }
@@ -505,11 +511,11 @@ class SeatMapSegment implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets rows
      *
-     * @param \OpenRoam\Model\SeatMapRow[]|null $rows rows
+     * @param \OpenRoam\Model\SeatMapRow[] $rows rows
      *
      * @return $this
      */
-    public function setRows(?array $rows): static
+    public function setRows(array $rows): static
     {
         if (is_null($rows)) {
             throw new InvalidArgumentException('non-nullable rows cannot be null');

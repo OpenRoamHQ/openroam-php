@@ -259,6 +259,12 @@ class UnitAvailability implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['available_unit_count'] === null) {
+            $invalidProperties[] = "'available_unit_count' can't be null";
+        }
+        if ($this->container['booking_requires_unit_selection'] === null) {
+            $invalidProperties[] = "'booking_requires_unit_selection' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -274,9 +280,9 @@ class UnitAvailability implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets available_unit_count
      *
-     * @return int|null
+     * @return int
      */
-    public function getAvailableUnitCount(): ?int
+    public function getAvailableUnitCount(): int
     {
         return $this->container['available_unit_count'];
     }
@@ -284,11 +290,11 @@ class UnitAvailability implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets available_unit_count
      *
-     * @param int|null $available_unit_count available_unit_count
+     * @param int $available_unit_count available_unit_count
      *
      * @return $this
      */
-    public function setAvailableUnitCount(?int $available_unit_count): static
+    public function setAvailableUnitCount(int $available_unit_count): static
     {
         if (is_null($available_unit_count)) {
             throw new InvalidArgumentException('non-nullable available_unit_count cannot be null');
@@ -301,9 +307,9 @@ class UnitAvailability implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets booking_requires_unit_selection
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getBookingRequiresUnitSelection(): ?bool
+    public function getBookingRequiresUnitSelection(): bool
     {
         return $this->container['booking_requires_unit_selection'];
     }
@@ -311,11 +317,11 @@ class UnitAvailability implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets booking_requires_unit_selection
      *
-     * @param bool|null $booking_requires_unit_selection booking_requires_unit_selection
+     * @param bool $booking_requires_unit_selection booking_requires_unit_selection
      *
      * @return $this
      */
-    public function setBookingRequiresUnitSelection(?bool $booking_requires_unit_selection): static
+    public function setBookingRequiresUnitSelection(bool $booking_requires_unit_selection): static
     {
         if (is_null($booking_requires_unit_selection)) {
             throw new InvalidArgumentException('non-nullable booking_requires_unit_selection cannot be null');

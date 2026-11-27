@@ -14,7 +14,7 @@ class GiftCardsResource
     }
 
     /**
-     * List gift card categories. GET /api/v1/b2b/giftcards/categories
+     * List gift card categories. GET /v1/giftcards/categories
      *
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException
@@ -29,7 +29,7 @@ class GiftCardsResource
     }
 
     /**
-     * Search gift cards. GET /api/v1/b2b/giftcards/search
+     * Search gift cards. GET /v1/giftcards/search
      *
      * @param array{countryCode?: string, category?: string, valueType?: string, q?: string, isRedeemableGlobally?: bool, currency?: string, page?: int, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -46,7 +46,7 @@ class GiftCardsResource
     }
 
     /**
-     * Gift card catalog. GET /api/v1/b2b/giftcards/catalog
+     * Gift card catalog. GET /v1/giftcards/catalog
      *
      * @param array{countryCode?: string, category?: string, valueType?: string, isRedeemableGlobally?: bool, currency?: string, cursor?: string, limit?: int} $query
      * @param array{timeout?: float|int} $options
@@ -63,7 +63,7 @@ class GiftCardsResource
     }
 
     /**
-     * Get a gift card. GET /api/v1/b2b/giftcards/cards/{id}
+     * Get a gift card. GET /v1/giftcards/cards/{id}
      *
      * @param string $id
      * @param array{currency?: string} $query
@@ -82,7 +82,7 @@ class GiftCardsResource
     }
 
     /**
-     * Order gift cards. POST /api/v1/b2b/giftcards/order
+     * Order gift cards. POST /v1/giftcards/order
      *
      * @param \OpenRoam\Model\GiftCardOrderRequest|array $body the model, or an array of the same fields
      * @param array{idempotencyKey?: string, timeout?: float|int} $options idempotencyKey: default a new UUID per call
@@ -101,7 +101,7 @@ class GiftCardsResource
     }
 
     /**
-     * Quote gift cards. POST /api/v1/b2b/giftcards/quote
+     * Quote gift cards. POST /v1/giftcards/quote
      *
      * @param \OpenRoam\Model\GiftCardOrderRequest|array $body the model, or an array of the same fields
      * @param array{timeout?: float|int} $options

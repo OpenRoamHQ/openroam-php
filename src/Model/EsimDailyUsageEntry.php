@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * EsimDailyUsageEntry Class Doc Comment
  *
- * @description A single per-day usage entry inside &#x60;usages&#x60;.
+ * @description The data an eSIM used on one day.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -60,7 +60,9 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string>
      */
     protected static array $openAPITypes = [
-        'date' => 'string',
+        'date' => '\DateTime',
+        'start' => '\DateTime',
+        'end' => '\DateTime',
         'usage' => 'float',
         'location' => 'string'
     ];
@@ -71,7 +73,9 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      * @var array<string, string|null>
      */
     protected static array $openAPIFormats = [
-        'date' => null,
+        'date' => 'date',
+        'start' => 'date-time',
+        'end' => 'date-time',
         'usage' => 'decimal',
         'location' => null
     ];
@@ -83,8 +87,10 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $openAPINullables = [
         'date' => false,
+        'start' => false,
+        'end' => false,
         'usage' => false,
-        'location' => false
+        'location' => true
     ];
 
     /**
@@ -164,6 +170,8 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $attributeMap = [
         'date' => 'date',
+        'start' => 'start',
+        'end' => 'end',
         'usage' => 'usage',
         'location' => 'location'
     ];
@@ -175,6 +183,8 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $setters = [
         'date' => 'setDate',
+        'start' => 'setStart',
+        'end' => 'setEnd',
         'usage' => 'setUsage',
         'location' => 'setLocation'
     ];
@@ -186,6 +196,8 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
      */
     protected static array $getters = [
         'date' => 'getDate',
+        'start' => 'getStart',
+        'end' => 'getEnd',
         'usage' => 'getUsage',
         'location' => 'getLocation'
     ];
@@ -238,6 +250,8 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     public function __construct(?array $data = null)
     {
         $this->setIfExists('date', $data ?? [], null);
+        $this->setIfExists('start', $data ?? [], null);
+        $this->setIfExists('end', $data ?? [], null);
         $this->setIfExists('usage', $data ?? [], null);
         $this->setIfExists('location', $data ?? [], null);
     }
@@ -267,6 +281,18 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['date'] === null) {
+            $invalidProperties[] = "'date' can't be null";
+        }
+        if ($this->container['start'] === null) {
+            $invalidProperties[] = "'start' can't be null";
+        }
+        if ($this->container['end'] === null) {
+            $invalidProperties[] = "'end' can't be null";
+        }
+        if ($this->container['usage'] === null) {
+            $invalidProperties[] = "'usage' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +308,9 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets date
      *
-     * @return string|null
+     * @return \DateTime
      */
-    public function getDate(): ?string
+    public function getDate(): \DateTime
     {
         return $this->container['date'];
     }
@@ -292,11 +318,11 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets date
      *
-     * @param string|null $date Date of usage in `yyyy-MM-dd` format (UTC).
+     * @param \DateTime $date The day the usage was counted for, in `yyyy-MM-dd` format. It is a calendar day in the time             zone the usage is counted in, which is not always UTC; `start` and `end` give its exact bounds.
      *
      * @return $this
      */
-    public function setDate(?string $date): static
+    public function setDate(\DateTime $date): static
     {
         if (is_null($date)) {
             throw new InvalidArgumentException('non-nullable date cannot be null');
@@ -307,11 +333,65 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     }
 
     /**
+     * Gets start
+     *
+     * @return \DateTime
+     */
+    public function getStart(): \DateTime
+    {
+        return $this->container['start'];
+    }
+
+    /**
+     * Sets start
+     *
+     * @param \DateTime $start When the day began, as a UTC instant (inclusive).
+     *
+     * @return $this
+     */
+    public function setStart(\DateTime $start): static
+    {
+        if (is_null($start)) {
+            throw new InvalidArgumentException('non-nullable start cannot be null');
+        }
+        $this->container['start'] = $start;
+
+        return $this;
+    }
+
+    /**
+     * Gets end
+     *
+     * @return \DateTime
+     */
+    public function getEnd(): \DateTime
+    {
+        return $this->container['end'];
+    }
+
+    /**
+     * Sets end
+     *
+     * @param \DateTime $end When the day ended, as a UTC instant (exclusive).
+     *
+     * @return $this
+     */
+    public function setEnd(\DateTime $end): static
+    {
+        if (is_null($end)) {
+            throw new InvalidArgumentException('non-nullable end cannot be null');
+        }
+        $this->container['end'] = $end;
+
+        return $this;
+    }
+
+    /**
      * Gets usage
      *
-     * @return float|null
+     * @return float
      */
-    public function getUsage(): ?float
+    public function getUsage(): float
     {
         return $this->container['usage'];
     }
@@ -319,11 +399,11 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets usage
      *
-     * @param float|null $usage Data consumed on this day, in megabytes (MB).
+     * @param float $usage The data used that day, in MB.
      *
      * @return $this
      */
-    public function setUsage(?float $usage): static
+    public function setUsage(float $usage): static
     {
         if (is_null($usage)) {
             throw new InvalidArgumentException('non-nullable usage cannot be null');
@@ -346,14 +426,21 @@ class EsimDailyUsageEntry implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets location
      *
-     * @param string|null $location Country name where the data was consumed, or `N/A` if unavailable.
+     * @param string|null $location The country where the data was used; null when it is not reported.
      *
      * @return $this
      */
     public function setLocation(?string $location): static
     {
         if (is_null($location)) {
-            throw new InvalidArgumentException('non-nullable location cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'location');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('location', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['location'] = $location;
 

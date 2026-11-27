@@ -37,7 +37,7 @@ use OpenRoam\ObjectSerializer;
 /**
  * SimCard Class Doc Comment
  *
- * @description The eSIM&#39;s SIM card details: how to install it and its current usage.
+ * @description The eSIM&#39;s SIM card details: how to install it and its usage last read.
  * @package  OpenRoam
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,7 +61,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'iccid' => 'string',
-        'status' => 'string',
         'lpa_code' => 'string',
         'smdp_address' => 'string',
         'activation_code' => 'string',
@@ -81,7 +80,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPIFormats = [
         'iccid' => null,
-        'status' => null,
         'lpa_code' => null,
         'smdp_address' => null,
         'activation_code' => null,
@@ -101,7 +99,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPINullables = [
         'iccid' => false,
-        'status' => false,
         'lpa_code' => true,
         'smdp_address' => true,
         'activation_code' => true,
@@ -191,7 +188,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $attributeMap = [
         'iccid' => 'iccid',
-        'status' => 'status',
         'lpa_code' => 'lpaCode',
         'smdp_address' => 'smdpAddress',
         'activation_code' => 'activationCode',
@@ -211,7 +207,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $setters = [
         'iccid' => 'setIccid',
-        'status' => 'setStatus',
         'lpa_code' => 'setLpaCode',
         'smdp_address' => 'setSmdpAddress',
         'activation_code' => 'setActivationCode',
@@ -231,7 +226,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $getters = [
         'iccid' => 'getIccid',
-        'status' => 'getStatus',
         'lpa_code' => 'getLpaCode',
         'smdp_address' => 'getSmdpAddress',
         'activation_code' => 'getActivationCode',
@@ -276,37 +270,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const STATUS__EMPTY = 'empty';
-    public const STATUS__NEW = 'new';
-    public const STATUS_DOWNLOADED = 'downloaded';
-    public const STATUS_INSTALLED = 'installed';
-    public const STATUS_ACTIVATED = 'activated';
-    public const STATUS_INACTIVE = 'inactive';
-    public const STATUS_DELETED = 'deleted';
-    public const STATUS_REVOKED = 'revoked';
-    public const STATUS_EXPIRED = 'expired';
-    public const STATUS_UNKNOWN = 'unknown';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public static function getStatusAllowableValues()
-    {
-        return [
-            self::STATUS__EMPTY,
-            self::STATUS__NEW,
-            self::STATUS_DOWNLOADED,
-            self::STATUS_INSTALLED,
-            self::STATUS_ACTIVATED,
-            self::STATUS_INACTIVE,
-            self::STATUS_DELETED,
-            self::STATUS_REVOKED,
-            self::STATUS_EXPIRED,
-            self::STATUS_UNKNOWN,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -323,7 +286,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('iccid', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('lpa_code', $data ?? [], null);
         $this->setIfExists('smdp_address', $data ?? [], null);
         $this->setIfExists('activation_code', $data ?? [], null);
@@ -364,18 +326,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['iccid'] === null) {
             $invalidProperties[] = "'iccid' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
-        }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -401,7 +351,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets iccid
      *
-     * @param string $iccid Physical ICCID of the SIM card.
+     * @param string $iccid The ICCID of the SIM card.
      *
      * @return $this
      */
@@ -411,43 +361,6 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
             throw new InvalidArgumentException('non-nullable iccid cannot be null');
         }
         $this->container['iccid'] = $iccid;
-
-        return $this;
-    }
-
-    /**
-     * Gets status
-     *
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return $this->container['status'];
-    }
-
-    /**
-     * Sets status
-     *
-     * @param string $status The installation state of the SIM card profile on the device.
-     *
-     * @return $this
-     */
-    public function setStatus(string $status): static
-    {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
-        }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['status'] = $status;
 
         return $this;
     }
@@ -465,7 +378,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets lpa_code
      *
-     * @param string|null $lpa_code Full LPA activation string in the format `LPA:1$smdpAddress$activationCode`. Scan this with the device camera to install.
+     * @param string|null $lpa_code Full LPA activation string in the format `LPA:1$smdpAddress$activationCode`. Scan it with the device camera to install.
      *
      * @return $this
      */
@@ -499,7 +412,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets smdp_address
      *
-     * @param string|null $smdp_address SM-DP+ server address extracted from the LPA code.
+     * @param string|null $smdp_address SM-DP+ server address taken from the LPA code.
      *
      * @return $this
      */
@@ -533,7 +446,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets activation_code
      *
-     * @param string|null $activation_code Activation code extracted from the LPA code.
+     * @param string|null $activation_code Activation code taken from the LPA code.
      *
      * @return $this
      */
@@ -567,7 +480,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets qr_code_url
      *
-     * @param string|null $qr_code_url URL to a QR code image representing the LPA code.
+     * @param string|null $qr_code_url URL of a PNG QR code of the LPA code. It does not expire and needs no key.
      *
      * @return $this
      */
@@ -601,7 +514,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets pin
      *
-     * @param string|null $pin SIM PIN (if provided by the carrier).
+     * @param string|null $pin SIM PIN, when the network issues one.
      *
      * @return $this
      */
@@ -635,7 +548,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets puk
      *
-     * @param string|null $puk SIM PUK (if provided by the carrier).
+     * @param string|null $puk SIM PUK, when the network issues one.
      *
      * @return $this
      */
@@ -669,7 +582,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets number
      *
-     * @param string|null $number Phone number assigned to this eSIM, if applicable.
+     * @param string|null $number Phone number assigned to this eSIM, when the plan includes one.
      *
      * @return $this
      */
@@ -771,7 +684,7 @@ class SimCard implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets usage
      *
-     * @param \OpenRoam\Model\EsimUsage|null $usage The data, SMS and voice usage last read; null until usage has first been read.
+     * @param \OpenRoam\Model\EsimUsage|null $usage The base plan's usage last read, without top-ups; null until usage has first been read.
      *
      * @return $this
      */

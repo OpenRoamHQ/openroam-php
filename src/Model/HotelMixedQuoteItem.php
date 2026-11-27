@@ -64,7 +64,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => 'int',
         'name' => 'string',
         'price' => '\OpenRoam\Model\Money',
-        'details' => '\OpenRoam\Model\HotelQuoteItemDetails'
+        'taxes' => '\OpenRoam\Model\TaxSummary',
+        'expires_at' => '\DateTime',
+        'availability' => 'string',
+        'check_in_date' => '\DateTime',
+        'check_out_date' => '\DateTime',
+        'requested_rooms' => '\OpenRoam\Model\RoomOccupancy[]',
+        'terms' => '\OpenRoam\Model\BookingTerms',
+        'rate' => '\OpenRoam\Model\QuotedRate'
     ];
 
     /**
@@ -78,7 +85,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => 'int32',
         'name' => null,
         'price' => null,
-        'details' => null
+        'taxes' => null,
+        'expires_at' => 'date-time',
+        'availability' => null,
+        'check_in_date' => 'date',
+        'check_out_date' => 'date',
+        'requested_rooms' => null,
+        'terms' => null,
+        'rate' => null
     ];
 
     /**
@@ -92,7 +106,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => false,
         'name' => false,
         'price' => false,
-        'details' => false
+        'taxes' => false,
+        'expires_at' => false,
+        'availability' => false,
+        'check_in_date' => false,
+        'check_out_date' => false,
+        'requested_rooms' => false,
+        'terms' => false,
+        'rate' => false
     ];
 
     /**
@@ -176,7 +197,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => 'quantity',
         'name' => 'name',
         'price' => 'price',
-        'details' => 'details'
+        'taxes' => 'taxes',
+        'expires_at' => 'expiresAt',
+        'availability' => 'availability',
+        'check_in_date' => 'checkInDate',
+        'check_out_date' => 'checkOutDate',
+        'requested_rooms' => 'requestedRooms',
+        'terms' => 'terms',
+        'rate' => 'rate'
     ];
 
     /**
@@ -190,7 +218,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => 'setQuantity',
         'name' => 'setName',
         'price' => 'setPrice',
-        'details' => 'setDetails'
+        'taxes' => 'setTaxes',
+        'expires_at' => 'setExpiresAt',
+        'availability' => 'setAvailability',
+        'check_in_date' => 'setCheckInDate',
+        'check_out_date' => 'setCheckOutDate',
+        'requested_rooms' => 'setRequestedRooms',
+        'terms' => 'setTerms',
+        'rate' => 'setRate'
     ];
 
     /**
@@ -204,7 +239,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         'quantity' => 'getQuantity',
         'name' => 'getName',
         'price' => 'getPrice',
-        'details' => 'getDetails'
+        'taxes' => 'getTaxes',
+        'expires_at' => 'getExpiresAt',
+        'availability' => 'getAvailability',
+        'check_in_date' => 'getCheckInDate',
+        'check_out_date' => 'getCheckOutDate',
+        'requested_rooms' => 'getRequestedRooms',
+        'terms' => 'getTerms',
+        'rate' => 'getRate'
     ];
 
     /**
@@ -240,6 +282,8 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     }
 
     public const PRODUCT_TYPE_HOTEL = 'hotel';
+    public const AVAILABILITY_CONFIRMED = 'confirmed';
+    public const AVAILABILITY_ON_REQUEST = 'onRequest';
 
     /**
      * Gets allowable values of the enum
@@ -250,6 +294,19 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     {
         return [
             self::PRODUCT_TYPE_HOTEL,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getAvailabilityAllowableValues()
+    {
+        return [
+            self::AVAILABILITY_CONFIRMED,
+            self::AVAILABILITY_ON_REQUEST,
         ];
     }
 
@@ -272,7 +329,14 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
         $this->setIfExists('quantity', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
-        $this->setIfExists('details', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
+        $this->setIfExists('expires_at', $data ?? [], null);
+        $this->setIfExists('availability', $data ?? [], null);
+        $this->setIfExists('check_in_date', $data ?? [], null);
+        $this->setIfExists('check_out_date', $data ?? [], null);
+        $this->setIfExists('requested_rooms', $data ?? [], null);
+        $this->setIfExists('terms', $data ?? [], null);
+        $this->setIfExists('rate', $data ?? [], null);
     }
 
     /**
@@ -314,6 +378,48 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
 
         if ($this->container['public_id'] === null) {
             $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
+        }
+        if ($this->container['expires_at'] === null) {
+            $invalidProperties[] = "'expires_at' can't be null";
+        }
+        if ($this->container['availability'] === null) {
+            $invalidProperties[] = "'availability' can't be null";
+        }
+        $allowedValues = self::getAvailabilityAllowableValues();
+        if (!is_null($this->container['availability']) && !in_array($this->container['availability'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'availability', must be one of '%s'",
+                $this->container['availability'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['check_in_date'] === null) {
+            $invalidProperties[] = "'check_in_date' can't be null";
+        }
+        if ($this->container['check_out_date'] === null) {
+            $invalidProperties[] = "'check_out_date' can't be null";
+        }
+        if ($this->container['requested_rooms'] === null) {
+            $invalidProperties[] = "'requested_rooms' can't be null";
+        }
+        if ($this->container['terms'] === null) {
+            $invalidProperties[] = "'terms' can't be null";
+        }
+        if ($this->container['rate'] === null) {
+            $invalidProperties[] = "'rate' can't be null";
         }
         return $invalidProperties;
     }
@@ -377,7 +483,7 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets public_id
      *
-     * @param string $public_id A new opaque offer ID (`hotel_…`) for the rate at this price, which replaces the one the request sent: order with it before `details.expiresAt`.
+     * @param string $public_id A new opaque offer ID (`rate_…`) for the rate at this price, which replaces the one the request sent: order with it before `expiresAt`.
      *
      * @return $this
      */
@@ -394,9 +500,9 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -404,11 +510,11 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets quantity
      *
-     * @param int|null $quantity Always 1: an item books one rate.
+     * @param int $quantity Always 1: an item books one rate.
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -421,9 +527,9 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -431,11 +537,11 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets name
      *
-     * @param string|null $name `\"{hotel} · {offer}\"`, the hotel's name and the offer's name, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
+     * @param string $name `\"{hotel} · {offer}\"`, the hotel's name and the offer's name, for example `Hotel Arts Barcelona · Deluxe King, Breakfast, Free cancellation`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -448,9 +554,9 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -458,11 +564,11 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price Price for the whole stay, all rooms and nights, in the quote currency. An order of the returned `publicId` without `inputs.maxPrice` is refused if the rate then costs more.
+     * @param \OpenRoam\Model\Money $price Price for the whole stay, all rooms and nights, in the quote currency. An order of the returned `publicId` without `inputs.maxPrice` is refused if the rate then costs more.
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
@@ -473,28 +579,227 @@ class HotelMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializab
     }
 
     /**
-     * Gets details
+     * Gets taxes
      *
-     * @return \OpenRoam\Model\HotelQuoteItemDetails|null
+     * @return \OpenRoam\Model\TaxSummary
      */
-    public function getDetails(): ?\OpenRoam\Model\HotelQuoteItemDetails
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
     {
-        return $this->container['details'];
+        return $this->container['taxes'];
     }
 
     /**
-     * Sets details
+     * Sets taxes
      *
-     * @param \OpenRoam\Model\HotelQuoteItemDetails|null $details The quoted stay and the rate's terms.
+     * @param \OpenRoam\Model\TaxSummary $taxes The rate's taxes: `included` in `price`, with the in-price total when the rate states it complete, and a line per tax it states, in the price (`prepaid`) or paid at the hotel (`onSite`).
      *
      * @return $this
      */
-    public function setDetails(?\OpenRoam\Model\HotelQuoteItemDetails $details): static
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
     {
-        if (is_null($details)) {
-            throw new InvalidArgumentException('non-nullable details cannot be null');
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
         }
-        $this->container['details'] = $details;
+        $this->container['taxes'] = $taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets expires_at
+     *
+     * @return \DateTime
+     */
+    public function getExpiresAt(): \DateTime
+    {
+        return $this->container['expires_at'];
+    }
+
+    /**
+     * Sets expires_at
+     *
+     * @param \DateTime $expires_at When the returned `publicId` stops being accepted (UTC): at most 30 minutes after the quote, and never after an expiry the hotel system states.
+     *
+     * @return $this
+     */
+    public function setExpiresAt(\DateTime $expires_at): static
+    {
+        if (is_null($expires_at)) {
+            throw new InvalidArgumentException('non-nullable expires_at cannot be null');
+        }
+        $this->container['expires_at'] = $expires_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets availability
+     *
+     * @return string
+     */
+    public function getAvailability(): string
+    {
+        return $this->container['availability'];
+    }
+
+    /**
+     * Sets availability
+     *
+     * @param string $availability `confirmed` when the rate is confirmed; `onRequest` when it is held only on request, which an order refuses with 409 / 11003.
+     *
+     * @return $this
+     */
+    public function setAvailability(string $availability): static
+    {
+        if (is_null($availability)) {
+            throw new InvalidArgumentException('non-nullable availability cannot be null');
+        }
+        $allowedValues = self::getAvailabilityAllowableValues();
+        if (!in_array($availability, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'availability', must be one of '%s'",
+                    $availability,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['availability'] = $availability;
+
+        return $this;
+    }
+
+    /**
+     * Gets check_in_date
+     *
+     * @return \DateTime
+     */
+    public function getCheckInDate(): \DateTime
+    {
+        return $this->container['check_in_date'];
+    }
+
+    /**
+     * Sets check_in_date
+     *
+     * @param \DateTime $check_in_date The searched check-in date.
+     *
+     * @return $this
+     */
+    public function setCheckInDate(\DateTime $check_in_date): static
+    {
+        if (is_null($check_in_date)) {
+            throw new InvalidArgumentException('non-nullable check_in_date cannot be null');
+        }
+        $this->container['check_in_date'] = $check_in_date;
+
+        return $this;
+    }
+
+    /**
+     * Gets check_out_date
+     *
+     * @return \DateTime
+     */
+    public function getCheckOutDate(): \DateTime
+    {
+        return $this->container['check_out_date'];
+    }
+
+    /**
+     * Sets check_out_date
+     *
+     * @param \DateTime $check_out_date The searched check-out date.
+     *
+     * @return $this
+     */
+    public function setCheckOutDate(\DateTime $check_out_date): static
+    {
+        if (is_null($check_out_date)) {
+            throw new InvalidArgumentException('non-nullable check_out_date cannot be null');
+        }
+        $this->container['check_out_date'] = $check_out_date;
+
+        return $this;
+    }
+
+    /**
+     * Gets requested_rooms
+     *
+     * @return \OpenRoam\Model\RoomOccupancy[]
+     */
+    public function getRequestedRooms(): array
+    {
+        return $this->container['requested_rooms'];
+    }
+
+    /**
+     * Sets requested_rooms
+     *
+     * @param \OpenRoam\Model\RoomOccupancy[] $requested_rooms The searched rooms, in search order: adults, children and child ages.
+     *
+     * @return $this
+     */
+    public function setRequestedRooms(array $requested_rooms): static
+    {
+        if (is_null($requested_rooms)) {
+            throw new InvalidArgumentException('non-nullable requested_rooms cannot be null');
+        }
+        $this->container['requested_rooms'] = $requested_rooms;
+
+        return $this;
+    }
+
+    /**
+     * Gets terms
+     *
+     * @return \OpenRoam\Model\BookingTerms
+     */
+    public function getTerms(): \OpenRoam\Model\BookingTerms
+    {
+        return $this->container['terms'];
+    }
+
+    /**
+     * Sets terms
+     *
+     * @param \OpenRoam\Model\BookingTerms $terms How the stay is paid, what cancelling gives back and whether it can be changed, as quoted, in the quote currency and with OpenRoam's fees included. Each cancellation instant is also stated on the hotel's clock.
+     *
+     * @return $this
+     */
+    public function setTerms(\OpenRoam\Model\BookingTerms $terms): static
+    {
+        if (is_null($terms)) {
+            throw new InvalidArgumentException('non-nullable terms cannot be null');
+        }
+        $this->container['terms'] = $terms;
+
+        return $this;
+    }
+
+    /**
+     * Gets rate
+     *
+     * @return \OpenRoam\Model\QuotedRate
+     */
+    public function getRate(): \OpenRoam\Model\QuotedRate
+    {
+        return $this->container['rate'];
+    }
+
+    /**
+     * Sets rate
+     *
+     * @param \OpenRoam\Model\QuotedRate $rate The rate as quoted: rooms, board, nightly prices and surcharges. The quote's surcharges are the binding list.
+     *
+     * @return $this
+     */
+    public function setRate(\OpenRoam\Model\QuotedRate $rate): static
+    {
+        if (is_null($rate)) {
+            throw new InvalidArgumentException('non-nullable rate cannot be null');
+        }
+        $this->container['rate'] = $rate;
 
         return $this;
     }

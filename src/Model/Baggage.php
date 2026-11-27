@@ -304,6 +304,9 @@ class Baggage implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -356,9 +359,9 @@ class Baggage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -366,11 +369,11 @@ class Baggage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');

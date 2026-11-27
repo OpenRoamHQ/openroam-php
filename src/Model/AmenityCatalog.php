@@ -273,6 +273,18 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['map_version'] === null) {
+            $invalidProperties[] = "'map_version' can't be null";
+        }
+        if ($this->container['groups'] === null) {
+            $invalidProperties[] = "'groups' can't be null";
+        }
+        if ($this->container['amenities'] === null) {
+            $invalidProperties[] = "'amenities' can't be null";
+        }
+        if ($this->container['notes_label'] === null) {
+            $invalidProperties[] = "'notes_label' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -288,9 +300,9 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets map_version
      *
-     * @return int|null
+     * @return int
      */
-    public function getMapVersion(): ?int
+    public function getMapVersion(): int
     {
         return $this->container['map_version'];
     }
@@ -298,11 +310,11 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets map_version
      *
-     * @param int|null $map_version Version of the amenity catalog the labels and codes come from.
+     * @param int $map_version Version of the amenity catalog the labels and codes come from.
      *
      * @return $this
      */
-    public function setMapVersion(?int $map_version): static
+    public function setMapVersion(int $map_version): static
     {
         if (is_null($map_version)) {
             throw new InvalidArgumentException('non-nullable map_version cannot be null');
@@ -315,9 +327,9 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets groups
      *
-     * @return \OpenRoam\Model\AmenityGroup[]|null
+     * @return \OpenRoam\Model\AmenityGroup[]
      */
-    public function getGroups(): ?array
+    public function getGroups(): array
     {
         return $this->container['groups'];
     }
@@ -325,11 +337,11 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets groups
      *
-     * @param \OpenRoam\Model\AmenityGroup[]|null $groups Every amenity group, labelled, with the codes it holds.
+     * @param \OpenRoam\Model\AmenityGroup[] $groups Every amenity group, labelled, with the codes it holds.
      *
      * @return $this
      */
-    public function setGroups(?array $groups): static
+    public function setGroups(array $groups): static
     {
         if (is_null($groups)) {
             throw new InvalidArgumentException('non-nullable groups cannot be null');
@@ -342,9 +354,9 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amenities
      *
-     * @return \OpenRoam\Model\Amenity[]|null
+     * @return \OpenRoam\Model\Amenity[]
      */
-    public function getAmenities(): ?array
+    public function getAmenities(): array
     {
         return $this->container['amenities'];
     }
@@ -352,11 +364,11 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amenities
      *
-     * @param \OpenRoam\Model\Amenity[]|null $amenities Every amenity code with its label, for rendering a card or a rail.
+     * @param \OpenRoam\Model\Amenity[] $amenities Every amenity code with its label, for rendering a card or a rail.
      *
      * @return $this
      */
-    public function setAmenities(?array $amenities): static
+    public function setAmenities(array $amenities): static
     {
         if (is_null($amenities)) {
             throw new InvalidArgumentException('non-nullable amenities cannot be null');
@@ -369,9 +381,9 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets notes_label
      *
-     * @return string|null
+     * @return string
      */
-    public function getNotesLabel(): ?string
+    public function getNotesLabel(): string
     {
         return $this->container['notes_label'];
     }
@@ -379,11 +391,11 @@ class AmenityCatalog implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets notes_label
      *
-     * @param string|null $notes_label Heading for a card's `amenityNotes`. Those strings are free text with no code, so unlike every other label on a card this one cannot be looked up from Amenities.
+     * @param string $notes_label Heading for a card's `amenityNotes`. Those strings are free text with no code, so unlike every other label on a card this one cannot be looked up from Amenities.
      *
      * @return $this
      */
-    public function setNotesLabel(?string $notes_label): static
+    public function setNotesLabel(string $notes_label): static
     {
         if (is_null($notes_label)) {
             throw new InvalidArgumentException('non-nullable notes_label cannot be null');

@@ -14,7 +14,7 @@ class CurrenciesResource
     }
 
     /**
-     * List currencies. GET /api/v1/b2b/currencies
+     * List currencies. GET /v1/currencies
      *
      * @param array{timeout?: float|int} $options
      * @throws \OpenRoam\OpenRoamException

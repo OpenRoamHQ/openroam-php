@@ -267,6 +267,15 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -282,9 +291,9 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets code
      *
-     * @return int|null
+     * @return int
      */
-    public function getCode(): ?int
+    public function getCode(): int
     {
         return $this->container['code'];
     }
@@ -292,11 +301,11 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets code
      *
-     * @param int|null $code Numeric code, `16000`.
+     * @param int $code Numeric code, `16000`.
      *
      * @return $this
      */
-    public function setCode(?int $code): static
+    public function setCode(int $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -309,9 +318,9 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -319,11 +328,11 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets name
      *
-     * @param string|null $name Machine name, `PAYMENT_FAILED`.
+     * @param string $name Machine name, `PAYMENT_FAILED`.
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -336,9 +345,9 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets message
      *
-     * @return string|null
+     * @return string
      */
-    public function getMessage(): ?string
+    public function getMessage(): string
     {
         return $this->container['message'];
     }
@@ -346,11 +355,11 @@ class PaymentFailure implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets message
      *
-     * @param string|null $message Safe human-readable message; do not branch on it.
+     * @param string $message Safe human-readable message; do not branch on it.
      *
      * @return $this
      */
-    public function setMessage(?string $message): static
+    public function setMessage(string $message): static
     {
         if (is_null($message)) {
             throw new InvalidArgumentException('non-nullable message cannot be null');

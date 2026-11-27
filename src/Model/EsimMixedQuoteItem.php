@@ -63,7 +63,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => 'string',
         'quantity' => 'int',
         'name' => 'string',
-        'price' => '\OpenRoam\Model\Money'
+        'price' => '\OpenRoam\Model\Money',
+        'taxes' => '\OpenRoam\Model\TaxSummary'
     ];
 
     /**
@@ -76,7 +77,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => null,
         'quantity' => 'int32',
         'name' => null,
-        'price' => null
+        'price' => null,
+        'taxes' => null
     ];
 
     /**
@@ -89,7 +91,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => false,
         'quantity' => false,
         'name' => false,
-        'price' => false
+        'price' => false,
+        'taxes' => false
     ];
 
     /**
@@ -172,7 +175,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => 'publicId',
         'quantity' => 'quantity',
         'name' => 'name',
-        'price' => 'price'
+        'price' => 'price',
+        'taxes' => 'taxes'
     ];
 
     /**
@@ -185,7 +189,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => 'setPublicId',
         'quantity' => 'setQuantity',
         'name' => 'setName',
-        'price' => 'setPrice'
+        'price' => 'setPrice',
+        'taxes' => 'setTaxes'
     ];
 
     /**
@@ -198,7 +203,8 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         'public_id' => 'getPublicId',
         'quantity' => 'getQuantity',
         'name' => 'getName',
-        'price' => 'getPrice'
+        'price' => 'getPrice',
+        'taxes' => 'getTaxes'
     ];
 
     /**
@@ -266,6 +272,7 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
         $this->setIfExists('quantity', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('price', $data ?? [], null);
+        $this->setIfExists('taxes', $data ?? [], null);
     }
 
     /**
@@ -307,6 +314,18 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
 
         if ($this->container['public_id'] === null) {
             $invalidProperties[] = "'public_id' can't be null";
+        }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
+        }
+        if ($this->container['price'] === null) {
+            $invalidProperties[] = "'price' can't be null";
+        }
+        if ($this->container['taxes'] === null) {
+            $invalidProperties[] = "'taxes' can't be null";
         }
         return $invalidProperties;
     }
@@ -387,9 +406,9 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -397,11 +416,11 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -414,9 +433,9 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets name
      *
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->container['name'];
     }
@@ -424,11 +443,11 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets name
      *
-     * @param string|null $name name
+     * @param string $name name
      *
      * @return $this
      */
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         if (is_null($name)) {
             throw new InvalidArgumentException('non-nullable name cannot be null');
@@ -441,9 +460,9 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Gets price
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPrice(): ?\OpenRoam\Model\Money
+    public function getPrice(): \OpenRoam\Model\Money
     {
         return $this->container['price'];
     }
@@ -451,16 +470,43 @@ class EsimMixedQuoteItem implements ModelInterface, ArrayAccess, JsonSerializabl
     /**
      * Sets price
      *
-     * @param \OpenRoam\Model\Money|null $price price
+     * @param \OpenRoam\Model\Money $price price
      *
      * @return $this
      */
-    public function setPrice(?\OpenRoam\Model\Money $price): static
+    public function setPrice(\OpenRoam\Model\Money $price): static
     {
         if (is_null($price)) {
             throw new InvalidArgumentException('non-nullable price cannot be null');
         }
         $this->container['price'] = $price;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxes
+     *
+     * @return \OpenRoam\Model\TaxSummary
+     */
+    public function getTaxes(): \OpenRoam\Model\TaxSummary
+    {
+        return $this->container['taxes'];
+    }
+
+    /**
+     * Sets taxes
+     *
+     * @param \OpenRoam\Model\TaxSummary $taxes The taxes inside one unit of the `price` beside it, in one shape for every service. The server sets every field; a client never derives a treatment, never adds up `lines` and never computes an amount.
+     *
+     * @return $this
+     */
+    public function setTaxes(\OpenRoam\Model\TaxSummary $taxes): static
+    {
+        if (is_null($taxes)) {
+            throw new InvalidArgumentException('non-nullable taxes cannot be null');
+        }
+        $this->container['taxes'] = $taxes;
 
         return $this;
     }

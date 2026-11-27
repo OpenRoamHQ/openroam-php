@@ -259,6 +259,12 @@ class FulfillmentProgress implements ModelInterface, ArrayAccess, JsonSerializab
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -274,9 +280,9 @@ class FulfillmentProgress implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets code
      *
-     * @return string|null
+     * @return string
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->container['code'];
     }
@@ -284,11 +290,11 @@ class FulfillmentProgress implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets code
      *
-     * @param string|null $code code
+     * @param string $code code
      *
      * @return $this
      */
-    public function setCode(?string $code): static
+    public function setCode(string $code): static
     {
         if (is_null($code)) {
             throw new InvalidArgumentException('non-nullable code cannot be null');
@@ -301,9 +307,9 @@ class FulfillmentProgress implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Gets message
      *
-     * @return string|null
+     * @return string
      */
-    public function getMessage(): ?string
+    public function getMessage(): string
     {
         return $this->container['message'];
     }
@@ -311,11 +317,11 @@ class FulfillmentProgress implements ModelInterface, ArrayAccess, JsonSerializab
     /**
      * Sets message
      *
-     * @param string|null $message message
+     * @param string $message message
      *
      * @return $this
      */
-    public function setMessage(?string $message): static
+    public function setMessage(string $message): static
     {
         if (is_null($message)) {
             throw new InvalidArgumentException('non-nullable message cannot be null');

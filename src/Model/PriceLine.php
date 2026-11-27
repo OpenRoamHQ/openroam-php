@@ -239,7 +239,6 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     public const SERVICE_TYPE_BAGGAGE = 'baggage';
     public const SERVICE_TYPE_MEAL = 'meal';
     public const CATEGORY_FARE = 'fare';
-    public const CATEGORY_TAXES = 'taxes';
     public const CATEGORY_SELECTED_SERVICE = 'selectedService';
     public const CATEGORY_MANAGED_SERVICE = 'managedService';
     public const CATEGORY_OTHER = 'other';
@@ -268,7 +267,6 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     {
         return [
             self::CATEGORY_FARE,
-            self::CATEGORY_TAXES,
             self::CATEGORY_SELECTED_SERVICE,
             self::CATEGORY_MANAGED_SERVICE,
             self::CATEGORY_OTHER,
@@ -321,6 +319,15 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['description'] === null) {
+            $invalidProperties[] = "'description' can't be null";
+        }
+        if ($this->container['amount'] === null) {
+            $invalidProperties[] = "'amount' can't be null";
+        }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
         $allowedValues = self::getServiceTypeAllowableValues();
         if (!is_null($this->container['service_type']) && !in_array($this->container['service_type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -330,6 +337,9 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
+        if ($this->container['category'] === null) {
+            $invalidProperties[] = "'category' can't be null";
+        }
         $allowedValues = self::getCategoryAllowableValues();
         if (!is_null($this->container['category']) && !in_array($this->container['category'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -354,9 +364,9 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets description
      *
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->container['description'];
     }
@@ -364,11 +374,11 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets description
      *
-     * @param string|null $description description
+     * @param string $description description
      *
      * @return $this
      */
-    public function setDescription(?string $description): static
+    public function setDescription(string $description): static
     {
         if (is_null($description)) {
             throw new InvalidArgumentException('non-nullable description cannot be null');
@@ -381,9 +391,9 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets amount
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getAmount(): ?\OpenRoam\Model\Money
+    public function getAmount(): \OpenRoam\Model\Money
     {
         return $this->container['amount'];
     }
@@ -391,11 +401,11 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets amount
      *
-     * @param \OpenRoam\Model\Money|null $amount amount
+     * @param \OpenRoam\Model\Money $amount amount
      *
      * @return $this
      */
-    public function setAmount(?\OpenRoam\Model\Money $amount): static
+    public function setAmount(\OpenRoam\Model\Money $amount): static
     {
         if (is_null($amount)) {
             throw new InvalidArgumentException('non-nullable amount cannot be null');
@@ -408,9 +418,9 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->container['quantity'];
     }
@@ -418,11 +428,11 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
-    public function setQuantity(?int $quantity): static
+    public function setQuantity(int $quantity): static
     {
         if (is_null($quantity)) {
             throw new InvalidArgumentException('non-nullable quantity cannot be null');
@@ -479,9 +489,9 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets category
      *
-     * @return string|null
+     * @return string
      */
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->container['category'];
     }
@@ -489,11 +499,11 @@ class PriceLine implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets category
      *
-     * @param string|null $category category
+     * @param string $category category
      *
      * @return $this
      */
-    public function setCategory(?string $category): static
+    public function setCategory(string $category): static
     {
         if (is_null($category)) {
             throw new InvalidArgumentException('non-nullable category cannot be null');

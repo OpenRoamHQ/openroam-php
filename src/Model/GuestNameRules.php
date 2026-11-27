@@ -64,7 +64,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => 'int',
         'pattern' => 'string',
         'allowed_characters' => 'string',
-        'distinct_full_names' => 'bool'
+        'distinct_full_names' => 'bool',
+        'guest_names_optional' => 'bool'
     ];
 
     /**
@@ -77,7 +78,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => 'int32',
         'pattern' => null,
         'allowed_characters' => null,
-        'distinct_full_names' => null
+        'distinct_full_names' => null,
+        'guest_names_optional' => null
     ];
 
     /**
@@ -90,7 +92,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => false,
         'pattern' => false,
         'allowed_characters' => false,
-        'distinct_full_names' => false
+        'distinct_full_names' => false,
+        'guest_names_optional' => false
     ];
 
     /**
@@ -173,7 +176,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => 'maxLength',
         'pattern' => 'pattern',
         'allowed_characters' => 'allowedCharacters',
-        'distinct_full_names' => 'distinctFullNames'
+        'distinct_full_names' => 'distinctFullNames',
+        'guest_names_optional' => 'guestNamesOptional'
     ];
 
     /**
@@ -186,7 +190,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => 'setMaxLength',
         'pattern' => 'setPattern',
         'allowed_characters' => 'setAllowedCharacters',
-        'distinct_full_names' => 'setDistinctFullNames'
+        'distinct_full_names' => 'setDistinctFullNames',
+        'guest_names_optional' => 'setGuestNamesOptional'
     ];
 
     /**
@@ -199,7 +204,8 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         'max_length' => 'getMaxLength',
         'pattern' => 'getPattern',
         'allowed_characters' => 'getAllowedCharacters',
-        'distinct_full_names' => 'getDistinctFullNames'
+        'distinct_full_names' => 'getDistinctFullNames',
+        'guest_names_optional' => 'getGuestNamesOptional'
     ];
 
     /**
@@ -254,6 +260,7 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('pattern', $data ?? [], null);
         $this->setIfExists('allowed_characters', $data ?? [], null);
         $this->setIfExists('distinct_full_names', $data ?? [], null);
+        $this->setIfExists('guest_names_optional', $data ?? [], null);
     }
 
     /**
@@ -281,6 +288,24 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['min_length'] === null) {
+            $invalidProperties[] = "'min_length' can't be null";
+        }
+        if ($this->container['max_length'] === null) {
+            $invalidProperties[] = "'max_length' can't be null";
+        }
+        if ($this->container['pattern'] === null) {
+            $invalidProperties[] = "'pattern' can't be null";
+        }
+        if ($this->container['allowed_characters'] === null) {
+            $invalidProperties[] = "'allowed_characters' can't be null";
+        }
+        if ($this->container['distinct_full_names'] === null) {
+            $invalidProperties[] = "'distinct_full_names' can't be null";
+        }
+        if ($this->container['guest_names_optional'] === null) {
+            $invalidProperties[] = "'guest_names_optional' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -296,9 +321,9 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets min_length
      *
-     * @return int|null
+     * @return int
      */
-    public function getMinLength(): ?int
+    public function getMinLength(): int
     {
         return $this->container['min_length'];
     }
@@ -306,11 +331,11 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets min_length
      *
-     * @param int|null $min_length Fewest characters in a first or last name.
+     * @param int $min_length Fewest characters in a first or last name.
      *
      * @return $this
      */
-    public function setMinLength(?int $min_length): static
+    public function setMinLength(int $min_length): static
     {
         if (is_null($min_length)) {
             throw new InvalidArgumentException('non-nullable min_length cannot be null');
@@ -323,9 +348,9 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets max_length
      *
-     * @return int|null
+     * @return int
      */
-    public function getMaxLength(): ?int
+    public function getMaxLength(): int
     {
         return $this->container['max_length'];
     }
@@ -333,11 +358,11 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets max_length
      *
-     * @param int|null $max_length Most characters in a first or last name.
+     * @param int $max_length Most characters in a first or last name.
      *
      * @return $this
      */
-    public function setMaxLength(?int $max_length): static
+    public function setMaxLength(int $max_length): static
     {
         if (is_null($max_length)) {
             throw new InvalidArgumentException('non-nullable max_length cannot be null');
@@ -350,9 +375,9 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets pattern
      *
-     * @return string|null
+     * @return string
      */
-    public function getPattern(): ?string
+    public function getPattern(): string
     {
         return $this->container['pattern'];
     }
@@ -360,11 +385,11 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets pattern
      *
-     * @param string|null $pattern Regular expression every first and last name must match.
+     * @param string $pattern Regular expression every first and last name must match.
      *
      * @return $this
      */
-    public function setPattern(?string $pattern): static
+    public function setPattern(string $pattern): static
     {
         if (is_null($pattern)) {
             throw new InvalidArgumentException('non-nullable pattern cannot be null');
@@ -377,9 +402,9 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets allowed_characters
      *
-     * @return string|null
+     * @return string
      */
-    public function getAllowedCharacters(): ?string
+    public function getAllowedCharacters(): string
     {
         return $this->container['allowed_characters'];
     }
@@ -387,11 +412,11 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets allowed_characters
      *
-     * @param string|null $allowed_characters The pattern in words, for a hint next to the field.
+     * @param string $allowed_characters The pattern in words, for a hint next to the field.
      *
      * @return $this
      */
-    public function setAllowedCharacters(?string $allowed_characters): static
+    public function setAllowedCharacters(string $allowed_characters): static
     {
         if (is_null($allowed_characters)) {
             throw new InvalidArgumentException('non-nullable allowed_characters cannot be null');
@@ -404,9 +429,9 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets distinct_full_names
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getDistinctFullNames(): ?bool
+    public function getDistinctFullNames(): bool
     {
         return $this->container['distinct_full_names'];
     }
@@ -414,16 +439,43 @@ class GuestNameRules implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets distinct_full_names
      *
-     * @param bool|null $distinct_full_names Whether two guests of the booking may not share the same first and last name together. Sharing only a first name is always accepted.
+     * @param bool $distinct_full_names Whether two guests of the booking may not share the same first and last name together. Sharing only a first name is always accepted.
      *
      * @return $this
      */
-    public function setDistinctFullNames(?bool $distinct_full_names): static
+    public function setDistinctFullNames(bool $distinct_full_names): static
     {
         if (is_null($distinct_full_names)) {
             throw new InvalidArgumentException('non-nullable distinct_full_names cannot be null');
         }
         $this->container['distinct_full_names'] = $distinct_full_names;
+
+        return $this;
+    }
+
+    /**
+     * Gets guest_names_optional
+     *
+     * @return bool
+     */
+    public function getGuestNamesOptional(): bool
+    {
+        return $this->container['guest_names_optional'];
+    }
+
+    /**
+     * Sets guest_names_optional
+     *
+     * @param bool $guest_names_optional Whether both room guest name fields may be omitted. Holder names are required.
+     *
+     * @return $this
+     */
+    public function setGuestNamesOptional(bool $guest_names_optional): static
+    {
+        if (is_null($guest_names_optional)) {
+            throw new InvalidArgumentException('non-nullable guest_names_optional cannot be null');
+        }
+        $this->container['guest_names_optional'] = $guest_names_optional;
 
         return $this;
     }

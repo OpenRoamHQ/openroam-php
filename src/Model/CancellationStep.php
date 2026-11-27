@@ -60,6 +60,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'from' => '\DateTime',
+        'from_local_time' => 'string',
         'refund' => '\OpenRoam\Model\Money',
         'penalty' => '\OpenRoam\Model\Money'
     ];
@@ -71,6 +72,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPIFormats = [
         'from' => 'date-time',
+        'from_local_time' => null,
         'refund' => null,
         'penalty' => null
     ];
@@ -82,6 +84,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPINullables = [
         'from' => false,
+        'from_local_time' => true,
         'refund' => false,
         'penalty' => false
     ];
@@ -163,6 +166,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $attributeMap = [
         'from' => 'from',
+        'from_local_time' => 'fromLocalTime',
         'refund' => 'refund',
         'penalty' => 'penalty'
     ];
@@ -174,6 +178,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $setters = [
         'from' => 'setFrom',
+        'from_local_time' => 'setFromLocalTime',
         'refund' => 'setRefund',
         'penalty' => 'setPenalty'
     ];
@@ -185,6 +190,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $getters = [
         'from' => 'getFrom',
+        'from_local_time' => 'getFromLocalTime',
         'refund' => 'getRefund',
         'penalty' => 'getPenalty'
     ];
@@ -237,6 +243,7 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('from', $data ?? [], null);
+        $this->setIfExists('from_local_time', $data ?? [], null);
         $this->setIfExists('refund', $data ?? [], null);
         $this->setIfExists('penalty', $data ?? [], null);
     }
@@ -266,6 +273,19 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['from'] === null) {
+            $invalidProperties[] = "'from' can't be null";
+        }
+        if (!is_null($this->container['from_local_time']) && !preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", $this->container['from_local_time'])) {
+            $invalidProperties[] = "invalid value for 'from_local_time', must be conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.";
+        }
+
+        if ($this->container['refund'] === null) {
+            $invalidProperties[] = "'refund' can't be null";
+        }
+        if ($this->container['penalty'] === null) {
+            $invalidProperties[] = "'penalty' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -281,9 +301,9 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets from
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getFrom(): ?\DateTime
+    public function getFrom(): \DateTime
     {
         return $this->container['from'];
     }
@@ -291,11 +311,11 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets from
      *
-     * @param \DateTime|null $from The instant (UTC) the step starts; it runs until the next step's.
+     * @param \DateTime $from The instant (UTC) the step starts; it runs until the next step's.
      *
      * @return $this
      */
-    public function setFrom(?\DateTime $from): static
+    public function setFrom(\DateTime $from): static
     {
         if (is_null($from)) {
             throw new InvalidArgumentException('non-nullable from cannot be null');
@@ -306,11 +326,50 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets from_local_time
+     *
+     * @return string|null
+     */
+    public function getFromLocalTime(): ?string
+    {
+        return $this->container['from_local_time'];
+    }
+
+    /**
+     * Sets from_local_time
+     *
+     * @param string|null $from_local_time The clock of the cancellation's `timezone` at `from`. Written yyyy-MM-ddTHH:mm:ss with no zone, for display only: compute and compare with `from`. Null when the place's time zone is unknown.
+     *
+     * @return $this
+     */
+    public function setFromLocalTime(?string $from_local_time): static
+    {
+        if (is_null($from_local_time)) {
+            array_push($this->openAPINullablesSetToNull, 'from_local_time');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('from_local_time', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($from_local_time) && (!preg_match("/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/", ObjectSerializer::toString($from_local_time)))) {
+            throw new InvalidArgumentException("invalid value for \$from_local_time when calling CancellationStep., must conform to the pattern /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/.");
+        }
+
+        $this->container['from_local_time'] = $from_local_time;
+
+        return $this;
+    }
+
+    /**
      * Gets refund
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getRefund(): ?\OpenRoam\Model\Money
+    public function getRefund(): \OpenRoam\Model\Money
     {
         return $this->container['refund'];
     }
@@ -318,11 +377,11 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets refund
      *
-     * @param \OpenRoam\Model\Money|null $refund What comes back when cancelling in this step.
+     * @param \OpenRoam\Model\Money $refund What comes back when cancelling in this step.
      *
      * @return $this
      */
-    public function setRefund(?\OpenRoam\Model\Money $refund): static
+    public function setRefund(\OpenRoam\Model\Money $refund): static
     {
         if (is_null($refund)) {
             throw new InvalidArgumentException('non-nullable refund cannot be null');
@@ -335,9 +394,9 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets penalty
      *
-     * @return \OpenRoam\Model\Money|null
+     * @return \OpenRoam\Model\Money
      */
-    public function getPenalty(): ?\OpenRoam\Model\Money
+    public function getPenalty(): \OpenRoam\Model\Money
     {
         return $this->container['penalty'];
     }
@@ -345,11 +404,11 @@ class CancellationStep implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets penalty
      *
-     * @param \OpenRoam\Model\Money|null $penalty What is kept when cancelling in this step; it and the refund add up to the price.
+     * @param \OpenRoam\Model\Money $penalty What is kept when cancelling in this step; it and the refund add up to the price.
      *
      * @return $this
      */
-    public function setPenalty(?\OpenRoam\Model\Money $penalty): static
+    public function setPenalty(\OpenRoam\Model\Money $penalty): static
     {
         if (is_null($penalty)) {
             throw new InvalidArgumentException('non-nullable penalty cannot be null');

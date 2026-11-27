@@ -279,6 +279,9 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
         if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
@@ -291,6 +294,9 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
             );
         }
 
+        if ($this->container['fulfillment'] === null) {
+            $invalidProperties[] = "'fulfillment' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -306,9 +312,9 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets id
      *
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->container['id'];
     }
@@ -316,11 +322,11 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets id
      *
-     * @param string|null $id id
+     * @param string $id id
      *
      * @return $this
      */
-    public function setId(?string $id): static
+    public function setId(string $id): static
     {
         if (is_null($id)) {
             throw new InvalidArgumentException('non-nullable id cannot be null');
@@ -370,9 +376,9 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Gets fulfillment
      *
-     * @return \OpenRoam\Model\UtilityFulfillment|null
+     * @return \OpenRoam\Model\UtilityFulfillment
      */
-    public function getFulfillment(): ?\OpenRoam\Model\UtilityFulfillment
+    public function getFulfillment(): \OpenRoam\Model\UtilityFulfillment
     {
         return $this->container['fulfillment'];
     }
@@ -380,11 +386,11 @@ class UtilityFulfillmentUpdate implements ModelInterface, ArrayAccess, JsonSeria
     /**
      * Sets fulfillment
      *
-     * @param \OpenRoam\Model\UtilityFulfillment|null $fulfillment fulfillment
+     * @param \OpenRoam\Model\UtilityFulfillment $fulfillment fulfillment
      *
      * @return $this
      */
-    public function setFulfillment(?\OpenRoam\Model\UtilityFulfillment $fulfillment): static
+    public function setFulfillment(\OpenRoam\Model\UtilityFulfillment $fulfillment): static
     {
         if (is_null($fulfillment)) {
             throw new InvalidArgumentException('non-nullable fulfillment cannot be null');

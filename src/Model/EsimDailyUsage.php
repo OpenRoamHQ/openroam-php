@@ -61,15 +61,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPITypes = [
         'iccid' => 'string',
-        'status' => 'string',
+        'esim_status' => 'string',
+        'profile_status' => 'string',
         'start' => '\DateTime',
         'end' => '\DateTime',
         'allowed_data' => 'int',
         'remaining_data' => 'int',
+        'is_data_unlimited' => 'bool',
         'allowed_sms' => 'int',
         'remaining_sms' => 'int',
+        'is_sms_unlimited' => 'bool',
         'allowed_voice' => 'int',
         'remaining_voice' => 'int',
+        'is_voice_unlimited' => 'bool',
         'usages' => '\OpenRoam\Model\EsimDailyUsageEntry[]'
     ];
 
@@ -80,15 +84,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPIFormats = [
         'iccid' => null,
-        'status' => null,
+        'esim_status' => null,
+        'profile_status' => null,
         'start' => 'date-time',
         'end' => 'date-time',
         'allowed_data' => 'int64',
         'remaining_data' => 'int64',
+        'is_data_unlimited' => null,
         'allowed_sms' => 'int64',
         'remaining_sms' => 'int64',
+        'is_sms_unlimited' => null,
         'allowed_voice' => 'int64',
         'remaining_voice' => 'int64',
+        'is_voice_unlimited' => null,
         'usages' => null
     ];
 
@@ -99,15 +107,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $openAPINullables = [
         'iccid' => false,
-        'status' => false,
+        'esim_status' => false,
+        'profile_status' => false,
         'start' => true,
         'end' => true,
-        'allowed_data' => false,
-        'remaining_data' => false,
-        'allowed_sms' => false,
-        'remaining_sms' => false,
-        'allowed_voice' => false,
-        'remaining_voice' => false,
+        'allowed_data' => true,
+        'remaining_data' => true,
+        'is_data_unlimited' => false,
+        'allowed_sms' => true,
+        'remaining_sms' => true,
+        'is_sms_unlimited' => false,
+        'allowed_voice' => true,
+        'remaining_voice' => true,
+        'is_voice_unlimited' => false,
         'usages' => false
     ];
 
@@ -188,15 +200,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $attributeMap = [
         'iccid' => 'iccid',
-        'status' => 'status',
+        'esim_status' => 'esimStatus',
+        'profile_status' => 'profileStatus',
         'start' => 'start',
         'end' => 'end',
         'allowed_data' => 'allowedData',
         'remaining_data' => 'remainingData',
+        'is_data_unlimited' => 'isDataUnlimited',
         'allowed_sms' => 'allowedSms',
         'remaining_sms' => 'remainingSms',
+        'is_sms_unlimited' => 'isSmsUnlimited',
         'allowed_voice' => 'allowedVoice',
         'remaining_voice' => 'remainingVoice',
+        'is_voice_unlimited' => 'isVoiceUnlimited',
         'usages' => 'usages'
     ];
 
@@ -207,15 +223,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $setters = [
         'iccid' => 'setIccid',
-        'status' => 'setStatus',
+        'esim_status' => 'setEsimStatus',
+        'profile_status' => 'setProfileStatus',
         'start' => 'setStart',
         'end' => 'setEnd',
         'allowed_data' => 'setAllowedData',
         'remaining_data' => 'setRemainingData',
+        'is_data_unlimited' => 'setIsDataUnlimited',
         'allowed_sms' => 'setAllowedSms',
         'remaining_sms' => 'setRemainingSms',
+        'is_sms_unlimited' => 'setIsSmsUnlimited',
         'allowed_voice' => 'setAllowedVoice',
         'remaining_voice' => 'setRemainingVoice',
+        'is_voice_unlimited' => 'setIsVoiceUnlimited',
         'usages' => 'setUsages'
     ];
 
@@ -226,15 +246,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
      */
     protected static array $getters = [
         'iccid' => 'getIccid',
-        'status' => 'getStatus',
+        'esim_status' => 'getEsimStatus',
+        'profile_status' => 'getProfileStatus',
         'start' => 'getStart',
         'end' => 'getEnd',
         'allowed_data' => 'getAllowedData',
         'remaining_data' => 'getRemainingData',
+        'is_data_unlimited' => 'getIsDataUnlimited',
         'allowed_sms' => 'getAllowedSms',
         'remaining_sms' => 'getRemainingSms',
+        'is_sms_unlimited' => 'getIsSmsUnlimited',
         'allowed_voice' => 'getAllowedVoice',
         'remaining_voice' => 'getRemainingVoice',
+        'is_voice_unlimited' => 'getIsVoiceUnlimited',
         'usages' => 'getUsages'
     ];
 
@@ -270,35 +294,64 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const STATUS__EMPTY = 'empty';
-    public const STATUS__NEW = 'new';
-    public const STATUS_DOWNLOADED = 'downloaded';
-    public const STATUS_INSTALLED = 'installed';
-    public const STATUS_ACTIVATED = 'activated';
-    public const STATUS_INACTIVE = 'inactive';
-    public const STATUS_DELETED = 'deleted';
-    public const STATUS_REVOKED = 'revoked';
-    public const STATUS_EXPIRED = 'expired';
-    public const STATUS_UNKNOWN = 'unknown';
+    public const ESIM_STATUS__NEW = 'new';
+    public const ESIM_STATUS_PROCURING = 'procuring';
+    public const ESIM_STATUS_PENDING = 'pending';
+    public const ESIM_STATUS_FAILED = 'failed';
+    public const ESIM_STATUS_READY = 'ready';
+    public const ESIM_STATUS_CANCELLED = 'cancelled';
+    public const ESIM_STATUS_REVOKED = 'revoked';
+    public const ESIM_STATUS_EXPIRED = 'expired';
+    public const ESIM_STATUS_UNKNOWN = 'unknown';
+    public const PROFILE_STATUS__EMPTY = 'empty';
+    public const PROFILE_STATUS__NEW = 'new';
+    public const PROFILE_STATUS_DOWNLOADED = 'downloaded';
+    public const PROFILE_STATUS_INSTALLED = 'installed';
+    public const PROFILE_STATUS_ACTIVATED = 'activated';
+    public const PROFILE_STATUS_INACTIVE = 'inactive';
+    public const PROFILE_STATUS_DELETED = 'deleted';
+    public const PROFILE_STATUS_REVOKED = 'revoked';
+    public const PROFILE_STATUS_EXPIRED = 'expired';
+    public const PROFILE_STATUS_UNKNOWN = 'unknown';
 
     /**
      * Gets allowable values of the enum
      *
      * @return string[]
      */
-    public static function getStatusAllowableValues()
+    public static function getEsimStatusAllowableValues()
     {
         return [
-            self::STATUS__EMPTY,
-            self::STATUS__NEW,
-            self::STATUS_DOWNLOADED,
-            self::STATUS_INSTALLED,
-            self::STATUS_ACTIVATED,
-            self::STATUS_INACTIVE,
-            self::STATUS_DELETED,
-            self::STATUS_REVOKED,
-            self::STATUS_EXPIRED,
-            self::STATUS_UNKNOWN,
+            self::ESIM_STATUS__NEW,
+            self::ESIM_STATUS_PROCURING,
+            self::ESIM_STATUS_PENDING,
+            self::ESIM_STATUS_FAILED,
+            self::ESIM_STATUS_READY,
+            self::ESIM_STATUS_CANCELLED,
+            self::ESIM_STATUS_REVOKED,
+            self::ESIM_STATUS_EXPIRED,
+            self::ESIM_STATUS_UNKNOWN,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public static function getProfileStatusAllowableValues()
+    {
+        return [
+            self::PROFILE_STATUS__EMPTY,
+            self::PROFILE_STATUS__NEW,
+            self::PROFILE_STATUS_DOWNLOADED,
+            self::PROFILE_STATUS_INSTALLED,
+            self::PROFILE_STATUS_ACTIVATED,
+            self::PROFILE_STATUS_INACTIVE,
+            self::PROFILE_STATUS_DELETED,
+            self::PROFILE_STATUS_REVOKED,
+            self::PROFILE_STATUS_EXPIRED,
+            self::PROFILE_STATUS_UNKNOWN,
         ];
     }
 
@@ -317,15 +370,19 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('iccid', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('esim_status', $data ?? [], null);
+        $this->setIfExists('profile_status', $data ?? [], null);
         $this->setIfExists('start', $data ?? [], null);
         $this->setIfExists('end', $data ?? [], null);
         $this->setIfExists('allowed_data', $data ?? [], null);
         $this->setIfExists('remaining_data', $data ?? [], null);
+        $this->setIfExists('is_data_unlimited', $data ?? [], null);
         $this->setIfExists('allowed_sms', $data ?? [], null);
         $this->setIfExists('remaining_sms', $data ?? [], null);
+        $this->setIfExists('is_sms_unlimited', $data ?? [], null);
         $this->setIfExists('allowed_voice', $data ?? [], null);
         $this->setIfExists('remaining_voice', $data ?? [], null);
+        $this->setIfExists('is_voice_unlimited', $data ?? [], null);
         $this->setIfExists('usages', $data ?? [], null);
     }
 
@@ -357,18 +414,42 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['iccid'] === null) {
             $invalidProperties[] = "'iccid' can't be null";
         }
-        if ($this->container['status'] === null) {
-            $invalidProperties[] = "'status' can't be null";
+        if ($this->container['esim_status'] === null) {
+            $invalidProperties[] = "'esim_status' can't be null";
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!is_null($this->container['esim_status']) && !in_array($this->container['esim_status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'status', must be one of '%s'",
-                $this->container['status'],
+                "invalid value '%s' for 'esim_status', must be one of '%s'",
+                $this->container['esim_status'],
                 implode("', '", $allowedValues)
             );
         }
 
+        if ($this->container['profile_status'] === null) {
+            $invalidProperties[] = "'profile_status' can't be null";
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!is_null($this->container['profile_status']) && !in_array($this->container['profile_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'profile_status', must be one of '%s'",
+                $this->container['profile_status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['is_data_unlimited'] === null) {
+            $invalidProperties[] = "'is_data_unlimited' can't be null";
+        }
+        if ($this->container['is_sms_unlimited'] === null) {
+            $invalidProperties[] = "'is_sms_unlimited' can't be null";
+        }
+        if ($this->container['is_voice_unlimited'] === null) {
+            $invalidProperties[] = "'is_voice_unlimited' can't be null";
+        }
+        if ($this->container['usages'] === null) {
+            $invalidProperties[] = "'usages' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -409,38 +490,75 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Gets status
+     * Gets esim_status
      *
      * @return string
      */
-    public function getStatus(): string
+    public function getEsimStatus(): string
     {
-        return $this->container['status'];
+        return $this->container['esim_status'];
     }
 
     /**
-     * Sets status
+     * Sets esim_status
      *
-     * @param string $status The installed profile's status.
+     * @param string $esim_status The eSIM's lifecycle status, as the order item's `esimStatus`.
      *
      * @return $this
      */
-    public function setStatus(string $status): static
+    public function setEsimStatus(string $esim_status): static
     {
-        if (is_null($status)) {
-            throw new InvalidArgumentException('non-nullable status cannot be null');
+        if (is_null($esim_status)) {
+            throw new InvalidArgumentException('non-nullable esim_status cannot be null');
         }
-        $allowedValues = self::getStatusAllowableValues();
-        if (!in_array($status, $allowedValues, true)) {
+        $allowedValues = self::getEsimStatusAllowableValues();
+        if (!in_array($esim_status, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
+                    "Invalid value '%s' for 'esim_status', must be one of '%s'",
+                    $esim_status,
                     implode("', '", $allowedValues)
                 )
             );
         }
-        $this->container['status'] = $status;
+        $this->container['esim_status'] = $esim_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets profile_status
+     *
+     * @return string
+     */
+    public function getProfileStatus(): string
+    {
+        return $this->container['profile_status'];
+    }
+
+    /**
+     * Sets profile_status
+     *
+     * @param string $profile_status The installed profile's status, as the order item's `profileStatus`.
+     *
+     * @return $this
+     */
+    public function setProfileStatus(string $profile_status): static
+    {
+        if (is_null($profile_status)) {
+            throw new InvalidArgumentException('non-nullable profile_status cannot be null');
+        }
+        $allowedValues = self::getProfileStatusAllowableValues();
+        if (!in_array($profile_status, $allowedValues, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'profile_status', must be one of '%s'",
+                    $profile_status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['profile_status'] = $profile_status;
 
         return $this;
     }
@@ -492,7 +610,7 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets end
      *
-     * @param \DateTime|null $end When the plan ends, in UTC; null while no end is set.
+     * @param \DateTime|null $end When the plan ends, in UTC, as last reported; null while no end is reported.
      *
      * @return $this
      */
@@ -526,14 +644,21 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets allowed_data
      *
-     * @param int|null $allowed_data Total data in MB (1 MB = 1024 KB), plan and top-ups together; 9007199254740991 means unlimited, 0 not reported.
+     * @param int|null $allowed_data Total data in MB; null when unlimited or not reported.
      *
      * @return $this
      */
     public function setAllowedData(?int $allowed_data): static
     {
         if (is_null($allowed_data)) {
-            throw new InvalidArgumentException('non-nullable allowed_data cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_data'] = $allowed_data;
 
@@ -553,16 +678,50 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets remaining_data
      *
-     * @param int|null $remaining_data Remaining data in MB; 9007199254740991 means unlimited, 0 unknown.
+     * @param int|null $remaining_data Remaining data in MB; null when unlimited or not reported.
      *
      * @return $this
      */
     public function setRemainingData(?int $remaining_data): static
     {
         if (is_null($remaining_data)) {
-            throw new InvalidArgumentException('non-nullable remaining_data cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_data'] = $remaining_data;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_data_unlimited
+     *
+     * @return bool
+     */
+    public function getIsDataUnlimited(): bool
+    {
+        return $this->container['is_data_unlimited'];
+    }
+
+    /**
+     * Sets is_data_unlimited
+     *
+     * @param bool $is_data_unlimited Whether the data is unlimited.
+     *
+     * @return $this
+     */
+    public function setIsDataUnlimited(bool $is_data_unlimited): static
+    {
+        if (is_null($is_data_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_data_unlimited cannot be null');
+        }
+        $this->container['is_data_unlimited'] = $is_data_unlimited;
 
         return $this;
     }
@@ -580,14 +739,21 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets allowed_sms
      *
-     * @param int|null $allowed_sms Total SMS; 0 when not reported or not included.
+     * @param int|null $allowed_sms Total SMS, in messages; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setAllowedSms(?int $allowed_sms): static
     {
         if (is_null($allowed_sms)) {
-            throw new InvalidArgumentException('non-nullable allowed_sms cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_sms');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_sms', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_sms'] = $allowed_sms;
 
@@ -607,16 +773,50 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets remaining_sms
      *
-     * @param int|null $remaining_sms Remaining SMS; 0 when not reported.
+     * @param int|null $remaining_sms Remaining SMS, in messages; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setRemainingSms(?int $remaining_sms): static
     {
         if (is_null($remaining_sms)) {
-            throw new InvalidArgumentException('non-nullable remaining_sms cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_sms');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_sms', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_sms'] = $remaining_sms;
+
+        return $this;
+    }
+
+    /**
+     * Gets is_sms_unlimited
+     *
+     * @return bool
+     */
+    public function getIsSmsUnlimited(): bool
+    {
+        return $this->container['is_sms_unlimited'];
+    }
+
+    /**
+     * Sets is_sms_unlimited
+     *
+     * @param bool $is_sms_unlimited Whether SMS are unlimited.
+     *
+     * @return $this
+     */
+    public function setIsSmsUnlimited(bool $is_sms_unlimited): static
+    {
+        if (is_null($is_sms_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_sms_unlimited cannot be null');
+        }
+        $this->container['is_sms_unlimited'] = $is_sms_unlimited;
 
         return $this;
     }
@@ -634,14 +834,21 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets allowed_voice
      *
-     * @param int|null $allowed_voice Total voice in seconds; 0 when not reported or not included.
+     * @param int|null $allowed_voice Total voice, in minutes; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setAllowedVoice(?int $allowed_voice): static
     {
         if (is_null($allowed_voice)) {
-            throw new InvalidArgumentException('non-nullable allowed_voice cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'allowed_voice');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('allowed_voice', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['allowed_voice'] = $allowed_voice;
 
@@ -661,14 +868,21 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets remaining_voice
      *
-     * @param int|null $remaining_voice Remaining voice in seconds; 0 when not reported.
+     * @param int|null $remaining_voice Remaining voice, in whole minutes; null when unlimited, not reported or not included.
      *
      * @return $this
      */
     public function setRemainingVoice(?int $remaining_voice): static
     {
         if (is_null($remaining_voice)) {
-            throw new InvalidArgumentException('non-nullable remaining_voice cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'remaining_voice');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('remaining_voice', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['remaining_voice'] = $remaining_voice;
 
@@ -676,11 +890,38 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
+     * Gets is_voice_unlimited
+     *
+     * @return bool
+     */
+    public function getIsVoiceUnlimited(): bool
+    {
+        return $this->container['is_voice_unlimited'];
+    }
+
+    /**
+     * Sets is_voice_unlimited
+     *
+     * @param bool $is_voice_unlimited Whether voice is unlimited.
+     *
+     * @return $this
+     */
+    public function setIsVoiceUnlimited(bool $is_voice_unlimited): static
+    {
+        if (is_null($is_voice_unlimited)) {
+            throw new InvalidArgumentException('non-nullable is_voice_unlimited cannot be null');
+        }
+        $this->container['is_voice_unlimited'] = $is_voice_unlimited;
+
+        return $this;
+    }
+
+    /**
      * Gets usages
      *
-     * @return \OpenRoam\Model\EsimDailyUsageEntry[]|null
+     * @return \OpenRoam\Model\EsimDailyUsageEntry[]
      */
-    public function getUsages(): ?array
+    public function getUsages(): array
     {
         return $this->container['usages'];
     }
@@ -688,11 +929,11 @@ class EsimDailyUsage implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets usages
      *
-     * @param \OpenRoam\Model\EsimDailyUsageEntry[]|null $usages Per-day usage, empty when the plan does not report a per-day breakdown.
+     * @param \OpenRoam\Model\EsimDailyUsageEntry[] $usages Per-day usage, empty when the plan does not report a per-day breakdown.
      *
      * @return $this
      */
-    public function setUsages(?array $usages): static
+    public function setUsages(array $usages): static
     {
         if (is_null($usages)) {
             throw new InvalidArgumentException('non-nullable usages cannot be null');
